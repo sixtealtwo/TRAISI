@@ -11,7 +11,7 @@ import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
 import { ResponseValidationState, SurveyResponseService, SurveyRespondentService } from 'traisi-question-sdk';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
-import { ValidationState, SurveyViewerResponseValidationState } from 'app/services/survey-viewer-api-client.service';
+import { ValidationState, SurveyViewerValidationStateViewModel } from 'app/services/survey-viewer-api-client.service';
 
 /**
  *
@@ -71,6 +71,7 @@ export class SurveyNavigator {
 			activeQuestionIndex: 0,
 			isNextEnabled: true,
 			isPreviousEnabled: true,
+			activeValidationStates: [],
 		};
 		this.navigationState$ = new BehaviorSubject<NavigationState>(initialState);
 		this.previousEnabled$ = new BehaviorSubject<boolean>(false);
@@ -83,7 +84,7 @@ export class SurveyNavigator {
 	public initialize(): void {
 		this.navigateToPage(this._state.viewerState.surveyPages[0].id).subscribe();
 		this.nextEnabled$.next(true);
-		this.validationChanged();
+		// this.validationChanged();
 	}
 
 	public _getBaseQuestionModels(part: SurveyViewPage | SurveyViewSection): SurveyViewQuestion[] {
@@ -114,13 +115,13 @@ export class SurveyNavigator {
 		this._previousState = this.navigationState$.value;
 		let prev = this._decrementNavigation(this.navigationState$.value).pipe(share());
 		prev.subscribe((state) => {
-			if (state.activeQuestionInstances.length > 0) {
+			/*if (state.activeQuestionInstances.length > 0) {
 				if (this._isMultiViewActive(state)) {
 					state.activeQuestionIndex -=
 						this._state.viewerState.surveyQuestions[state.activeQuestionIndex].parentSection.questions
 							.length - 1;
 				}
-			}
+			}*/
 			this.navigationState$.next(state);
 			if (state.activeQuestionIndex === 0) {
 				this.previousEnabled$.next(false);
@@ -160,6 +161,7 @@ export class SurveyNavigator {
 				activeQuestionInstances: [],
 				isLoaded: true,
 				isNextEnabled: true,
+				activeValidationStates: [],
 				isPreviousEnabled: true,
 			};
 
@@ -171,33 +173,11 @@ export class SurveyNavigator {
 
 			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
 				navigationState.activeQuestionInstances = questionInstances;
+				this.validationChanged();
 			});
 		});
 	}
 
-	/**
-	 *
-	 * @param state
-	 */
-	private _isMultiViewActive(state: NavigationState): boolean {
-		if (state.activeQuestionInstances[0].model.parentSection !== undefined) {
-			return state.activeQuestionInstances[0].model.parentSection.isMultiView;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Determines if the state contains an active section.
-	 * @param state The state to check
-	 */
-	private _isSectionActive(state: NavigationState): boolean {
-		if (state.activeQuestionInstances[0].model.parentSection !== undefined) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	/**
 	 * Increments the current navigation state
@@ -208,9 +188,6 @@ export class SurveyNavigator {
 
 		// get active question
 		if (
-			// newState.activeQuestionInstances[0] !== undefined &&
-			// newState.activeQuestionInstances[0].component !== null &&
-			// newState.activeQuestionInstances.length === 1 &&
 			!newState.activeQuestionInstances[0]?.component?.navigateInternalNext()
 		) {
 			// ignore
@@ -219,15 +196,12 @@ export class SurveyNavigator {
 			newState.activeRespondentIndex < this._state.viewerState.groupMembers.length - 1
 		) {
 			newState.activeRespondentIndex++;
-		} else if (!this._isMultiViewActive(currentState) && !this._isSectionActive(currentState)) {
+		}
+		else {
 			newState.activeQuestionIndex += 1;
 			newState.activeRespondentIndex = 0;
-		} else {
-			newState.activeQuestionIndex += this._state.viewerState.surveyQuestions[
-				currentState.activeQuestionIndex
-			].parentSection.questions.length;
-			newState.activeRespondentIndex = 0;
 		}
+
 
 		if (this._isOutsideSurveyBounds(newState)) {
 			this._surveyCompleted$.complete();
@@ -291,23 +265,35 @@ export class SurveyNavigator {
 						navigationState.activePage = this._state.viewerState.surveyPages[
 							this._state.viewerState.surveyQuestions[questionInstances[0].index].pageIndex
 						];
-						// navigationState.activeSectionId =
-						// 	this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection ===
-						// 	undefined
-						// 		? -1
-						// 		: this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection.id;
 
 						navigationState.activeSectionId =
 							this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection?.id ?? -1;
 
 						navigationState.activeSection =
 							this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection ===
-							undefined
+								undefined
 								? undefined
 								: this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection;
 						navigationState.activeRespondent = this._state.viewerState.groupMembers[
 							navigationState.activeRespondentIndex
+
+
 						];
+						for (let question of navigationState.activeQuestionInstances) {
+							question.validationState = {
+								isValid: false,
+								questionValidationState: {
+									validationState: ValidationState.Untouched,
+									errorMessages: []
+								},
+								surveyLogicValidationState: {
+									validationState: ValidationState.Untouched,
+									errorMessages: []
+								}
+
+
+							};
+						}
 					}
 
 					obs.next(navigationState);
@@ -325,8 +311,8 @@ export class SurveyNavigator {
 		navigationState: NavigationState,
 		evaluateConditions: boolean = true
 	): Observable<QuestionInstance[]> {
-		let activeQuestion = this._state.viewerState.surveyQuestions[navigationState.activeQuestionIndex];
-		let questions: SurveyViewQuestion[] = [];
+		/* let activeQuestion = this._state.viewerState.surveyQuestions[navigationState.activeQuestionIndex];
+		
 		if (activeQuestion.parentPage !== undefined) {
 			questions.push(activeQuestion);
 		} else {
@@ -336,11 +322,15 @@ export class SurveyNavigator {
 			if (members.length > 0) {
 				this._state.viewerState.groupMembers = [].concat(members);
 			}
-		});
+		}); */
+		console.log(navigationState);
+		let questions: SurveyViewQuestion[] = [];
+		questions = questions.concat(this._state.viewerState.questionBlocks[navigationState.activeQuestionIndex]);
 		this._state.viewerState.activeRespondent = this._state.viewerState.groupMembers[
 			navigationState.activeRespondentIndex
 		];
-		if (navigationState.activeQuestionIndex >= this._state.viewerState.surveyQuestions.length) {
+
+		if (navigationState.activeQuestionIndex >= this._state.viewerState.questionBlocks.length) {
 			return Observable.of([]);
 		} else {
 			let questionInstances = [];
@@ -360,6 +350,7 @@ export class SurveyNavigator {
 						let order = 0;
 						for (let result of results) {
 							result.question.isHidden = result.shouldHide;
+
 							if (result.shouldHide) {
 								continue;
 							} else {
@@ -378,10 +369,20 @@ export class SurveyNavigator {
 									model: result.question,
 									component: null,
 									validationState: {
-										validationState: ValidationState.Untouched,
-										errorMessages: [],
+										isValid: false,
+										questionValidationState: {
+											validationState: ValidationState.Untouched,
+											errorMessages: []
+										},
+										surveyLogicValidationState: {
+											validationState: ValidationState.Untouched,
+											errorMessages: []
+										}
+
+
 									},
 								};
+
 								questionInstances.push(questionInstance);
 							}
 						}
@@ -394,18 +395,19 @@ export class SurveyNavigator {
 	}
 
 	private _checkValidation(): boolean {
-		// let valid = every(this.navigationState$.value.activeQuestionInstances, { 'validationState': ResponseValidationState.VALID });
-
-		console.log('in check navigation');
 		let allValid: boolean = true;
+
+		if (this.navigationState$.getValue().activeQuestionInstances.length === 0) {
+			return false;
+		}
+		console.log(this.navigationState$.getValue().activeQuestionInstances);
 		for (let instance of this.navigationState$.getValue().activeQuestionInstances) {
-			if (instance.validationState.validationState === ValidationState.Valid && !instance.model.isOptional) {
+			if (!instance.validationState.isValid && !instance.model.isOptional) {
+				console.log('all valid here');
 				allValid = false;
 				break;
 			}
 		}
-		console.log(this.navigationState$.getValue().activeQuestionInstances);
-		console.log(allValid);
 		return allValid;
 	}
 
@@ -415,11 +417,16 @@ export class SurveyNavigator {
 
 	public updateQuestionValidationState(
 		instanceState: QuestionInstanceState,
-		result: SurveyViewerResponseValidationState
+		result: SurveyViewerValidationStateViewModel
 	): void {
 		let match = this.navigationState$
 			.getValue()
 			.activeQuestionInstances.find((i) => i.component === instanceState.questionInstance);
+		if (match) {
+			match.validationState = result;
+		}
+		this.validationChanged();
+
 	}
 
 	/**

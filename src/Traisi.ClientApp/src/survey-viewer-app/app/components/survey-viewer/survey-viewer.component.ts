@@ -312,6 +312,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					});
 					this.viewerState.primaryRespondent = members[0];
 					this.viewerState.activeRespondent = members[0];
+					this._respondentService.primaryRespondent = members[0];
+					// this._respondentService.respondents
 				}
 
 				this.questions = [];
@@ -345,31 +347,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 						}
 
-						// let sectionRepeatContainer = new SurveySectionRepeatContainer(null, this._viewerStateService);
 
-						// sectionRepeatContainer.order = question.order;
-
-						// let groupContainer = new SurveyGroupContainer(this._viewerStateService, this.viewerState.primaryRespondent);
-
-						// let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
-
-						/*et repeatContainer = new SurveyRepeatContainer(
-							question,
-							this._viewerStateService,
-							this.viewerState.primaryRespondent
-						);
-
-						let container = new SurveyQuestionContainer(question, sectionContainer);
-
-						repeatContainer.addQuestionContainer(container);
-
-						groupContainer.repeatContainers.push(repeatContainer);
-
-						sectionContainer.groupContainers.push(groupContainer);
-
-						sectionRepeatContainer.children.push(sectionContainer);
-
-						pageContainer.children.push(sectionRepeatContainer); */
 					});
 
 					page.sections.forEach((section) => {
@@ -400,33 +378,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							}
 							inSectionIndex++;
 
-							// try to find existing container
-							// let sectionContainer: SurveySectionContainer;
 
-							// let sectionRepeatContainer: SurveySectionRepeatContainer;
-
-							/*let index = pageContainer.children.findIndex(container2 => {
-								if (container2.sectionModel === null) {
-									return false;
-								}
-								return container2.containerId === question.parentSection.id;
-							});
-
-							if (index < 0) {
-								sectionRepeatContainer = SurveySectionRepeatContainer.CreateSurveySectionRepeatFromModel(
-									question.parentSection,
-									this._viewerStateService
-								);
-								sectionContainer = sectionRepeatContainer.children[0];
-								pageContainer.children.push(sectionRepeatContainer);
-							} else {
-								sectionRepeatContainer = <SurveySectionRepeatContainer>pageContainer.children[index];
-								sectionContainer = sectionRepeatContainer.children[0];
-							}
-
-							sectionRepeatContainer.createQuestionContainer(question, this.viewerState.primaryRespondent);
-
-							sectionContainer.activeGroupContainer.initialize(); */
 						});
 					});
 
@@ -439,30 +391,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				});
 
 				viewOrder = 0;
-				/*this.viewerState.viewContainers.forEach(page => {
-					page.children.forEach(sectionRepeat => {
-						sectionRepeat.children.forEach(section => {
-							section.children.forEach(group => {
-								group.forRespondent = this.viewerState.primaryRespondent;
-								group.children.forEach(repeat => {
-									repeat.forRespondent = this.viewerState.primaryRespondent;
-									repeat.children.forEach(question => {
-										question.questionModel.repeatTargets = Array.from(
-											new Set(
-												question.questionModel.repeatTargets
-											)
-										);
-										question.forRespondent = this.viewerState.primaryRespondent;
-										question.questionModel.viewOrder = viewOrder;
-									});
-								});
-							});
-						});
-						viewOrder++;
-					});
-				}); */
 
-				// this._surveyResponderService.initQuestionIdNameMaps(this._viewerStateService.viewerState);
 
 				this.viewerState.activeQuestionIndex = 0;
 
@@ -478,6 +407,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				// this._navigationService.initialize();
 
 				let questions: Array<SurveyViewQuestion> = [];
+				let questionBlocks: Array<Array<SurveyViewQuestion>> = [];
 				for (let page of this.viewerState.surveyPages) {
 					let qs = [];
 					qs = qs.concat(page.questions);
@@ -489,19 +419,26 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					});
 
 					for (let q of qs) {
+						let questionBlock: Array<SurveyViewQuestion> = [];
 						if (q['questions'] === undefined) {
 							questions.push(q);
+							questionBlock.push(q);
 						} else {
 							for (let sectionQuestion of q['questions']) {
+								questionBlock.push(sectionQuestion)
 								questions.push(sectionQuestion);
 							}
 						}
+						questionBlocks.push(questionBlock);
 					}
 				}
 				for (let i = 0; i < questions.length; i++) {
 					questions[i].navigationOder = i;
 				}
 				this.viewerState.surveyQuestions = questions;
+				this.viewerState.questionBlocks = questionBlocks;
+				// create questionBlocks
+
 				this.navigator.initialize();
 				this.viewerState.isLoaded = true;
 				this.viewerState.isQuestionLoaded = true;
@@ -549,7 +486,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		// this._navigationService.navigatePrevious();
 
 		this.navigator.navigatePrevious().subscribe({
-			next: (v) => {},
+			next: (v) => { },
 			complete: () => {
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
@@ -564,7 +501,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigateNext(): void {
 		this.viewerState.isNavProcessing = true;
 		this.navigator.navigateNext().subscribe({
-			next: (v) => {},
+			next: (v) => { },
 			complete: () => {
 				console.log('in complete');
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
@@ -650,14 +587,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Navigates complete survey
 	 */
 	public navigateCompleteSurvey(): void {
-		console.log('navigate to thankyou page ');
 
 		this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
-	public ngAfterContentInit(): void {}
+	public ngAfterContentInit(): void { }
 
-	public ngAfterViewChecked(): void {}
+	public ngAfterViewChecked(): void { }
 
 	/**
 	 * Uses dark buttons

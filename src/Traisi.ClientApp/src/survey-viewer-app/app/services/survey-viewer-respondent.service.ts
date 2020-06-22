@@ -46,6 +46,7 @@ export class SurveyViewerRespondentService {
 	 * @memberof SurveyResponderService
 	 */
 	public getSurveyGroupMembers(respondent: SurveyRespondent): Observable<SurveyRespondent[]> {
+		console.log(respondent);
 		return this._respondentClient.listSurveyGroupMembers(respondent.id);
 	}
 

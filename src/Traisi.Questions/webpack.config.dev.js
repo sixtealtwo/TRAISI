@@ -8,36 +8,35 @@ module.exports = {
 		general: path.join(process.cwd(), './src/traisi-questions.module.ts'),
 		map: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
 		sp: path.join(process.cwd(), './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'),
-		spbuilder: path.join(process.cwd(), './src/stated-preference/builder/traisi-sp-question-builder.module.ts')
+		spbuilder: path.join(process.cwd(), './src/stated-preference/builder/traisi-sp-question-builder.module.ts'),
 	},
 
 	output: {
 		path: path.join(process.cwd(), 'dist'),
 		filename: 'traisi-questions-[name].module.js',
-		libraryTarget: 'amd'
+		libraryTarget: 'amd',
 	},
 	mode: 'development',
 	devtool: 'inline-source-map',
 
 	resolve: {
 		extensions: ['.ts', '.js'],
-		plugins: [new TsConfigPathsPlugin(/* { tsconfig, compiler } */)]
+		plugins: [new TsConfigPathsPlugin(/* { tsconfig, compiler } */)],
 	},
 
 	module: {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'),path.resolve(__dirname,'node_modules')],
+				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), path.resolve(__dirname, 'node_modules')],
 				use: {
 					loader: 'babel-loader',
-					options: {
-					}
-				}
+					options: {},
+				},
 			},
 			{
 				test: /\.html?$/,
-				use: 'raw-loader'
+				use: 'raw-loader',
 			},
 			{
 				test: /\.svg$/,
@@ -45,16 +44,16 @@ module.exports = {
 					loader: 'svg-url-loader',
 					options: {
 						limit: 10000000, // Convert images < 8kb to base64 strings
-						name: 'images/[hash]-[name].[ext]'
-					}
-				}
+						name: 'images/[hash]-[name].[ext]',
+					},
+				},
 			},
 			{
 				test: /\.css$/,
 				use: [
 					'style-loader', // creates style nodes from JS strings
-					'css-loader' // translates CSS into CommonJS
-				]
+					'css-loader', // translates CSS into CommonJS
+				],
 				// include: [/node_modules/]
 			},
 			{
@@ -64,8 +63,8 @@ module.exports = {
 					{
 						loader: 'css-loader',
 						options: {
-							sourceMap: true
-						}
+							sourceMap: true,
+						},
 					},
 					{
 						loader: 'sass-loader',
@@ -74,11 +73,11 @@ module.exports = {
 
 							sassOptions: {
 								data: '@import "_styles";',
-								includePaths: [path.join(__dirname, 'src/assets')]
-							}
-						}
-					}
-				]
+								includePaths: [path.join(__dirname, 'src/assets')],
+							},
+						},
+					},
+				],
 			},
 			{
 				test: /\.(png|jp(e*)g)$/,
@@ -87,10 +86,10 @@ module.exports = {
 						loader: 'url-loader',
 						options: {
 							limit: 8000, // Convert images < 8kb to base64 strings
-							name: 'images/[hash]-[name].[ext]'
-						}
-					}
-				]
+							name: 'images/[hash]-[name].[ext]',
+						},
+					},
+				],
 			},
 			{
 				test: /\.m?js$/,
@@ -98,11 +97,11 @@ module.exports = {
 				use: {
 					loader: 'babel-loader',
 					options: {
-						presets: ['@babel/preset-env']
-					}
-				}
-			}
-		]
+						presets: ['@babel/preset-env'],
+					},
+				},
+			},
+		],
 	},
 	/*externals: [
         function (context, request, callback) {
@@ -124,11 +123,12 @@ module.exports = {
 		/^bootstrap/,
 		/^bootswatch/,
 		/^rxjs/,
-		/^traisi-question-sdk/
+		/^traisi-question-sdk/,
 	],
 	plugins: [
 		new WebpackBar(),
-		new CopyWebpackPlugin([{ from: 'dist/', to: '../../Traisi/development', toType: 'dir' }], { debug: 'warning' })
-
-	]
+		new CopyWebpackPlugin({
+			patterns: [{ from: 'dist/', to: '../../Traisi/development', toType: 'dir' }],
+		}),
+	],
 };

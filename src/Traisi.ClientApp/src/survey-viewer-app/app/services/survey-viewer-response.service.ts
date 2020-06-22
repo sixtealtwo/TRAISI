@@ -7,7 +7,7 @@ import {
 	SurveyRespondentClient,
 	SurveyResponseViewModel,
 	ValidationState,
-	SurveyViewerResponseValidationState,
+	SurveyViewerValidationStateViewModel,
 } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';
 import { tap } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { tap } from 'rxjs/operators';
 })
 export class SurveyViewerResponseService {
 	private _responses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
-	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) {}
+	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) { }
 
 	/**
 	 * Gets the stored response for the passed respondent and question, this will return null
@@ -85,12 +85,12 @@ export class SurveyViewerResponseService {
 		respondent: SurveyRespondent,
 		repeat: number = 0,
 		responseData: Array<ResponseData<ResponseTypes>>
-	): Observable<SurveyViewerResponseValidationState> {
+	): Observable<SurveyViewerValidationStateViewModel> {
 		return new Observable((obs) => {
 			this._responseClient
 				.saveResponse(this._session.surveyId, question.questionId, respondent.id, repeat, this._session.language, responseData)
 				.subscribe((result) => {
-					if (result.validationState === ValidationState.Valid) {
+					if (result.isValid) {
 						// store the passed response if valid
 						this._storeResponse(question.questionId, respondent, responseData);
 					}

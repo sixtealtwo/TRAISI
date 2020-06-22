@@ -10,6 +10,8 @@
 	<div class="row">
 		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 			<div class="sidebar-sticky">
+				<traisi-survey-progress></traisi-survey-progress>
+				<!--
 				<ul class="nav flex-column">
 					<li class="nav-item">
 						<a class="nav-link active" href="#">
@@ -80,12 +82,12 @@
 							Year-end sale
 						</a>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
 		</nav>
 		<!-- Begin page content -->
-		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 container" #surveyBodyContainer>
-			<div *ngIf="navigator.navigationState$ | async as state">
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10  container" #surveyBodyContainer>
+			<div *ngIf="navigator.navigationState$ | async as state" class="questions-outer-container">
 				<div class="survey-section-header h5" *ngIf="state.activeSectionId >= 0"
 					[style.background-color]="viewerTheme.sectionBackgroundColour" [style.color]="sectionTitleColour"
 					[class.household-tabs]="state.activeSectionId >= 0 && state.activeSection.isHousehold"
@@ -100,7 +102,7 @@
 					<div class="question-section" #questionSection>
 						<ng-container
 							*ngFor="let question of state.activeQuestionInstances; trackBy: trackById.bind(this); let i = index">
-							<traisi-question-container class="d-flex flex-column card card-fluid" [surveyViewer]="ref"
+							<traisi-question-container class="d-flex flex-column" [surveyViewer]="ref"
 								[activeQuestionIndex]="i" [questionInstance]="question"
 								[respondent]="viewerState.groupMembers[state.activeRespondentIndex]"
 								[question]="question.model" [attr.data-questionid]="question.model.questionId"
@@ -154,6 +156,10 @@
 	<div class="container">
 		<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs">
 		</ndc-dynamic>
+
+		<div class="admin-container">
+			<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
+		</div>
 	</div>
 </footer>
 

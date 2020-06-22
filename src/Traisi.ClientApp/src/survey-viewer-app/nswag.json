@@ -1,4 +1,4 @@
-﻿{
+{
   "runtime": "NetCore31",
   "defaultVariables": null,
   "documentGenerator": {
@@ -48,6 +48,7 @@
       "allowNullableBodyParameters": true,
       "output": "api-client.json",
       "outputType": "OpenApi3",
+      "newLineBehavior": "Auto",
       "assemblyPaths": [
         "../../../TRAISI/bin/Debug/netcoreapp3.1/Traisi.dll"
       ],
@@ -118,7 +119,8 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "app/services/survey-viewer-api-client.service.ts"
+      "output": "app/services/survey-viewer-api-client.service.ts",
+      "newLineBehavior": "Auto"
     }
   }
 }

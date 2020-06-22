@@ -1,59 +1,135 @@
-body{
-    line-height:1.3em;
-    min-width:920px;
+
+// CONFIG
+$SPACER_XS: 0.5rem;
+$SPACER_SM: 0.75rem;
+$SPACER: 1rem;
+$SPACER_MD: 1.5rem;
+$SPACER_LG: 2rem;
+$BORDER_RADIUS: 3px;
+$PROGRESS_HEIGHT: 600px;
+$PROGRESS_LIST_HEIGHT: 75px;
+$PROGRESS_COUNTER_WIDTH: 26px;
+$LIST_ITEM_WIDTH: 100px;
+$PROGRESS_BG: #392A60;
+$BODY_BG: #2E1F47;
+$ICON_COLOR: #F3597D;
+$FONT_COLOR: #333;
+
+.page-icon {
+    width: 30px;
+    position: absolute;
+    left: -42px;
+    z-index: 10;
+    top: 6px;
+    text-align: center;
+}
+
+
+p {
+  font-size: 13px;
+  margin: 0 0 11px;
+}
+
+a {
+  color: $FONT_COLOR;
+  text-decoration: none;
+}
+
+header {
+  text-align: center;
+  margin-bottom: $SPACER_LG*2;
+  h1 {
+    font-size: 1.8rem;
+    line-height: 2.1rem;
   }
-  .history-tl-container{
-      font-family: "Roboto",sans-serif;
-    width:50%;
-    margin:auto;
-    display:block;
-    position:relative;
+  p {
+    margin-top: $SPACER;
   }
-  .history-tl-container ul.tl{
-      margin:20px 0;
-      padding:0;
-      display:inline-block;
-  
+  .icon {
+    color: $ICON_COLOR; 
   }
-  .history-tl-container ul.tl li{
-      list-style: none;
-      margin:auto;
-      margin-left:200px;
-      min-height:50px;
-      /*background: rgba(255,255,0,0.1);*/
-      border-left:1px dashed #86D6FF;
-      padding:0 0 50px 30px;
-      position:relative;
+}
+
+// THE GOOD STUFF
+.progressContainer {
+  position: relative;
+  width: 300px;
+  margin: 0 auto;
+  overflow: hidden;
+  color: $FONT_COLOR;
+  // @include box-shadow(0 0 15px rgba(0, 0, 0, 0.3));
+}
+
+.progress-inner {
+  position: relative;
+  padding: 0 $SPACER 0 3.5rem;
+  margin: $SPACER_LG 0 0;
+  list-style: none;
+  display: block;
+  height: auto;
+  list-style-type:none;
+}
+
+.progress__item {
+  position: relative;
+  min-height: $PROGRESS_LIST_HEIGHT;
+  // counter-increment: list;
+  padding-left: $SPACER_XS;
+  &:before {
+    content: "";
+    position: absolute;
+    left: -1.5rem;
+    top: 33px;
+    height: 60%;
+    width: 1px;
+    border-left: 1px solid #fff;
   }
-  .history-tl-container ul.tl li:last-child{ border-left:0;}
-  .history-tl-container ul.tl li::before{
-      position: absolute;
-      left: -18px;
-      top: -5px;
-      content: " ";
-      border: 8px solid rgba(255, 255, 255, 0.74);
-      border-radius: 500%;
-      background: #258CC7;
-      height: 20px;
-      width: 20px;
-      transition: all 500ms ease-in-out;
-  
+  &:after {
+    content: "";       
+    position: absolute;
+    top: 0;
+    left: -2.5rem;
+    width: $PROGRESS_COUNTER_WIDTH;
+    height: $PROGRESS_COUNTER_WIDTH;
+    border-radius: 50%;
+    background: transparent;
+    color: #333;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 2rem;
+    text-align: center;
+    border: 1px solid #fff;
   }
-  .history-tl-container ul.tl li:hover::before{
-      border-color:  #258CC7;
-      transition: all 1000ms ease-in-out;
+  //Hide border for Last Step
+  &:last-child {
+    &:before {
+      border: none;
+    }
   }
-  ul.tl li .item-title{
+  //Completed
+  &.progress__item--completed {
+    opacity: 0.6;
+    color: $FONT_COLOR;
+    &:after {
+      content: "\2713";
+      font-weight: 400;
+      background: #fff;
+    }
   }
-  ul.tl li .item-detail{
-      color:rgba(0,0,0,0.5);
-      font-size:12px;
+  //Active
+  &.progress__item--active {
+    &:after {
+      background: #fff;
+    }
   }
-  ul.tl li .timestamp{
-      color: #8D8D8D;
-      position: absolute;
-    width:100px;
-      left: -50%;
-      text-align: right;
-      font-size: 12px;
-  }
+}
+
+.progress__title {
+  padding: 0.4rem 0 $SPACER_XS;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.progress__info {
+  font-size: 13px;
+}

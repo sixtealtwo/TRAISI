@@ -5,12 +5,18 @@ traisi-survey-header-display {
   position: relative;
 }
 
-main.container {
-  padding: 60px 15px 0;
+.questions-outer-container {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+  padding-top: 60px;
+  padding-bottom: 80px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .sidebar {
-  padding: 60px 15px 0;
+  padding: 60px 0px 0;
   height: calc(100vh - 48px);
   overflow-x: hidden;
   overflow-y: auto;

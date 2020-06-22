@@ -2,6 +2,7 @@ import { QuestionInstance } from './question-instance.model';
 import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
+import { SurveyViewerValidationStateViewModel } from 'app/services/survey-viewer-api-client.service';
 
 export interface NavigationState {
 	activePage?: SurveyViewPage;
@@ -13,6 +14,7 @@ export interface NavigationState {
 	activeQuestionIndex: number;
 	activeRespondent?: SurveyViewGroupMember;
 	activeRespondentIndex?: number;
+	activeValidationStates: { [id: number]: SurveyViewerValidationStateViewModel };
 	isMultiView?: boolean;
 	isLoaded: boolean;
 	isNextEnabled: boolean;

@@ -1,5 +1,5 @@
-﻿{
-  "x-generator": "NSwag v13.4.2.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))",
+{
+  "x-generator": "NSwag v13.6.1.0 (NJsonSchema v10.1.21.0 (Newtonsoft.Json v12.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "SurveyViewer API",
@@ -240,7 +240,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SurveyViewerResponseValidationState"
+                  "$ref": "#/components/schemas/SurveyViewerValidationStateViewModel"
                 }
               }
             }
@@ -668,7 +668,7 @@
             "name": "viewType",
             "in": "query",
             "schema": {
-              "default": "RespondentView",
+              "default": 0,
               "oneOf": [
                 {
                   "$ref": "#/components/schemas/SurveyViewType"
@@ -1382,7 +1382,32 @@
           }
         }
       },
-      "SurveyViewerResponseValidationState": {
+      "SurveyViewerValidationStateViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "isValid": {
+            "type": "boolean"
+          },
+          "questionValidationState": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ValidationStateViewModel"
+              }
+            ]
+          },
+          "surveyLogicValidationState": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ValidationStateViewModel"
+              }
+            ]
+          }
+        }
+      },
+      "ValidationStateViewModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1399,17 +1424,19 @@
         }
       },
       "ValidationState": {
-        "type": "string",
+        "type": "integer",
         "description": "",
         "x-enumNames": [
           "Invalid",
           "Valid",
-          "Untouched"
+          "Untouched",
+          "Touched"
         ],
         "enum": [
-          "invalid",
-          "valid",
-          "untouched"
+          0,
+          1,
+          2,
+          3
         ]
       },
       "SurveyResponseViewModel": {
@@ -1444,7 +1471,7 @@
         }
       },
       "QuestionResponseType": {
-        "type": "string",
+        "type": "integer",
         "description": "",
         "x-enumNames": [
           "String",
@@ -1453,7 +1480,6 @@
           "Location",
           "Json",
           "OptionSelect",
-          "OptionList",
           "DateTime",
           "Time",
           "Path",
@@ -1461,18 +1487,17 @@
           "None"
         ],
         "enum": [
-          "string",
-          "boolean",
-          "number",
-          "location",
-          "json",
-          "optionSelect",
-          "optionList",
-          "dateTime",
-          "time",
-          "path",
-          "timeline",
-          "none"
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
         ]
       },
       "SurveyCompletionStatus": {
@@ -2096,7 +2121,46 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/QuestionPartView"
+                "$ref": "#/components/schemas/QuestionPart"
+              }
+            ]
+          },
+          "validationQuestionId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "validationQuestion": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/QuestionPart"
+              }
+            ]
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SurveyLogic"
+              }
+            ]
+          },
+          "rootId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "root": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SurveyLogic"
               }
             ]
           },
@@ -2107,108 +2171,28 @@
                 "$ref": "#/components/schemas/SurveyLogicOperator"
               }
             ]
+          },
+          "logicType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SurveyLogicType"
+              }
+            ]
           }
         }
       },
       "SurveyLogicCondition": {
-        "type": "string",
+        "type": "integer",
         "description": "",
         "x-enumNames": [
           "And",
           "Or"
         ],
         "enum": [
-          "and",
-          "or"
+          0,
+          1
         ]
-      },
-      "QuestionPartView": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "labels": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/LabelCollectionOfLabel"
-              }
-            ]
-          },
-          "questionPart": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/QuestionPart"
-              }
-            ]
-          },
-          "parentView": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/QuestionPartView"
-              }
-            ]
-          },
-          "conditionals": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/QuestionConditionalOperator"
-            }
-          },
-          "surveyView": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/SurveyView"
-              }
-            ]
-          },
-          "questionPartViewChildren": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/QuestionPartView"
-            }
-          },
-          "order": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "isOptional": {
-            "type": "boolean"
-          },
-          "isHousehold": {
-            "type": "boolean"
-          },
-          "isMultiView": {
-            "type": "boolean"
-          },
-          "isDefaultHidden": {
-            "type": "boolean"
-          },
-          "repeatSource": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/QuestionPart"
-              }
-            ]
-          },
-          "icon": {
-            "type": "string",
-            "nullable": true
-          },
-          "catiDependent": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/QuestionPartView"
-              }
-            ]
-          }
-        }
       },
       "QuestionPart": {
         "type": "object",
@@ -2309,7 +2293,7 @@
         }
       },
       "ConfigurationValueType": {
-        "type": "string",
+        "type": "integer",
         "description": "",
         "x-enumNames": [
           "String",
@@ -2325,17 +2309,17 @@
           "KeyValuePair"
         ],
         "enum": [
-          "string",
-          "integer",
-          "decimal",
-          "boolean",
-          "tuple",
-          "time",
-          "date",
-          "custom",
-          "label",
-          "question",
-          "keyValuePair"
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
         ]
       },
       "QuestionOption": {
@@ -2409,7 +2393,7 @@
         }
       },
       "QuestionConditionalType": {
-        "type": "string",
+        "type": "integer",
         "description": "",
         "x-enumNames": [
           "IsEqualTo",
@@ -2426,18 +2410,18 @@
           "DoesNotContain"
         ],
         "enum": [
-          "Is Equal To",
-          "Is Not Equal To",
-          "Greater Than",
-          "Less Than",
-          "In Bounds",
-          "Out Of Bounds",
-          "In Range",
-          "Outside Range",
-          "Is Any Of",
-          "Is All Of",
-          "Contains",
-          "Does Not Contain"
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
         ]
       },
       "QuestionConditional": {
@@ -2462,6 +2446,94 @@
           "value": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "QuestionPartView": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "labels": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LabelCollectionOfLabel"
+              }
+            ]
+          },
+          "questionPart": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/QuestionPart"
+              }
+            ]
+          },
+          "parentView": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/QuestionPartView"
+              }
+            ]
+          },
+          "conditionals": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/QuestionConditionalOperator"
+            }
+          },
+          "surveyView": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SurveyView"
+              }
+            ]
+          },
+          "questionPartViewChildren": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/QuestionPartView"
+            }
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isOptional": {
+            "type": "boolean"
+          },
+          "isHousehold": {
+            "type": "boolean"
+          },
+          "isMultiView": {
+            "type": "boolean"
+          },
+          "isDefaultHidden": {
+            "type": "boolean"
+          },
+          "repeatSource": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/QuestionPart"
+              }
+            ]
+          },
+          "icon": {
+            "type": "string",
+            "nullable": true
+          },
+          "catiDependent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/QuestionPartView"
+              }
+            ]
           }
         }
       },
@@ -2509,19 +2581,19 @@
         }
       },
       "QuestionCondtionalOperatorType": {
-        "type": "string",
+        "type": "integer",
         "description": "",
         "x-enumNames": [
           "AND",
           "OR"
         ],
         "enum": [
-          "AND",
-          "OR"
+          0,
+          1
         ]
       },
       "SurveyLogicOperator": {
-        "type": "string",
+        "type": "integer",
         "description": "",
         "x-enumNames": [
           "Equals",
@@ -2537,17 +2609,29 @@
           "NoneOf"
         ],
         "enum": [
-          "=",
-          "!=",
-          ">",
-          ">=",
-          "<",
-          "<=",
-          "contains",
-          "like",
-          "any of",
-          "all of",
-          "none of"
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "SurveyLogicType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Response",
+          "Value"
+        ],
+        "enum": [
+          0,
+          1
         ]
       },
       "AuditableEntity": {
@@ -2584,15 +2668,15 @@
         }
       },
       "SurveyViewType": {
-        "type": "string",
+        "type": "integer",
         "description": "",
         "x-enumNames": [
           "RespondentView",
           "CatiView"
         ],
         "enum": [
-          "respondentView",
-          "catiView"
+          0,
+          1
         ]
       },
       "QuestionOptionsViewModel": {

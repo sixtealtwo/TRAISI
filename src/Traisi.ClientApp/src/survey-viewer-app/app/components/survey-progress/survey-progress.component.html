@@ -1,22 +1,28 @@
-<link href='//fonts.googleapis.com/css?family=Roboto:200,400,600' rel='stylesheet' type='text/css'>
-<div class="history-tl-container">
-  <ul class="tl">
-    <li class="tl-item" ng-repeat="item in retailer_history">
+<div class="progressContainer">
 
-      <div class="item-title">Start from Shire</div>
-      <div class="item-detail">Don't forget the ring</div>
+  <ul class="progress-inner">
+      <li class="progress__item progress__item--active"
+        *ngFor="let page of viewerStateService.viewerState.surveyPages; let i = index">
+        <i class="{{page.icon}} page-icon"></i>
+        <p class="progress__title">{{page.label}}</p>
+        <p class="progress__info">Completed</p>
+
+      </li>
+    
+  
+    <!--
+    <li class="progress__item progress__item--completed">
+      <p class="progress__title">Step 1</p>
+      <p class="progress__info">Completed</p>
     </li>
-    <li class="tl-item" ng-repeat="item in retailer_history">
-
-      <div class="item-title">Kill some Orcs</div>
-      <div class="item-detail">Don't enter the caves!!</div>
+    <li class="progress__item progress__item--active">
+      <p class="progress__title">Step 2</p>
+      <p class="progress__info">Current or Active</p>
     </li>
-    <li class="tl-item" ng-repeat="item in retailer_history">
-
-      <div class="item-title">Throw that goddamn ring in the lava</div>
-      <div class="item-detail">Also, throw that Gollum too</div>
-    </li>
-
+    <li class="progress__item">
+      <p class="progress__title">Step 3</p>
+      <p class="progress__info">Next Step</p>
+    </li>-->
   </ul>
 
 </div>

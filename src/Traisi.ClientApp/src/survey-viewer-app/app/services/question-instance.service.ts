@@ -11,7 +11,8 @@ import { SurveyViewerResponseService } from './survey-viewer-response.service';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { isArray } from 'util';
 import { Subject, BehaviorSubject } from 'rxjs';
-import { SurveyViewerResponseValidationState, ValidationState } from './survey-viewer-api-client.service';
+import { SurveyViewerValidationStateViewModel, ValidationState } from './survey-viewer-api-client.service';
+
 
 @Injectable()
 export class QuestionInstanceState {
@@ -24,8 +25,8 @@ export class QuestionInstanceState {
 		return this._questionInstance;
 	}
 
-	public validationState$: BehaviorSubject<SurveyViewerResponseValidationState>;
-	public constructor(private _responseService: SurveyViewerResponseService, private _navigator: SurveyNavigator) {}
+	public validationState$: BehaviorSubject<SurveyViewerValidationStateViewModel>;
+	public constructor(private _responseService: SurveyViewerResponseService, private _navigator: SurveyNavigator) { }
 
 	/**
 	 * Initializes the instance state manager for the passed question
@@ -46,9 +47,16 @@ export class QuestionInstanceState {
 		this._questionInstance.response.subscribe(this.onSaveResponse);
 		this._questionInstance.validationState.subscribe(this.onValidationStateChanged);
 		this._questionInstance.respondent = respondent;
-		this.validationState$ = new BehaviorSubject<SurveyViewerResponseValidationState>({
-			errorMessages: [],
-			validationState: ValidationState.Untouched,
+		this.validationState$ = new BehaviorSubject<SurveyViewerValidationStateViewModel>({
+			isValid: false,
+			questionValidationState: {
+				errorMessages: [],
+				validationState: ValidationState.Untouched
+			},
+			surveyLogicValidationState: {
+				errorMessages: [],
+				validationState: ValidationState.Untouched
+			}
 		});
 
 		// load the saved response
@@ -80,22 +88,42 @@ export class QuestionInstanceState {
 	 * Handles the server response after a response has been saved.
 	 * @param result
 	 */
-	private onResponseSaved = (result: SurveyViewerResponseValidationState): void => {
+	private onResponseSaved = (result: SurveyViewerValidationStateViewModel): void => {
 		console.log(result);
 
 		this.validationState$.next(result);
-		this._navigator.updateQuestionValidationState(this, result);
 		this._navigator.responseChanged();
+		this.onValidationStateChanged(result);
+		console.log('response saved');
 	};
 
 	/**
 	 * @private
 	 */
-	private onValidationStateChanged = (state: ResponseValidationState): void => {
+	private onValidationStateChanged = (state: SurveyViewerValidationStateViewModel | ResponseValidationState): void => {
 
-		this._navigator.updateQuestionValidationState(this, {
-			errorMessages: [],
-			validationState: ValidationState.Valid,
-		});
+		console.log(state);
+		if (state.hasOwnProperty('isValid')) {
+			console.log('in here ');
+			console.log(state);
+			this._navigator.updateQuestionValidationState(this, state as SurveyViewerValidationStateViewModel);
+		}
+		else {
+			let responseState = state as ResponseValidationState;
+			if (responseState === ResponseValidationState.VALID) {
+				this._navigator.updateQuestionValidationState(this, {
+					isValid: true,
+					questionValidationState: {
+						errorMessages: [],
+						validationState: ValidationState.Valid
+					},
+					surveyLogicValidationState: {
+						errorMessages: [],
+						validationState: ValidationState.Valid
+					}
+				});
+			}
+		}
+		console.log('validation state changed');
 	};
 }

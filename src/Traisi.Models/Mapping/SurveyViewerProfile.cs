@@ -225,19 +225,8 @@ namespace Traisi.Models.Mapping
                 return error[context.Items["Language"] as string].Value;
             });
 
-            CreateMap<SurveyResponseValidationState, ValidationStateViewModel>()
-                .ForMember(o => o.ValidationState, opt => opt.MapFrom<ValidationState>((o, p) =>
-                {
-                    if (o.IsValid)
-                    {
-                        return ValidationState.Valid;
-                    }
-                    else
-                    {
-                        return ValidationState.Invalid;
-                    }
+            CreateMap<SurveyResponseValidationState, SurveyViewerValidationStateViewModel>();
 
-                }));
         }
     }
 

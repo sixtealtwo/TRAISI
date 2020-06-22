@@ -36,7 +36,7 @@ import { QuestionInstance } from 'app/models/question-instance.model';
 import { SurveyTextTransformer } from 'app/services/survey-text-transform/survey-text-transformer.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
-import { ValidationState, SurveyViewerResponseValidationState } from 'app/services/survey-viewer-api-client.service';
+import { ValidationState, SurveyViewerValidationStateViewModel } from 'app/services/survey-viewer-api-client.service';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -352,8 +352,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	/**
 	 * Determines whether response validation state changed on
-	 */
-	private onResponseValidationStateChanged: (validationState: ResponseValidationState) => void = (
+	
+	private onResponseValidationStateChanged: (validationState: SurveyV) => void = (
 		validationState: ResponseValidationState
 	): void => {
 		this._viewerStateService.updateGroupQuestionValidationState(this.surveyViewQuestion, validationState);
@@ -363,13 +363,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		}
 		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
 
-		this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState =
-			validationState === ResponseValidationState.VALID
-				? { validationState: ValidationState.Valid, errorMessages: []}
-				: { validationState: ValidationState.Invalid, errorMessages: [] };
+		this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState =validationState;
 
 		this._navigator.validationChanged();
-	};
+	}; */
 
 	/**
 	 * Determines whether response saved on
@@ -387,5 +384,5 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		if (this._questionInstance !== undefined) { 
 			this._questionInstance.traisiOnUnloaded();
 		}
-	}
+	} 
 }
