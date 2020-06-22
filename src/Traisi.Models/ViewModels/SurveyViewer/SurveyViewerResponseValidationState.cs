@@ -15,6 +15,7 @@ namespace Traisi.ViewModels.SurveyViewer
 
     public class ValidationStateViewModel
     {
+        public List<int> RelatedQuestions { get; set; } = new List<int>();
         public ValidationState ValidationState { get; set; }
         public List<string> ErrorMessages { get; set; } = new List<string>();
     }

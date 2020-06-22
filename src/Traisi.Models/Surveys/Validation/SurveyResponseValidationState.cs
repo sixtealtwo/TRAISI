@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using Traisi.Data.Models.Extensions;
+using Traisi.Data.Models.Questions;
 using Traisi.Data.Models.Surveys;
 
 namespace Traisi.Models.Surveys.Validation
@@ -15,6 +16,7 @@ namespace Traisi.Models.Surveys.Validation
 
     public class SurveyValidationError
     {
+        public List<int> RelatedQuestions { get;set; }
         public LabelCollection<Label> Messages { get; set; } = new LabelCollection<Label>();
         public ValidationState ValidationState { get; set; }
     }

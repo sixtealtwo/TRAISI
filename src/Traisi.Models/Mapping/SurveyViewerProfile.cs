@@ -226,6 +226,7 @@ namespace Traisi.Models.Mapping
             });
 
             CreateMap<SurveyValidationError, ValidationStateViewModel>()
+            .ForMember(m => m.RelatedQuestions, map => map.MapFrom(x => x.RelatedQuestions))
                              .AfterMap((s, svm, opt) =>
                 {
                     try

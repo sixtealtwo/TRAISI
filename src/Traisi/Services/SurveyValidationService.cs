@@ -40,7 +40,7 @@ namespace Traisi.Services
             var logicTree = await this._unitOfWork.SurveyLogic.GetSurveyLogicExpressionTreeForQuestionAsync(response.QuestionPart);
             var uniqueRoots = logicTree.Select(s => s.Root).Distinct().ToList();
             var results = new List<SurveyValidationError>();
-            if (uniqueRoots.Count > 0)
+            if (uniqueRoots.Count > 0 && uniqueRoots[0].ValidationQuestionId == response.QuestionPart.Id)
             {
                 List<int> questionIds = new List<int>();
                 GetResponseValueIdsForLogicTree(uniqueRoots[0], questionIds);
@@ -57,10 +57,12 @@ namespace Traisi.Services
                 {
                     var logicError = new SurveyValidationError()
                     {
+                        RelatedQuestions = questionIds,
                         ValidationState = ValidationState.Invalid,
                         Messages = uniqueRoots[0].ValidationMessages,
 
                     };
+
                     results.Add(logicError);
                 }
 

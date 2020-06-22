@@ -524,11 +524,27 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	/**
-	 * 
-	 * @param question 
+	 *
+	 * @param questionPartId
+	 */
+	public getQuestionModel(questionPartId: number): SurveyViewQuestion {
+		return this._viewerStateService.viewerState.surveyQuestions.find((q) => q.questionId === questionPartId);
+	}
+
+	/**
+	 *
+	 * @param question
 	 */
 	public forceSave(question: QuestionInstance): void {
 		question.questionInstanceState.forceSaveResponse();
+	}
+
+	/**
+	 *
+	 * @param questionPartId
+	 */
+	public navigateToQuestion(questionPartId: number) {
+		console.log(`navigating to ${questionPartId}`);
 	}
 
 	/**

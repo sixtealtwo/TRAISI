@@ -166,6 +166,7 @@ namespace Traisi.Services
                     SurveyLogicError = errorList.Count > 0 && !force ? new SurveyValidationError(
                     )
                     {
+                        RelatedQuestions = errorList[0].RelatedQuestions,
                         ValidationState = ValidationState.Invalid,
                         Messages = errorList[0].Messages
                     } : new SurveyValidationError()

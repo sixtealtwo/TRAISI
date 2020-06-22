@@ -91,7 +91,7 @@
 				<div class="content-header">
 					<span class="page-header survey-section-header">{{ state.activePage?.label }}</span>
 					<span class="section-header survey-section-header" *ngIf="state.activeSectionId >= 0">
-					>
+						>
 						<span [innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml"></span>
 					</span>
 				</div>
@@ -136,18 +136,34 @@
 							</traisi-question-container>
 							<div
 								class="alert alert-warning"
-								style="height: 65px;"
+								style="height: auto;"
 								role="alert"
 								*ngIf="
 									!question.validationState?.isValid &&
 									question.validationState?.surveyLogicValidationState?.errorMessages?.length > 0
 								"
 							>
-								<div class="col-12">
-									{{ (question.validationState?.surveyLogicValidationState?.errorMessages)[0] }}
-									<button class="btn btn-secondary float-right" (click)="forceSave(question)">
-										Confirm
-									</button>
+								<div class="row">
+									<div class="col-12">
+										{{ (question.validationState?.surveyLogicValidationState?.errorMessages)[0] }}
+										<button class="btn btn-secondary float-right" (click)="forceSave(question)">
+											Confirm
+										</button>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-12">
+										<div
+											class="related-question-link"
+											(click)="navigateToQuestion(id)"
+											*ngFor="
+												let id of question.validationState?.surveyLogicValidationState
+													?.relatedQuestions
+											"
+										>
+											{{ getQuestionModel(id).name }}
+										</div>
+									</div>
 								</div>
 							</div>
 						</ng-container>
