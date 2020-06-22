@@ -1,12 +1,8 @@
 import { OnInit, Component, OnDestroy, ViewChild, ViewEncapsulation, ViewChildren, QueryList } from '@angular/core';
 import {
-	QueryBuilderConfig,
 	QueryBuilderClassNames,
 	QueryBuilderComponent,
-	RuleSet,
 	Rule,
-	EntityMap,
-	FieldMap,
 	Entity,
 } from 'angular2-query-builder';
 import { classNames, entityMap, entityTypes as entityTypeMap, SurveyLogicQueryEntityType } from './query-config';
@@ -19,7 +15,6 @@ import { tap, distinctUntilChanged, debounceTime, skip, first, concatMap } from 
 import { GeneratedIdsViewModel } from 'shared/models/generated-ids-view-model.model';
 import { UtilService } from 'shared/services/util.service';
 import { SurveyLogic } from '../models/survey-logic.model';
-import { QuestionPart } from '../models/question-part.model';
 import { SurveyLogicQueryConfig, SurveyLogicField } from './survey-logic-query-builder-config.model';
 @Component({
 	selector: 'traisi-survey-logic-control',
@@ -68,6 +63,10 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		this.classNames = classNames;
 	}
 
+	/**
+	 * 
+	 * @param id 
+	 */
 	public options(id: string): Observable<QuestionOptionValueViewModel[]> {
 		return this.optionsMap.get(id.split('.')[0]);
 	}
@@ -182,8 +181,6 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	 */
 	private initQuestionOptionsQuery(questionList: Array<QuestionPartView>, questionId: string): void {
 		// this.isOptionsLoaded = false;
-
-		console.log(' in options query ');
 		this.optionsMap.set(
 			questionId,
 			concat(
