@@ -92,7 +92,11 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	 * @param textInput
 	 */
 	private isInputValid(textInput: string): boolean {
-		return textInput !== null || (textInput.trim().length > 0 && textInput.trim().length <= this.configuration.maxLength);
+		if (textInput) {
+			return textInput !== null || (textInput.trim().length > 0 && textInput.trim().length <= this.configuration.maxLength);
+		} else {
+			return false;
+		}
 	}
 
 	/**

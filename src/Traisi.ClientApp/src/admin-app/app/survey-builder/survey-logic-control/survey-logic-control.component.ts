@@ -68,6 +68,10 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		this.classNames = classNames;
 	}
 
+	public options(id: string): Observable<QuestionOptionValueViewModel[]> {
+		return this.optionsMap.get(id.split('.')[0]);
+	}
+
 	/**
 	 *
 	 * @param $event
@@ -89,7 +93,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	}
 
 	public onFieldValueChanged($event: SurveyLogicField, rule: Rule) {
-		rule.field = ''+$event;
+		rule.field = '' + $event;
 		console.log(rule);
 		console.log($event);
 	}
@@ -178,6 +182,8 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	 */
 	private initQuestionOptionsQuery(questionList: Array<QuestionPartView>, questionId: string): void {
 		// this.isOptionsLoaded = false;
+
+		console.log(' in options query ');
 		this.optionsMap.set(
 			questionId,
 			concat(
@@ -203,25 +209,28 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 
 		this.config.entities = entityMap;
 
+		console.log(questionList);
 		for (let question of questionList) {
 			let responseType = this._editor.questionTypeMap.get(question.questionPart.questionType).responseType;
 			if (responseType == QuestionResponseType.Number) {
-				this.config.fields[question.questionPart.id] = {
-					entity: entityTypeMap[0].value,
+				this.config.fields[question.questionPart.id + '.value'] = {
+					entity: entityTypeMap[1].value,
 					name: question.questionPart.name,
 					type: 'number',
-					value: String(question.questionPart.id),
+					value: question.questionPart.id + '.value',
+					questionId: -1,
 				};
 			} else if (
 				responseType == QuestionResponseType.OptionSelect ||
 				responseType == QuestionResponseType.OptionList
 			) {
 				this.initQuestionOptionsQuery(questionList, String(question.questionPart.id));
-				this.config.fields[question.questionPart.id] = {
+				this.config.fields[question.questionPart.id + '.value'] = {
+					entity: entityTypeMap[1].value,
 					name: question.questionPart.name,
 					type: 'option',
 					operators: ['any of', 'all of', 'none of'],
-					value: String(question.questionPart.id),
+					value: question.questionPart.id + '.value',
 					questionId: -1,
 				};
 			} else {
@@ -230,7 +239,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 					name: question.questionPart.name,
 					type: 'string',
 					value: question.questionPart.id + '.value',
-					questionId: -1
+					questionId: -1,
 				};
 				this.config.fields[question.questionPart.id + '.response'] = {
 					entity: entityTypeMap[0].value,

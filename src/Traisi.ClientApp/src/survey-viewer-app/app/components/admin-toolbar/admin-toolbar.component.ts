@@ -58,7 +58,6 @@ export class AdminToolbarComponent implements OnInit {
 	 */
 	public ngOnInit(): void {
 		this._route.data.subscribe((data) => {
-			console.log(data);
 		});
 
 		this._surveyViewerService.activeSurveyId.subscribe((surveyId) => {
@@ -76,7 +75,6 @@ export class AdminToolbarComponent implements OnInit {
 			.deleteAllResponses(this.surveyId, this._viewerState.viewerState.primaryRespondent.id)
 			.subscribe(
 				(result) => {
-					console.log(result);
 					location.reload();
 				},
 				(error: any) => {

@@ -12,7 +12,7 @@
 				<div class="col-auto">
 					<ng-select
 						id="{{ i }}-query"
-						[items]="optionsMap.get(rule.field) | async"
+						[items]="options(rule.field) | async"
 						bindLabel="optionLabel.value"
 						[multiple]="true"
 						[searchable]="true"

@@ -234,7 +234,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				share()
 			)
 			.subscribe((pages: SurveyViewPage[]) => {
-				console.log(pages);
 				pages.forEach((page) => {
 					// this.headerDisplay.completedPages.push(false);
 				});
@@ -527,18 +526,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 	}
 
-	/**
-	 * Validates internal navigation next
-	 * @returns true if internal navigation next
-	 */
-	private validateInternalNavigationNext(): boolean {
-		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-			// console.log('navigate: ' + this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext());
-			return this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext();
-		}
-
-		return false;
-	}
 
 	/**
 	 * Validates the disabled / enabled state of the navigation buttons.

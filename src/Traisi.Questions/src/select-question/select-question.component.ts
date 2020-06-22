@@ -71,7 +71,6 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 			let optionResponse = <OptionSelectResponseData>response[0];
 
 			this.selectedOptionId = optionResponse.code;
-
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 	};

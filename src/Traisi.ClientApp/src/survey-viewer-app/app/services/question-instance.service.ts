@@ -13,7 +13,6 @@ import { isArray } from 'util';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { SurveyViewerValidationStateViewModel, ValidationState } from './survey-viewer-api-client.service';
 
-
 @Injectable()
 export class QuestionInstanceState {
 	private _questionModel: SurveyViewQuestion;
@@ -26,7 +25,7 @@ export class QuestionInstanceState {
 	}
 
 	public validationState$: BehaviorSubject<SurveyViewerValidationStateViewModel>;
-	public constructor(private _responseService: SurveyViewerResponseService, private _navigator: SurveyNavigator) { }
+	public constructor(private _responseService: SurveyViewerResponseService, private _navigator: SurveyNavigator) {}
 
 	/**
 	 * Initializes the instance state manager for the passed question
@@ -51,12 +50,12 @@ export class QuestionInstanceState {
 			isValid: false,
 			questionValidationState: {
 				errorMessages: [],
-				validationState: ValidationState.Untouched
+				validationState: ValidationState.Untouched,
 			},
 			surveyLogicValidationState: {
 				errorMessages: [],
-				validationState: ValidationState.Untouched
-			}
+				validationState: ValidationState.Untouched,
+			},
 		});
 
 		// load the saved response
@@ -89,41 +88,34 @@ export class QuestionInstanceState {
 	 * @param result
 	 */
 	private onResponseSaved = (result: SurveyViewerValidationStateViewModel): void => {
-		console.log(result);
-
 		this.validationState$.next(result);
 		this._navigator.responseChanged();
 		this.onValidationStateChanged(result);
-		console.log('response saved');
 	};
 
 	/**
 	 * @private
 	 */
-	private onValidationStateChanged = (state: SurveyViewerValidationStateViewModel | ResponseValidationState): void => {
-
-		console.log(state);
+	private onValidationStateChanged = (
+		state: SurveyViewerValidationStateViewModel | ResponseValidationState
+	): void => {
 		if (state.hasOwnProperty('isValid')) {
-			console.log('in here ');
-			console.log(state);
 			this._navigator.updateQuestionValidationState(this, state as SurveyViewerValidationStateViewModel);
-		}
-		else {
+		} else {
 			let responseState = state as ResponseValidationState;
 			if (responseState === ResponseValidationState.VALID) {
 				this._navigator.updateQuestionValidationState(this, {
 					isValid: true,
 					questionValidationState: {
 						errorMessages: [],
-						validationState: ValidationState.Valid
+						validationState: ValidationState.Valid,
 					},
 					surveyLogicValidationState: {
 						errorMessages: [],
-						validationState: ValidationState.Valid
-					}
+						validationState: ValidationState.Valid,
+					},
 				});
 			}
 		}
-		console.log('validation state changed');
 	};
 }

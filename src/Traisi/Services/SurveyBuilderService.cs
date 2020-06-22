@@ -1033,7 +1033,7 @@ namespace Traisi.Services
             oldLogic.ValidationQuestionId = newLogic.ValidationQuestionId;
             oldLogic.Value = newLogic.Value;
             oldLogic.ParentId = newLogic.ParentId;
-            oldLogic.RootId = newLogic.RootId;
+            oldLogic.RootId = rootId;
             oldLogic.Expressions.RemoveAll(x => newLogic.Expressions.All(y => y.Id != x.Id));
             var newItems = newLogic.Expressions.Where(x => oldLogic.Expressions.All(y => y.Id != x.Id)).ToList();
             foreach (var newItem in newItems)

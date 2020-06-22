@@ -178,7 +178,6 @@ export class SurveyNavigator {
 		});
 	}
 
-
 	/**
 	 * Increments the current navigation state
 	 * @param currentState
@@ -188,7 +187,8 @@ export class SurveyNavigator {
 
 		// get active question
 		if (
-			!newState.activeQuestionInstances[0]?.component?.navigateInternalNext()
+			!newState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
+			newState.activeQuestionInstances.length > 0
 		) {
 			// ignore
 		} else if (
@@ -196,12 +196,10 @@ export class SurveyNavigator {
 			newState.activeRespondentIndex < this._state.viewerState.groupMembers.length - 1
 		) {
 			newState.activeRespondentIndex++;
-		}
-		else {
+		} else {
 			newState.activeQuestionIndex += 1;
 			newState.activeRespondentIndex = 0;
 		}
-
 
 		if (this._isOutsideSurveyBounds(newState)) {
 			this._surveyCompleted$.complete();
@@ -271,27 +269,23 @@ export class SurveyNavigator {
 
 						navigationState.activeSection =
 							this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection ===
-								undefined
+							undefined
 								? undefined
 								: this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection;
 						navigationState.activeRespondent = this._state.viewerState.groupMembers[
 							navigationState.activeRespondentIndex
-
-
 						];
 						for (let question of navigationState.activeQuestionInstances) {
 							question.validationState = {
 								isValid: false,
 								questionValidationState: {
 									validationState: ValidationState.Untouched,
-									errorMessages: []
+									errorMessages: [],
 								},
 								surveyLogicValidationState: {
 									validationState: ValidationState.Untouched,
-									errorMessages: []
-								}
-
-
+									errorMessages: [],
+								},
 							};
 						}
 					}
@@ -323,7 +317,6 @@ export class SurveyNavigator {
 				this._state.viewerState.groupMembers = [].concat(members);
 			}
 		}); */
-		console.log(navigationState);
 		let questions: SurveyViewQuestion[] = [];
 		questions = questions.concat(this._state.viewerState.questionBlocks[navigationState.activeQuestionIndex]);
 		this._state.viewerState.activeRespondent = this._state.viewerState.groupMembers[
@@ -372,20 +365,19 @@ export class SurveyNavigator {
 										isValid: false,
 										questionValidationState: {
 											validationState: ValidationState.Untouched,
-											errorMessages: []
+											errorMessages: [],
 										},
 										surveyLogicValidationState: {
 											validationState: ValidationState.Untouched,
-											errorMessages: []
-										}
-
-
+											errorMessages: [],
+										},
 									},
 								};
 
 								questionInstances.push(questionInstance);
 							}
 						}
+						console.log(questionInstances);
 						obs.next(questionInstances);
 						obs.complete();
 					}
@@ -400,14 +392,13 @@ export class SurveyNavigator {
 		if (this.navigationState$.getValue().activeQuestionInstances.length === 0) {
 			return false;
 		}
-		console.log(this.navigationState$.getValue().activeQuestionInstances);
 		for (let instance of this.navigationState$.getValue().activeQuestionInstances) {
 			if (!instance.validationState.isValid && !instance.model.isOptional) {
-				console.log('all valid here');
 				allValid = false;
 				break;
 			}
 		}
+
 		return allValid;
 	}
 
@@ -424,22 +415,22 @@ export class SurveyNavigator {
 			.activeQuestionInstances.find((i) => i.component === instanceState.questionInstance);
 		if (match) {
 			match.validationState = result;
+			this.validationChanged();
+		} else {
 		}
-		this.validationChanged();
-
 	}
 
 	/**
 	 *
 	 */
 	public responseChanged(): void {
-		this._initState(this.navigationState$.getValue())
+		/*this._initState(this.navigationState$.getValue())
 			.pipe(
 				share(),
 				tap({
 					next: () => setTimeout(() => this.nextEnabled$.next(this._checkValidation())),
 				})
 			)
-			.subscribe();
+			.subscribe(); */
 	}
 }

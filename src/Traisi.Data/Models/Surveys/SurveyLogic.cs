@@ -33,6 +33,7 @@ namespace Traisi.Data.Models.Surveys
         public int? ParentId { get; set; }
         public SurveyLogic Parent { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("Root")]
         public int? RootId { get; set; }
         public SurveyLogic Root { get; set; }
