@@ -11,7 +11,7 @@ namespace Traisi.Sdk.Questions
     public class ContactInformationQuestion : ISurveyQuestion
     {
         [QuestionConfiguration(ConfigurationValueType.Boolean,
-        DisplayName = "Collect E-mail",
+        DisplayName = "Collect Email",
         SurveyBuilderValueType = QuestionBuilderType.Switch,
         Description = "Allow the collecction of the respondent e-mail address.",
         DefaultValue = true)]
@@ -25,7 +25,7 @@ namespace Traisi.Sdk.Questions
         public bool AllowCollectName = true;
 
         [QuestionConfiguration(ConfigurationValueType.Boolean,
-        DisplayName = "Collect phone number",
+        DisplayName = "Collect Phone Number",
         SurveyBuilderValueType = QuestionBuilderType.Switch,
         Description = "Allow the collecction of the respondent phone number.",
         DefaultValue = true)]
