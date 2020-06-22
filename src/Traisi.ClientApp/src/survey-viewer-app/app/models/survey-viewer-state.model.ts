@@ -2,8 +2,6 @@ import { SurveyViewQuestion } from './survey-view-question.model';
 import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
-import { ResponseValidationState } from 'traisi-question-sdk';
-import { QuestionContainerComponent } from 'app/components/question-container/question-container.component';
 
 export interface SurveyViewerState {
 	// list of survey pages
@@ -80,6 +78,8 @@ export interface SurveyViewerState {
 	questionNavIndex: number;
 
 	isNavFinished: boolean;
+
+	questionBlocks: Array<Array<SurveyViewQuestion>>;
 
 	questionTree: Array<Array<SurveyViewQuestion>>;
 }
