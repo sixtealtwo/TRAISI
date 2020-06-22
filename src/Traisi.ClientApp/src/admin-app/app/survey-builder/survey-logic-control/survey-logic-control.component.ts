@@ -220,7 +220,18 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 					value: question.questionPart.id + '.value',
 					questionId: -1,
 				};
-			} else if (
+			} 
+			else if (responseType == QuestionResponseType.Location) {
+				this.config.fields[question.questionPart.id + '.response'] = {
+					entity: entityTypeMap[0].value,
+					name: question.questionPart.name,
+					type: 'response',
+					value: question.questionPart.id + '.response',
+					operators: ['='],
+					questionId: -1,
+				};
+			}
+			else if (
 				responseType == QuestionResponseType.OptionSelect ||
 				responseType == QuestionResponseType.OptionList
 			) {
