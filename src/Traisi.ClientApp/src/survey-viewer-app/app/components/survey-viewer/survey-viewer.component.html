@@ -1,3 +1,165 @@
+<!-- Fixed navbar -->
+
+<header>
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs">
+		</ndc-dynamic>
+	</nav>
+</header>
+<div class="container-fluid">
+	<div class="row">
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			<div class="sidebar-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link active" href="#">
+							<span data-feather="home"></span>
+							Dashboard <span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span data-feather="file"></span>
+							Orders
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span data-feather="shopping-cart"></span>
+							Products
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span data-feather="users"></span>
+							Customers
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span data-feather="bar-chart-2"></span>
+							Reports
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span data-feather="layers"></span>
+							Integrations
+						</a>
+					</li>
+				</ul>
+
+				<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+					<span>Saved reports</span>
+					<a class="d-flex align-items-center text-muted" href="#">
+						<span data-feather="plus-circle"></span>
+					</a>
+				</h6>
+				<ul class="nav flex-column mb-2">
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span data-feather="file-text"></span>
+							Current month
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span data-feather="file-text"></span>
+							Last quarter
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span data-feather="file-text"></span>
+							Social engagement
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span data-feather="file-text"></span>
+							Year-end sale
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- Begin page content -->
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 container" #surveyBodyContainer>
+			<div *ngIf="navigator.navigationState$ | async as state">
+				<div class="survey-section-header h5" *ngIf="state.activeSectionId >= 0"
+					[style.background-color]="viewerTheme.sectionBackgroundColour" [style.color]="sectionTitleColour"
+					[class.household-tabs]="state.activeSectionId >= 0 && state.activeSection.isHousehold"
+					[ngClass]="{ visible: viewerState.isSectionActive }"
+					[innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml">
+					<span class="repeat-header" *ngIf="state.activeSection.isRepeat">
+						- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}
+					</span>
+				</div>
+
+				<div class="questions-container flex-grow-1" #questionsContainer>
+					<div class="question-section" #questionSection>
+						<ng-container
+							*ngFor="let question of state.activeQuestionInstances; trackBy: trackById.bind(this); let i = index">
+							<traisi-question-container class="d-flex flex-column card card-fluid" [surveyViewer]="ref"
+								[activeQuestionIndex]="i" [questionInstance]="question"
+								[respondent]="viewerState.groupMembers[state.activeRespondentIndex]"
+								[question]="question.model" [attr.data-questionid]="question.model.questionId"
+								[attr.data-question-name]="question.model.name"
+								[attr.data-multiview]="state.isMultiView" [surveyViewQuestion]="question.model"
+								[surveyId]="surveyId" [repeatNumber]="0" [sectionRepeatNumber]="0"
+								[questionTypeMap]="questionTypeMap" [questionSectionElement]="questionSectionElement"
+								[questionNameMap]="questionNameMap" #questions>
+							</traisi-question-container>
+						</ng-container>
+					</div>
+				</div>
+
+				<div id="question-viewer-nav" class="text-center viewer-nav"
+					[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold">
+					<div class="row justify-content-center btn-group align-center">
+						<button [ngClass]="navButtonClass" (click)="navigatePrevious()"
+							[disabled]="!(navigator.previousEnabled$ | async)"
+							class="btn btn-secondary pl-4 pr-4 survey-nav-button" type="button">
+							<i class="fas fa-arrow-alt-circle-left mr-1"></i>
+							{{ 'Viewer.Previous' | translate }}
+						</button>
+
+						<button *ngIf="!viewerState.isNavComplete && !viewerState.isNavFinished"
+							[ngClass]="navButtonClass" (click)="navigateNext()"
+							[disabled]="!(navigator.nextEnabled$ | async)"
+							class="btn btn-primary pl-4 pr-4 survey-nav-button" type="button">
+
+							<div *ngIf="!viewerState.isNavComplete">
+								{{ 'Viewer.Next' | translate }}
+								<i class="fas fa-arrow-alt-circle-right ml-1"></i>
+
+								<span *ngIf="false">Has Error</span>
+							</div>
+						</button>
+						<button *ngIf="viewerState.isNavFinished" [ngClass]="navButtonClass"
+							[disabled]="!viewerState.isNavComplete" (click)="navigateCompleteSurvey()"
+							class="btn btn-primary pl-4 pr-4 survey-nav-button" type="button">
+							<div>
+								{{ 'Viewer.CompleteSurvey' | translate }}
+								<i class="fas fa-arrow-alt-circle-right ml-1"></i>
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+<footer class="footer">
+	<div class="container">
+		<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs">
+		</ndc-dynamic>
+	</div>
+</footer>
+
+<!---
+
+
 <div class="question-viewer-outer-wrapper">
 	<div class="survey-progress-container">
 		<traisi-survey-progress></traisi-survey-progress>
@@ -132,3 +294,4 @@
 		</div>
 	</div>
 </div>
+-->

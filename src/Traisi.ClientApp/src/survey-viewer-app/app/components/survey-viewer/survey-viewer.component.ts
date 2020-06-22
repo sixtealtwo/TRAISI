@@ -236,7 +236,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			.subscribe((pages: SurveyViewPage[]) => {
 				console.log(pages);
 				pages.forEach((page) => {
-					this.headerDisplay.completedPages.push(false);
+					// this.headerDisplay.completedPages.push(false);
 				});
 				this.loadQuestions(pages);
 			});
