@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using Traisi.Helpers.Interfaces;
 
@@ -63,7 +64,7 @@ namespace Traisi.Helpers
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
         /// <returns></returns>
-        public async Task<string> ReverseGeocodeAsync(double latitude, double longitude)
+        public async Task<JObject> ReverseGeocodeAsync(double latitude, double longitude)
         {
             var request = new RestRequest(Method.GET);
             request.AddParameter("latt", latitude);
@@ -72,13 +73,8 @@ namespace Traisi.Helpers
             request.AddParameter("reverse", 1);
             request.AddParameter("auth", this._apiKey);
             var response = await this._geocodeClient.ExecuteAsync(request);
-
             var content = Newtonsoft.Json.Linq.JObject.Parse(response.Content);
-
-            var address = $"{content["stnumber"]} {content["staddress"]}, " +
-             $"{content["city"]} {content["prov"]}, {content["postal"]}";
-
-            return address;
+            return content;
         }
 
     }

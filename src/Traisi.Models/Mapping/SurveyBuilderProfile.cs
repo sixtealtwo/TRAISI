@@ -51,6 +51,7 @@ namespace Traisi.Models.Mapping
              .AfterMap((logic, view, ctx) =>
             {
                 view.Field = logic.QuestionId + "." + logic.LogicType.ToString().ToLower();
+                view.Entity = logic.LogicType.ToString().ToLower();
             })
             .IncludeAllDerived();
 

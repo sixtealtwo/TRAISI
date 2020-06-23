@@ -46,10 +46,11 @@
 						bindLabel="questionPart.name"
 						[multiple]="false"
 						[searchable]="true"
+						[(ngModel)]="rule.value"
 						class="option-select"
 						placeholder="Select ..."
 						bindValue="questionPart.id"
-						(change)="onEntityTypeChanged($event)"
+						(change)="onResponseTypeValueChanged($event, i, rule)"
 					></ng-select>
 				</div>
 			</ng-container>

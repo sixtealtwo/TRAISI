@@ -78,10 +78,16 @@ namespace Traisi.Services
         /// <param name="ids"></param>
         private void GetResponseValueIdsForLogicTree(SurveyLogic logicTree, List<int> ids)
         {
-
             if (logicTree.QuestionId > 0)
             {
                 ids.Add(logicTree.QuestionId.Value);
+            }
+            if (logicTree.LogicType == SurveyLogicType.Response)
+            {
+                if (int.TryParse(logicTree.Value, out var result))
+                {
+                    ids.Add(result);
+                }
             }
             foreach (var child in logicTree.Expressions)
             {
@@ -90,12 +96,18 @@ namespace Traisi.Services
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logicGroup"></param>
+        /// <param name="responses"></param>
+        /// <returns></returns>
         private bool EvaluateExpressionTree(SurveyLogic logicGroup, List<SurveyResponse> responses)
         {
             var expressionResult = logicGroup.Expressions.Where(x => x.QuestionId > 0).All(x =>
             {
                 var response = responses.Where(r => r.QuestionPart.Id == x.QuestionId).FirstOrDefault();
-                return EvaluateExpression(response, x);
+                return EvaluateExpression(response, x, responses);
             });
             var childResults = logicGroup.Expressions.Where(x => x.Operator != null).All(
                 x => EvaluateExpressionTree(x, responses)
@@ -104,7 +116,14 @@ namespace Traisi.Services
 
         }
 
-        private bool EvaluateExpression(SurveyResponse response, SurveyLogic compareValue)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="compareValue"></param>
+        /// <param name="responses"></param>
+        /// <returns></returns>
+        private bool EvaluateExpression(SurveyResponse response, SurveyLogic compareValue, List<SurveyResponse> responses)
         {
             // get definition
             var questionDefinition = _questionManager.QuestionTypeDefinitions[response.QuestionPart.QuestionType];
@@ -117,11 +136,37 @@ namespace Traisi.Services
                     return true;
                 case QuestionResponseType.OptionSelect:
                     return EvaluateOptionSelect(response, compareValue);
+                case QuestionResponseType.Location:
+                    return EvaluateLocation(response, compareValue, responses);
                 default:
                     return true;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="logic"></param>
+        /// <param name="responses"></param>
+        /// <returns></returns>
+        private bool EvaluateLocation(SurveyResponse response, SurveyLogic logic, List<SurveyResponse> responses)
+        {
+            if (logic.LogicType == SurveyLogicType.Response)
+            {
+                var compareResponse = responses.Find(r => r.QuestionPart.Id == int.Parse(logic.Value));
+                if((compareResponse.ResponseValues[0]as LocationResponse).Location == 
+                (compareResponse.ResponseValues[0] as LocationResponse).Location) {
+                    
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
         private bool EvaluateOptionSelect(SurveyResponse response, SurveyLogic logic)
         {

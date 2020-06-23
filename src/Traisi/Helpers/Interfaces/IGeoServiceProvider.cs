@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Traisi.Helpers.Interfaces
 {
@@ -14,7 +15,7 @@ namespace Traisi.Helpers.Interfaces
 		/// <param name="latitude"></param>
 		/// <param name="longitude"></param>
 		/// <returns></returns>
-		Task<string> ReverseGeocodeAsync(double latitude, double longitude);
+		Task<JObject> ReverseGeocodeAsync(double latitude, double longitude);
 
 		/// <summary>
 		/// 

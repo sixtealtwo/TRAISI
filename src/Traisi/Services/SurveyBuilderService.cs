@@ -1034,6 +1034,7 @@ namespace Traisi.Services
             oldLogic.Value = newLogic.Value;
             oldLogic.ParentId = newLogic.ParentId;
             oldLogic.RootId = rootId;
+            oldLogic.LogicType = newLogic.LogicType;
             oldLogic.Expressions.RemoveAll(x => newLogic.Expressions.All(y => y.Id != x.Id));
             var newItems = newLogic.Expressions.Where(x => oldLogic.Expressions.All(y => y.Id != x.Id)).ToList();
             foreach (var newItem in newItems)

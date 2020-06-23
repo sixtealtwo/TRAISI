@@ -1,10 +1,5 @@
 import { OnInit, Component, OnDestroy, ViewChild, ViewEncapsulation, ViewChildren, QueryList } from '@angular/core';
-import {
-	QueryBuilderClassNames,
-	QueryBuilderComponent,
-	Rule,
-	Entity,
-} from 'angular2-query-builder';
+import { QueryBuilderClassNames, QueryBuilderComponent, Rule, Entity } from 'angular2-query-builder';
 import { classNames, entityMap, entityTypes as entityTypeMap, SurveyLogicQueryEntityType } from './query-config';
 import { SurveyBuilderEditorData } from '../services/survey-builder-editor-data.service';
 import { QuestionPartView } from '../models/question-part-view.model';
@@ -64,8 +59,8 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * 
-	 * @param id 
+	 *
+	 * @param id
 	 */
 	public options(id: string): Observable<QuestionOptionValueViewModel[]> {
 		return this.optionsMap.get(id.split('.')[0]);
@@ -95,6 +90,12 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		rule.field = '' + $event;
 		console.log(rule);
 		console.log($event);
+	}
+
+	public onResponseTypeValueChanged($event, index: number, rule: Rule): void {
+		rule.value = $event.questionPart?.id;
+		this.modelChanged$.next(this.queryModels[index]);
+		console.log(this.queryModels);
 	}
 
 	public onEntityTypeChanged($event: Entity) {
@@ -130,7 +131,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		this.questionList$ = this._editor.questionListChanged.pipe(
 			distinctUntilChanged(),
 			tap((v) => {
-				console.log(v);
+				// console.log(v);
 			})
 		);
 		this._editor.questionListChanged.subscribe((questionList) => {
@@ -217,18 +218,16 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 					value: question.questionPart.id + '.value',
 					questionId: -1,
 				};
-			} 
-			else if (responseType == QuestionResponseType.Location) {
+			} else if (responseType == QuestionResponseType.Location) {
 				this.config.fields[question.questionPart.id + '.response'] = {
 					entity: entityTypeMap[0].value,
 					name: question.questionPart.name,
 					type: 'response',
 					value: question.questionPart.id + '.response',
-					operators: ['='],
+					operators: ['!=','='],
 					questionId: -1,
 				};
-			}
-			else if (
+			} else if (
 				responseType == QuestionResponseType.OptionSelect ||
 				responseType == QuestionResponseType.OptionList
 			) {
