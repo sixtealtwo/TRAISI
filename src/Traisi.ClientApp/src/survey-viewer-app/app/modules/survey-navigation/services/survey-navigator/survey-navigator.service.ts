@@ -148,9 +148,9 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 * 
-	 * @param page 
-	 * @param section 
+	 *
+	 * @param page
+	 * @param section
 	 */
 	public navigateToSection(page: SurveyViewPage, section: SurveyViewSection): Observable<NavigationState> {
 		let blockIndex: number = findIndex(this._state.viewerState.questionBlocks, (block: SurveyViewQuestion[]) => {
@@ -361,18 +361,6 @@ export class SurveyNavigator {
 		navigationState: NavigationState,
 		evaluateConditions: boolean = true
 	): Observable<QuestionInstance[]> {
-		/* let activeQuestion = this._state.viewerState.surveyQuestions[navigationState.activeQuestionIndex];
-		
-		if (activeQuestion.parentPage !== undefined) {
-			questions.push(activeQuestion);
-		} else {
-			questions = questions.concat(activeQuestion.parentSection.questions);
-		}
-		this._respondentService.getSurveyGroupMembers(navigationState.activeRespondent).subscribe((members) => {
-			if (members.length > 0) {
-				this._state.viewerState.groupMembers = [].concat(members);
-			}
-		}); */
 		let questions: SurveyViewQuestion[] = [];
 		questions = questions.concat(this._state.viewerState.questionBlocks[navigationState.activeQuestionIndex]);
 		this._state.viewerState.activeRespondent = this._state.viewerState.groupMembers[
@@ -405,15 +393,17 @@ export class SurveyNavigator {
 							} else {
 								result.question.inSectionIndex = order++;
 							}
+
+							let instanceId = this.getQuestionInstanceId(result.question);
 							let prevIdx = findIndex(this.navigationState$.value.activeQuestionInstances, (instance) => {
-								return instance.id === result.question.id;
+								return instance.id === instanceId;
 							});
 
 							if (prevIdx >= 0) {
 								questionInstances.push(this.navigationState$.value.activeQuestionInstances[prevIdx]);
 							} else {
 								let questionInstance: QuestionInstance = {
-									id: result.question.id,
+									id: instanceId,
 									index: navigationState.activeQuestionIndex,
 									model: result.question,
 									component: null,
@@ -444,14 +434,30 @@ export class SurveyNavigator {
 
 	/**
 	 *
+	 * @param question
+	 * @param repeat
+	 */
+	private getQuestionInstanceId(question: SurveyViewQuestion, repeat: number = 0): string {
+		return `${question.id}_${repeat}`;
+	}
+
+	/**
+	 *
+	 */
+	private get _currentState(): NavigationState {
+		return this.navigationState$.getValue();
+	}
+
+	/**
+	 *
 	 */
 	private _checkValidation(): boolean {
 		let allValid: boolean = true;
 
-		if (this.navigationState$.getValue().activeQuestionInstances.length === 0) {
+		if (this._currentState.activeQuestionInstances.length === 0) {
 			return false;
 		}
-		for (let instance of this.navigationState$.getValue().activeQuestionInstances) {
+		for (let instance of this._currentState.activeQuestionInstances) {
 			if (!instance.validationState.isValid && !instance.model.isOptional) {
 				allValid = false;
 				break;
@@ -460,12 +466,15 @@ export class SurveyNavigator {
 		return allValid;
 	}
 
+	/**
+	 *
+	 */
 	public validationChanged(): void {
 		this.nextEnabled$.next(this._checkValidation());
 	}
 
 	/**
-	 *
+	 * Updates the validation state in the navigation manager
 	 * @param instanceState
 	 * @param result
 	 */
@@ -473,13 +482,12 @@ export class SurveyNavigator {
 		instanceState: QuestionInstanceState,
 		result: SurveyViewerValidationStateViewModel
 	): void {
-		let match = this.navigationState$
-			.getValue()
-			.activeQuestionInstances.find((i) => i.component === instanceState.questionInstance);
+		let match = this._currentState.activeQuestionInstances.find(
+			(i) => i.id === this.getQuestionInstanceId(instanceState.guestionModel)
+		);
 		if (match) {
 			match.validationState = result;
 			this.validationChanged();
-		} else {
 		}
 	}
 

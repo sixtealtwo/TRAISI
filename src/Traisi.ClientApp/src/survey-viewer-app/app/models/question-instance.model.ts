@@ -11,7 +11,7 @@ import { QuestionInstanceState } from 'app/services/question-instance.service';
  * @interface QuestionInstance
  */
 export interface QuestionInstance {
-	id: number;
+	id: string;
 
 	index: number;
 
