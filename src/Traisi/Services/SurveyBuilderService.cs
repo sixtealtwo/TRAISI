@@ -1054,6 +1054,11 @@ namespace Traisi.Services
             return;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="question"></param>
+        /// <param name="conditionals"></param>
         public void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals)
         {
             List<QuestionOptionConditional> newSource = new List<QuestionOptionConditional>();

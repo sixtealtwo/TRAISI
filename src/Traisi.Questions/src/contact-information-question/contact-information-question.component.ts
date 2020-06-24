@@ -41,6 +41,7 @@ export class ContactInformationQuestionComponent extends SurveyQuestion<Response
 			if (this.contactForm.status === 'VALID') {
 				this.validationState.emit(ResponseValidationState.VALID);
 			} else {
+				console.log('invalid');
 				this.validationState.emit(ResponseValidationState.INVALID);
 			}
 		});

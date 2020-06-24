@@ -108,8 +108,6 @@ export class SurveyNavigator {
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
 			this._checkValidation();
-			console.log('nav done');
-			console.log(state);
 		});
 		return nav;
 	}
@@ -480,12 +478,14 @@ export class SurveyNavigator {
 		instanceState: QuestionInstanceState,
 		result: SurveyViewerValidationStateViewModel
 	): void {
+		let findId = this.getQuestionInstanceId(instanceState.guestionModel);
 		let match = this._currentState.activeQuestionInstances.find(
 			(i) => i.id === this.getQuestionInstanceId(instanceState.guestionModel)
 		);
 		if (match) {
 			match.validationState = result;
 			this.validationChanged();
+		} else {
 		}
 	}
 
@@ -493,6 +493,7 @@ export class SurveyNavigator {
 	 *
 	 */
 	public responseChanged(): void {
-		this._initState(this.navigationState$.getValue()).subscribe();
+		// this._validationChanged
+		// this._initState(this.navigationState$.getValue()).subscribe();
 	}
 }

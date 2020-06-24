@@ -1,12 +1,27 @@
 @import '../../../../shared/assets/scss/traisi-import.scss';
 
+:host {
+	background-color: white;
+	padding: 20px;
+	padding-top: 25px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 14px 35px -17px rgba(0,0,0,0.4);
+	-moz-box-shadow: 0px 14px 35px -17px rgba(0,0,0,0.4);
+	box-shadow: 0px 14px 35px -17px rgba(0,0,0,0.4);
+	margin-bottom: 40px;
+}
+
+:host.invalid {
+	border-left: solid 3px #ffadad;
+}
+
 .question-header {
 	display: block;
 	/*
   display:flex;
   align-content: center;
   align-items: center;
-  flex-direction: row; */ 
+  flex-direction: row; */
 }
 
 .tile-number {

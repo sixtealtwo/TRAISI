@@ -127,6 +127,18 @@ export class QuestionInstanceState {
 						validationState: ValidationState.Valid,
 					},
 				});
+			} else if (responseState === ResponseValidationState.INVALID) {
+				this._navigator.updateQuestionValidationState(this, {
+					isValid: false,
+					questionValidationState: {
+						errorMessages: [],
+						validationState: ValidationState.Invalid,
+					},
+					surveyLogicValidationState: {
+						errorMessages: [],
+						validationState: ValidationState.Invalid,
+					},
+				});
 			}
 		}
 	};

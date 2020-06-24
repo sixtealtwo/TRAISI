@@ -5,6 +5,9 @@ traisi-survey-header-display {
 	position: relative;
 }
 
+main{ 
+	background-color: #e2e6ef;
+}
 .questions-outer-container {
 	display: flex;
 	flex-flow: column;
@@ -239,7 +242,7 @@ traisi-survey-header-display {
 
 #question-viewer-nav {
 	font-size: 18px;
-	background: white;
+	background: #e2e6ef;
 
 	@include media-breakpoint-up(md) {
 		padding: 10px;

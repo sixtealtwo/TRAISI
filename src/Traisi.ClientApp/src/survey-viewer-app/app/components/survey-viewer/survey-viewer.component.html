@@ -117,6 +117,7 @@
 							<traisi-question-container
 								class="d-flex flex-column"
 								[surveyViewer]="ref"
+								[ngClass]="{'invalid': !question.validationState?.isValid}"
 								[activeQuestionIndex]="i"
 								[questionInstance]="question"
 								[respondent]="viewerState.groupMembers[state.activeRespondentIndex]"

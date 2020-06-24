@@ -47,13 +47,11 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	}
 
 	public ngOnInit(): void {
-		console.log(this._respondentService);
 		let respondent = this._respondentService['_primaryRespondent'];
-		console.log(respondent);
 		this._respondentService.getSurveyGroupMembers(respondent).subscribe((value) => {
 			const arr = <Array<SurveyRespondent>>value;
 
-			if (arr.length >= 1) {
+			if (arr.length >= 2) {
 				this.validationState.emit(ResponseValidationState.VALID);
 				this.primaryRespondent = {
 					respondent: arr[0],
@@ -143,7 +141,9 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		respondent.isSaved = false;
 	}
 
-	public primaryModelChanged(): void {}
+	public primaryModelChanged(): void {
+		// if(this.primaryRespondent.respondent.name === '' || this.pr
+	}
 
 	/**
 	 * Primarys blur
@@ -153,14 +153,14 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			this._respondentService.updateSurveyGroupMember(this.primaryRespondent.respondent).subscribe(
 				(value) => {
 					this.primaryRespondent.isSaved = true;
-					// this.validationState.emit(ResponseValidationState.VALID);
+					this.validationState.emit(ResponseValidationState.VALID);
 				},
 				(error) => {
 					console.error(error);
 				}
 			);
 		} else {
-			// this.validationState.emit(ResponseValidationState.INVALID);
+			this.validationState.emit(ResponseValidationState.INVALID);
 		}
 	}
 

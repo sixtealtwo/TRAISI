@@ -521,8 +521,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	 */
 	public allowConditionals(): boolean {
 		if (
-			this.questionType.typeName === 'Survey Part' ||
-			this.questionType.responseType === QuestionResponseType.None
+			this.questionType.typeName === 'Survey Part'
 		) {
 			return false;
 		} else if (
