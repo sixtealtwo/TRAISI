@@ -230,6 +230,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 				longitude: lngLat.lng,
 				address: saveAddress,
 			};
+			console.log('saving: ');
+			console.log(data);
 			this.saveResponse(data);
 			this.validationState.emit(ResponseValidationState.VALID);
 			this.surveyViewerService.updateNavigationState(true);

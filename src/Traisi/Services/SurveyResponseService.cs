@@ -388,7 +388,7 @@ namespace Traisi.Services
                 response.ResponseValues.Add(new LocationResponse());
             }
             (response.ResponseValues[0] as LocationResponse).Location = new Point(responseData.Longitude, responseData.Latitude);
-            (response.ResponseValues[0] as LocationResponse).Address = responseData.Address;
+            (response.ResponseValues[0] as LocationResponse).Address = responseData.Address.ToString();
             return;
 
         }
