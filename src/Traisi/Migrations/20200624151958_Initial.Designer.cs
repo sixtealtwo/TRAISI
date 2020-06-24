@@ -11,7 +11,7 @@ using Traisi.Data;
 namespace Traisi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200622003736_Initial")]
+    [Migration("20200624151958_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1408,7 +1408,7 @@ namespace Traisi.Migrations
                     b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
                     b.Property<string>("Address")
-                        .HasColumnType("text");
+                        .HasColumnType("jsonb");
 
                     b.Property<Point>("Location")
                         .HasColumnType("geography");

@@ -1010,7 +1010,7 @@ namespace Traisi.Migrations
                     Value = table.Column<DateTimeOffset>(nullable: true),
                     JsonResponse_Value = table.Column<string>(type: "jsonb", nullable: true),
                     Location = table.Column<Point>(type: "geography", nullable: true),
-                    Address = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(type: "jsonb", nullable: true),
                     Purpose = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     TimeA = table.Column<DateTimeOffset>(nullable: true),

@@ -1033,7 +1033,9 @@ namespace Traisi.Services
             oldLogic.ValidationQuestionId = newLogic.ValidationQuestionId;
             oldLogic.Value = newLogic.Value;
             oldLogic.ParentId = newLogic.ParentId;
-            oldLogic.RootId = rootId;
+            if(oldLogic.Id != rootId) {
+                oldLogic.RootId = rootId;
+            }
             oldLogic.LogicType = newLogic.LogicType;
             oldLogic.Expressions.RemoveAll(x => newLogic.Expressions.All(y => y.Id != x.Id));
             var newItems = newLogic.Expressions.Where(x => oldLogic.Expressions.All(y => y.Id != x.Id)).ToList();

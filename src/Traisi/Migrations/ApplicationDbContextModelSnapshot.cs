@@ -1369,6 +1369,8 @@ namespace Traisi.Migrations
                     b.HasIndex("PrimaryRespondentId");
 
                     b.HasIndex("ShortcodeId");
+
+                    b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("Traisi.Data.Models.TraisiUser", b =>
@@ -1384,6 +1386,8 @@ namespace Traisi.Migrations
 
                     b.Property<DateTimeOffset>("Value")
                         .HasColumnType("timestamp with time zone");
+
+                    b.HasDiscriminator().HasValue(7);
                 });
 
             modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.JsonResponse", b =>
@@ -1393,6 +1397,8 @@ namespace Traisi.Migrations
                     b.Property<string>("Value")
                         .HasColumnName("JsonResponse_Value")
                         .HasColumnType("jsonb");
+
+                    b.HasDiscriminator().HasValue(5);
                 });
 
             modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.LocationResponse", b =>
@@ -1400,10 +1406,12 @@ namespace Traisi.Migrations
                     b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
                     b.Property<string>("Address")
-                        .HasColumnType("text");
+                        .HasColumnType("jsonb");
 
                     b.Property<Point>("Location")
                         .HasColumnType("geography");
+
+                    b.HasDiscriminator().HasValue(3);
                 });
 
             modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.NumberResponse", b =>
@@ -1413,6 +1421,8 @@ namespace Traisi.Migrations
                     b.Property<double>("Value")
                         .HasColumnName("NumberResponse_Value")
                         .HasColumnType("double precision");
+
+                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.OptionSelectResponse", b =>
@@ -1425,6 +1435,8 @@ namespace Traisi.Migrations
                     b.Property<string>("Value")
                         .HasColumnName("OptionSelectResponse_Value")
                         .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue(8);
                 });
 
             modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.StringResponse", b =>
@@ -1434,6 +1446,8 @@ namespace Traisi.Migrations
                     b.Property<string>("Value")
                         .HasColumnName("StringResponse_Value")
                         .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("Traisi.Data.Models.Surveys.PrimaryRespondent", b =>
@@ -1459,6 +1473,8 @@ namespace Traisi.Migrations
                     b.HasIndex("SurveyId");
 
                     b.HasIndex("UserId");
+
+                    b.HasDiscriminator().HasValue(0);
                 });
 
             modelBuilder.Entity("Traisi.Data.Models.Surveys.SubRespondent", b =>
