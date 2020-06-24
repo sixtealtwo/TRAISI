@@ -7,6 +7,7 @@ using Geocoding.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using Traisi.Helpers.Interfaces;
 
@@ -120,6 +121,11 @@ namespace Traisi.Helpers
 		}
 
         public Task<Tuple<double, double>> GeocodeAsync(string address)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<JObject> IGeoServiceProvider.ReverseGeocodeAsync(double latitude, double longitude)
         {
             throw new NotImplementedException();
         }

@@ -329,8 +329,6 @@ export class SurveyNavigator {
 					navigationState.activeRespondent = this._state.viewerState.groupMembers[
 						navigationState.activeRespondentIndex
 					];
-
-					console.log('in init state');
 					for (let question of navigationState.activeQuestionInstances) {
 						question.validationState = {
 							isValid: false,

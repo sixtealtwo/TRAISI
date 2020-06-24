@@ -10,8 +10,6 @@ namespace Traisi.Data.Models.ResponseTypes
     {
         [Column(TypeName = "geography")]
         public Point Location { get; set; }
-
-        [Column(TypeName = "jsonb")]
         public string Address { get; set; }
     }
 

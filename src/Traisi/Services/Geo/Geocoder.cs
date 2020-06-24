@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Traisi.Helpers.Interfaces;
 
 namespace Traisi.Services.Geo
@@ -12,7 +13,7 @@ namespace Traisi.Services.Geo
     {
         public Task<Dictionary<string, string>> DistanceMatrix(List<string> origins, List<string> destinations)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Task<Tuple<double, double>> GeocodeAsync(string address)
@@ -20,9 +21,9 @@ namespace Traisi.Services.Geo
             throw new NotImplementedException();
         }
 
-        public Task<string> ReverseGeocodeAsync(double latitude, double longitude)
+        public Task<JObject> ReverseGeocodeAsync(double latitude, double longitude)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

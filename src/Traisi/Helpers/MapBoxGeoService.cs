@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using Traisi.Helpers.Interfaces;
 
@@ -44,17 +45,9 @@ namespace Traisi.Helpers
 			throw new System.NotImplementedException();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="latitude"></param>
-		/// <param name="longitude"></param>
-		/// <returns></returns>
-		Task<string> IGeoServiceProvider.ReverseGeocodeAsync(double latitude, double longitude)
-		{
-			throw new System.NotImplementedException();
-		}
-
-
-	}
+        Task<JObject> IGeoServiceProvider.ReverseGeocodeAsync(double latitude, double longitude)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
