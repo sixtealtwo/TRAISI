@@ -51,24 +51,23 @@ namespace Traisi.Services
 
                 // add upate to date response
                 responses.Add(response);
-                var result = EvaluateExpressionTree(uniqueRoots[0], responses);
-
-                if (result)
+                foreach (var u in uniqueRoots)
                 {
-                    var logicError = new SurveyValidationError()
+                    var result = EvaluateExpressionTree(u, responses);
+
+                    if (result)
                     {
-                        RelatedQuestions = questionIds,
-                        ValidationState = ValidationState.Invalid,
-                        Messages = uniqueRoots[0].ValidationMessages,
-
-                    };
-
-                    results.Add(logicError);
+                        var logicError = new SurveyValidationError()
+                        {
+                            RelatedQuestions = questionIds,
+                            ValidationState = ValidationState.Invalid,
+                            Messages = u.ValidationMessages,
+                        };
+                        results.Add(logicError);
+                    }
                 }
-
             }
             return results;
-
         }
 
         /// <summary>
