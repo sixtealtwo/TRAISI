@@ -104,9 +104,9 @@ export class QuestionInstanceState {
 			result.clientValidationState = ResponseValidationState.VALID;
 		}
 		this.validationState$.next(result);
-		this._navigator.responseChanged();
 		this.onValidationStateChanged(result);
 		this._questionInstance.onResponseSaved();
+		this._navigator.responseChanged();
 	};
 
 	/**

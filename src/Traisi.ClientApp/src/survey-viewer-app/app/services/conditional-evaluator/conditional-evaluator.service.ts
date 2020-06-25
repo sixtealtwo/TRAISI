@@ -213,7 +213,6 @@ export class ConditionalEvaluator {
 				}
 			}
 		}
-
 		let valueStack = new Stack<any>();
 		let operatorStack = new Stack<QuestionCondtionalOperatorType>();
 		for (let conditional of conditionals) {
