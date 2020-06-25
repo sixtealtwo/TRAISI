@@ -22,6 +22,9 @@
 						>
 						<span [innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml"></span>
 					</span>
+					<span class="respondent-header" *ngIf="state.activeSection?.isHousehold">
+						[ {{ state.activeRespondent.name }} ]
+					</span>
 				</div>
 
 				<div class="questions-container flex-grow-1" #questionsContainer>

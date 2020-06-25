@@ -27,11 +27,11 @@ namespace Traisi.Data.Repositories
         /// <returns></returns>
         public async Task<List<SurveyLogic>> GetSurveyLogicExpressionTreeForQuestionAsync(QuestionPart question)
         {
-            var list = await this._entities.Where(x => x.Question.Id == question.Id)
-                .Include(s => s.Root).ThenInclude(s => s.Expressions).ThenInclude(s => s.Expressions)
-               .Include(s => s.Root).ThenInclude(s => s.ValidationMessages)
-               .Include(s => s.Root).ThenInclude(s => s.Expressions).ThenInclude(s => s.ValidationMessages)
-               .Include(s => s.Root).ThenInclude(s => s.Expressions).ThenInclude(s => s.Expressions).ThenInclude(s => s.Expressions)
+            var list = await this._entities.Where(x => x.ValidationQuestionId == question.Id)
+                .Include(s => s.Expressions).ThenInclude(s => s.Expressions)
+               .Include(s => s.ValidationMessages)
+               .Include(s => s.Expressions).ThenInclude(s => s.ValidationMessages)
+               .Include(s => s.Expressions).ThenInclude(s => s.Expressions).ThenInclude(s => s.Expressions)
                .Include(s => s.Expressions)
 
             .ToListAsync();

@@ -57,7 +57,6 @@ main {
 		margin: auto;
 		max-width: 1000px;
 		width: 1000px;
-		
 	}
 }
 
@@ -88,6 +87,12 @@ main {
 .content-header .survey-section-header {
 	padding: 0px;
 }
+
+.content-header .respondent-header {
+	color: blue;
+	font-weight: bold;
+}
+
 .content-header {
 	margin-bottom: 20px;
 }

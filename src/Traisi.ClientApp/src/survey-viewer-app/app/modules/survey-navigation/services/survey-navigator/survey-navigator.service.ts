@@ -257,10 +257,8 @@ export class SurveyNavigator {
 			currentState.activeSection?.isHousehold &&
 			currentState.activeRespondentIndex < this._state.viewerState.groupMembers.length - 1
 		) {
-			console.log('increasing respondent');
 			newState.activeRespondentIndex++;
 		} else {
-			console.log('incing question');
 			newState.activeQuestionIndex += 1;
 			newState.activeRespondentIndex = 0;
 		}
@@ -357,8 +355,6 @@ export class SurveyNavigator {
 						}
 					}
 				}
-				console.log(questionInstances.length); 
-
 				obs.next(navigationState);
 				obs.complete();
 			});
@@ -400,7 +396,6 @@ export class SurveyNavigator {
 							result.question.isHidden = result.shouldHide;
 
 							if (result.shouldHide) {
-								console.log('hidden'); 
 								continue;
 							} else {
 								result.question.inSectionIndex = order++;

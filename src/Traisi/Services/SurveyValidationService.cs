@@ -38,7 +38,7 @@ namespace Traisi.Services
         {
             // find the survey logic referencing this response
             var logicTree = await this._unitOfWork.SurveyLogic.GetSurveyLogicExpressionTreeForQuestionAsync(response.QuestionPart);
-            var uniqueRoots = logicTree.Select(s => s.Root).Distinct().ToList();
+            var uniqueRoots = logicTree.Select(s => s).Distinct().ToList();
             var results = new List<SurveyValidationError>();
             if (uniqueRoots.Count > 0 && uniqueRoots[0].ValidationQuestionId == response.QuestionPart.Id)
             {
@@ -126,7 +126,8 @@ namespace Traisi.Services
         private bool EvaluateExpression(SurveyResponse response, SurveyLogic compareValue, List<SurveyResponse> responses)
         {
             // return if response is not valid
-            if(response == null ){
+            if (response == null)
+            {
                 return false;
             }
             // get definition
@@ -191,17 +192,22 @@ namespace Traisi.Services
             if (logic.LogicType == SurveyLogicType.Response)
             {
                 var compareResponse = responses.Find(r => r.QuestionPart.Id == int.Parse(logic.Value));
-                if ((compareResponse.ResponseValues[0] as LocationResponse).Location ==
-                (compareResponse.ResponseValues[0] as LocationResponse).Location)
+
+                if (compareResponse != null && compareResponse.ResponseValues.Count > 0 && response.ResponseValues.Count > 0)
                 {
-                    return true;
+                    JObject compareObj = JObject.Parse((compareResponse.ResponseValues[0] as LocationResponse).Address);
+                    JObject compareObj2 = JObject.Parse((response.ResponseValues[0] as LocationResponse).Address);
+                    var addr = compareObj.Value<string>("staddress");
+                    if (compareObj.Value<string>("staddress") == compareObj2.Value<string>("staddress") && compareObj.Value<string>("stnumber") == compareObj2.Value<string>("stnumber") &&
+                    compareObj.Value<string>("postal") == compareObj2.Value<string>("postal"))
+
+                    {
+                        return true;
+                    }
+
                 }
-                return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
 
         }
 
