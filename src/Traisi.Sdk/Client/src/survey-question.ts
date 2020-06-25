@@ -137,6 +137,10 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 		return true;
 	}
 
+	public onResponseSaved(): void {
+		
+	}
+
 	/**
 	 *
 	 *

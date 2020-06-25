@@ -82,8 +82,6 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 	/** */
 	public ngOnInit(): void {
 		this.savedResponse.subscribe(this.onLoadSavedResponse);
-
-		console.log(this.questionId);
 	}
 
 	/**

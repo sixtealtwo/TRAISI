@@ -133,13 +133,45 @@ namespace Traisi.Services
                 case QuestionResponseType.String:
                     return EvaluateTextComparison(response, compareValue);
                 case QuestionResponseType.Number:
-                    return true;
+                    return EvaluateNumberComparsion(response, compareValue);
                 case QuestionResponseType.OptionSelect:
                     return EvaluateOptionSelect(response, compareValue);
                 case QuestionResponseType.Location:
                     return EvaluateLocation(response, compareValue, responses);
                 default:
-                    return true;
+                    return false;
+            }
+        }
+
+        public bool EvaluateNumberComparsion(SurveyResponse response, SurveyLogic compareValue)
+        {
+            if (compareValue.Operator == SurveyLogicOperator.Equals)
+            {
+                return (response.ResponseValues[0] as NumberResponse).Value == int.Parse(compareValue.Value);
+            }
+            else if (compareValue.Operator == SurveyLogicOperator.LessThan)
+            {
+                return (response.ResponseValues[0] as NumberResponse).Value < int.Parse(compareValue.Value);
+            }
+            else if (compareValue.Operator == SurveyLogicOperator.GreaterThan)
+            {
+                return (response.ResponseValues[0] as NumberResponse).Value > int.Parse(compareValue.Value);
+            }
+            else if (compareValue.Operator == SurveyLogicOperator.NotEquals)
+            {
+                return (response.ResponseValues[0] as NumberResponse).Value != int.Parse(compareValue.Value);
+            }
+            else if (compareValue.Operator == SurveyLogicOperator.GreaterThanEqualTo)
+            {
+                return (response.ResponseValues[0] as NumberResponse).Value >= int.Parse(compareValue.Value);
+            }
+            else if (compareValue.Operator == SurveyLogicOperator.LessThanEqualTo)
+            {
+                return (response.ResponseValues[0] as NumberResponse).Value <= int.Parse(compareValue.Value);
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -155,8 +187,9 @@ namespace Traisi.Services
             if (logic.LogicType == SurveyLogicType.Response)
             {
                 var compareResponse = responses.Find(r => r.QuestionPart.Id == int.Parse(logic.Value));
-                if((compareResponse.ResponseValues[0]as LocationResponse).Location == 
-                (compareResponse.ResponseValues[0] as LocationResponse).Location) {
+                if ((compareResponse.ResponseValues[0] as LocationResponse).Location ==
+                (compareResponse.ResponseValues[0] as LocationResponse).Location)
+                {
                     
                 }
                 return true;
@@ -199,7 +232,7 @@ namespace Traisi.Services
                 });
             }
 
-            return true;
+            return false;
         }
 
         private bool EvaluateTextComparison(SurveyResponse response, SurveyLogic compareValue)
@@ -214,7 +247,7 @@ namespace Traisi.Services
             }
             else
             {
-                return true;
+                return false;
             }
         }
 

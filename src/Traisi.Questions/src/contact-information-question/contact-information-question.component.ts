@@ -1,10 +1,17 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { ResponseData, ResponseValidationState, OptionSelectResponseData } from 'traisi-question-sdk';
+import {
+	ResponseData,
+	ResponseValidationState,
+	OptionSelectResponseData,
+	SurveyRespondent,
+	SurveyRespondentService,
+} from 'traisi-question-sdk';
 import { SurveyQuestion, ResponseTypes, QuestionConfiguration, SurveyViewer, QuestionOption } from 'traisi-question-sdk';
 
 import templateString from './contact-information-question.component.html';
 import styleString from './contact-information-question.component.scss';
 import { NgForm } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 /**
  *
  * @export
@@ -21,31 +28,43 @@ export class ContactInformationQuestionComponent extends SurveyQuestion<Response
 	@ViewChild('contactForm', { static: true })
 	public contactForm: NgForm;
 
-	public model: {
-		respondentName: string;
-		email: string;
-		phoneNumber: string;
-	} = {
+	public contactRespondent: SurveyRespondent = {
 		email: '',
-		respondentName: '',
+		id: 0,
 		phoneNumber: '',
+		name: '',
+		relationship: '',
 	};
 
+	/**
+	 *
+	 * @param _respondentService
+	 */
+	public constructor(@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService) {
+		super();
+	}
+
 	public traisiOnLoaded(): void {
-		console.log(this.configuration);
 		this.isLoaded.next(true);
 	}
 
 	public ngOnInit(): void {
-		this.contactForm.valueChanges.subscribe((v) => {
+		this.contactRespondent = Object.assign({}, this._respondentService['_primaryRespondent']);
+		this.contactForm.valueChanges.pipe(debounceTime(1000)).subscribe((v) => {
 			if (this.contactForm.status === 'VALID') {
-				this.validationState.emit(ResponseValidationState.VALID);
+				this._respondentService.updateSurveyGroupMember(this.contactRespondent).subscribe(
+					(value) => {
+						this.validationState.emit(ResponseValidationState.VALID);
+					},
+					(error) => {
+						console.error(error);
+					}
+				);
 			} else {
 				this.validationState.emit(ResponseValidationState.INVALID);
 			}
 		});
 	}
 
-	public onSubmit() {
-	}
+	public onSubmit() {}
 }

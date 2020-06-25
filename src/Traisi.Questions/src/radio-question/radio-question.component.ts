@@ -1,12 +1,4 @@
-import {
-	Component,
-	Inject,
-	OnInit,
-	ViewChildren,
-	ElementRef,
-	QueryList,
-	AfterViewInit,
-} from '@angular/core';
+import { Component, Inject, OnInit, ViewChildren, ElementRef, QueryList, AfterViewInit } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -42,9 +34,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 * @param _surveyViewerService
 	 * @param _surveyResponderService
 	 */
-	constructor(
-		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
-	) {
+	constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer) {
 		super();
 		this.options = [];
 		this.customResponseOptions = new Set<string>();
@@ -97,6 +87,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 		} else {
 			option.value = option.code;
 			this.response.emit([option]);
+			// this.validationState.emit(ResponseValidationState.VALID);
 		}
 	}
 
@@ -120,8 +111,6 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 * @memberof TextQuestionComponent
 	 */
 	public onResponseSaved(): void {
-		this.validationState.emit(ResponseValidationState.VALID);
-		this.autoAdvance.emit(500);
 	}
 
 	/**

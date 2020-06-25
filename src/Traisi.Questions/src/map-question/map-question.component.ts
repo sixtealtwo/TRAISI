@@ -230,8 +230,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 				longitude: lngLat.lng,
 				address: saveAddress,
 			};
-			console.log('saving: ');
-			console.log(data);
 			this.saveResponse(data);
 			this.validationState.emit(ResponseValidationState.VALID);
 			this.surveyViewerService.updateNavigationState(true);
@@ -246,9 +244,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param {string} address
 	 */
 	private updateAddressInput(address: string): void {
+		let addrObj = JSON.parse(address);
 		let element: HTMLInputElement = document.querySelector('.mapboxgl-ctrl-geocoder--input');
 		if (element) {
-			element.value = address;
+			element.value = `${addrObj['stnumber']} ${addrObj['staddress']}, ${addrObj['city']} ${addrObj['postal']}`;
 		}
 		// element.value = address;
 	}
@@ -290,7 +289,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.flyToPosition(event.getLngLat().toArray());
 		this.mapEndpointService.reverseGeocode(event.getLngLat().lat, event.getLngLat().lng).subscribe((result: GeoLocation) => {
 			this.locationSearch = result.address;
-			this.mapGeocoder.control._inputEl.value = result.address;
+			this.mapGeocoder.control._inputEl.value = `${result.address['stnumber']} ${result.address['staddress']}, ${result.address['city']} ${result.address['postal']}`;
 
 			let data: LocationResponseData = {
 				latitude: event.getLngLat().lat,
@@ -343,7 +342,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param mapConfig
 	 */
 	public loadConfiguration(mapConfig: any): void {
-		console.log(mapConfig);
 		this.accessToken = mapConfig.AccessToken;
 		let purpose = JSON.parse(mapConfig.purpose);
 		this.purpose = purpose.id;

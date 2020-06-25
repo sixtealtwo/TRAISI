@@ -5,7 +5,7 @@
 		<input required 
 			[disabled]="!(isLoaded | async)"
 			type="text"
-			[(ngModel)]="model.email"
+			[(ngModel)]="contactRespondent.email"
 			class="form-control form-control-lg"
 			placeholder="Enter e-mail..."
 			name="emailInput"
@@ -20,7 +20,7 @@
 		<input required 
 			[disabled]="!(isLoaded | async)"
 			type="text"
-			[(ngModel)]="model.respondentName"
+			[(ngModel)]="contactRespondent.name"
 			class="form-control form-control-lg"
 			placeholder="Enter name..."
 			name="nameInput"
@@ -35,7 +35,7 @@
 		<input required 
 			[disabled]="!(isLoaded | async)"
 			type="text"
-			[(ngModel)]="model.phoneNumber"
+			[(ngModel)]="contactRespondent.phoneNumber"
 			class="form-control form-control-lg"
 			placeholder="Enter phone number..."
 			name="phoneNumberInput"

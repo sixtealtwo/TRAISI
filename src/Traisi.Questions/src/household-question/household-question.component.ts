@@ -30,7 +30,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 
 		this.primaryRespondent = {
 			respondent: {
-				firstName: '',
+				name: '',
 				lastName: '',
 				id: -1,
 			},
@@ -48,13 +48,27 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 
 	public ngOnInit(): void {
 		let respondent = this._respondentService['_primaryRespondent'];
+		this.primaryRespondent.respondent = respondent;
 		this._respondentService.getSurveyGroupMembers(respondent).subscribe((value) => {
 			const arr = <Array<SurveyRespondent>>value;
 
-			if (arr.length >= 2) {
+			console.log(this.primaryRespondent);
+			if (
+				arr.length === 1 &&
+				this.primaryRespondent.respondent.name &&
+				this.primaryRespondent.respondent.name.length >= 2
+			) {
+				console.log(' in here');
 				this.validationState.emit(ResponseValidationState.VALID);
 				this.primaryRespondent = {
-					respondent: arr[0],
+					respondent: respondent,
+					isSaved: true,
+					isValid: true,
+				};
+			} else if (arr.length >= 2) {
+				this.validationState.emit(ResponseValidationState.VALID);
+				this.primaryRespondent = {
+					respondent: respondent,
 					isSaved: true,
 					isValid: true,
 				};
@@ -77,6 +91,8 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				name: '',
 				id: undefined,
 				relationship: null,
+				email: null,
+				phoneNumber: null,
 			},
 			isSaved: false,
 			isValid: false,

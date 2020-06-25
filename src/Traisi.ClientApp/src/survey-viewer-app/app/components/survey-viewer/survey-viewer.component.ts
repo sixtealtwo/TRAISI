@@ -34,7 +34,7 @@ import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-he
 import { Header2Component } from '../special-page-builder/header2/header2.component';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import Headroom from 'headroom.js';
-import { SurveyRespondentClient } from 'app/services/survey-viewer-api-client.service';
+import { SurveyRespondentClient, ValidationState } from 'app/services/survey-viewer-api-client.service';
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { QuestionInstance } from 'app/models/question-instance.model';
@@ -470,7 +470,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 */
 	public surveyCompleted = () => {
-		// console.log('in completed');
 		this._router.navigate([this.session.surveyCode, 'thankyou']);
 	};
 
@@ -499,7 +498,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.navigator.navigateNext().subscribe({
 			next: (v) => {},
 			complete: () => {
-				console.log('in complete');
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
 			},

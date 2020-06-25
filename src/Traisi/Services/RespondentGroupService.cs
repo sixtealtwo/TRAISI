@@ -52,29 +52,26 @@ namespace Traisi.Services
         /// <returns></returns>
         public async Task<bool> UpdateRespondent(SurveyRespondentViewModel respondentModel, ApplicationUser user)
         {
-            if (respondentModel.Id >= 0) {
+            if (respondentModel.Id >= 0)
+            {
                 var respondent = await this._unitOfWork.SurveyRespondents.GetSubRespondentAsync(respondentModel.Id);
-
-                if (respondent == null) {
+                if (respondent == null)
+                {
                     return false;
                 }
-
                 respondent.Relationship = respondentModel.Relationship;
                 respondent.Name = respondentModel.Name;
-
+                respondent.Email = respondentModel.Email;
+                respondent.PhoneNumber = respondentModel.PhoneNumber;
                 return true;
             }
-            else if (respondentModel.Id == -1) {
+            else if (respondentModel.Id == -1)
+            {
 
                 var primary = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
-
                 primary.Name = respondentModel.Name;
-
-
                 return true;
             }
-
-
             return false;
 
         }
@@ -101,14 +98,17 @@ namespace Traisi.Services
         {
             var primary = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
-            if (primary != null) {
-                if (primary.SurveyRespondentGroup == null) {
+            if (primary != null)
+            {
+                if (primary.SurveyRespondentGroup == null)
+                {
                     primary.SurveyRespondentGroup = new SurveyRespondentGroup();
 
                 }
                 return primary.SurveyRespondentGroup;
             }
-            else {
+            else
+            {
                 return null;
             }
         }

@@ -11,78 +11,6 @@
 		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 			<div class="sidebar-sticky">
 				<traisi-survey-progress></traisi-survey-progress>
-				<!--
-				<ul class="nav flex-column">
-					<li class="nav-item">
-						<a class="nav-link active" href="#">
-							<span data-feather="home"></span>
-							Dashboard <span class="sr-only">(current)</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<span data-feather="file"></span>
-							Orders
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<span data-feather="shopping-cart"></span>
-							Products
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<span data-feather="users"></span>
-							Customers
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<span data-feather="bar-chart-2"></span>
-							Reports
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<span data-feather="layers"></span>
-							Integrations
-						</a>
-					</li>
-				</ul>
-
-				<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-					<span>Saved reports</span>
-					<a class="d-flex align-items-center text-muted" href="#">
-						<span data-feather="plus-circle"></span>
-					</a>
-				</h6>
-				<ul class="nav flex-column mb-2">
-					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<span data-feather="file-text"></span>
-							Current month
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<span data-feather="file-text"></span>
-							Last quarter
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<span data-feather="file-text"></span>
-							Social engagement
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<span data-feather="file-text"></span>
-							Year-end sale
-						</a>
-					</li>
-				</ul> -->
 			</div>
 		</nav>
 		<!-- Begin page content -->
@@ -95,74 +23,73 @@
 						<span [innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml"></span>
 					</span>
 				</div>
-				<!--<span 
-					class="survey-section-header h5"
-					
-					[style.background-color]="viewerTheme.sectionBackgroundColour"
-					[style.color]="sectionTitleColour"
-					[class.household-tabs]="state.activeSectionId >= 0 && state.activeSection.isHousehold"
-					[ngClass]="{ visible: viewerState.isSectionActive }"
-					[innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml"
-				>
-					<span class="repeat-header" *ngIf="state.activeSection.isRepeat">
-						- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}
-					</span>
-				</span> -->
 
 				<div class="questions-container flex-grow-1" #questionsContainer>
 					<div class="question-section" #questionSection>
 						<ng-container
 							*ngFor="let question of state.activeQuestionInstances; trackBy: trackById.bind(this); let i = index"
 						>
-							<traisi-question-container
-								class="d-flex flex-column"
-								[surveyViewer]="ref"
-								[ngClass]="{'invalid': !question.validationState?.isValid}"
-								[activeQuestionIndex]="i"
-								[questionInstance]="question"
-								[respondent]="viewerState.groupMembers[state.activeRespondentIndex]"
-								[question]="question.model"
-								[attr.data-questionid]="question.model.questionId"
-								[attr.data-question-name]="question.model.name"
-								[attr.data-multiview]="state.isMultiView"
-								[surveyViewQuestion]="question.model"
-								[surveyId]="surveyId"
-								[repeatNumber]="0"
-								[sectionRepeatNumber]="0"
-								[questionTypeMap]="questionTypeMap"
-								[questionSectionElement]="questionSectionElement"
-								[questionNameMap]="questionNameMap"
-								#questions
-							>
-							</traisi-question-container>
-							<div
-								class="alert alert-warning"
-								style="height: auto;"
-								role="alert"
-								*ngIf="
-									!question.validationState?.isValid &&
-									question.validationState?.surveyLogicValidationState?.errorMessages?.length > 0
-								"
-							>
-								<div class="row">
-									<div class="col-12">
-										{{ (question.validationState?.surveyLogicValidationState?.errorMessages)[0] }}
-										<button class="btn btn-secondary float-right" (click)="forceSave(question)">
-											Confirm
-										</button>
-									</div>
+							<div class="traisi-question-container-outer">
+								<div class="valid-state-container" *ngIf="question.validationState?.clientValidationState === validationStates.VALID && 
+								question.validationState?.isValid">
+									<i class="fas fa-check"></i>
 								</div>
-								<div class="row">
-									<div class="col-12">
-										<div
-											class="related-question-link"
-											(click)="navigateToQuestion(id)"
-											*ngFor="
-												let id of question.validationState?.surveyLogicValidationState
-													?.relatedQuestions
-											"
-										>
-											{{ getQuestionModel(id).name }}
+								<traisi-question-container
+									class="d-flex flex-column"
+									[surveyViewer]="ref"
+									[ngClass]="{
+										invalid:
+											!question.validationState?.clientValidationState ===
+											validationStates.INVALID
+									}"
+									[activeQuestionIndex]="i"
+									[questionInstance]="question"
+									[respondent]="viewerState.groupMembers[state.activeRespondentIndex]"
+									[question]="question.model"
+									[attr.data-questionid]="question.model.questionId"
+									[attr.data-question-name]="question.model.name"
+									[attr.data-multiview]="state.isMultiView"
+									[surveyViewQuestion]="question.model"
+									[surveyId]="surveyId"
+									[repeatNumber]="0"
+									[sectionRepeatNumber]="0"
+									[questionTypeMap]="questionTypeMap"
+									[questionSectionElement]="questionSectionElement"
+									[questionNameMap]="questionNameMap"
+									#questions
+								>
+								</traisi-question-container>
+								<div
+									class="alert alert-warning"
+									style="height: auto;"
+									role="alert"
+									*ngIf="
+										!question.validationState?.isValid &&
+										question.validationState?.surveyLogicValidationState?.errorMessages?.length > 0
+									"
+								>
+									<div class="row">
+										<div class="col-12">
+											{{
+												(question.validationState?.surveyLogicValidationState?.errorMessages)[0]
+											}}
+											<button class="btn btn-secondary float-right" (click)="forceSave(question)">
+												Confirm
+											</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12">
+											<div
+												class="related-question-link"
+												(click)="navigateToQuestion(id)"
+												*ngFor="
+													let id of question.validationState?.surveyLogicValidationState
+														?.relatedQuestions
+												"
+											>
+												{{ getQuestionModel(id).name }}
+											</div>
 										</div>
 									</div>
 								</div>

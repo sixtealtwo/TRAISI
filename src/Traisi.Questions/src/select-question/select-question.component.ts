@@ -69,7 +69,6 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 	) => {
 		if (response !== 'none') {
 			let optionResponse = <OptionSelectResponseData>response[0];
-
 			this.selectedOptionId = optionResponse.code;
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
@@ -86,12 +85,10 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 	public onModelChanged(option: OptionSelectResponseData): void {
 		if (option) {
 			option.value = option.code;
+			// this.validationState.emit(ResponseValidationState.VALID);
 			this.response.emit([option]);
 		}
 	}
 
-	public onResponseSaved(result: any): void {
-		this.validationState.emit(ResponseValidationState.VALID);
-		// this.autoAdvance.emit(500);
-	}
+	public onResponseSaved(): void {}
 }
