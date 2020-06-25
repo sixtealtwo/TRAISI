@@ -249,16 +249,18 @@ export class SurveyNavigator {
 
 		// get active question
 		if (
-			!newState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
-			newState.activeQuestionInstances.length > 0
+			!currentState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
+			currentState.activeQuestionInstances.length > 0
 		) {
 			// ignore
 		} else if (
-			newState.activeSection?.isHousehold &&
-			newState.activeRespondentIndex < this._state.viewerState.groupMembers.length - 1
+			currentState.activeSection?.isHousehold &&
+			currentState.activeRespondentIndex < this._state.viewerState.groupMembers.length - 1
 		) {
+			console.log('increasing respondent');
 			newState.activeRespondentIndex++;
 		} else {
+			console.log('incing question');
 			newState.activeQuestionIndex += 1;
 			newState.activeRespondentIndex = 0;
 		}
@@ -269,7 +271,7 @@ export class SurveyNavigator {
 		} else {
 			return this._initState(newState).pipe(
 				expand((state) => {
-					return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(currentState) : EMPTY;
+					return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(newState) : EMPTY;
 				})
 			);
 		}
@@ -294,6 +296,9 @@ export class SurveyNavigator {
 			newState.activeQuestionInstances[0].component.navigateInternalPrevious();
 		} else if (newState.activeSection?.isHousehold && newState.activeRespondentIndex > 0) {
 			newState.activeRespondentIndex--;
+		} else if (newState.activeSection?.isHousehold && newState.activeRespondentIndex == 0) {
+			newState.activeRespondentIndex = this._state.viewerState.groupMembers.length - 1;
+			newState.activeQuestionIndex -= 1;
 		} else {
 			newState.activeRespondentIndex = 0;
 			newState.activeQuestionIndex -= 1;
@@ -352,6 +357,7 @@ export class SurveyNavigator {
 						}
 					}
 				}
+				console.log(questionInstances.length); 
 
 				obs.next(navigationState);
 				obs.complete();
@@ -394,6 +400,7 @@ export class SurveyNavigator {
 							result.question.isHidden = result.shouldHide;
 
 							if (result.shouldHide) {
+								console.log('hidden'); 
 								continue;
 							} else {
 								result.question.inSectionIndex = order++;

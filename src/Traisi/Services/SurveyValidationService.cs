@@ -194,7 +194,7 @@ namespace Traisi.Services
                 if ((compareResponse.ResponseValues[0] as LocationResponse).Location ==
                 (compareResponse.ResponseValues[0] as LocationResponse).Location)
                 {
-                    
+                    return true;
                 }
                 return true;
             }
