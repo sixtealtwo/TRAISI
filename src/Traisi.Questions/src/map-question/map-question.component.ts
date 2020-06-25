@@ -244,11 +244,11 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param {string} address
 	 */
 	private updateAddressInput(address: string): void {
-		let addrObj = JSON.parse(address);
+		/*let addrObj = JSON.parse(address);
 		let element: HTMLInputElement = document.querySelector('.mapboxgl-ctrl-geocoder--input');
 		if (element) {
 			element.value = `${addrObj['stnumber']} ${addrObj['staddress']}, ${addrObj['city']} ${addrObj['postal']}`;
-		}
+		}*/
 		// element.value = address;
 	}
 
