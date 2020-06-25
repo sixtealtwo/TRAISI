@@ -125,6 +125,10 @@ namespace Traisi.Services
         /// <returns></returns>
         private bool EvaluateExpression(SurveyResponse response, SurveyLogic compareValue, List<SurveyResponse> responses)
         {
+            // return if response is not valid
+            if(response == null ){
+                return false;
+            }
             // get definition
             var questionDefinition = _questionManager.QuestionTypeDefinitions[response.QuestionPart.QuestionType];
 
