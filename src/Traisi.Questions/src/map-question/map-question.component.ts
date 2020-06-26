@@ -243,14 +243,19 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @private
 	 * @param {string} address
 	 */
-	private updateAddressInput(address: string): void {
-		/*let addrObj = JSON.parse(address);
+	private updateAddressInput(address: string | any): void {
+		let addrObj;
+		if(typeof address === 'string') {
+			addrObj = JSON.parse(address);
+		}
+
 		let element: HTMLInputElement = document.querySelector('.mapboxgl-ctrl-geocoder--input');
 		if (element) {
 			element.value = `${addrObj['stnumber']} ${addrObj['staddress']}, ${addrObj['city']} ${addrObj['postal']}`;
-		}*/
-		// element.value = address;
+		}
 	}
+
+	
 
 	/**
 	 * Locations found
