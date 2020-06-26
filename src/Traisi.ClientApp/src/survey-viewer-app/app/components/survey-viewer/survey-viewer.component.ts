@@ -67,14 +67,8 @@ interface SpecialPageDataInput {
 	providers: [],
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
-	public questions: Array<SurveyViewQuestion>;
-	public questionTypeMap: { [id: number]: string };
-	public questionNameMap: { [name: string]: number };
-
 	public surveyId: number;
-
 	public titleText: string;
-
 	public loadedComponents: boolean = false;
 	public headerComponent: any;
 	public headerHTML: string;
@@ -171,8 +165,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		@Inject(LOCAL_STORAGE) private _storage: StorageService
 	) {
 		this.ref = this;
-		this.viewerState.isLoaded = false;
-		this.viewerState.isQuestionLoaded = false;
 	}
 
 	/**
@@ -331,9 +323,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					// this._respondentService.respondents
 				}
 
-				this.questions = [];
-				this.questionTypeMap = {};
-				this.questionNameMap = {};
+				//this.questions = [];
+				//this.questionTypeMap = {};
+				//this.questionNameMap = {};
 				let pageCount: number = 0;
 				let viewOrder: number = 0;
 
@@ -346,9 +338,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						question.viewOrder = viewOrder;
 						question.parentPage = page;
 						question.viewId = Symbol();
-						this.questionTypeMap[question.questionId] = question.questionType;
-						this.questionNameMap[question.name] = question.questionId;
-						this.questions.push(question);
+						//this.questionTypeMap[question.questionId] = question.questionType;
+						//this.questionNameMap[question.name] = question.questionId;
+						//this.questions.push(question);
+						this.viewerState.questionTypeMap[question.questionId] = question.questionType;
 						pageQuestionCount++;
 						if (question.repeatTargets === undefined) {
 							question.repeatTargets = [];
@@ -370,9 +363,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							this.viewerState.questionMap[question.questionId] = question;
 							this.viewerState.questionViewMap[question.id] = question;
 							question.viewId = Symbol();
-							this.questionTypeMap[question.questionId] = question.questionType;
-							this.questionNameMap[question.name] = question.questionId;
-							this.questions.push(question);
+							//this.questionTypeMap[question.questionId] = question.questionType;
+							this.viewerState.questionTypeMap[question.questionId] = question.questionType;
+							//this.questionNameMap[question.name] = question.questionId;
+							//this.questions.push(question);
 							this.viewerState.sectionMap[section.id] = section;
 							if (section.isRepeat) {
 								this.viewerState.questionMap[section.repeatSource].repeatTargets.push(section.id);
@@ -444,11 +438,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.viewerState.surveyQuestions = questions;
 				this.viewerState.questionBlocks = questionBlocks;
 				// create questionBlocks
-
+				this._viewerStateService.initialize(); 
+				console.log(this._viewerStateService);
 				this.initializeNavigator();
 
-				this.viewerState.isLoaded = true;
-				this.viewerState.isQuestionLoaded = true;
 				this.navigator.navigationState$.subscribe(this.navigationStateChanged.bind(this));
 			});
 	}
@@ -564,10 +557,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	private retrieveHouseholdTag(): string {
-		let questionId: number = +Object.keys(this.questionTypeMap).find(
-			(key) => this.questionTypeMap[key] === 'household'
+		let questionId: number = +Object.keys(this.viewerState.questionMap).find(
+			(key) => this.viewerState.questionTypeMap[key] === 'household'
 		);
-		return Object.keys(this.questionNameMap).find((key) => this.questionNameMap[key] === questionId);
+		return Object.keys(this.viewerState.questionNameMap).find(
+			(key) => this.viewerState.questionNameMap[key].questionId === questionId
+		);
 	}
 
 	public processedSectionLabel(sectionTitle: string): string {

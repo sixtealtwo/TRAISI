@@ -2,6 +2,8 @@ import { SurveyViewQuestion } from './survey-view-question.model';
 import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
+import { PageState } from './survey-viewer-state/page-state.model';
+import { SectionState } from './survey-viewer-state/section-state.model';
 
 export interface SurveyViewerState {
 	// list of survey pages
@@ -13,20 +15,8 @@ export interface SurveyViewerState {
 	// entire list of survey questions, unfiltered, hidden or otherwise removed
 	surveyQuestionsFull: Array<SurveyViewQuestion>;
 
-	// ref to the active question
-	activeQuestion: SurveyViewQuestion;
-
-	// ref to the active section
-	activeSection: SurveyViewSection;
-
-	// index for current question in active section
-	activeInSectionIndex: number;
-
 	// ref to the current active page
 	activePage: SurveyViewPage;
-
-	// flag for whether active question is in a section
-	isSectionActive: boolean;
 
 	// the index of the active question (in surveyPages)
 	activeQuestionIndex: number;
@@ -48,38 +38,27 @@ export interface SurveyViewerState {
 
 	activeRespondent: SurveyViewGroupMember;
 
+	isNavProcessing: boolean, 
+
 	// the list of active group questions
 	activeGroupQuestions: Array<SurveyViewQuestion>;
 
-	// loaded flag
-	isLoaded: boolean;
-
-	isQuestionLoaded: boolean;
-
 	// map question ids to the viewer question object
 	questionMap: { [id: number]: SurveyViewQuestion };
+
+	questionNameMap: { [name: string]: SurveyViewQuestion };
 
 	questionViewMap: { [id: number]: SurveyViewQuestion };
 
 	sectionMap: { [id: number]: SurveyViewSection };
 
-	activeViewContainerIndex: number;
-
-	isPreviousEnabled: boolean;
-
-	isNextEnabled: boolean;
-
-	isNavComplete: boolean;
-
-	isNavProcessing: boolean;
-
-	isPreviousActionNext: boolean;
-
-	questionNavIndex: number;
-
-	isNavFinished: boolean;
-
 	questionBlocks: Array<Array<SurveyViewQuestion>>;
 
+	questionTypeMap: { [type: number]: string};
+
 	questionTree: Array<Array<SurveyViewQuestion>>;
+
+	pageStates: { [id: number]: PageState};
+
+    sectionStates: { [id: number]: SectionState};
 }

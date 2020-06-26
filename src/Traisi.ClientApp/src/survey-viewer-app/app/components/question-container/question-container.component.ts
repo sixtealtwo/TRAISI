@@ -81,12 +81,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	public activeQuestionIndex: number = 0;
 
 	@Input()
-	public questionTypeMap: { [id: number]: string };
-
-	@Input()
-	public questionNameMap: { [name: string]: number };
-
-	@Input()
 	public questionSectionElement: ElementRef;
 
 	@ViewChild('questionTemplate', { read: ViewContainerRef, static: true })
@@ -111,7 +105,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	}
 
 	public get navIndex(): number {
-		return this._viewerStateService.viewerState.questionNavIndex + 1;
+		return 1;
+		//return this._navigator.
+		//return this._viewerStateService.viewerState.questionNavIndex + 1;
 	}
 
 	public get viewerState(): SurveyViewerState {
@@ -204,16 +200,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				this._instanceState.initialize(this.respondent, this.surveyViewQuestion, componentRef.instance);
 
-				/*this._responderService.registerQuestion(
-					componentRef.instance,
-					this.surveyId,
-					this.question.questionId,
-					this.respondent.id,
-					this._responseSaved,
-					this.surveyViewQuestion,
-					this.calcUniqueRepeatNumber()
-				); */
-
 				this._responseSaved.pipe(share()).subscribe(this.onResponseSaved);
 
 				// surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
@@ -230,7 +216,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				].questionInstanceState = this._instanceState;
 
 				surveyQuestionInstance.respondent = this.respondent;
-				surveyQuestionInstance.traisiOnInit(this._viewerStateService.viewerState.isPreviousActionNext);
+				// surveyQuestionInstance.traisiOnInit(this._viewerStateService.viewerState.isPreviousActionNext);
 				// surveyQuestionInstance.serverConfiguration = questionConfiguration;
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
@@ -253,10 +239,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 							(<unknown>(<SurveyQuestion<any>>componentRef.instance).configurations)
 						)).next(this.question.configuration);
 					});
-				this._viewerStateService.viewerState.isNextEnabled = false;
-				if (this.question.isOptional) {
-					this._viewerStateService.viewerState.isNextEnabled = true;
-				}
 			},
 			(error) => {},
 			() => {}
@@ -267,10 +249,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * Autos advance
 	 */
 	private autoAdvance(): void {
-		if (!this.alreadyNavigated && !this._viewerStateService.viewerState.isNavComplete) {
-			// this.navigation.navigateNext();
-			this.alreadyNavigated = false;
-		}
 	}
 
 	/**
@@ -278,23 +256,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * @returns household tag
 	 */
 	private retrieveHouseholdTag(): string {
-		let questionId: number = +Object.keys(this.questionTypeMap).find(
-			(key) => this.questionTypeMap[key] === 'household'
+		let questionId: number = +Object.keys(this._viewerStateService.viewerState.questionTypeMap).find(
+			(key) => this._viewerStateService.viewerState.questionTypeMap[key] === 'household'
 		);
-		return Object.keys(this.questionNameMap).find((key) => this.questionNameMap[key] === questionId);
+		return Object.keys(this._viewerStateService.viewerState.questionNameMap).find((key) => this._viewerStateService.viewerState.questionNameMap[key].questionId === questionId);
 	}
 
-	/**
-	 * Retrieves repeat number
-	 * @returns repeat number
-	 */
-	private retrieveRepeatNumber(): number {
-		if (this.surveyViewQuestion.parentSection.isRepeat && !this.surveyViewQuestion.isRepeat) {
-			return this.sectionRepeatNumber;
-		} else {
-			return this.repeatNumber;
-		}
-	}
 
 	/**
 	 * Process piped question label
@@ -309,7 +276,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		if (tags && tags.length > 0) {
 			let questionIdsForResponse = tags.map(
-				(tag) => this._viewerStateService.viewerState.questionMap[this.questionNameMap[tag]]
+				(tag) => this._viewerStateService.viewerState.questionMap[this._viewerStateService.viewerState.questionNameMap[tag].questionId]
 			);
 
 			questionIdsForResponse = questionIdsForResponse.filter((f) => {
@@ -321,7 +288,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					.loadSavedResponses(questionIdsForResponse, this.respondent)
 					.subscribe((responses) => {
 						tags.forEach((tag, index) => {
-							if (this.questionNameMap[tag] === this.question.repeatSource) {
+							if (this._viewerStateService.viewerState.questionNameMap[tag].questionId === this.question.repeatSource) {
 								processedLabel = Utilities.replacePlaceholder(
 									processedLabel,
 									tag,
@@ -329,7 +296,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								);
 							} else if (
 								this.question.parentSection &&
-								this.question.parentSection.repeatSource === this.questionNameMap[tag]
+								this.question.parentSection.repeatSource === this._viewerStateService.viewerState.questionNameMap[tag].questionId
 							) {
 								processedLabel = Utilities.replacePlaceholder(
 									processedLabel,

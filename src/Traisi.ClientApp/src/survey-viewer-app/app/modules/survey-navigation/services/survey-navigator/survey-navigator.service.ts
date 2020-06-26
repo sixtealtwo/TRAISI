@@ -80,7 +80,9 @@ export class SurveyNavigator {
 		this._surveyCompleted$ = new Subject<void>();
 	}
 
+
 	public initialize(state?: NavigationState): Observable<NavigationState> {
+		this.navigationState$.subscribe((v) => this._navigationStateChanged(v));
 		if (state) {
 			if (state.activeRespondentIndex > this._state.viewerState.groupMembers.length) {
 				state.activeRespondentIndex = 0;
@@ -89,6 +91,9 @@ export class SurveyNavigator {
 			state.activeRespondent = this._state.viewerState.groupMembers[state.activeRespondentIndex];
 			return this._initState(state).pipe(
 				tap((v) => {
+					if (state.activeQuestionIndex > 0) {
+						this.previousEnabled$.next(true);
+					}
 					this.navigationState$.next(v);
 				})
 			);
@@ -99,6 +104,14 @@ export class SurveyNavigator {
 				this.nextEnabled$.next(true);
 			});
 		});
+	}
+
+	/**
+	 * Tells the viewer to update validation states and other information
+	 * @param state 
+	 */
+	private _navigationStateChanged(state: NavigationState): void {
+		this._state.updateStates(state);
 	}
 
 	/**

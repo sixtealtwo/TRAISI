@@ -14,6 +14,11 @@ $BODY_BG: #2e1f47;
 $ICON_COLOR: #f3597d;
 $FONT_COLOR: #333;
 
+.not-visited {
+	opacity: 0.;
+	pointer-events: none;
+}
+
 .page-icon {
 	width: 30px;
 	position: absolute;

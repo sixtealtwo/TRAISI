@@ -2,7 +2,7 @@
 	<ul class="progress-inner" *ngIf="state.activePage">
 		<li
 			class="progress__item progress-page"
-			[ngClass]="{ 'progress__item--active': state.activePage?.id === page.id }"
+			[ngClass]="{ 'progress__item--active': state.activePage?.id === page.id, 'visited': viewerState.pageStates[page.id].isVisited,'not-visited': !viewerState.pageStates[page.id].isVisited  }"
 			(click)="navigateToPage(page)"
 			*ngFor="let page of viewerStateService.viewerState.surveyPages; let i = index"
 		>
