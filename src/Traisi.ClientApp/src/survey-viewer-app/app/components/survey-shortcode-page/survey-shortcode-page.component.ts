@@ -81,7 +81,7 @@ export class SurveyShortcodePageComponent implements OnInit, AfterContentInit {
 							} catch (e) {
 								console.log(e);
 							}
-							this._elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
+							// this._elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 							// this.startContent['startPageComponent'] = this.startPageComponent;
 
 							this.finishedLoading = true;

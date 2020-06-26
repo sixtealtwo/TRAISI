@@ -75,7 +75,7 @@ export class SurveyTermsPageComponent implements OnInit {
 				this.model = value[1];
 				this.hasScreeningQuestions = value[2].questionsList.length > 0;
 				this.pageThemeInfo = value[3];
-				this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
+				// this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 				this.finishedLoading = true;
 				this.surveyName = value[0].surveyCode;
 			},

@@ -146,33 +146,6 @@ export class SurveyViewerService implements  OnInit {
 		};
 
 		this.pageThemeInfo.next(this._pageThemeInfo);
-
-		/*this.activeSurveyId.subscribe(id => {
-			// this.restoreThemeInfo(id);
-
-			this.getWelcomeView(this.activeSurveyCode).subscribe((surveyStartModel: SurveyStart) => {
-				this.welcomeModel.next(surveyStartModel);
-			});
-			this.getSurveyViewerTermsAndConditions(id).subscribe((surveyTermsModel: SurveyViewTermsModel) => {
-				this.termsModel.next(surveyTermsModel);
-			});
-
-			this.getSurveyAuthenticationMode(this.activeSurveyCode).subscribe(r => {
-				this.surveyAuthenticationMode.next(r);
-			});
-
-			this.getSurveyViewerScreeningQuestions(id).subscribe(result => {
-				if (result['screeningQuestionLabels'] !== undefined) {
-					let screeningModel = this.parseScreeningQuestionsModel(result);
-					this.screeningQuestionsModel.next(screeningModel);
-				} else {
-					this.screeningQuestionsModel.next({
-						questionsList: [],
-						rejectionLink: result.survey.rejectionLink
-					});
-				}
-			});
-		});*/
 	}
 
 	public logout(): void {
@@ -229,15 +202,6 @@ export class SurveyViewerService implements  OnInit {
 					this._isLoaded$.next(true);
 				}
 			);
-
-			/*
-		let $ = zip(
-			this.getWelcomeView(this.activeSurveyCode),
-			this.getSurveyViewerTermsAndConditions(id),
-			this._surveyViewerService.isLoggedIn,
-			this._surveyViewerService.activeSurveyTitle,
-			this._surveyViewerService.surveyAuthenticationMode
-		).subscribe(([surveyId, surveyCode, isLoggedIn, surveyTitle, authMode]: [number, string, boolean, string, any]) => {}); */
 		});
 	}
 
