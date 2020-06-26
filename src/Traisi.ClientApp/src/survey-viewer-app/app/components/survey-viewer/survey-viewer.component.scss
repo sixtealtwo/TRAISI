@@ -54,7 +54,8 @@ main {
 @media #{$xl-only} {
 	.question-section,
 	.content-header {
-		margin: auto;
+		margin-left: auto;
+		margin-right: auto;
 		max-width: 1000px;
 		width: 1000px;
 	}
@@ -139,9 +140,9 @@ main {
 }
 
 .content-header {
-	margin: auto;
-	width: 100%;
-	max-width: 100%;
+
+	//width: 100%;
+	// max-width: 100%;
 }
 
 .question-widget {
