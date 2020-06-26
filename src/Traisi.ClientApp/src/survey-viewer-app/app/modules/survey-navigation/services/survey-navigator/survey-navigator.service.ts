@@ -101,7 +101,7 @@ export class SurveyNavigator {
 		return new Observable((obs) => {
 			this.navigateToPage(this._state.viewerState.surveyPages[0].id).subscribe((v) => {
 				obs.complete();
-				this.nextEnabled$.next(true);
+				this.nextEnabled$.next(false);
 			});
 		});
 	}
