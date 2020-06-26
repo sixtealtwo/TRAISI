@@ -6,7 +6,7 @@ namespace Traisi.Models.ViewModels
 
     public class SurveyCompletionStatus
     {
-        public Dictionary<int, RespondentCompletionStatus> Statuses { get; set; } = new Dictionary<int, RespondentCompletionStatus>();
+        public List<int> CompletedQuestionIds {get;set; } = new List<int>();
     }
 
     public class RespondentCompletionStatus

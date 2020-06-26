@@ -105,7 +105,6 @@ export class SurveyViewerService implements  OnInit {
 		private _surveyViewerEndpointService: SurveyViewerEndpointService,
 		private _authService: AuthService,
 		private router: Router,
-		private _surveyState: SurveyViewerStateService
 	) {
 		this._activeSurveyId = -1;
 

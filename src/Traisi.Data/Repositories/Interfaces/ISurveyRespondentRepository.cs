@@ -19,5 +19,7 @@ namespace Traisi.Data.Repositories.Interfaces
 
 		Task<PrimaryRespondent> GetPrimaryRespondentForSurveyAndTraisiUserAsync(TraisiUser user, Survey survey);
 
+		
+
 	}
 }

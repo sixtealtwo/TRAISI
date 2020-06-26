@@ -230,6 +230,17 @@ namespace Traisi.Data.Repositories
 
             return true;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<List<int>> ListQuestionIdsForCompletedResponses(int surveyId, SurveyRespondent respondent)
+        {
+            return await this._entities.Where(r => r.Respondent == respondent && (respondent as PrimaryRespondent).Survey.Id == surveyId).Select(r => r.QuestionPart.Id).ToListAsync();
+        }
     }
 
 }

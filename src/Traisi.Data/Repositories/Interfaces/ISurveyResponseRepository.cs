@@ -70,6 +70,14 @@ namespace Traisi.Data.Repositories.Interfaces
 
         Task<List<SurveyResponse>> ListMostRecentSurveyResponsesForQuestionsByNameAsync(List<string> questionNames, SurveyRespondent user);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<List<int>> ListQuestionIdsForCompletedResponses(int surveyId, SurveyRespondent respondent);
+
 
 
         /// <summary>

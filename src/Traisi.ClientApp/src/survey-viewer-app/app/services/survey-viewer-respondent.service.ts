@@ -12,7 +12,9 @@ import { tap } from 'rxjs/operators';
 export class SurveyViewerRespondentService {
 	private _primaryRespondent: SurveyRespondent;
 
-	public respondents: Record<number, SurveyRespondent> = {};
+	// public respondents: Record<number, SurveyRespondent> = {};
+
+	public respondents: { [id: number]: SurveyRespondent } = {};
 
 	public get primaryRespondent(): SurveyRespondent {
 		return this._primaryRespondent;
@@ -61,7 +63,7 @@ export class SurveyViewerRespondentService {
 	public removeSurveyGroupMember(respondent: SurveyRespondent): Observable<void> {
 		return this._respondentClient.removeSurveyGroupMember(respondent.id).pipe(
 			tap((r) => {
-				this.respondents[respondent.id] = undefined;
+				delete this.respondents[respondent.id];
 			})
 		);
 	}

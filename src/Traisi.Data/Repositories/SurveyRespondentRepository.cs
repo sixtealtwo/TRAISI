@@ -47,6 +47,7 @@ namespace Traisi.Data.Repositories
             .ThenInclude(s => s.GroupMembers)
             .Include(s => s.Shortcode)
             .Include(s => s.SurveyAccessRecords)
+            .Include( s => s.Survey)
             .FirstOrDefaultAsync();
 
             if (respondent == null)

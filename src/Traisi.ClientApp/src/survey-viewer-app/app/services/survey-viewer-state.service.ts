@@ -18,6 +18,9 @@ import { SurveyViewGroupMember } from '../models/survey-view-group-member.model'
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 import { NavigationStart } from '@angular/router';
 import { NavigationState } from 'app/models/navigation-state.model';
+import { SurveyResponseClient } from './survey-viewer-api-client.service';
+import { SurveyViewerSession } from './survey-viewer-session.service';
+import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -31,12 +34,14 @@ export class SurveyViewerStateService {
 
 	public surveyQuestionsChanged: Subject<string>;
 
+	private _data: SurveyViewerSessionData;
+
 	/**
 	 * Creates an instance of survey viewer state service.
 	 * @param _conditionalEvaluator
 	 * @param _responderService
 	 */
-	public constructor() {
+	public constructor(private _client: SurveyResponseClient, private _session: SurveyViewerSession) {
 		this.viewerState = {
 			surveyPages: [],
 			pageStates: {},
@@ -66,20 +71,33 @@ export class SurveyViewerStateService {
 		this.surveyQuestionsChanged = new Subject<string>();
 	}
 
-	public initialize(): void {
+	public initialize(): Observable<void> {
 		// loop over each
-		for (let page of this.viewerState.surveyPages) {
-			this.viewerState.pageStates[page.id] = {
-				isCompleted: false,
-				isVisited: false,
-			};
-		}
+		return new Observable((obs) => {
+			for (let page of this.viewerState.surveyPages) {
+				this.viewerState.pageStates[page.id] = {
+					isCompleted: false,
+					isVisited: false,
+				};
+			}
+			this._client
+				.getSurveyCompletionStatus(this._session.surveyId, this.viewerState.primaryRespondent.id)
+				.subscribe((r) => {
+					for (let qId of r.completedQuestionIds) {
+						this.viewerState.pageStates[
+							this.viewerState.surveyPages[this.viewerState.questionMap[qId].pageIndex].id
+						].isVisited = true;
+					}
+				});
+
+			obs.complete();
+		});
 	}
 
 	public updateStates(navState: NavigationState): void {
 		if (navState.activePage) {
 			this.viewerState.pageStates[navState.activePage?.id].isVisited = true;
 		}
-		console.log(this.viewerState); 
+		console.log(this.viewerState);
 	}
 }

@@ -424,8 +424,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.viewerState.surveyQuestions = questions;
 				this.viewerState.questionBlocks = questionBlocks;
 				// create questionBlocks
-				this._viewerStateService.initialize(); 
-				console.log(this._viewerStateService);
+				this._viewerStateService.initialize().subscribe();
 				this.initializeNavigator();
 
 				this.navigator.navigationState$.subscribe(this.navigationStateChanged.bind(this));
@@ -532,7 +531,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigateToQuestion(questionPartId: number) {
 		this.navigator.navigateToQuestion(questionPartId).subscribe();
 	}
-
 
 	private retrieveHouseholdTag(): string {
 		let questionId: number = +Object.keys(this.viewerState.questionMap).find(

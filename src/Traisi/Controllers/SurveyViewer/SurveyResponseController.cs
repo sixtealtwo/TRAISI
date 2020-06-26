@@ -62,7 +62,7 @@ namespace Traisi.Controllers.SurveyViewer
                 return new BadRequestResult();
             }
 
-            SurveyResponseValidationState validationState = await this._resonseService.SaveResponse(question.Survey, question, respondent, content, repeat,force);
+            SurveyResponseValidationState validationState = await this._resonseService.SaveResponse(question.Survey, question, respondent, content, repeat, force);
             var mappedState = _mapper.Map<SurveyViewerValidationStateViewModel>(validationState, opts =>
             {
                 opts.Items["Language"] = language;
@@ -195,8 +195,19 @@ namespace Traisi.Controllers.SurveyViewer
         [Route("completion-status/primary-respondents/{respondentId}")]
         public async Task<IActionResult> GetSurveyCompletionStatus(int surveyId, int respondentId)
         {
-
-            return new OkResult();
+            var respondent = await this._unitOfWork.SurveyRespondents.GetSurveyRespondentAsync(respondentId);
+            if (respondent == null)
+            {
+                return new NotFoundObjectResult(new SurveyCompletionStatus()
+                {
+                    CompletedQuestionIds = new List<int>()
+                });
+            }
+            var questionIds = await this._unitOfWork.SurveyResponses.ListQuestionIdsForCompletedResponses(surveyId, respondent);
+            return new OkObjectResult(new SurveyCompletionStatus()
+            {
+                CompletedQuestionIds = questionIds
+            });
         }
 
         /// <summary>

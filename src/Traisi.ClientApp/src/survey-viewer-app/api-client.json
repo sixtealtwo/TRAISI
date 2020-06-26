@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v13.6.1.0 (NJsonSchema v10.1.21.0 (Newtonsoft.Json v12.0.0.0))",
+  "x-generator": "NSwag v13.6.2.0 (NJsonSchema v10.1.23.0 (Newtonsoft.Json v12.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "SurveyViewer API",
@@ -1388,6 +1388,14 @@
           "relationship": {
             "type": "string",
             "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -1420,6 +1428,14 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "relatedQuestions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
           "validationState": {
             "$ref": "#/components/schemas/ValidationState"
           },
@@ -1513,24 +1529,12 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "statuses": {
-            "type": "object",
+          "completedQuestionIds": {
+            "type": "array",
             "nullable": true,
-            "additionalProperties": {
-              "$ref": "#/components/schemas/RespondentCompletionStatus"
-            }
-          }
-        }
-      },
-      "RespondentCompletionStatus": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "hasResponse": {
-            "type": "object",
-            "nullable": true,
-            "additionalProperties": {
-              "type": "boolean"
+            "items": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         }
