@@ -147,8 +147,51 @@ export class SurveyNavigator {
 	 * @param questionId
 	 */
 	public navigateToQuestion(questionId: number): Observable<NavigationState> {
+		console.log(this);
+		let blockIndex = -1;
+		for (let i = 0; i < this._state.viewerState.questionBlocks.length; i++) {
+			let blocks = this._state.viewerState.questionBlocks[i];
+			blockIndex = findIndex(blocks, (block: SurveyViewQuestion) => {
+				return block.questionId === questionId;
+			});
+			if (blockIndex >= 0) {
+				console.log('found '); 
+				blockIndex = i;
+				break;
+			}
+		}
+		if (blockIndex < 0) {
+			blockIndex = 0;
+		}
+		console.log(blockIndex);
+		let pageIndex = this._state.viewerState.questionBlocks[blockIndex][0]?.pageIndex;
+
 		return new Observable((obs: Observer<NavigationState>) => {
-			obs.complete();
+			let navigationState: NavigationState = {
+				activePage: this._state.viewerState.surveyPages[pageIndex],
+				activeSectionIndex: -1,
+				activeSectionId: this._state.viewerState.questionBlocks[blockIndex][0]?.parentSection?.id,
+				activeSection: this._state.viewerState.questionBlocks[blockIndex][0]?.parentSection,
+				activeQuestionIndex: blockIndex,
+				activeRespondent: this._state.viewerState.groupMembers[this._currentState.activeRespondentIndex],
+				activeRespondentIndex: this._currentState.activeRespondentIndex,
+				activeQuestionInstances: [],
+				isLoaded: true,
+				isNextEnabled: true,
+				activeValidationStates: [],
+				isPreviousEnabled: true,
+			};
+
+			this._initState(navigationState).subscribe((r) => {
+				this.navigationState$.next(r);
+				obs.next(r);
+				obs.complete();
+			});
+
+			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
+				navigationState.activeQuestionInstances = questionInstances;
+				this.validationChanged();
+			});
 		});
 	}
 

@@ -550,7 +550,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param questionPartId
 	 */
-	public navigateToQuestion(questionPartId: number) {}
+	public navigateToQuestion(questionPartId: number) {
+		console.log(questionPartId);
+		console.log('navigating to question');
+		this.navigator.navigateToQuestion(questionPartId).subscribe();
+	}
 
 	/**
 	 * Validates the disabled / enabled state of the navigation buttons.
