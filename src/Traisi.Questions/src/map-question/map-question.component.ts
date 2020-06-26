@@ -248,7 +248,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		if(typeof address === 'string') {
 			addrObj = JSON.parse(address);
 		}
-
+		else {
+			addrObj = address;
+		}
 		let element: HTMLInputElement = document.querySelector('.mapboxgl-ctrl-geocoder--input');
 		if (element) {
 			element.value = `${addrObj['stnumber']} ${addrObj['staddress']}, ${addrObj['city']} ${addrObj['postal']}`;
