@@ -432,8 +432,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	public initializeNavigator(): void {
-		let restoredState = this._storage.get(`surveyState:${this.surveyId}`) as NavigationState;
-		if (restoredState) {
+		if (this._storage.has(`surveyState:${this.surveyId}`)) {
+			let restoredState = this._storage.get(`surveyState:${this.surveyId}`) as NavigationState;
 			this.navigator.initialize(restoredState).subscribe((v) => {});
 		} else {
 			this.navigator.initialize().subscribe();

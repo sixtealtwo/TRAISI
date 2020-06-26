@@ -19,6 +19,7 @@ import { SurveyViewerStateService } from '../../services/survey-viewer-state.ser
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Route } from '@angular/compiler/src/core';
 import { SurveyResponseClient } from 'app/services/survey-viewer-api-client.service';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 @Component({
 	encapsulation: ViewEncapsulation.None,
@@ -41,7 +42,8 @@ export class AdminToolbarComponent implements OnInit {
 		private _viewerState: SurveyViewerStateService,
 		private modalService: BsModalService,
 		private _route: ActivatedRoute,
-		private _responseClient: SurveyResponseClient
+		private _responseClient: SurveyResponseClient,
+		@Inject(LOCAL_STORAGE) private _storage: StorageService
 	) {}
 
 	/**
@@ -49,7 +51,6 @@ export class AdminToolbarComponent implements OnInit {
 	 * @param template
 	 */
 	public openModal(template: TemplateRef<any>): void {
-		// this.modalRef = this.modalService.show(template);
 		this.modalRef = this.modalService.show(template);
 	}
 
@@ -71,6 +72,7 @@ export class AdminToolbarComponent implements OnInit {
 	 * Deletes all responses
 	 */
 	public deleteAllResponses(): void {
+		this._storage.remove(`surveyState:${this.surveyId}`);
 		this._responseClient
 			.deleteAllResponses(this.surveyId, this._viewerState.viewerState.primaryRespondent.id)
 			.subscribe(
