@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -68,6 +68,11 @@ import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
 import { SurveyViewerResponseService } from './services/survey-viewer-response.service';
 import { SurveyViewerRespondentService } from './services/survey-viewer-respondent.service';
 import { SurveyProgressComponent } from './components/survey-progress/survey-progress.component';
+import { StorageServiceModule, StorageService } from 'ngx-webstorage-service';
+
+export const STORAGE_TOKEN =
+    new InjectionToken<StorageService>('STORAGE_TOKEN');
+
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -124,6 +129,7 @@ import { SurveyProgressComponent } from './components/survey-progress/survey-pro
 		SurveyNavigationModule.forRoot(),
 		SurveyViewerAuthorizationModule,
 		ToastrModule.forRoot(),
+		StorageServiceModule 
 	],
 	providers: [
 		LocalStoreManager,

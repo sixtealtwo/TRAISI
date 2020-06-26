@@ -101,6 +101,7 @@
     "ngx-smooth-dnd": "^0.3.0",
     "ngx-toastr": "^12.0.0",
     "ngx-treeview": "^6.0.2",
+    "ngx-webstorage-service": "^4.1.0",
     "pace-progressbar": "^1.0.9",
     "parsleyjs": "2.9.1",
     "popper": "^1.0.1",

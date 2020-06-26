@@ -38,6 +38,8 @@ import { SurveyRespondentClient, ValidationState } from 'app/services/survey-vie
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { QuestionInstance } from 'app/models/question-instance.model';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { NavigationState } from 'app/models/navigation-state.model';
 interface SpecialPageDataInput {
 	pageHTML: string;
 	pageThemeInfo: string;
@@ -49,16 +51,7 @@ interface SpecialPageDataInput {
 	styleUrls: ['./survey-viewer.component.scss', './survey-viewer.component.md.scss'],
 	animations: [
 		trigger('visibleHidden', [
-			/*transition('hidden => visible', [
-				// query(':enter', style({ opacity: 0 }), { optional: true }),
-				// query(':leave', style({ opacity: 1 }), { optional: true }),
-				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 0 }), style({ opacity: 1 })]))]), {
-					optional: true
-				})
-			]), */
 			transition('* => hidden', [
-				// query(':enter', style({ opacity: 0 }), { optional: true }),
-				// query(':leave', style({ opacity: 1 }), { optional: true }),
 				query(
 					':self',
 					stagger('1s', [
@@ -174,7 +167,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private _router: Router,
 		private _titleService: Title,
 		private elementRef: ElementRef,
-		private _respondentService: SurveyViewerRespondentService
+		private _respondentService: SurveyViewerRespondentService,
+		@Inject(LOCAL_STORAGE) private _storage: StorageService
 	) {
 		this.ref = this;
 		this.viewerState.isLoaded = false;
@@ -269,6 +263,26 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	/**
 	 *
+	 * @param v
+	 */
+	private navigationStateChanged(v: NavigationState) {
+		let saveState: NavigationState = {
+			activeQuestionIndex: v.activeQuestionIndex ?? 0,
+			activeValidationStates: [],
+			isLoaded: false,
+			activeQuestionInstances: [],
+			activeSectionId: v.activeSectionId,
+			activePageIndex: v.activePageIndex ?? 0,
+			isNextEnabled: false,
+			isPreviousEnabled: false,
+			activeRespondentIndex: v.activeRespondentIndex ?? 0,
+			activeSectionIndex: v.activeSectionIndex,
+		};
+		this._storage.set(`surveyState:${this.surveyId}`, saveState);
+	}
+
+	/**
+	 *
 	 *
 	 * @private
 	 * @memberof SurveyViewerComponent
@@ -336,11 +350,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						this.questionNameMap[question.name] = question.questionId;
 						this.questions.push(question);
 						pageQuestionCount++;
-
 						if (question.repeatTargets === undefined) {
 							question.repeatTargets = [];
 						}
-
 						this.viewerState.questionMap[question.questionId] = question;
 						this.viewerState.questionViewMap[question.id] = question;
 
@@ -348,7 +360,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 						}
 					});
-
 					page.sections.forEach((section) => {
 						let inSectionIndex: number = 0;
 						section.questions.forEach((question) => {
@@ -400,7 +411,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.navigator.surveyCompleted$.subscribe({
 					complete: this.surveyCompleted,
 				});
-				// this._navigationService.initialize();
 
 				let questions: Array<SurveyViewQuestion> = [];
 				let questionBlocks: Array<Array<SurveyViewQuestion>> = [];
@@ -435,22 +445,21 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.viewerState.questionBlocks = questionBlocks;
 				// create questionBlocks
 
-				this.navigator.initialize();
+				this.initializeNavigator();
+
 				this.viewerState.isLoaded = true;
 				this.viewerState.isQuestionLoaded = true;
-				console.log(this);
+				this.navigator.navigationState$.subscribe(this.navigationStateChanged.bind(this));
 			});
 	}
 
-	/**
-	 * Evaluates whether a household question is currently active or not
-	 */
-	private isHouseholdQuestionActive(): boolean {
-		return (
-			this.viewerState.isSectionActive &&
-			this.viewerState.activeQuestion.parentSection !== undefined &&
-			this.viewerState.activeQuestion.parentSection.isHousehold
-		);
+	public initializeNavigator(): void {
+		let restoredState = this._storage.get(`surveyState:${this.surveyId}`) as NavigationState;
+		if (restoredState) {
+			this.navigator.initialize(restoredState).subscribe((v) => {});
+		} else {
+			this.navigator.initialize().subscribe();
+		}
 	}
 
 	public trackById(index: number, item: any): string {
@@ -541,19 +550,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param questionPartId
 	 */
-	public navigateToQuestion(questionPartId: number) {
-		console.log(`navigating to ${questionPartId}`);
-	}
+	public navigateToQuestion(questionPartId: number) {}
 
 	/**
 	 * Validates the disabled / enabled state of the navigation buttons.
 	 */
 	public validateNavigation(): void {
 		return;
-	}
-
-	public confirmResponseWithLogicError(question: any) {
-		console.log(question);
 	}
 
 	private retrieveHouseholdTag(): string {
@@ -634,6 +637,4 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			return 'rgb(0,0,0)';
 		}
 	}
-
-	// public onQuestionScroll($event) {}
 }

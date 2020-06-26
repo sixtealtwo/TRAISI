@@ -15,9 +15,6 @@ export class SurveyProgressComponent implements OnInit {
 	public pages: SurveyViewPage[];
 	public constructor(public viewerStateService: SurveyViewerStateService, public navigator: SurveyNavigator) {}
 	public ngOnInit(): void {
-		// throw new Error('Method not implemented.');
-		// this.pages = this._viewerStateService.viewerState.surveyPages;
-		console.log(this.pages);
 	}
 
 	/**
