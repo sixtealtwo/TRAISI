@@ -40,21 +40,29 @@ namespace Traisi.Models.Mapping
 
                 });
 
-            /*CreateMap<Label, SurveyViewThankYouViewModel>()
-                .ForMember(w => w.ThankYouText, map => map.MapFrom(m => m.Value))
+            CreateMap<SurveyView, SurveyViewThankYouViewModel>()
                 .AfterMap((s, svm, opt) =>
                 {
 
-                    if (string.IsNullOrWhiteSpace(s.SurveyView.Survey.SuccessLink))
+                    if (s.ThankYouPageLabels[opt.Items["Language"] as string] != null)
+                    {
+                        svm.ThankYouText =
+                            s.ThankYouPageLabels[opt.Items["Language"] as string].Value;
+                    }
+                    else
+                    {
+                        svm.ThankYouText = s.TermsAndConditionsLabels.Default?.Value;
+                    }
+                    if (string.IsNullOrWhiteSpace(s.Survey.SuccessLink))
                     {
                         svm.HasSuccessLink = false;
                     }
                     else
                     {
                         svm.HasSuccessLink = true;
-                        svm.SuccessLink = s.SurveyView.Survey.SuccessLink;
+                        svm.SuccessLink = s.Survey.SuccessLink;
                     }
-                }); */
+                });
 
             CreateMap<Survey, SurveyStartViewModel>()
                 .ForMember(m => m.HasGroupCodes, options => { options.Ignore(); })

@@ -104,8 +104,9 @@ namespace Traisi.Services
         {
             string viewName = viewType == SurveyViewType.RespondentView ? "Standard" : "CATI";
             Survey survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
-            var surveyThankYou = survey.GetSurveyView(viewType).ThankYouPageLabels[language];
-            return _mapper.Map<SurveyViewThankYouViewModel>(surveyThankYou);
+            // var surveyThankYou = survey.GetSurveyView(viewType).ThankYouPageLabels[language];
+            return _mapper.Map<SurveyViewThankYouViewModel>(survey.GetSurveyView(viewType), opts =>
+                 opts.Items["Language"] = language);
         }
 
         /// <summary>

@@ -94,10 +94,13 @@ export class SurveyViewerStateService {
 		});
 	}
 
+	/**
+	 * 
+	 * @param navState 
+	 */
 	public updateStates(navState: NavigationState): void {
 		if (navState.activePage) {
 			this.viewerState.pageStates[navState.activePage?.id].isVisited = true;
 		}
-		console.log(this.viewerState);
 	}
 }
