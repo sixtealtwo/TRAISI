@@ -137,7 +137,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * on init
 	 */
 	public ngOnInit(): void {
-		this.accessToken = this._configurationService.getQuestionServerConfiguration('location')['AccessToken'];
+		console.log(this._configurationService); 
+		// this.accessToken = this._configurationService.getQuestionServerConfiguration('location')['AccessToken'];
+		this.accessToken = 'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2s4Y3IwN3U3MG1obzNsczJjMGhoZWc4MiJ9.OCDfSypjueUF_gKejRr6Og';
 	}
 
 	public traisiOnInit(): void {}
@@ -176,7 +178,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this._map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 		this._geocoder = new MapboxGeocoder({
 			countries: 'ca',
-			accessToken: mapboxgl.accessToken,
+			accessToken: mapboxgl.accessToken, 
 			mapboxgl: mapboxgl,
 			marker: false,
 		});

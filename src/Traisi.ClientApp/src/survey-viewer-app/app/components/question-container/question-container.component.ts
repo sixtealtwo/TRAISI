@@ -170,8 +170,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		// this.responseValidationState = { isValid: false, messages: [] };
 		this.processPipedQuestionLabel(this.question.label);
 
-		// this.container.questionInstance = this;
-
 		this.questionLoaderService.loadQuestionComponent(this.question, this.questionOutlet).subscribe(
 			(componentRef) => {
 				let surveyQuestionInstance: SurveyQuestion<any> = <SurveyQuestion<any>>componentRef.instance;
@@ -216,7 +214,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				].questionInstanceState = this._instanceState;
 
 				surveyQuestionInstance.respondent = this.respondent;
-				// surveyQuestionInstance.traisiOnInit(this._viewerStateService.viewerState.isPreviousActionNext);
+				surveyQuestionInstance.traisiOnInit(true); 
 				// surveyQuestionInstance.serverConfiguration = questionConfiguration;
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)

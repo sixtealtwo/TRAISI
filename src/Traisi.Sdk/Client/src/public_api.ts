@@ -26,6 +26,7 @@ export {
 	ResponseValue,
 	OptionSelectResponseData,
 	GroupMember,
+	QuestionResponseType
 } from './survey-question';
 
 export { SurveyRespondent } from './survey-respondent.model';
