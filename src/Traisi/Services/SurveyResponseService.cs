@@ -29,7 +29,7 @@ namespace Traisi.Services
         private IQuestionTypeManager _questionTypeManager;
         private ILoggerFactory _loggerFactory;
         private ILogger<SurveyResponseService> _logger;
-
+        private IRespondentGroupService _respondentGroupService;
         private readonly ISurveyValidationService _validation;
         public static readonly string LOCATION_RESPONSE = "location";
         public static readonly string TIMELINE_RESPONSE = "location";
@@ -43,11 +43,13 @@ namespace Traisi.Services
         public SurveyResponseService(IUnitOfWork _unitOfWork,
             ISurveyValidationService validation,
             IQuestionTypeManager manager,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IRespondentGroupService respondentGroupService)
         {
             this._unitOfWork = _unitOfWork;
             this._questionTypeManager = manager;
             this._validation = validation;
+            this._respondentGroupService = respondentGroupService;
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<SurveyResponseService>();
 
@@ -475,24 +477,25 @@ namespace Traisi.Services
         public async Task<bool> RemoveAllResponses(int surveyId, int respondentId, ApplicationUser user)
         {
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
-
             respondent.Name = null;
             respondent.Email = null;
             respondent.PhoneNumber = null;
-
-
             var members = respondent.SurveyRespondentGroup.GroupMembers;
-
+            var toDelete = new List<SurveyRespondent>();
             foreach (var member in members)
             {
                 await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(member, surveyId);
                 if (member.Id != respondent.Id)
                 {
-
-                    this._unitOfWork.SurveyRespondents.Remove(member);
+                    toDelete.Add(member);
+                    
                 }
             }
-            this._unitOfWork.SurveyRespondents.RemoveRange(members);
+             await this._unitOfWork.SaveChangesAsync();
+            foreach(var r in toDelete) {
+                await this._respondentGroupService.RemoveRespondent(respondent.SurveyRespondentGroup, r);
+            } 
+            // this._unitOfWork.SurveyRespondents.RemoveRange(toDelete);
             await this._unitOfWork.SaveChangesAsync();
             return true;
         }
