@@ -488,13 +488,12 @@ namespace Traisi.Services
                 await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(member, surveyId);
                 if (member.Id != respondent.Id)
                 {
+
                     this._unitOfWork.SurveyRespondents.Remove(member);
                 }
-
             }
-
             this._unitOfWork.SurveyRespondents.RemoveRange(members);
-
+            await this._unitOfWork.SaveChangesAsync();
             return true;
         }
     }

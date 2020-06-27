@@ -224,6 +224,7 @@ namespace Traisi.Controllers.SurveyViewer
         {
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             await this._resonseService.RemoveAllResponses(surveyId, respondentId, user);
+            
             return new OkResult();
         }
 
