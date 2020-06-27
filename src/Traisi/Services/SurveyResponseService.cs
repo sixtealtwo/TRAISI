@@ -476,14 +476,22 @@ namespace Traisi.Services
         {
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
+            respondent.Name = null;
+            respondent.Email = null;
+            respondent.PhoneNumber = null;
+
+
             var members = respondent.SurveyRespondentGroup.GroupMembers;
 
             foreach (var member in members)
             {
                 await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(member, surveyId);
-            }
+                if (member.Id != respondent.Id)
+                {
+                    this._unitOfWork.SurveyRespondents.Remove(member);
+                }
 
-            await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(respondent, surveyId);
+            }
 
             this._unitOfWork.SurveyRespondents.RemoveRange(members);
 

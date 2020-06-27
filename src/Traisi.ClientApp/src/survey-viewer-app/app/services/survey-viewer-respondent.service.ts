@@ -5,14 +5,13 @@ import { Observable, EMPTY } from 'rxjs';
 import { SurveyResponseClient, SurveyRespondentClient } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';
 import { tap } from 'rxjs/operators';
+import { SurveyViewerStateService } from './survey-viewer-state.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class SurveyViewerRespondentService {
 	private _primaryRespondent: SurveyRespondent;
-
-	// public respondents: Record<number, SurveyRespondent> = {};
 
 	public respondents: { [id: number]: SurveyRespondent } = {};
 
@@ -24,7 +23,11 @@ export class SurveyViewerRespondentService {
 		this._primaryRespondent = respondent;
 	}
 
-	public constructor(private _respondentClient: SurveyRespondentClient, private _session: SurveyViewerSession) {}
+	public constructor(
+		private _respondentClient: SurveyRespondentClient,
+		private _session: SurveyViewerSession,
+		private _state: SurveyViewerStateService
+	) {}
 
 	public getSurveyPrimaryRespondent(surveyId: number): Observable<any> {
 		return this._respondentClient.getSurveyPrimaryRespondent(surveyId);
@@ -41,6 +44,7 @@ export class SurveyViewerRespondentService {
 		return this._respondentClient.addSurveyGroupMember(respondent).pipe(
 			tap((r) => {
 				this.respondents[r] = respondent;
+				this._state.viewerState.groupMembers.push(respondent);
 			})
 		);
 	}
@@ -64,6 +68,12 @@ export class SurveyViewerRespondentService {
 		return this._respondentClient.removeSurveyGroupMember(respondent.id).pipe(
 			tap((r) => {
 				delete this.respondents[respondent.id];
+				let idx = this._state.viewerState.groupMembers.findIndex((i) => {
+					return i.id === respondent.id;
+				});
+				if (idx >= 0) {
+					this._state.viewerState.groupMembers.splice(idx, 1);
+				}
 			})
 		);
 	}
@@ -75,7 +85,18 @@ export class SurveyViewerRespondentService {
 	public updateSurveyGroupMember(respondent: SurveyRespondent): Observable<void> {
 		return this._respondentClient.updateSurveyGroupMember(respondent).pipe(
 			tap((r) => {
+				if (this._primaryRespondent.id === respondent.id) {
+					this._primaryRespondent = respondent;
+					this._state.viewerState.primaryRespondent = respondent;
+				}
 				this.respondents[respondent.id] = respondent;
+
+				let idx = this._state.viewerState.groupMembers.findIndex((i) => {
+					return i.id === respondent.id;
+				});
+				if (idx >= 0) {
+					this._state.viewerState.groupMembers[idx] = respondent; 
+				}
 			})
 		);
 	}

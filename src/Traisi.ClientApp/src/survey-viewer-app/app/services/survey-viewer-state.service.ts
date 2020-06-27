@@ -83,10 +83,13 @@ export class SurveyViewerStateService {
 			this._client
 				.getSurveyCompletionStatus(this._session.surveyId, this.viewerState.primaryRespondent.id)
 				.subscribe((r) => {
+					console.log(this.viewerState.questionMap);
 					for (let qId of r.completedQuestionIds) {
-						this.viewerState.pageStates[
-							this.viewerState.surveyPages[this.viewerState.questionMap[qId].pageIndex].id
-						].isVisited = true;
+						if (qId in Object.keys(this.viewerState.questionMap)) {
+							this.viewerState.pageStates[
+								this.viewerState.surveyPages[this.viewerState.questionMap[qId]?.pageIndex]?.id
+							].isVisited = true;
+						}
 					}
 				});
 
@@ -95,8 +98,8 @@ export class SurveyViewerStateService {
 	}
 
 	/**
-	 * 
-	 * @param navState 
+	 *
+	 * @param navState
 	 */
 	public updateStates(navState: NavigationState): void {
 		if (navState.activePage) {
