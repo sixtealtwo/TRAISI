@@ -147,7 +147,7 @@ namespace Traisi.Services
                     SaveLocationResponse(survey, question, responseData.First().ToObject<LocationLatLngResponse>(), surveyResponse);
                     break;
                 case QuestionResponseType.Timeline:
-                    SaveTimelineResponse(surveyResponse, responseData.ToObject<List<TimelineResponse>>());
+                    SaveTimelineResponse(surveyResponse, responseData.ToObject<List<TimelineTmpResponse>>());
                     break;
                 case QuestionResponseType.OptionSelect:
                     SaveOptionSelectResponse(survey, question, responseData.ToObject<List<OptionSelectResponse>>(), surveyResponse);
@@ -342,7 +342,7 @@ namespace Traisi.Services
         /// <param name="respondent"></param>
         /// <param name="response"></param> 
         /// <returns></returns>
-        internal void SaveTimelineResponse(SurveyResponse response, List<TimelineResponse> responseData)
+        internal void SaveTimelineResponse(SurveyResponse response, List<TimelineTmpResponse> responseData)
         {
             List<TimelineResponse> values = new List<TimelineResponse>();
             foreach (var responseValue in responseData)
@@ -350,13 +350,13 @@ namespace Traisi.Services
 
                 values.Add(new TimelineResponse()
                 {
-                    Address = responseValue.Address,
+                    Address = responseValue.Address.ToString(),
                     Name = responseValue.Name,
                     Purpose = responseValue.Purpose,
                     Order = responseValue.Order,
                     TimeA = responseValue.TimeA,
                     TimeB = responseValue.TimeB,
-                    Location = responseValue.Location
+                    Location = new Point(responseValue.Longitude, responseValue.Latitude)
                 });
             }
             response.ResponseValues.Clear();
