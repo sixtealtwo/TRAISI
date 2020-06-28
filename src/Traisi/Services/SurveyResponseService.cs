@@ -362,7 +362,7 @@ namespace Traisi.Services
             response.ResponseValues.Clear();
             response.ResponseValues.AddRange(values);
             return;
-        }
+        } 
 
         internal void SaveRangeResponse(SurveyResponse response, JObject responseData)
         {

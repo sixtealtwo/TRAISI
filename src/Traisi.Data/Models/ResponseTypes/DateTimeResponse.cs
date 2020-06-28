@@ -10,6 +10,5 @@ namespace Traisi.Data.Models.ResponseTypes
     public class DateTimeResponse : ResponseValue, IDateTimeResponse
     {
        public DateTimeOffset Value {get;set;}
-
     }
 }
