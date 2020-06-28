@@ -12,6 +12,7 @@ import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditi
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { ValidationState, SurveyViewerValidationStateViewModel } from 'app/services/survey-viewer-api-client.service';
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
+import { SurveyRespondent } from 'traisi-question-sdk';
 
 /**
  *
@@ -80,7 +81,6 @@ export class SurveyNavigator {
 		this._surveyCompleted$ = new Subject<void>();
 	}
 
-
 	public initialize(state?: NavigationState): Observable<NavigationState> {
 		this.navigationState$.subscribe((v) => this._navigationStateChanged(v));
 		if (state) {
@@ -108,7 +108,7 @@ export class SurveyNavigator {
 
 	/**
 	 * Tells the viewer to update validation states and other information
-	 * @param state 
+	 * @param state
 	 */
 	private _navigationStateChanged(state: NavigationState): void {
 		this._state.updateStates(state);
@@ -168,7 +168,7 @@ export class SurveyNavigator {
 				return block.questionId === questionId;
 			});
 			if (blockIndex >= 0) {
-				console.log('found '); 
+				console.log('found ');
 				blockIndex = i;
 				break;
 			}
@@ -392,7 +392,7 @@ export class SurveyNavigator {
 						navigationState.activeRespondentIndex
 					];
 					for (let question of questionInstances) {
-						let instanceId = this.getQuestionInstanceId(question.model);
+						let instanceId = this.getQuestionInstanceId(question.model,0,navigationState.activeRespondent);
 						let prevIdx = findIndex(this._currentState.activeQuestionInstances, (instance) => {
 							return instance.id === instanceId;
 						});
@@ -461,7 +461,7 @@ export class SurveyNavigator {
 							} else {
 								result.question.inSectionIndex = order++;
 							}
-							let instanceId = this.getQuestionInstanceId(result.question);
+							let instanceId = this.getQuestionInstanceId(result.question,0,this._state.viewerState.activeRespondent);
 							let prevIdx = findIndex(this.navigationState$.value.activeQuestionInstances, (instance) => {
 								return instance.id === instanceId;
 							});
@@ -504,8 +504,12 @@ export class SurveyNavigator {
 	 * @param question
 	 * @param repeat
 	 */
-	private getQuestionInstanceId(question: SurveyViewQuestion, repeat: number = 0): string {
-		return `${question.id}_${repeat}`;
+	private getQuestionInstanceId(
+		question: SurveyViewQuestion,
+		repeat: number = 0,
+		respondent: SurveyRespondent
+	): string {
+		return `${question.id}_${respondent.id}_${repeat}`;
 	}
 
 	/**
@@ -550,7 +554,7 @@ export class SurveyNavigator {
 		result: SurveyViewerValidationStateViewModel
 	): void {
 		let match = this._currentState.activeQuestionInstances.find(
-			(i) => i.id === this.getQuestionInstanceId(instanceState.guestionModel)
+			(i) => i.id === this.getQuestionInstanceId(instanceState.guestionModel, 0, instanceState.respondent)
 		);
 		if (match) {
 			match.validationState = result;

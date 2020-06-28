@@ -28,6 +28,10 @@ export class QuestionInstanceState {
 		return this._questionModel;
 	}
 
+	public get respondent(): SurveyRespondent {
+		return this._respondent;
+	}
+
 	public validationState$: BehaviorSubject<SurveyViewerValidationStateViewModel>;
 	public constructor(private _responseService: SurveyViewerResponseService, private _navigator: SurveyNavigator) {}
 
