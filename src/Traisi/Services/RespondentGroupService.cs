@@ -24,10 +24,12 @@ namespace Traisi.Services
         /// </summary>
         /// <param name="group"></param>
         /// <param name="respondent"></param>
-        public void AddRespondent(SurveyRespondentGroup group, SubRespondent respondent)
+        public async Task AddRespondent(SurveyRespondentGroup group, SubRespondent respondent)
         {
             respondent.SurveyRespondentGroup = group;
             respondent.PrimaryRespondent = group.GroupPrimaryRespondent;
+            await this._unitOfWork.SurveyRespondents.AddAsync(respondent);
+            await this._unitOfWork.SaveChangesAsync();
             group.GroupMembers.Add(respondent);
         }
 

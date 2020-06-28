@@ -90,11 +90,7 @@ namespace Traisi.Controllers.SurveyViewer
                     return new ObjectResult(_mapper.Map<SurveyRespondentViewModel>(respondent));
                 }
             }
-
         }
-
-
-
 
         /// <summary>
         /// Adds passed respondent to a survey group.
@@ -110,9 +106,9 @@ namespace Traisi.Controllers.SurveyViewer
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             var model = _mapper.Map<SubRespondent>(respondent);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
-            this._respondentGroupService.AddRespondent(group, model);
-            await this._unitOfWork.SaveChangesAsync();
-            return new ObjectResult(model.Id);
+            await this._respondentGroupService.AddRespondent(group, model);
+            // await this._unitOfWork.SaveChangesAsync();
+            return new CreatedResult("",model.Id);
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace Traisi.Services.Interfaces
 		/// </summary>
 		/// <param name="group"></param>
 		/// <param name="respondent"></param>
-		void AddRespondent(SurveyRespondentGroup group, SubRespondent respondent);
+		Task AddRespondent(SurveyRespondentGroup group, SubRespondent respondent);
 
 
 		/// <summary>

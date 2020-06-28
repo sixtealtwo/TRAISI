@@ -58,7 +58,6 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				this.primaryRespondent.respondent.name &&
 				this.primaryRespondent.respondent.name.length >= 2
 			) {
-				console.log(' in here');
 				this.validationState.emit(ResponseValidationState.VALID);
 				this.primaryRespondent = {
 					respondent: respondent,
@@ -73,9 +72,12 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 					isValid: true,
 				};
 			}
+
+			console.log(arr); 
 			arr.splice(0, 1);
 
 			arr.forEach((element) => {
+
 				this.respondents.push({
 					respondent: element,
 					isSaved: true,
@@ -101,9 +103,13 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 
 	/** */
 	public saveRespondent(respondentEdit: SurveyRespondentEdit): void {
+
+	
 		if (respondentEdit.respondent.id === undefined) {
 			this._respondentService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
 				(value) => {
+					console.log('added');
+					console.log(value);
 					respondentEdit.respondent.id = <number>value;
 					respondentEdit.isSaved = true;
 					this.validationState.emit(ResponseValidationState.VALID);
@@ -113,6 +119,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				}
 			);
 		} else {
+			console.log('updating');  
 			this._respondentService.updateSurveyGroupMember(respondentEdit.respondent).subscribe(
 				(value) => {
 					respondentEdit.isSaved = true;
@@ -130,9 +137,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	 */
 	public deleteRespondent(respondent: SurveyRespondentEdit): void {
 		const index = this.respondents.indexOf(respondent);
-
 		this.respondents.splice(index, 1);
-
 		if (respondent.respondent.id !== undefined) {
 			this._respondentService.removeSurveyGroupMember(respondent.respondent).subscribe((value) => {});
 		}
@@ -154,7 +159,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			this.validationState.emit(ResponseValidationState.INVALID);
 		}
 
-		respondent.isSaved = false;
+		// respondent.isSaved = false;
 	}
 
 	public primaryModelChanged(): void {
