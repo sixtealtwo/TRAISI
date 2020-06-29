@@ -62,7 +62,7 @@ namespace Traisi.Controllers.SurveyViewer
 
 
         [Produces(typeof(int))]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        //[Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [HttpGet]
         [Route("surveys/{surveyId}/respondents/primary", Name = "Get_Primary_Respondent_For_Survey")]
         public async Task<ActionResult<PrimaryRespondent>> GetSurveyPrimaryRespondent(int surveyId)
@@ -99,7 +99,7 @@ namespace Traisi.Controllers.SurveyViewer
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        //[Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups")]
         public async Task<IActionResult> AddSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
         {
@@ -118,7 +118,7 @@ namespace Traisi.Controllers.SurveyViewer
         /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+       // [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups")]
         public async Task<IActionResult> UpdateSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
         {
@@ -138,7 +138,7 @@ namespace Traisi.Controllers.SurveyViewer
         /// <returns></returns>
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        //[Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("groups/respondents/{respondentId}")]
         public async Task<IActionResult> RemoveSurveyGroupMember(
             int respondentId)
@@ -166,7 +166,7 @@ namespace Traisi.Controllers.SurveyViewer
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(List<SurveyRespondentViewModel>), StatusCodes.Status200OK)]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        //[Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("groups/respondents/{respondentId}")]
         public async Task<IActionResult> ListSurveyGroupMembers(int respondentId)
         {
