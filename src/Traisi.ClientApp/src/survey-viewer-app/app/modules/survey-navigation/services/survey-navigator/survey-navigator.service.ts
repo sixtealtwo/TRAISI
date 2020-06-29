@@ -210,8 +210,9 @@ export class SurveyNavigator {
 	 * @param idx 
 	 */
 	public _getRespondentForIdx(idx: number): SurveyRespondent {
+
 		if (idx >= 0 && idx < this._state.viewerState.groupMembers.length) {
-			return this._state.viewerState.groupMembers[this._currentState.activeRespondentIndex];
+			return this._state.viewerState.groupMembers[this._currentState.activeRespondentIndex ?? 0];
 		} else {
 			// return the primary respondent
 			return this._state.viewerState.groupMembers[0];
@@ -395,6 +396,8 @@ export class SurveyNavigator {
 					navigationState.activePage = this._state.viewerState.surveyPages[
 						questionInstances[0]?.model.pageIndex
 					];
+					console.log(this); 
+					console.log('here'); 
 					navigationState.activeSectionId = -1;
 					navigationState.activeSectionId = questionInstances[0]?.model.parentSection?.id;
 					navigationState.activeSection = questionInstances[0]?.model.parentSection;
