@@ -398,7 +398,7 @@ export class SurveyNavigator {
 					navigationState.activeSectionId = -1;
 					navigationState.activeSectionId = questionInstances[0]?.model.parentSection?.id;
 					navigationState.activeSection = questionInstances[0]?.model.parentSection;
-					navigationState.activeRespondent = this._getRespondentForIdx(navigationState.activeRespondentIndex),
+					navigationState.activeRespondent = this._getRespondentForIdx(navigationState.activeRespondentIndex);
 					for (let question of questionInstances) {
 						let instanceId = this.getQuestionInstanceId(
 							question.model,
