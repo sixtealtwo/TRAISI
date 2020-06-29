@@ -916,6 +916,13 @@ namespace Traisi.Services
                     op.Lhs.Value = updated.Lhs.Value;
                     op.Lhs.Condition = updated.Lhs.Condition;
                 }
+                 if(op.Rhs == null && updated.Rhs != null) {
+                     op.Rhs = new QuestionConditional();
+                    op.Rhs.SourceQuestionId = updated.Rhs.SourceQuestionId;
+                    op.Rhs.Value = updated.Rhs.Value;
+                    op.Rhs.Condition = updated.Rhs.Condition;
+                    return;
+                }
             }
 
             return;

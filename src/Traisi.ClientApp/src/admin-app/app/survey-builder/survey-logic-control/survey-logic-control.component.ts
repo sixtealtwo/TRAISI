@@ -88,18 +88,14 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 
 	public onFieldValueChanged($event: SurveyLogicField, rule: Rule) {
 		rule.field = '' + $event;
-		console.log(rule);
-		console.log($event);
 	}
 
 	public onResponseTypeValueChanged($event, index: number, rule: Rule): void {
 		rule.value = $event.questionPart?.id;
 		this.modelChanged$.next(this.queryModels[index]);
-		console.log(this.queryModels);
 	}
 
 	public onEntityTypeChanged($event: Entity) {
-		console.log($event);
 	}
 
 	public onValidationQuestionModelChange($event: QuestionPartView, index: number): void {
@@ -144,7 +140,6 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 			this._builder.getSurveyLogic(this._editor.surveyId, this._editor.activeLanguage)
 		).subscribe((result) => {
 			this.queryModels = <Array<SurveyLogic>>result[1];
-			console.log(this.queryModels);
 		});
 
 		// only send an update to the server every 500 ms of a model change

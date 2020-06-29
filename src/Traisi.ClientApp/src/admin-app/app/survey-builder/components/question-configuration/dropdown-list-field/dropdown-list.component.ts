@@ -40,7 +40,7 @@ export class DropdownListComponent implements OnInit {
 		if (this.dropDownListSelectedId === null){
 			this.alertService.stopLoadingMessage();
 		this.alertService.showStickyMessage(
-			'Not Completed',
+			'Not Completed', 
 			`Please fill the form completely`,
 			MessageSeverity.error
 		);

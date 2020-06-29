@@ -185,6 +185,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	}
 
 	public optionConditionalValueChanged(event): void {
+		console.log('here'); 
 		this.optionModel = event;
 		this.sourceGroup.value = JSON.stringify(event);
 	}

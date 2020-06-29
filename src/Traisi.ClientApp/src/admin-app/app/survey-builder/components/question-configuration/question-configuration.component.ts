@@ -238,6 +238,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 							cmpRef.instance.id = i;
 							cmpRef.instance.questionConfiguration = conf;
+
+							console.log(configurationValues); 
 							if (configurationValues.has(conf.name)) {
 								cmpRef.instance.processPriorValue(
 									configurationValues.get(conf.name)
