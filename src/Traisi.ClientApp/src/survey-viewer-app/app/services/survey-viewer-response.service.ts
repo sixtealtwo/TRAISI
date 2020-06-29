@@ -66,14 +66,22 @@ export class SurveyViewerResponseService  {
 	 * @param respondent
 	 */
 	public hasStoredResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): boolean {
-		if (this._responses[respondent.id]?.[question.questionId]) {
+		if(!respondent)
+		{
+			return false;
+		}
+		else if (this._responses[respondent.id]?.[question.questionId]) {
 			return true;
 		}
 		return false;
 	}
 
 	private _hasStoredInvalidResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): boolean {
-		if (this._invalidResponses[respondent.id]?.[question.questionId]) {
+		if(!respondent)
+		{
+			return false;
+		}
+		else if (this._invalidResponses[respondent.id]?.[question.questionId]) {
 			return true;
 		}
 		return false;

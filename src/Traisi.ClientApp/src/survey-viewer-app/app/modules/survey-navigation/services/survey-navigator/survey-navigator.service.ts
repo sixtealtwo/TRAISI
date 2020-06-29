@@ -160,7 +160,6 @@ export class SurveyNavigator {
 	 * @param questionId
 	 */
 	public navigateToQuestion(questionId: number): Observable<NavigationState> {
-		console.log(this);
 		let blockIndex = -1;
 		for (let i = 0; i < this._state.viewerState.questionBlocks.length; i++) {
 			let blocks = this._state.viewerState.questionBlocks[i];
@@ -168,7 +167,6 @@ export class SurveyNavigator {
 				return block.questionId === questionId;
 			});
 			if (blockIndex >= 0) {
-				console.log('found ');
 				blockIndex = i;
 				break;
 			}
@@ -176,7 +174,6 @@ export class SurveyNavigator {
 		if (blockIndex < 0) {
 			blockIndex = 0;
 		}
-		console.log(blockIndex);
 		let pageIndex = this._state.viewerState.questionBlocks[blockIndex][0]?.pageIndex;
 
 		return new Observable((obs: Observer<NavigationState>) => {
@@ -186,7 +183,7 @@ export class SurveyNavigator {
 				activeSectionId: this._state.viewerState.questionBlocks[blockIndex][0]?.parentSection?.id,
 				activeSection: this._state.viewerState.questionBlocks[blockIndex][0]?.parentSection,
 				activeQuestionIndex: blockIndex,
-				activeRespondent: this._state.viewerState.groupMembers[this._currentState.activeRespondentIndex],
+				activeRespondent: this._getRespondentForIdx(this._currentState.activeRespondentIndex),
 				activeRespondentIndex: this._currentState.activeRespondentIndex,
 				activeQuestionInstances: [],
 				isLoaded: true,
@@ -206,6 +203,19 @@ export class SurveyNavigator {
 				this.validationChanged();
 			});
 		});
+	}
+
+	/**
+	 * 
+	 * @param idx 
+	 */
+	public _getRespondentForIdx(idx: number): SurveyRespondent {
+		if (idx >= 0 && idx < this._state.viewerState.groupMembers.length) {
+			return this._state.viewerState.groupMembers[this._currentState.activeRespondentIndex];
+		} else {
+			// return the primary respondent
+			return this._state.viewerState.groupMembers[0];
+		}
 	}
 
 	/**
@@ -388,11 +398,13 @@ export class SurveyNavigator {
 					navigationState.activeSectionId = -1;
 					navigationState.activeSectionId = questionInstances[0]?.model.parentSection?.id;
 					navigationState.activeSection = questionInstances[0]?.model.parentSection;
-					navigationState.activeRespondent = this._state.viewerState.groupMembers[
-						navigationState.activeRespondentIndex
-					];
+					navigationState.activeRespondent = this._getRespondentForIdx(navigationState.activeRespondentIndex),
 					for (let question of questionInstances) {
-						let instanceId = this.getQuestionInstanceId(question.model,0,navigationState.activeRespondent);
+						let instanceId = this.getQuestionInstanceId(
+							question.model,
+							0,
+							navigationState.activeRespondent
+						);
 						let prevIdx = findIndex(this._currentState.activeQuestionInstances, (instance) => {
 							return instance.id === instanceId;
 						});
@@ -461,7 +473,11 @@ export class SurveyNavigator {
 							} else {
 								result.question.inSectionIndex = order++;
 							}
-							let instanceId = this.getQuestionInstanceId(result.question,0,this._state.viewerState.activeRespondent);
+							let instanceId = this.getQuestionInstanceId(
+								result.question,
+								0,
+								this._state.viewerState.activeRespondent
+							);
 							let prevIdx = findIndex(this.navigationState$.value.activeQuestionInstances, (instance) => {
 								return instance.id === instanceId;
 							});
