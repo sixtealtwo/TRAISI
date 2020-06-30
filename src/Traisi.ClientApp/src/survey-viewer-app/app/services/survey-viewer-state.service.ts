@@ -83,7 +83,6 @@ export class SurveyViewerStateService {
 			this._client
 				.getSurveyCompletionStatus(this._session.surveyId, this.viewerState.primaryRespondent.id)
 				.subscribe((r) => {
-					console.log(this.viewerState.questionMap);
 					for (let qId of r.completedQuestionIds) {
 						if (qId in Object.keys(this.viewerState.questionMap)) {
 							this.viewerState.pageStates[

@@ -206,11 +206,10 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 * 
-	 * @param idx 
+	 *
+	 * @param idx
 	 */
 	public _getRespondentForIdx(idx: number): SurveyRespondent {
-
 		if (idx >= 0 && idx < this._state.viewerState.groupMembers.length) {
 			return this._state.viewerState.groupMembers[this._currentState.activeRespondentIndex ?? 0];
 		} else {
@@ -306,10 +305,10 @@ export class SurveyNavigator {
 				obs.complete();
 			});
 
-			//this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
-			//	navigationState.activeQuestionInstances = questionInstances;
-			//	this.validationChanged();
-			//});
+			// this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
+			// 	navigationState.activeQuestionInstances = questionInstances;
+			// 	this.validationChanged();
+			// });
 		});
 	}
 
@@ -396,8 +395,6 @@ export class SurveyNavigator {
 					navigationState.activePage = this._state.viewerState.surveyPages[
 						questionInstances[0]?.model.pageIndex
 					];
-					console.log(this); 
-					console.log('here'); 
 					navigationState.activeSectionId = -1;
 					navigationState.activeSectionId = questionInstances[0]?.model.parentSection?.id;
 					navigationState.activeSection = questionInstances[0]?.model.parentSection;
