@@ -82,12 +82,12 @@ namespace Traisi.Services
             if (viewType == SurveyViewType.RespondentView && survey.SurveyViews.Count > 0)
             {
                 var s2 = (survey.SurveyViews as List<SurveyView>);
-                return (survey.SurveyViews as List<SurveyView>)[0]
+                return (survey.SurveyViews as List<SurveyView>).Find(x => x.ViewName == "Standard")
                     .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(_mapper, language);
             }
             else
             {
-                return (survey.SurveyViews as List<SurveyView>)[0]
+                return (survey.SurveyViews as List<SurveyView>).Find(x => x.ViewName == "Standard")
                     .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(_mapper, language);
             }
         }
@@ -305,7 +305,7 @@ namespace Traisi.Services
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, SurveyViewType.RespondentView);
 
-            return (survey.SurveyViews as List<SurveyView>)[0];
+            return (survey.SurveyViews as List<SurveyView>).Find(x => x.ViewName == "Standard");
         }
 
         /// <summary>
@@ -336,9 +336,7 @@ namespace Traisi.Services
         public async Task<SurveyStartViewModel> GetSurveyWelcomeView(string name)
         {
             Survey survey = await this._unitOfWork.Surveys.GetSurveyByCodeFullAsync(name);
-
             return survey.ToLocalizedModel<SurveyStartViewModel>(_mapper, "en");
-            //return Auto_mapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
         }
 
         /// <summary>
@@ -365,7 +363,17 @@ namespace Traisi.Services
             var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
             if (survey != null)
             {
-                return ((List<SurveyView>)survey.SurveyViews)[0].QuestionPartViews
+                return ((List<SurveyView>)survey.SurveyViews).Find(x =>
+                {
+                    if (viewType == SurveyViewType.RespondentView)
+                    {
+                        return x.ViewName == "Standard";
+                    }
+                    else
+                    {
+                        return x.ViewName != "Standard";
+                    }
+                }).QuestionPartViews
                     .FirstOrDefault(v => v.Order == pageNumber);
             }
             else
@@ -386,7 +394,17 @@ namespace Traisi.Services
             var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
             if (survey != null)
             {
-                List<QuestionPartView> pages = survey.SurveyViews[0].QuestionPartViews.OrderBy(p => p.Order).ToList();
+                List<QuestionPartView> pages = survey.SurveyViews.Find(x =>
+                {
+                    if (viewType == SurveyViewType.RespondentView)
+                    {
+                        return x.ViewName == "Standard";
+                    }
+                    else
+                    {
+                        return x.ViewName != "Standard";
+                    }
+                }).QuestionPartViews.OrderBy(p => p.Order).ToList();
                 pages.ForEach(page =>
                 {
                     page.QuestionPartViewChildren = page.QuestionPartViewChildren.OrderBy(mq => mq.Order).ToList();

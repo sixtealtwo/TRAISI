@@ -1,8 +1,6 @@
 import { SurveyRespondent } from 'traisi-question-sdk';
 
 /**
- *
- *
  * @export
  * @interface SurveyViewerSessionData
  */

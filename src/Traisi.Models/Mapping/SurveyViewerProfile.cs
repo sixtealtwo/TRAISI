@@ -70,7 +70,7 @@ namespace Traisi.Models.Mapping
                 .ForMember(m => m.SurveyViews, opts => opts.Ignore())
                 .AfterMap((s, svm, opt) =>
                 {
-                    var view = s.SurveyViews.FirstOrDefault();
+                    var view = s.SurveyViews.Find(x => x.ViewName == "Standard");
                     if (view != null)
                     {
                         svm.WelcomeText = view.WelcomePageLabels[opt.Items["Language"] as string].Value;

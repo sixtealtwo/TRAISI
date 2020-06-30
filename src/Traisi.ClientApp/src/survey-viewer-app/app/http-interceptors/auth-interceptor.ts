@@ -14,9 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
 	public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 		if (this._authService.isLoggedIn) {
 			request = request.clone({
-				setHeaders: {
-					Authorization: `Bearer ${this._authService.accessToken}`,
-				},
+				setHeaders: this.getRequestHeaders(),
 			});
 			return next.handle(request);
 		} else {
@@ -24,14 +22,13 @@ export class AuthInterceptor implements HttpInterceptor {
 		}
 	}
 
-	protected getRequestHeaders(
-		rType: any = 'json'
-	): {
-		headers: HttpHeaders | { [header: string]: string | string[] };
-		responseType: any;
-	} {
+	/**
+	 *
+	 * @param rType
+	 */
+	protected getRequestHeaders(rType: any = 'json'): { [header: string]: string | string[] } {
 		if (this._authService.currentUser != null && this._authService.currentUser.roles.includes('respondent')) {
-			let headers = new HttpHeaders({
+			let headers: { [header: string]: string | string[] } = {
 				Authorization: 'Bearer ' + this._authService.accessToken,
 				'Content-Type': 'application/json',
 				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
@@ -39,18 +36,18 @@ export class AuthInterceptor implements HttpInterceptor {
 				Shortcode: this._authService.currentSurveyUser.shortcode,
 				'Respondent-Id': this._authService.currentSurveyUser.id,
 				Language: 'en',
-			});
+			};
 
-			return { headers: headers, responseType: rType };
+			return headers;
 		} else {
-			let headers = new HttpHeaders({
+			let headers: { [header: string]: string | string[] } = {
 				Authorization: 'Bearer ' + this._authService.accessToken,
 				'Content-Type': 'application/json',
 				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				Language: 'en',
-			});
+			};
 
-			return { headers: headers, responseType: rType };
+			return headers;
 		}
 	}
 }

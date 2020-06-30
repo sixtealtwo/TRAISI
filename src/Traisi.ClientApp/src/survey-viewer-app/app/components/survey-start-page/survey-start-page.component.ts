@@ -83,8 +83,7 @@ export class SurveyStartPageComponent implements OnInit {
 		});
 
 		this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
-			this.surveyStartConfig = surveyStartModel;
-
+			this.surveyStartConfig = surveyStartModel; 
 			this._route.paramMap.subscribe(map => {
 				if (map.has('shortcode')) {
 					const shortcode = map.get('shortcode');
@@ -117,6 +116,8 @@ export class SurveyStartPageComponent implements OnInit {
 		});
 
 		this.authMode = this._surveyViewerService.authenticationMode;
+
+		console.log('here'); 
 	}
 
 	/**
@@ -168,7 +169,6 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @param shortcode
 	 */
 	public trySurveyLogin(shortcode: string): void {
-		console.log(this.surveyStartConfig);
 
 		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, shortcode, this._queryParams).subscribe(r => {
 			this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode).subscribe(

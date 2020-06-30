@@ -40,6 +40,7 @@ import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { QuestionInstance } from 'app/models/question-instance.model';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { NavigationState } from 'app/models/navigation-state.model';
+import { AuthService } from 'shared/services/auth.service';
 interface SpecialPageDataInput {
 	pageHTML: string;
 	pageThemeInfo: string;
@@ -128,6 +129,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public currentUser: SurveyUser;
 
+	public get userShortcode(): string {
+		return this._authService.currentSurveyUser.shortcode;
+	}
+
 	/**
 	 * Gets whether is admin
 	 */
@@ -161,6 +166,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private _router: Router,
 		private _titleService: Title,
 		private elementRef: ElementRef,
+		private _authService: AuthService, 
 		private _respondentService: SurveyViewerRespondentService,
 		@Inject(LOCAL_STORAGE) private _storage: StorageService
 	) {

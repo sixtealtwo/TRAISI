@@ -104,6 +104,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 				} else if (sectionInfo.sectionType.startsWith('mainSurveyAccess')) {
 					this.surveyAccessComponent = this.getComponent(sectionInfo.sectionType);
 					this.surveyAccessHTML = sectionInfo.html;
+					console.log('here 33');
 				} else if (sectionInfo.sectionType.startsWith('footer')) {
 					this.footerComponent = this.getComponent(sectionInfo.sectionType);
 					this.footerHTML = sectionInfo.html;
