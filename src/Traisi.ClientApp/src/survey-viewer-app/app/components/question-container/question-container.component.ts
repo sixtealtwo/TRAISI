@@ -141,9 +141,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		private _questionConfigurationService: QuestionConfigurationService,
 		private _textTransformer: SurveyTextTransformer,
 		private _instanceState: QuestionInstanceState,
-		private _responseService: SurveyViewerResponseService
+		private _responseService: SurveyViewerResponseService,
+		private _elementRef: ElementRef
 	) {
 		// setup _state service
+		// console.log(this._elementRef); 
 	}
 
 	/**
@@ -158,12 +160,13 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Unregister question etc and unsubscribe certain subs
 	 */
-	public ngOnDestroy(): void {}
+	public ngOnDestroy(): void { }
 
 	/**
 	 *
 	 */
 	public ngOnInit(): void {
+		console.log('in on init ');
 		/**
 		 * Load the question component into the specified question outlet.
 		 */
@@ -187,11 +190,14 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				);
 
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
-				if (this.displayClass !== '') {
-					this.renderer.addClass(this.questionSectionElement.nativeElement, this.displayClass);
-				} else {
-					// remove all of the classes
-					this.renderer.setAttribute(this.questionSectionElement.nativeElement, 'class', 'question-section');
+				if (this.questionSectionElement) {
+					if (this.displayClass !== '') {
+
+						this.renderer.addClass(this.questionSectionElement.nativeElement, this.displayClass);
+					} else {
+						// remove all of the classes
+						this.renderer.setAttribute(this.questionSectionElement.nativeElement, 'class', 'question-section');
+					}
 				}
 
 				this._responseSaved = new Subject<boolean>();
@@ -214,7 +220,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				].questionInstanceState = this._instanceState;
 
 				surveyQuestionInstance.respondent = this.respondent;
-				surveyQuestionInstance.traisiOnInit(true); 
+				surveyQuestionInstance.traisiOnInit(true);
 				// surveyQuestionInstance.serverConfiguration = questionConfiguration;
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
@@ -238,8 +244,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						)).next(this.question.configuration);
 					});
 			},
-			(error) => {},
-			() => {}
+			(error) => { },
+			() => { }
 		);
 	}
 

@@ -166,11 +166,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private _router: Router,
 		private _titleService: Title,
 		private elementRef: ElementRef,
-		private _authService: AuthService, 
+		private _authService: AuthService,
 		private _respondentService: SurveyViewerRespondentService,
+
 		@Inject(LOCAL_STORAGE) private _storage: StorageService
 	) {
 		this.ref = this;
+
 	}
 
 	/**
@@ -440,7 +442,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public initializeNavigator(): void {
 		if (this._storage.has(`surveyState:${this.surveyId}`)) {
 			let restoredState = this._storage.get(`surveyState:${this.surveyId}`) as NavigationState;
-			this.navigator.initialize(restoredState).subscribe((v) => {});
+			this.navigator.initialize(restoredState).subscribe((v) => { });
 		} else {
 			this.navigator.initialize().subscribe();
 		}
@@ -474,7 +476,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		// this._navigationService.navigatePrevious();
 
 		this.navigator.navigatePrevious().subscribe({
-			next: (v) => {},
+			next: (v) => { },
 			complete: () => {
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
@@ -489,7 +491,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigateNext(): void {
 		this.viewerState.isNavProcessing = true;
 		this.navigator.navigateNext().subscribe({
-			next: (v) => {},
+			next: (v) => { },
 			complete: () => {
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
@@ -574,9 +576,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
-	public ngAfterContentInit(): void {}
+	public ngAfterContentInit(): void { }
 
-	public ngAfterViewChecked(): void {}
+	public ngAfterViewChecked(): void { }
 
 	/**
 	 * Uses dark buttons
