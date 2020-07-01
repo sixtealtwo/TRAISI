@@ -22,6 +22,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SliderQuestionComponent } from './slider-question/slider-question.component';
 import { ContactInformationQuestionComponent } from 'contact-information-question/contact-information-question.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 @NgModule({
@@ -154,7 +155,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		}
 	],
 	id: 'traisi-questions',
-	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, tooltipForRoot, TextMaskModule, NgSelectModule, TimepickerModule]
+	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, tooltipForRoot, TextMaskModule, NgSelectModule, TimepickerModule,NgxMaskModule.forRoot()]
 })
 export default class TraisiQuestions {
 	static forRoot(): ModuleWithProviders<TraisiQuestions> {

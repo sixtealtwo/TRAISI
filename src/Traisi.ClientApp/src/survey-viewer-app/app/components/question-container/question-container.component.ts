@@ -166,11 +166,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 *
 	 */
 	public ngOnInit(): void {
-		console.log('in on init ');
-		/**
-		 * Load the question component into the specified question outlet.
-		 */
-		// this.responseValidationState = { isValid: false, messages: [] };
 		this.processPipedQuestionLabel(this.question.label);
 
 		this.questionLoaderService.loadQuestionComponent(this.question, this.questionOutlet).subscribe(

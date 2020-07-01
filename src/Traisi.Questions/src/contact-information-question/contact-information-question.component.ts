@@ -10,7 +10,7 @@ import { SurveyQuestion, ResponseTypes, QuestionConfiguration, SurveyViewer, Que
 
 import templateString from './contact-information-question.component.html';
 import styleString from './contact-information-question.component.scss';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 /**
  *
@@ -25,8 +25,12 @@ import { debounceTime } from 'rxjs/operators';
 	styles: ['' + styleString],
 })
 export class ContactInformationQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit {
+
 	@ViewChild('contactForm', { static: true })
 	public contactForm: NgForm;
+
+	@ViewChild('emailInput', { static: false })
+	public emailInput: FormControl;
 
 	public contactRespondent: SurveyRespondent = {
 		email: '',
@@ -66,5 +70,5 @@ export class ContactInformationQuestionComponent extends SurveyQuestion<Response
 		});
 	}
 
-	public onSubmit() {}
+	public onSubmit() { }
 }

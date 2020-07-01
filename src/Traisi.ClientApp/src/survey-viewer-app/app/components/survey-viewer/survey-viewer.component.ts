@@ -448,9 +448,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 	}
 
-	public trackById(index: number, item: any): string {
-		let val = item.id + '_' + this.navigator?.navigationState$.value.activeRespondentIndex;
-		return val;
+	public trackById(index: number, item: QuestionInstance): string {
+		return item?.id;
 	}
 
 	/**

@@ -200,7 +200,6 @@ export class ConditionalEvaluator {
 			if (questionId) {
 				let question = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId];
 				if (!this._responseService.hasStoredResponse(question, respondent)) {
-					console.log('no question yet');
 					return false;
 				}
 			}
@@ -208,7 +207,6 @@ export class ConditionalEvaluator {
 			if (questionId) {
 				let question = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId];
 				if (!this._responseService.hasStoredResponse(question, respondent)) {
-					console.log('no question yet');
 					return false;
 				}
 			}

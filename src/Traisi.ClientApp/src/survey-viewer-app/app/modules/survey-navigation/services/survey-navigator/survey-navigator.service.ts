@@ -81,6 +81,10 @@ export class SurveyNavigator {
 		this._surveyCompleted$ = new Subject<void>();
 	}
 
+	/**
+	 * Initialize the survey navigator
+	 * @param state Pass a base state, optional
+	 */
 	public initialize(state?: NavigationState): Observable<NavigationState> {
 		this.navigationState$.subscribe((v) => this._navigationStateChanged(v));
 		if (state) {
@@ -129,7 +133,7 @@ export class SurveyNavigator {
 	 */
 	public navigateNext(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
-		let nav = this._incrementNavigation(this.navigationState$.value).pipe(share());
+		let nav = this._incrementNavigation(this._newState());
 		this.nextEnabled$.next(false);
 		nav.subscribe((state) => {
 			this.previousEnabled$.next(true);
@@ -144,7 +148,7 @@ export class SurveyNavigator {
 	 */
 	public navigatePrevious(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
-		let prev = this._decrementNavigation(this.navigationState$.value).pipe(share());
+		let prev = this._decrementNavigation(this._newState());
 		prev.subscribe((state) => {
 			this.navigationState$.next(state);
 			if (state.activeQuestionIndex === 0) {
@@ -305,10 +309,6 @@ export class SurveyNavigator {
 				obs.complete();
 			});
 
-			// this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
-			// 	navigationState.activeQuestionInstances = questionInstances;
-			// 	this.validationChanged();
-			// });
 		});
 	}
 
@@ -320,19 +320,25 @@ export class SurveyNavigator {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
 
 		// get active question
-		if (
+		if (currentState.activeQuestionInstances[0]?.component &&
 			!currentState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
 			currentState.activeQuestionInstances.length > 0
 		) {
+			console.log('in ignore ');
 			// ignore
 		} else if (
 			currentState.activeSection?.isHousehold &&
 			currentState.activeRespondentIndex < this._state.viewerState.groupMembers.length - 1
 		) {
 			newState.activeRespondentIndex++;
+			newState.activeRespondent = this._state.viewerState.groupMembers[newState.activeRespondentIndex];
+			console.log('new respondent');
+			console.log(newState.activeRespondent);
 		} else {
+			console.log('in here ');
 			newState.activeQuestionIndex += 1;
 			newState.activeRespondentIndex = 0;
+			newState.activeRespondent = this._state.viewerState.groupMembers[newState.activeRespondentIndex];
 		}
 
 		if (this._isOutsideSurveyBounds(newState)) {
@@ -399,6 +405,7 @@ export class SurveyNavigator {
 					navigationState.activeSectionId = questionInstances[0]?.model.parentSection?.id;
 					navigationState.activeSection = questionInstances[0]?.model.parentSection;
 					navigationState.activeRespondent = this._getRespondentForIdx(navigationState.activeRespondentIndex);
+					console.log(navigationState);
 					for (let question of questionInstances) {
 						let instanceId = this.getQuestionInstanceId(
 							question.model,
@@ -579,6 +586,13 @@ export class SurveyNavigator {
 	}
 
 	/**
+	 * 
+	 */
+	private _newState(): NavigationState {
+		return this._initializeNavigationSate(this._currentState);
+	}
+
+	/**
 	 *
 	 * @param baseState
 	 */
@@ -592,7 +606,7 @@ export class SurveyNavigator {
 			activeValidationStates: [],
 			activePage: baseState.activePage,
 			activePageIndex: baseState.activePageIndex,
-			activeRespondent: baseState.activeRespondent,
+			activeRespondent: undefined,
 			activeRespondentIndex: baseState.activeRespondentIndex,
 			activeSection: baseState.activeSection,
 			activeSectionIndex: baseState.activeSectionIndex,
