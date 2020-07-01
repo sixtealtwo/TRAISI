@@ -6,7 +6,7 @@ import { QuestionInstance } from 'app/models/question-instance.model';
 import { SurveyViewPage } from 'app/models/survey-view-page.model';
 import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { findIndex, every } from 'lodash';
-import { expand, share, tap, flatMap, map, count, takeWhile } from 'rxjs/operators';
+import { expand, share, tap, flatMap, map, count, takeWhile, take } from 'rxjs/operators';
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
@@ -317,14 +317,12 @@ export class SurveyNavigator {
 	 * @param currentState
 	 */
 	private _incrementNavigation(currentState: NavigationState): Observable<NavigationState> {
-		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
+		const newState: NavigationState = Object.assign({}, currentState);
 
 		// get active question
-		if (currentState.activeQuestionInstances[0]?.component &&
-			!currentState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
+		if (!currentState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
 			currentState.activeQuestionInstances.length > 0
 		) {
-			console.log('in ignore ');
 			// ignore
 		} else if (
 			currentState.activeSection?.isHousehold &&
@@ -332,15 +330,11 @@ export class SurveyNavigator {
 		) {
 			newState.activeRespondentIndex++;
 			newState.activeRespondent = this._state.viewerState.groupMembers[newState.activeRespondentIndex];
-			console.log('new respondent');
-			console.log(newState.activeRespondent);
 		} else {
-			console.log('in here ');
 			newState.activeQuestionIndex += 1;
 			newState.activeRespondentIndex = 0;
 			newState.activeRespondent = this._state.viewerState.groupMembers[newState.activeRespondentIndex];
 		}
-
 		if (this._isOutsideSurveyBounds(newState)) {
 			this._surveyCompleted$.complete();
 			return EMPTY;
@@ -354,11 +348,11 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 *
+	 * Determines if the current state is outside survey limits.
 	 * @param state
 	 */
 	private _isOutsideSurveyBounds(state: NavigationState): boolean {
-		return state.activeQuestionIndex >= this._state.viewerState.surveyQuestions.length;
+		return state.activeQuestionIndex >= this._state.viewerState.questionBlocks.length;
 	}
 
 	/**
@@ -405,7 +399,6 @@ export class SurveyNavigator {
 					navigationState.activeSectionId = questionInstances[0]?.model.parentSection?.id;
 					navigationState.activeSection = questionInstances[0]?.model.parentSection;
 					navigationState.activeRespondent = this._getRespondentForIdx(navigationState.activeRespondentIndex);
-					console.log(navigationState);
 					for (let question of questionInstances) {
 						let instanceId = this.getQuestionInstanceId(
 							question.model,
@@ -598,8 +591,8 @@ export class SurveyNavigator {
 	 */
 	private _initializeNavigationSate(baseState: NavigationState): NavigationState {
 		return {
-			activeQuestionIndex: this._currentState.activeQuestionIndex,
-			activeQuestionInstances: [],
+			activeQuestionIndex: baseState.activeQuestionIndex,
+			activeQuestionInstances: baseState.activeQuestionInstances,
 			isLoaded: true,
 			isNextEnabled: true,
 			isPreviousEnabled: true,

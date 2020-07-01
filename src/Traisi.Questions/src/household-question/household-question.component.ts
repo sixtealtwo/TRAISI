@@ -52,7 +52,6 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		this._respondentService.getSurveyGroupMembers(respondent).subscribe((value) => {
 			const arr = <Array<SurveyRespondent>>value;
 
-			console.log(this.primaryRespondent);
 			if (
 				arr.length === 1 &&
 				this.primaryRespondent.respondent.name &&
@@ -73,7 +72,6 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				};
 			}
 
-			console.log(arr); 
 			arr.splice(0, 1);
 
 			arr.forEach((element) => {
@@ -108,8 +106,6 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		if (respondentEdit.respondent.id === undefined) {
 			this._respondentService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
 				(value) => {
-					console.log('added');
-					console.log(value);
 					respondentEdit.respondent.id = <number>value;
 					respondentEdit.isSaved = true;
 					this.validationState.emit(ResponseValidationState.VALID);
