@@ -2,9 +2,7 @@ import { Component, OnInit, HostListener, ViewChild, AfterViewInit, AfterContent
 import { Router, NavigationStart } from '@angular/router';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { AlertService, AlertDialog, DialogType, AlertMessage, MessageSeverity } from '../../shared/services/alert.service';
-import { NotificationService } from './services/notification.service';
 import { AppTranslationService } from '../../shared/services/app-translation.service';
-import { AccountService } from './services/account.service';
 import { LocalStoreManager } from '../../shared/services/local-store-manager.service';
 import { AppTitleService } from './services/app-title.service';
 import { AuthService } from '../../shared/services/auth.service';
@@ -31,7 +29,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 	public toastContainer: ToastContainerDirective;
 
 	@HostListener('window:beforeunload', ['$event'])
-	public beforeUnloadHander(event: any): void {}
+	public beforeUnloadHander(): void {}
 
 	public constructor(
 		storageManager: LocalStoreManager,
@@ -39,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 		private alertService: AlertService,
 		private appTitleService: AppTitleService,
 		private authService: AuthService,
-		private translationService: AppTranslationService,
+		translationService: AppTranslationService,
 		public configurations: ConfigurationService,
 		public router: Router
 	) {
@@ -213,7 +211,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
 		if (isSticky) {
 			this.stickyToasties.push(toast.toastId);
-			toast.onHidden.subscribe(result => {
+			toast.onHidden.subscribe(() => {
 				const index = this.stickyToasties.findIndex(id => id === toast.toastId);
 				if (index >= 0) {
 					this.stickyToasties.splice(index);

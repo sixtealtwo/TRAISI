@@ -106,8 +106,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	public get navIndex(): number {
 		return 1;
-		//return this._navigator.
-		//return this._viewerStateService.viewerState.questionNavIndex + 1;
+		// return this._navigator.
+		// return this._viewerStateService.viewerState.questionNavIndex + 1;
 	}
 
 	public get viewerState(): SurveyViewerState {
@@ -144,8 +144,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		private _responseService: SurveyViewerResponseService,
 		private _elementRef: ElementRef
 	) {
-		// setup _state service
-		// console.log(this._elementRef); 
+
 	}
 
 	/**
@@ -195,11 +194,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					}
 				}
 
-				this._responseSaved = new Subject<boolean>();
+				// this._responseSaved = new Subject<boolean>();
 
 				this._instanceState.initialize(this.respondent, this.surveyViewQuestion, componentRef.instance);
 
-				this._responseSaved.pipe(share()).subscribe(this.onResponseSaved);
+				// this._responseSaved.pipe(share()).subscribe(this.onResponseSaved);
 
 				// surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
 				surveyQuestionInstance.autoAdvance.subscribe((result: number) => {
@@ -215,7 +214,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				].questionInstanceState = this._instanceState;
 
 				surveyQuestionInstance.respondent = this.respondent;
-				surveyQuestionInstance.traisiOnInit(true);
+				surveyQuestionInstance.traisiOnInit();
 				// surveyQuestionInstance.serverConfiguration = questionConfiguration;
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
@@ -258,7 +257,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		let questionId: number = +Object.keys(this._viewerStateService.viewerState.questionTypeMap).find(
 			(key) => this._viewerStateService.viewerState.questionTypeMap[key] === 'household'
 		);
-		return Object.keys(this._viewerStateService.viewerState.questionNameMap).find((key) => this._viewerStateService.viewerState.questionNameMap[key].questionId === questionId);
+		return Object.keys(this._viewerStateService.viewerState.questionNameMap).find(
+			(key) => this._viewerStateService.viewerState.questionNameMap[key].questionId === questionId);
 	}
 
 
@@ -318,27 +318,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	/**
-	 * Determines whether response validation state changed on
-	
-	private onResponseValidationStateChanged: (validationState: SurveyV) => void = (
-		validationState: ResponseValidationState
-	): void => {
-		this._viewerStateService.updateGroupQuestionValidationState(this.surveyViewQuestion, validationState);
-		// this.responseValidationState = validationState;
-		if (this.surveyViewQuestion.respondentValidationState === undefined) {
-			this.surveyViewQuestion.respondentValidationState = {};
-		}
-		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
 
-		this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState =validationState;
-
-		this._navigator.validationChanged();
-	}; */
-
-	/**
-	 * Determines whether response saved on
-	 */
 	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
 		// this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState
 		// = this.responseValidationState;

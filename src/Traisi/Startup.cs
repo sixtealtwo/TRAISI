@@ -707,7 +707,7 @@ namespace Traisi
             app.UseRequestLocalization();
             app.UseOpenApi();
             app.UseSwaggerUi3();
-
+            Console.WriteLine("Is Development: " + env.IsDevelopment());
             app
                 .UseMvc(routes =>
                 {
@@ -729,6 +729,7 @@ namespace Traisi
                                 env.IsDevelopment()
                                     ? "../Traisi.ClientApp/"
                                     : "Traisi.ClientApp/";
+                            Console.WriteLine(spa.Options.SourcePath);
                             spa.Options.StartupTimeout =
                                 TimeSpan.FromSeconds(599);
                             spa.Options.DefaultPage = "/admin/index.html";
@@ -751,6 +752,7 @@ namespace Traisi
                                 env.IsDevelopment()
                                     ? "../Traisi.ClientApp/"
                                     : "Traisi.ClientApp/";
+                            Console.WriteLine(spa.Options.SourcePath);
                             spa.Options.DefaultPage = "/survey/index.html";
                             spa.Options.StartupTimeout =
                                 TimeSpan.FromSeconds(599);

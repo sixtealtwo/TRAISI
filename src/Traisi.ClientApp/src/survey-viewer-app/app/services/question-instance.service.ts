@@ -9,8 +9,7 @@ import {
 } from 'traisi-question-sdk';
 import { SurveyViewerResponseService } from './survey-viewer-response.service';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
-import { isArray } from 'util';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SurveyViewerValidationStateViewModel, ValidationState } from './survey-viewer-api-client.service';
 
 @Injectable()
@@ -18,7 +17,6 @@ export class QuestionInstanceState {
 	private _questionModel: SurveyViewQuestion;
 	private _questionInstance: SurveyQuestion<ResponseTypes>;
 	private _respondent: SurveyRespondent;
-	private _repeatIndex: number = 0;
 
 	public get questionInstance(): SurveyQuestion<ResponseTypes> {
 		return this._questionInstance;
@@ -50,7 +48,6 @@ export class QuestionInstanceState {
 		this._respondent = respondent;
 		this._questionInstance = questionInstance;
 		this._questionModel = questionModel;
-		this._repeatIndex = repeatIndex;
 		this._questionInstance.response.subscribe(this.onSaveResponse);
 		this._questionInstance.validationState.subscribe(this.onValidationStateChanged);
 		this._questionInstance.respondent = respondent;

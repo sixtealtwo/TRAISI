@@ -249,7 +249,7 @@ export class QuestionLoaderService {
 				map((moduleRef: any) => {
 					const componentFactory: ComponentFactoryBoundToModule<any> = <
 						ComponentFactoryBoundToModule<any>
-					>this.createComponentFactory(moduleRef, questionType);
+						>this.createComponentFactory(moduleRef, questionType);
 					return componentFactory;
 				}),
 				expand(
@@ -304,8 +304,10 @@ export class QuestionLoaderService {
 
 		const componentFactory: ComponentFactoryBoundToModule<any> = <
 			ComponentFactoryBoundToModule<any>
-		>resolver.resolveComponentFactory(widget.component);
+			>resolver.resolveComponentFactory(widget.component);
 
+		console.log('component factory');
+		console.log(componentFactory);
 		if (!(questionType in this._componentFactories)) {
 			// 	this._componentFactories[questionType] = componentFactory;
 		}
@@ -333,6 +335,10 @@ export class QuestionLoaderService {
 						question,
 						configuration
 					);
+				},
+				error: (r) => {
+					console.log(r);
+					console.error('Error loading question / getting factory.');
 				},
 				complete: () => {
 					let componentRef = viewContainerRef.createComponent(

@@ -77,7 +77,7 @@ namespace Traisi.Services
             string language = "en",
             SurveyViewType viewType = SurveyViewType.RespondentView)
         {
-            Survey survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
+            Survey survey = await this._unitOfWork.Surveys.GetSurveyWelcomeView(surveyId, viewType, language);
 
             if (viewType == SurveyViewType.RespondentView && survey.SurveyViews.Count > 0)
             {
@@ -335,7 +335,7 @@ namespace Traisi.Services
         /// <returns></returns>
         public async Task<SurveyStartViewModel> GetSurveyWelcomeView(string name)
         {
-            Survey survey = await this._unitOfWork.Surveys.GetSurveyByCodeFullAsync(name);
+            Survey survey = await this._unitOfWork.Surveys.GetSurveyWelcomeView(name, SurveyViewType.RespondentView, "en");
             return survey.ToLocalizedModel<SurveyStartViewModel>(_mapper, "en");
         }
 

@@ -71,7 +71,7 @@ import { SurveyProgressComponent } from './components/survey-progress/survey-pro
 import { StorageServiceModule, StorageService } from 'ngx-webstorage-service';
 
 export const STORAGE_TOKEN =
-    new InjectionToken<StorageService>('STORAGE_TOKEN');
+	new InjectionToken<StorageService>('STORAGE_TOKEN');
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -129,7 +129,7 @@ export const STORAGE_TOKEN =
 		SurveyNavigationModule.forRoot(),
 		SurveyViewerAuthorizationModule,
 		ToastrModule.forRoot(),
-		StorageServiceModule 
+		StorageServiceModule
 	],
 	providers: [
 		LocalStoreManager,
@@ -146,7 +146,7 @@ export const STORAGE_TOKEN =
 		SurveyResponderService,
 		SurveyViewerRespondentService,
 		SurveyViewerResponseService,
-		{ provide: 'SurveyResponseService', useExisting: SurveyViewerResponseService},
+		{ provide: 'SurveyResponseService', useExisting: SurveyViewerResponseService },
 		{ provide: 'SurveyRespondentService', useExisting: SurveyViewerRespondentService },
 		SurveyViewerStateService,
 		FormControlDirective,
@@ -173,4 +173,4 @@ export const STORAGE_TOKEN =
 	],
 	bootstrap: [SurveyViewerContainerComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -41,7 +41,7 @@
 		<PackageReference Include="Geocoding.Core" Version="4.0.1" />
 		<PackageReference Include="Geocoding.Google" Version="4.0.1" />
 		<PackageReference Include="HangFire" Version="1.7.11" />
-		<PackageReference Include="Hangfire.PostgreSql" Version="1.6.4" /> 
+		<PackageReference Include="Hangfire.PostgreSql" Version="1.6.4" />
 		<PackageReference Include="MailKit" Version="2.6.0" />
 		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.3" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
@@ -63,13 +63,6 @@
 
 	</ItemGroup>
 	<ItemGroup>
-		<!-- Don't publish the SPA source files, but do show them in the project files list -->
-		<!-- <Compile Remove="..\TRAISI.UI\questions\**" />
-         <Content Remove="$(SpaRoot)**" />
-         <Content Remove="..\TRAISI.UI\questions\**" /> -->
-		<!-- <Compile Remove="$(SpaRoot)\**" />
-		<Content Remove="$(SpaRoot)**" />
-		<Content Remove="$(SpaRoot)\**" /> -->
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
 	</ItemGroup>
 	<ItemGroup>
@@ -93,12 +86,6 @@
 
 	</ItemGroup>
 
-	<!-- <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' == 'Debug'">
-		<Exec WorkingDirectory="..\TRAISI.SDK\Module" Command="npm install" />
-		<Exec WorkingDirectory="..\TRAISI.SDK\Module" Command="npm run build" />
-		<Message Text="Compiled and bundled JS library" Importance="High" />
-	</Target> -->
-
 	<Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
 		<!-- Ensure Node.js is installed -->
 		<Exec Command="node --version" ContinueOnError="true">
@@ -118,27 +105,72 @@
 	</Target>
 
 	<ItemGroup>
-		<Content Include="$(SpaRoot)\dist**" >
+		<Content Include="$(SpaRoot)\dist**">
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
 	</ItemGroup>
 
+	<ItemGroup>
+
+		<None Include="$(SpaRoot)\**\**tsconfig" CopyToOutputDirectory="Never" />
+		<!--<Content Include="$(SpaRoot)\dist\**" Link="Traisi.ClientApp\dist\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" /> -->
+		<Content Update="appsettings.local.json" CopyToPublishDirectory="Never" CopyToOutputDirectory="PreserveNewest" />
+		<Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" CopyToOutputDirectory="Never" />
+		<None Include="extensions\**" CopyToOutputDirectory="PreserveNewest" />
+		<!-- CopyToOutputDirectory = { Always, PreserveNewest, Never } -->
+	</ItemGroup>
+
+	<Target Name="BuildRunWebpack" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
+		<Message Text="Building admin angular app..." Importance="high" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  --source-map" StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Message Text="Building survey viewer angular app..." Importance="high" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --aot=false --build-optimizer=false --source-map" StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Message Text="Finished building client side components." Importance="high" />
+	</Target>
+
+	<Target Name="CopyClientBuild" AfterTargets="Build">
+	 <RemoveDir
+            Directories="$(OutputPath)\Traisi.ClientApp" />
+	<Message Text="Copying client files to output directory..." Importance="high" />
+		<ItemGroup>
+			<_CopyItems Include="$(SpaRoot)dist\**" />
+		</ItemGroup>
+		<Copy SourceFiles="@(_CopyItems)" DestinationFolder="$(OutputPath)\Traisi.ClientApp\dist\%(_CopyItems.RecursiveDir)" />
+	</Target>
+
 	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
 		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
 
+		<Message Text="Installing node package dependencies for main client app..." Importance="high" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install --no-audit" StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Message Text="Building admin angular app..." Importance="high" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  " StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Message Text="Building survey viewer angular app..." Importance="high" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=false --build-optimizer=false" StandardOutputImportance="low" StandardErrorImportance="low"/>
 
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=false --build-optimizer=false" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- survey-viewer-app --prod --aot=false --build-optimizer=false" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+		<!--<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -/- -/-prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -/- survey-viewer-app -/-prod -/-aot=false -/-build-optimizer=false" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+		-->
+		<Message Text="Finished building client side components." Importance="high" />
+		<ItemGroup>
+			<Content Update="$(SpaRoot)dist\admin\**; $(SpaRoot)dist\survey\**" CopyToOutputDirectory="Always" />
+		</ItemGroup>
+
 		<!-- Include the newly-built files in the publish output -->
 		<ItemGroup>
-			<DistFiles Include="$(SpaRoot)\**"/>
-			<DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**; extensions\**; Resources\**" />
-			<DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+			<!--<DistFiles Include="$(SpaRoot)\**" Remove="$(SpaRoot)\node_modules\**"/>  -->
+			<DistFiles Include="extensions\**; Resources\**;" />
 			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
 				<RelativePath>%(DistFiles.Identity)</RelativePath>
+				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			</ResolvedFileToPublish>
+		</ItemGroup>
+	</Target>
+	<Target Name="CopyTraisiClientApp" AfterTargets="ComputeFilesToPublish">
+		<ItemGroup>
+			<DistFiles Include="..\Traisi.ClientApp\dist\admin\**;..\Traisi.ClientApp\dist\survey\**;" />
+			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+				<RelativePath>publish/%(DistFiles.Identity)</RelativePath>
 				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 			</ResolvedFileToPublish>
 		</ItemGroup>

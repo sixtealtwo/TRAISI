@@ -271,8 +271,8 @@ export class SurveyNavigator {
 	 * @param pageId
 	 */
 	public navigateToPage(pageId: number): Observable<NavigationState> {
-		let pageIndex = findIndex(this._state.viewerState.surveyPages, (page) => {
-			return page.id === pageId;
+		let pageIndex = findIndex(this._state.viewerState.surveyPages, (q: SurveyViewPage) => {
+			return q.id === pageId;
 		});
 		if (pageIndex < 0) {
 			pageIndex = 0;
@@ -366,14 +366,16 @@ export class SurveyNavigator {
 			newState.activeQuestionInstances[0].component.navigateInternalPrevious();
 		} else if (newState.activeSection?.isHousehold && newState.activeRespondentIndex > 0) {
 			newState.activeRespondentIndex--;
-		} else if (newState.activeSection?.isHousehold && newState.activeRespondentIndex == 0) {
+		} else if (newState.activeSection?.isHousehold && newState.activeRespondentIndex === 0) {
 			newState.activeRespondentIndex = this._state.viewerState.groupMembers.length - 1;
 			newState.activeQuestionIndex -= 1;
+			newState.activeRespondent = this._state.viewerState.groupMembers[newState.activeRespondentIndex];
 		} else {
 			newState.activeRespondentIndex = 0;
 			newState.activeQuestionIndex -= 1;
+			newState.activeRespondent = this._state.viewerState.groupMembers[newState.activeRespondentIndex];
 		}
-		return this._initState(newState, false).pipe(
+		return this._initState(newState).pipe(
 			expand((state) => {
 				return state.activeQuestionInstances.length === 0 ? this._decrementNavigation(currentState) : EMPTY;
 			})
@@ -385,13 +387,15 @@ export class SurveyNavigator {
 	 * @param navigationState
 	 */
 	private _initState(
-		navigationState: NavigationState,
-		evaluateConditions: boolean = true
+		navigationState: NavigationState
 	): Observable<NavigationState> {
 		return new Observable((obs: Observer<NavigationState>) => {
-			this._initQuestionInstancesForState(navigationState, evaluateConditions).subscribe((questionInstances) => {
+			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
 				navigationState.activeQuestionInstances = [];
 				if (questionInstances.length > 0) {
+					if (navigationState.activeRespondentIndex > this._state.viewerState.groupMembers.length - 1) {
+						navigationState.activeRespondentIndex = 0;
+					}
 					navigationState.activePage = this._state.viewerState.surveyPages[
 						questionInstances[0]?.model.pageIndex
 					];
@@ -405,7 +409,7 @@ export class SurveyNavigator {
 							0,
 							navigationState.activeRespondent
 						);
-						let prevIdx = findIndex(this._currentState.activeQuestionInstances, (instance) => {
+						let prevIdx = findIndex(this._currentState.activeQuestionInstances, (instance: { id: string; }) => {
 							return instance.id === instanceId;
 						});
 						if (prevIdx >= 0) {
@@ -440,21 +444,18 @@ export class SurveyNavigator {
 	 * @param evaluateConditions
 	 */
 	private _initQuestionInstancesForState(
-		navigationState: NavigationState,
-		evaluateConditions: boolean = true
+		navigationState: NavigationState
 	): Observable<QuestionInstance[]> {
 		let questions: SurveyViewQuestion[] = [];
 		questions = questions.concat(this._state.viewerState.questionBlocks[navigationState.activeQuestionIndex]);
-		this._state.viewerState.activeRespondent = this._state.viewerState.groupMembers[
-			navigationState.activeRespondentIndex
-		];
 		if (navigationState.activeQuestionIndex >= this._state.viewerState.questionBlocks.length) {
 			return Observable.of([]);
 		} else {
 			let questionInstances = [];
 			let evals = [];
+			navigationState.activeRespondent = this._state.viewerState.groupMembers[navigationState.activeRespondentIndex]; 
 			for (let question of questions) {
-				evals.push(this._conditionalEvaluator.shouldHide(question, this._state.viewerState.activeRespondent));
+				evals.push(this._conditionalEvaluator.shouldHide(question, navigationState.activeRespondent));
 			}
 			return new Observable((obs) => {
 				forkJoin(evals).subscribe(
@@ -476,9 +477,9 @@ export class SurveyNavigator {
 							let instanceId = this.getQuestionInstanceId(
 								result.question,
 								0,
-								this._state.viewerState.activeRespondent
+								navigationState.activeRespondent
 							);
-							let prevIdx = findIndex(this.navigationState$.value.activeQuestionInstances, (instance) => {
+							let prevIdx = findIndex(this.navigationState$.value.activeQuestionInstances, (instance: { id: string; }) => {
 								return instance.id === instanceId;
 							});
 

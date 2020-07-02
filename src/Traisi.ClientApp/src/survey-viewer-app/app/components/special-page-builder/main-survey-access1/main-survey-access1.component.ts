@@ -80,7 +80,6 @@ export class MainSurveyAccess1Component
 		public surveyViewerService: SurveyViewerService,
 		public surveySession: SurveyViewerSession
 	) {
-		console.log('in here ');
 	}
 
 	public ngOnInit(): void {

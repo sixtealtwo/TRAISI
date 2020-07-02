@@ -10,6 +10,7 @@ using Traisi.Data.Models.Questions;
 using Traisi.Data.Models.Surveys;
 using Traisi.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Traisi.Data.Models.Extensions;
 
 namespace Traisi.Data.Repositories
 {
@@ -207,6 +208,64 @@ namespace Traisi.Data.Repositories
             return result;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="viewType"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyWelcomeView(string code, SurveyViewType viewType, string language = "en")
+        {
+            return await GetSurveyWelcomeView(_appContext.Surveys.Where(s => s.Code == code), viewType);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="viewType"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyWelcomeView(int surveyId, SurveyViewType viewType, string language = "en")
+        {
+            return await GetSurveyWelcomeView(_appContext.Surveys.Where(s => s.Id == surveyId), viewType);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="viewName"></param>
+        /// <returns></returns>
+        private async Task<Survey> GetSurveyWelcomeView(IQueryable<Survey> query, SurveyViewType viewType, string language = "en")
+        {
+            string viewName = viewType == SurveyViewType.RespondentView ? "Standard" : "CATI";
+            var result = await query.Select(s => new
+            {
+                WelcomePageLabels = s.SurveyViews.Where(v => v.ViewName == viewName).FirstOrDefault().WelcomePageLabels.Where(l => l.Language == language).FirstOrDefault(),
+                TermsAndConditionsLabels = s.SurveyViews.Where(v => v.ViewName == viewName).FirstOrDefault().TermsAndConditionsLabels.Where(l => l.Language == language).FirstOrDefault(),
+                Survey = new Survey()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    HasGroupCodes = s.HasGroupCodes,
+                    TitleLabels = s.TitleLabels,
+                    //SurveyViews = new SurveyViewCollection<SurveyView>(new List<SurveyView> { new SurveyView() {
+                    //    WelcomePageLabels = s.SurveyViews.Where( v => v.ViewName == viewName).Single().WelcomePageLabels,
+                    //    TermsAndConditionsLabels = s.SurveyViews.Where( v => v.ViewName == viewName).Single().TermsAndConditionsLabels
+                    //}})
+                }
+            }).FirstOrDefaultAsync();
+            result.Survey.SurveyViews = new SurveyViewCollection<SurveyView>(new List<SurveyView> { new SurveyView() {
+                ViewName = viewName,
+                Survey = result.Survey, 
+                WelcomePageLabels = new LabelCollection<Label>(result.WelcomePageLabels),
+                TermsAndConditionsLabels = new LabelCollection<Label>(result.TermsAndConditionsLabels)
+            }});
+            return result.Survey;
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -216,6 +275,30 @@ namespace Traisi.Data.Repositories
         public async Task<Survey> GetSurveyFullAsync(int surveyId, SurveyViewType viewType)
         {
             string viewName = viewType == SurveyViewType.RespondentView ? "Standard" : "CATI";
+            /*
+                        DateTime start = DateTime.Now;
+                        var c = await _appContext.Surveys.Where(s => s.Id == surveyId).Select(s => new
+                        {
+                            s.Id,
+                            //TitleLabels = s.TitleLabels.Select(t => new
+                            //{
+                            //    t.Id
+                            // }),
+
+                            SurveyView = s.SurveyViews.Where(x => x.ViewName == "Standard").Select(v => new
+                            {
+                                QuestionPartViews = v.QuestionPartViews.Select(y => new
+                                {
+                                    y.Id
+                                    // QuestionPartViewChildren = y.QuestionPartViewChildren
+                                }),
+                                //TermsAndConditionsLabels = v.TermsAndConditionsLabels,
+                                // ThankYouPageLabels = v.ThankYouPageLabels
+                            }),
+                        }).FirstOrDefaultAsync();
+                        TimeSpan timeDiff = DateTime.Now - start;
+                        start = DateTime.Now; */
+
             var result = await _appContext.Surveys.Where(s => s.Id == surveyId)
                 .Include(s => s.TitleLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)

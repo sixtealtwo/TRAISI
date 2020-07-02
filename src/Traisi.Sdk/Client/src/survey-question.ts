@@ -1,5 +1,5 @@
 import { ResponseValidationState } from './question-response-state';
-import { EventEmitter, Output, Inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
 import { QuestionOption } from './question-option';
@@ -138,7 +138,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	}
 
 	public onResponseSaved(): void {
-		
+
 	}
 
 	/**
@@ -146,15 +146,15 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	 *
 	 * @memberof SurveyQuestion
 	 */
-	public traisiOnInit(isPreviousActionNext: boolean): void {}
+	public traisiOnInit(): void { }
 
 	/**
 	 * Called when the question has completed loading all of its data.
 	 * This includes any saved response data and configuration data.
 	 */
-	public traisiOnLoaded(): void {}
+	public traisiOnLoaded(): void { }
 
-	public traisiOnUnloaded(): void {}
+	public traisiOnUnloaded(): void { }
 }
 
 /**
@@ -168,7 +168,7 @@ export interface TraisiBuildable {
 	icon: string;
 }
 
-export abstract class ResponseData<T extends ResponseTypes | ResponseTypes[]> {}
+export abstract class ResponseData<T extends ResponseTypes | ResponseTypes[]> { }
 
 export interface StringResponseData extends ResponseData<ResponseTypes.String> {
 	value: string;
@@ -267,17 +267,17 @@ export enum ResponseTypes {
 }
 
 export enum QuestionResponseType {
-    String = 0,
-    Boolean = 1,
-    Number = 2,
-    Location = 3,
-    Json = 4,
-    OptionSelect = 5,
-    DateTime = 6,
-    Time = 7,
-    Path = 8,
-    Timeline = 9,
-    None = 10,
+	String = 0,
+	Boolean = 1,
+	Number = 2,
+	Location = 3,
+	Json = 4,
+	OptionSelect = 5,
+	DateTime = 6,
+	Time = 7,
+	Path = 8,
+	Timeline = 9,
+	None = 10,
 }
 
 export class GroupMember {

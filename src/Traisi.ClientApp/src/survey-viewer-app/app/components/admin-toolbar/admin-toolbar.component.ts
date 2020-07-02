@@ -80,6 +80,7 @@ export class AdminToolbarComponent implements OnInit {
 					location.reload();
 				},
 				(error: any) => {
+					console.log('error');
 					console.log(error);
 				}
 			);

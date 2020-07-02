@@ -15,8 +15,6 @@ export class PopperContentComponent implements AfterContentInit {
 	}
 
 	public ngAfterContentInit(): void {
-		console.log(this.target);
-		console.log(this._element.nativeElement);
 		let popper = new Popper(this.target, this._element.nativeElement, { placement: 'top' });
 	}
 

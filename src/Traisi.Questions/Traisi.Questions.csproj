@@ -36,9 +36,12 @@
 	</Target>
 
 	<Target Name="PreBuild" BeforeTargets="Compile" Condition="$(Configuration) == 'Release'">
-		<Exec Command="npm install" />
-		<Exec Command="npm run prod" />
-		<Message Text="Compiled and bundled JS library" Importance="High" />
+	 <Message Text="Installing node package dependencies for Traisi.Questions.." Importance="High" />
+		<Exec Command="npm install"  StandardOutputImportance="low" StandardErrorImportance="low"/>
+		 <Message Text="Building Traisi.Questions client and server module..." Importance="High" />
+		<Exec Command="npm run prod" StandardOutputImportance="low" StandardErrorImportance="low"/>
+		 <Message Text="Complete." Importance="High" />
+
 	</Target>
 
 

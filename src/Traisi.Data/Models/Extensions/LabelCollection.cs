@@ -10,6 +10,15 @@ namespace Traisi.Data.Models.Extensions
     /// <typeparam name="T"></typeparam>
     public class LabelCollection<T> : HashSet<T> where T : Label, new()
     {
+        public LabelCollection()
+        {
+
+        }
+
+        public LabelCollection(T item) : base()
+        {
+            this[item.Language] = item;
+        }
         public T this[string key]
         {
             get

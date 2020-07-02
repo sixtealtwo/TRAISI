@@ -54,7 +54,6 @@ export class SurveyViewerStateService {
 			groupMembers: [],
 			activeGroupMemberIndex: -1,
 			activeRepeatIndex: -1,
-			activeRespondent: undefined,
 			primaryRespondent: undefined,
 			activeGroupQuestions: [],
 			isNavProcessing: false,

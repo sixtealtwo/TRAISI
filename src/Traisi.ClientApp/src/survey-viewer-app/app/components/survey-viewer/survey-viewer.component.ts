@@ -326,7 +326,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						this.viewerState.groupMembers.push(member);
 					});
 					this.viewerState.primaryRespondent = members[0];
-					this.viewerState.activeRespondent = members[0];
 					this._respondentService.primaryRespondent = members[0];
 				}
 				let pageCount: number = 0;
@@ -552,7 +551,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		return Utilities.replacePlaceholder(
 			sectionTitle,
 			this.retrieveHouseholdTag(),
-			this.viewerState.activeRespondent.name
+			this.navigator.navigationState$.value.activeRespondent.name
 		);
 	}
 

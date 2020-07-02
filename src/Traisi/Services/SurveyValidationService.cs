@@ -273,7 +273,7 @@ namespace Traisi.Services
         /// <returns></returns>
         public async Task<List<SurveyValidationError>> ValidateSurveyResponse(SurveyResponse response)
         {
-            return new List<SurveyValidationError>();
+            return await Task.FromResult<List<SurveyValidationError>>(new List<SurveyValidationError>());
         }
     }
 }

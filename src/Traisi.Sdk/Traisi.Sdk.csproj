@@ -40,9 +40,9 @@
 	<Target Name="ClientSDKBuildAndCopy" BeforeTargets="Compile" Condition="$(Configuration) == 'Release'">
 		<!-- <Exec Command="npm run build" /> -->
 		<Message Importance="high" Text="Building Traisi.Sdk module library." />
-		<Exec WorkingDirectory="Client/" Command="npm install" />
-		<Exec WorkingDirectory="Client/" Command="npm run build" />
-		<Exec WorkingDirectory="Client/" Command="npm pack" />
+		<Exec WorkingDirectory="Client/" Command="npm install"  StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Exec WorkingDirectory="Client/" Command="npm run build"  StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Exec WorkingDirectory="Client/" Command="npm pack"  StandardOutputImportance="low" StandardErrorImportance="low"/>
 		<Copy SourceFiles="@(ClientBuildOutputFiles)" DestinationFolder="$(OutDir)" />
 		<Copy SourceFiles="@(ClientBuildOutputFiles)" DestinationFolder="$(OutDir)" />
 		<Message Text="Compiled and built TRAISI SDK module" Importance="High" />

@@ -42,7 +42,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Number
 	/**
 	 * Models changed
 	 */
-	public modelChanged(): void {}
+	public modelChanged(): void { }
 
 	/**
 	 *
@@ -50,14 +50,14 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Number
 	 * @param {*} result
 	 * @memberof TextQuestionComponent
 	 */
-	public onResponseSaved(result: any): void {
+	public onResponseSaved(): void {
 		this.validationState.emit(ResponseValidationState.VALID);
 	}
 
 	/**
 	 * Inputs blur
 	 */
-	public inputBlur(): void {}
+	public inputBlur(): void { }
 
 	/**
 	 * Validates input

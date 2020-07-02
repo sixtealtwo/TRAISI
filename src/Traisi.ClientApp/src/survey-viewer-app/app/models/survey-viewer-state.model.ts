@@ -36,9 +36,8 @@ export interface SurveyViewerState {
 	// ref to the primary respondent
 	primaryRespondent: SurveyViewGroupMember;
 
-	activeRespondent: SurveyViewGroupMember;
 
-	isNavProcessing: boolean, 
+	isNavProcessing: boolean;
 
 	// the list of active group questions
 	activeGroupQuestions: Array<SurveyViewQuestion>;
@@ -54,11 +53,11 @@ export interface SurveyViewerState {
 
 	questionBlocks: Array<Array<SurveyViewQuestion>>;
 
-	questionTypeMap: { [type: number]: string};
+	questionTypeMap: { [type: number]: string };
 
 	questionTree: Array<Array<SurveyViewQuestion>>;
 
-	pageStates: { [id: number]: PageState};
+	pageStates: { [id: number]: PageState };
 
-    sectionStates: { [id: number]: SectionState};
+	sectionStates: { [id: number]: SectionState };
 }

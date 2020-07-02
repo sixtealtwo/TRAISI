@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef, ViewChild, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
