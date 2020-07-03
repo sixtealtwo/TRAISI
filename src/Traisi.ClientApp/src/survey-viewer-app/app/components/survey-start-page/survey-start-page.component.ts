@@ -86,7 +86,8 @@ export class SurveyStartPageComponent implements OnInit {
 			this.surveyStartConfig = surveyStartModel;
 			this._route.paramMap.subscribe(map => {
 				if (map.has('shortcode')) {
-					const shortcode = map.get('shortcode');
+					let shortcode = map.get('shortcode');
+					shortcode = shortcode.trim();
 					this.trySurveyLogin(shortcode);
 				}
 			});

@@ -30,7 +30,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 		if (this.authService.isLoggedIn && this.authService.userPermissions.some(p => p === Permission.accessAdminPermission)) {
 			return true;
 		}
-
 		this.authService.loginRedirectUrl = url;
 		this.router.navigate(['/login']);
 

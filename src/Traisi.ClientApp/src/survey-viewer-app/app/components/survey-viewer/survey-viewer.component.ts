@@ -1,4 +1,4 @@
-import { animate, keyframes, query, stagger, style, transition, trigger } from '@angular/animations';
+import { animate, keyframes, query, stagger, style, transition, trigger, state } from '@angular/animations';
 import {
 	AfterContentInit,
 	AfterViewChecked,
@@ -265,18 +265,22 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param v
 	 */
-	private navigationStateChanged(v: NavigationState) {
-		let saveState: NavigationState = {
-			activeQuestionIndex: v.activeQuestionIndex ?? 0,
-			activeValidationStates: [],
-			isLoaded: false,
-			activeQuestionInstances: [],
-			activeSectionId: v.activeSectionId,
-			activePageIndex: v.activePageIndex ?? 0,
-			isNextEnabled: false,
-			isPreviousEnabled: false,
-			activeRespondentIndex: v.activeRespondentIndex ?? 0,
-			activeSectionIndex: v.activeSectionIndex,
+	private navigationStateChanged(v: NavigationState): void {
+		let saveState = {
+			shortcode: this._authService.currentSurveyUser.shortcode,
+			surveyId: String(this._authService.currentSurveyUser.surveyId),
+			state: {
+				activeQuestionIndex: v.activeQuestionIndex ?? 0,
+				activeValidationStates: [],
+				isLoaded: false,
+				activeQuestionInstances: [],
+				activeSectionId: v.activeSectionId,
+				activePageIndex: v.activePageIndex ?? 0,
+				isNextEnabled: false,
+				isPreviousEnabled: false,
+				activeRespondentIndex: v.activeRespondentIndex ?? 0,
+				activeSectionIndex: v.activeSectionIndex,
+			}
 		};
 		this._storage.set(`surveyState:${this.surveyId}`, saveState);
 	}
@@ -440,9 +444,24 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public initializeNavigator(): void {
 		if (this._storage.has(`surveyState:${this.surveyId}`)) {
-			let restoredState = this._storage.get(`surveyState:${this.surveyId}`) as NavigationState;
-			this.navigator.initialize(restoredState).subscribe((v) => { });
-		} else {
+			let restoredState: {
+				shortcode: string,
+				surveyId: number,
+				state: NavigationState
+			} = this._storage.get(`surveyState:${this.surveyId}`);
+
+			if (restoredState.shortcode === this._authService.currentSurveyUser.shortcode &&
+				this.session.surveyId === restoredState.surveyId) {
+				this.navigator.initialize(restoredState.state).subscribe((v) => { });
+			}
+			else {
+				this.navigator.initialize().subscribe();
+				console.log('previous survey data is invalid, resetting to new state');
+			}
+
+		}
+		else {
+			console.log('no previous data, using base initialized');
 			this.navigator.initialize().subscribe();
 		}
 	}
