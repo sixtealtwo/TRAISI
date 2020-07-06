@@ -36,6 +36,8 @@ namespace Traisi.Data.Models.Surveys
 
         public virtual List<SurveyLogic> SurveyLogic { get; set; }
 
+
+
         [NotMapped]
         public bool HasGroupCodes { get; set; }
 

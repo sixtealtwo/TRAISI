@@ -553,7 +553,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param questionPartId
 	 */
-	public navigateToQuestion(questionPartId: number) {
+	public navigateToQuestion(questionPartId: number): void {
 		this.navigator.navigateToQuestion(questionPartId).subscribe();
 	}
 

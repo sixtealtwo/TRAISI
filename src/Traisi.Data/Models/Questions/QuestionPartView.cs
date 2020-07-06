@@ -36,6 +36,12 @@ namespace Traisi.Data.Models.Questions
         /// List of conditionals existing on this
         public List<QuestionConditionalOperator> Conditionals { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public virtual List<SurveyLogic> Conditionals { get; set; }
+
         [JsonIgnore]
         public int? ParentViewId { get; set; }
 
