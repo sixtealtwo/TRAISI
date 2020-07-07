@@ -33,14 +33,6 @@ namespace Traisi.Data.Models.Questions
 
         public QuestionPartView ParentView { get; set; }
 
-        /// List of conditionals existing on this
-        public List<QuestionConditionalOperator> Conditionals { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <value></value>
-        public virtual List<SurveyLogic> Conditionals { get; set; }
 
         [JsonIgnore]
         public int? ParentViewId { get; set; }
@@ -83,7 +75,6 @@ namespace Traisi.Data.Models.Questions
         {
             this.Labels = new LabelCollection<Label>();
             this.QuestionPartViewChildren = new List<QuestionPartView>();
-            this.Conditionals = new List<QuestionConditionalOperator>();
         }
     }
 }

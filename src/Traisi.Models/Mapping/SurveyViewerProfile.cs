@@ -126,7 +126,6 @@ namespace Traisi.Models.Mapping
 
             CreateMap<QuestionPartView, SurveyViewSectionViewModel>()
                 .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren))
-                .ForMember(m => m.Conditionals, map => map.MapFrom(f => f.Conditionals))
                 .ForMember(m => m.RepeatSource, map =>
                 {
                     map.MapFrom(f => f.RepeatSource.Id);

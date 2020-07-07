@@ -409,7 +409,7 @@ namespace Traisi.Controllers
                 {
                     return new NotFoundResult();
                 }
-                var conditals = _mapper.Map<List<QuestionConditionalOperatorViewModel>>(question.Conditionals);
+                var conditals = _mapper.Map<List<QuestionConditionalOperatorViewModel>>(question.QuestionPart.Conditionals);
                 return new OkObjectResult(conditals);
             }
             else

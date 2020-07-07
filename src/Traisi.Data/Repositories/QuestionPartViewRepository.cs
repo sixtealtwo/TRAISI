@@ -24,8 +24,6 @@ namespace Traisi.Data.Repositories
                     .Include(qp => qp.QuestionPart)
                     .Include(qp => qp.Labels)
                     .Include(qp => qp.RepeatSource)
-                    .Include(qp => qp.Conditionals).ThenInclude(d => d.Lhs)
-                    .Include(qp => qp.Conditionals).ThenInclude(d => d.Rhs)
                     .Include(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
@@ -47,8 +45,6 @@ namespace Traisi.Data.Repositories
         {
             return _appContext.QuestionPartViews
                .Where(q => q.Id == id)
-               .Include(q => q.Conditionals).ThenInclude(q => q.Rhs)
-               .Include(q => q.Conditionals).ThenInclude(q => q.Lhs)
                .FirstOrDefaultAsync();
         }
 

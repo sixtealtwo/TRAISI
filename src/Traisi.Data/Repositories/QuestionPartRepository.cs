@@ -66,19 +66,15 @@ namespace Traisi.Data.Repositories
         {
             return _appContext.QuestionParts
                .Where(q => ids.Contains(q.Id))
-               .Include(q => q.QuestionConditionalsSource)
-               .Include(q => q.QuestionConditionalsTarget)
+               .Include(q => q.Conditionals)
                .ToList();
         }
-
-
 
         public QuestionPart GetQuestionPartWithConditionals(int id)
         {
             return  _appContext.QuestionParts
                .Where(q => q.Id == id)
-               .Include(q => q.QuestionConditionalsSource)
-               .Include(q => q.QuestionConditionalsTarget)
+               .Include(q => q.Conditionals)
                .Single();
         }
 
@@ -86,54 +82,10 @@ namespace Traisi.Data.Repositories
         {
             return await _appContext.QuestionParts
                 .Where(q => q.Id == id)
-                .Include(q => q.QuestionConditionalsSource)
-                .Include(q => q.QuestionConditionalsTarget)
+                .Include(q => q.Conditionals)
                 .SingleOrDefaultAsync();
         }
 
-        /// <summary>
-        /// Returns all conditionals where the question part is the source
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<IEnumerable<QuestionConditional>> GetQuestionPartSourceConditionalsAsync(int id)
-        {
-            return await _appContext.QuestionParts
-                .Where(q => q.Id == id)
-                .Include(q => q.QuestionConditionalsSource)
-                .Select(q => q.QuestionConditionalsSource)
-                .SingleOrDefaultAsync();
-        }
-
-        /// <summary>
-        /// Returns all conditionals where the question part is the target (fills in SourceQuestion)
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<IEnumerable<QuestionConditional>> GetQuestionPartTargetConditionalsAsync(int id)
-        {
-            return await _appContext.QuestionParts
-                .Where(q => q.Id == id)
-                .Include(q => q.QuestionConditionalsTarget)
-                .Select(q => q.QuestionConditionalsTarget)
-                .SingleOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<QuestionPart>> GetQuestionPartsWithTargetConditionalsAsync(List<int> ids)
-        {
-            return await _appContext.QuestionParts
-                .Where(q => ids.Contains(q.Id))
-                .Include(q => q.QuestionConditionalsTarget)
-                .ToListAsync();
-        }
-
-        public IEnumerable<QuestionPart> GetQuestionPartsWithTargetConditionals(List<int> ids)
-        {
-            return _appContext.QuestionParts
-               .Where(q => ids.Contains(q.Id))
-               .Include(q => q.QuestionConditionalsTarget)
-               .ToList();
-        }
 
         public async Task<int> GetNumberOfParentViewsAsync(int id)
         {
