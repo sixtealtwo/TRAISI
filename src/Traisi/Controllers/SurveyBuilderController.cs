@@ -391,7 +391,8 @@ namespace Traisi.Controllers
                 }
                 else
                 {
-                    return BadRequest("Insufficient privileges.");
+                    return new UnauthorizedResult();
+                    // return BadRequest("Insufficient privileges.");
                 }
             }
             return BadRequest(ModelState);
