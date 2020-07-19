@@ -122,7 +122,10 @@ namespace Traisi.Models.Mapping
                     }
                 )
                 .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren.Where(q => q.QuestionPart != null)))
-                .AfterMap((s, svm, opt) => { svm.Label = s.Labels[opt.Items["Language"] as string].Value; });
+                .AfterMap((s, svm, opt) => { 
+                    svm.Label = s.Labels[opt.Items["Language"] as string].Value; 
+                    
+                    });
 
             CreateMap<QuestionPartView, SurveyViewSectionViewModel>()
                 .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren))
@@ -148,6 +151,7 @@ namespace Traisi.Models.Mapping
                 .ForMember(m => m.IsOptional, map => map.MapFrom(v => v.IsOptional))
                 .ForMember(m => m.Order, map => map.MapFrom(v => v.Order))
                 .ForMember(m => m.Label, map => map.Ignore())
+                .ForMember(m => m.DescriptionLabel, map => map.Ignore())
                 .ForMember(m => m.Name, map => map.MapFrom(v => v.QuestionPart.Name))
                 .ForMember(m => m.IsHousehold, map => map.MapFrom(f => f.IsHousehold))
                 .ForMember(m => m.RepeatSource, map =>
@@ -157,7 +161,10 @@ namespace Traisi.Models.Mapping
                 })
                 .AfterMap((s, svm, opt) =>
                 {
-                    try { svm.Label = s.Labels[opt.Items["Language"] as string].Value; }
+                    try { 
+                        svm.Label = s.Labels[opt.Items["Language"] as string].Value; 
+                        svm.DescriptionLabel = s.DescriptionLabels[opt.Items["Language"] as string].Value; 
+                        }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);

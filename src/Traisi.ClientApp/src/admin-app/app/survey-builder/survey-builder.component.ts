@@ -523,7 +523,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public createPage(title: string, icon: string): void {
 		let newlabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, title, this.currentLanguage);
-		let newPage: QuestionPartView = new QuestionPartView(0, newlabel, icon);
+		let newPage: QuestionPartView = new QuestionPartView(0, newlabel,new QuestionPartViewLabel(0,null,this.currentLanguage), icon);
 
 		this.surveyBuilderService.addStandardPage(this.surveyId, this.currentLanguage, newPage).subscribe(
 			(result) => {

@@ -215,6 +215,12 @@ namespace Traisi.Controllers
                                     Value = questionInfo.Label.Value
                             }
                         };
+                        question.DescriptionLabels = new LabelCollection<Label>() {
+                            new Label () {
+                                Language = initialLanguage,
+                                    Value = questionInfo.DescriptionLabel.Value
+                            }
+                        };
                         //ensure question part name is unique
                         if (question.QuestionPart != null && !this._unitOfWork.Surveys.QuestionNameIsUnique(surveyId, question.QuestionPart.Name, null))
                         {

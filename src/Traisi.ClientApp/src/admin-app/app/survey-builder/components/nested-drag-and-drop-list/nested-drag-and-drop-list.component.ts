@@ -350,8 +350,9 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 				"",
 				this.currentLanguage
 			);
-			newQPartView.catiDependent = (
+			newQPartView.catiDependent = new QuestionPartView(
 				0,
+
 				newCatiQPartLabel
 			);
 		}

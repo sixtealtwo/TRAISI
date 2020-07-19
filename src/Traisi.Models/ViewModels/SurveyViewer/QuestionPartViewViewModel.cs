@@ -8,6 +8,8 @@ namespace Traisi.ViewModels.SurveyViewer
 
         public string Label { get; set; }
 
+        public string DescriptionLabel {get;set;}
+
         public List<QuestionPartViewViewModel> QuestionChildren;
 
         public int Order { get; set; }

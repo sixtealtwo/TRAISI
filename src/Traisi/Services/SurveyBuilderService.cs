@@ -110,10 +110,11 @@ namespace Traisi.Services
                         foreach (var question in page.QuestionPartViewChildren)
                         {
                             question.Labels[language] = new Label { Value = null };
-
+                            question.DescriptionLabels[language] = new Label { Value = null };
                             foreach (var subQuestion in question.QuestionPartViewChildren)
                             {
                                 subQuestion.Labels[language] = new Label { Value = null };
+                                subQuestion.DescriptionLabels[language] = new Label { Value = null };
                             }
                         }
                     }
@@ -143,6 +144,7 @@ namespace Traisi.Services
                             question.CATIDependent = targetQuestion;
                             targetPage.QuestionPartViewChildren.Add(targetQuestion);
                             targetQuestion.Labels[language] = new Label { Value = null };
+                            targetQuestion.DescriptionLabels[language] = new Label { Value = null };
                             foreach (var subQuestion in question.QuestionPartViewChildren)
                             {
                                 QuestionPartView targetSubQuestion = new QuestionPartView
@@ -155,6 +157,7 @@ namespace Traisi.Services
                                 subQuestion.CATIDependent = targetSubQuestion;
                                 targetQuestion.QuestionPartViewChildren.Add(targetSubQuestion);
                                 targetSubQuestion.Labels[language] = new Label { Value = null };
+                                targetSubQuestion.DescriptionLabels[language] = new Label { Value = null };
                             }
                         }
                     }
@@ -224,10 +227,22 @@ namespace Traisi.Services
             {
                 Language = language ?? "en",
                 Value = text,
-                // QuestionPartView = qpv
             };
+        }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="qpv"></param>
+        /// <param name="text"></param>
+        /// <param name="language"></param>
+        public void SetQuestionPartViewDescriptionLabel(QuestionPartView qpv, string text, string language = null)
+        {
+            qpv.DescriptionLabels[language] = new Label()
+            {
+                Language = language ?? "en",
+                Value = text,
+            };
         }
 
         public void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, string repeatSourceQuestionName, string icon)
@@ -966,7 +981,8 @@ namespace Traisi.Services
             oldLogic.ValidationQuestionId = newLogic.ValidationQuestionId;
             oldLogic.Value = newLogic.Value;
             oldLogic.ParentId = newLogic.ParentId;
-            if(oldLogic.Id != rootId) {
+            if (oldLogic.Id != rootId)
+            {
                 oldLogic.RootId = rootId;
             }
             oldLogic.LogicType = newLogic.LogicType;

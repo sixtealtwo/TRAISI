@@ -57,9 +57,11 @@ namespace Traisi.Data.Repositories
                     .Include(sv => sv.ScreeningQuestionLabels)
                     .Include(sv => sv.Survey).ThenInclude(s => s.TitleLabels)
                     .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
+                    .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.DescriptionLabels)
                     .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPart)
                     .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
+                    .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qpv => qpv.DescriptionLabels)
                     .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
                     .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
                     .SingleOrDefaultAsync();
@@ -81,6 +83,7 @@ namespace Traisi.Data.Repositories
                     .Include(sv => sv.ScreeningQuestionLabels)
                     .Include(sv => sv.Survey).ThenInclude(s => s.TitleLabels)
                     .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
+                    .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.DescriptionLabels)
                     .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .SingleOrDefault();
             surveyView.QuestionPartViews = surveyView.QuestionPartViews.OrderBy(qp => qp.Order).ToList();
@@ -93,6 +96,7 @@ namespace Traisi.Data.Repositories
                 .Where(s => s.Survey.Id == surveyId && s.ViewName == viewName)
                 .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
                 .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
+                .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qpv => qpv.DescriptionLabels)
                 .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPart).ThenInclude(qp => qp.QuestionOptions).ThenInclude(o => o.QuestionOptionLabels)
                 .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
                 .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart).ThenInclude(qp => qp.QuestionOptions).ThenInclude(o => o.QuestionOptionLabels)

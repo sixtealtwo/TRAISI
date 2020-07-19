@@ -116,6 +116,8 @@ namespace Traisi.Models.Mapping
                 .AfterMap((s, svm, opt) =>
                 {
                     svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
+                    svm.DescriptionLabel = s.DescriptionLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
+                    //svm.D = s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
                 });
 
             CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
@@ -144,6 +146,9 @@ namespace Traisi.Models.Mapping
                 {
                     svm.Label = opt.Mapper.Map<LabelViewModel>(
                         s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
+                    svm.QuestionPartViewChildren = svm.QuestionPartViewChildren?.OrderBy(c => c.Order).ToList();
+                    svm.DescriptionLabel = opt.Mapper.Map<LabelViewModel>(
+                        s.DescriptionLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                     svm.QuestionPartViewChildren = svm.QuestionPartViewChildren?.OrderBy(c => c.Order).ToList();
                 });
 
@@ -185,6 +190,7 @@ namespace Traisi.Models.Mapping
                     if (s.QuestionPart == null)
                     {
                         svm.Label = s.Labels.FirstOrDefault(l => l.Language == language).Value;
+                        svm.DescriptionLabel = s.DescriptionLabels.FirstOrDefault(l => l.Language == language).Value;
                         svm.Type = "part";
                         svm.Children = s.QuestionPartViewChildren.OrderBy(q => q.Order)
                             .Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(opt.Mapper, language)).ToList();
@@ -230,6 +236,7 @@ namespace Traisi.Models.Mapping
 
             CreateMap<SBOrderViewModel, QuestionPartView>()
                 .ForMember(o => o.Labels, map => map.Ignore())
+                .ForMember(o => o.DescriptionLabels, map => map.Ignore())
                 .ForMember(o => o.ParentView, map => map.Ignore())
                 .ForMember(o => o.QuestionPart, map => map.Ignore())
                 .ForMember(o => o.SurveyView, map => map.Ignore())
