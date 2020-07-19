@@ -11,7 +11,7 @@ using Traisi.Data;
 namespace Traisi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200624151958_Initial")]
+    [Migration("20200719053824_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -609,12 +609,6 @@ namespace Traisi.Migrations
                     b.Property<int>("Condition")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("QuestionPartId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("QuestionPartId1")
-                        .HasColumnType("integer");
-
                     b.Property<int>("SourceQuestionId")
                         .HasColumnType("integer");
 
@@ -622,10 +616,6 @@ namespace Traisi.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("QuestionPartId");
-
-                    b.HasIndex("QuestionPartId1");
 
                     b.HasIndex("SourceQuestionId");
 
@@ -934,6 +924,9 @@ namespace Traisi.Migrations
                     b.Property<int?>("QuestionOptionId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("QuestionPartViewDescriptionId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("QuestionPartViewId")
                         .HasColumnType("integer");
 
@@ -963,6 +956,8 @@ namespace Traisi.Migrations
                     b.HasIndex("QuestionConfigurationId");
 
                     b.HasIndex("QuestionOptionId");
+
+                    b.HasIndex("QuestionPartViewDescriptionId");
 
                     b.HasIndex("QuestionPartViewId");
 
@@ -1175,6 +1170,9 @@ namespace Traisi.Migrations
                     b.Property<int?>("QuestionId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("QuestionPartId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("RootId")
                         .HasColumnType("integer");
 
@@ -1195,6 +1193,8 @@ namespace Traisi.Migrations
                     b.HasIndex("ParentId");
 
                     b.HasIndex("QuestionId");
+
+                    b.HasIndex("QuestionPartId");
 
                     b.HasIndex("RootId");
 
@@ -1616,14 +1616,6 @@ namespace Traisi.Migrations
 
             modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionConditional", b =>
                 {
-                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", null)
-                        .WithMany("QuestionConditionalsSource")
-                        .HasForeignKey("QuestionPartId");
-
-                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", null)
-                        .WithMany("QuestionConditionalsTarget")
-                        .HasForeignKey("QuestionPartId1");
-
                     b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", "SourceQuestion")
                         .WithMany()
                         .HasForeignKey("SourceQuestionId")
@@ -1644,7 +1636,7 @@ namespace Traisi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", "TargetQuestion")
-                        .WithMany("Conditionals")
+                        .WithMany()
                         .HasForeignKey("TargetQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1753,6 +1745,11 @@ namespace Traisi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", null)
+                        .WithMany("DescriptionLabels")
+                        .HasForeignKey("QuestionPartViewDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", null)
                         .WithMany("Labels")
                         .HasForeignKey("QuestionPartViewId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1824,6 +1821,10 @@ namespace Traisi.Migrations
                         .WithMany()
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", null)
+                        .WithMany("Conditionals")
+                        .HasForeignKey("QuestionPartId");
 
                     b.HasOne("Traisi.Data.Models.Surveys.SurveyLogic", "Root")
                         .WithMany()

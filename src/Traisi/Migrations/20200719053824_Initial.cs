@@ -447,6 +447,7 @@ namespace Traisi.Migrations
                     QuestionId = table.Column<int>(nullable: true),
                     Operator = table.Column<int>(nullable: true),
                     LogicType = table.Column<int>(nullable: true),
+                    QuestionPartId = table.Column<int>(nullable: true),
                     SurveyId = table.Column<int>(nullable: true),
                     SurveyLogicId = table.Column<int>(nullable: true)
                 },
@@ -465,6 +466,12 @@ namespace Traisi.Migrations
                         principalTable: "QuestionParts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SurveyLogic_QuestionParts_QuestionPartId",
+                        column: x => x.QuestionPartId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SurveyLogic_SurveyLogic_RootId",
                         column: x => x.RootId,
@@ -582,6 +589,7 @@ namespace Traisi.Migrations
                     Language = table.Column<string>(nullable: true),
                     QuestionConfigurationId = table.Column<int>(nullable: true),
                     QuestionOptionId = table.Column<int>(nullable: true),
+                    QuestionPartViewDescriptionId = table.Column<int>(nullable: true),
                     QuestionPartViewId = table.Column<int>(nullable: true),
                     SurveyId = table.Column<int>(nullable: true),
                     SurveyLogicId = table.Column<int>(nullable: true),
@@ -603,6 +611,12 @@ namespace Traisi.Migrations
                         name: "FK_Labels_QuestionOptions_QuestionOptionId",
                         column: x => x.QuestionOptionId,
                         principalTable: "QuestionOptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Labels_QuestionPartViews_QuestionPartViewDescriptionId",
+                        column: x => x.QuestionPartViewDescriptionId,
+                        principalTable: "QuestionPartViews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -657,25 +671,11 @@ namespace Traisi.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SourceQuestionId = table.Column<int>(nullable: false),
                     Condition = table.Column<int>(nullable: false),
-                    Value = table.Column<string>(nullable: true),
-                    QuestionPartId = table.Column<int>(nullable: true),
-                    QuestionPartId1 = table.Column<int>(nullable: true)
+                    Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuestionConditionals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuestionConditionals_QuestionParts_QuestionPartId",
-                        column: x => x.QuestionPartId,
-                        principalTable: "QuestionParts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_QuestionConditionals_QuestionParts_QuestionPartId1",
-                        column: x => x.QuestionPartId1,
-                        principalTable: "QuestionParts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_QuestionConditionals_QuestionPartViews_SourceQuestionId",
                         column: x => x.SourceQuestionId,
@@ -1126,6 +1126,11 @@ namespace Traisi.Migrations
                 column: "QuestionOptionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Labels_QuestionPartViewDescriptionId",
+                table: "Labels",
+                column: "QuestionPartViewDescriptionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Labels_QuestionPartViewId",
                 table: "Labels",
                 column: "QuestionPartViewId");
@@ -1192,16 +1197,6 @@ namespace Traisi.Migrations
                 name: "IX_OpenIddictTokens_ApplicationId_Status_Subject_Type",
                 table: "OpenIddictTokens",
                 columns: new[] { "ApplicationId", "Status", "Subject", "Type" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuestionConditionals_QuestionPartId",
-                table: "QuestionConditionals",
-                column: "QuestionPartId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuestionConditionals_QuestionPartId1",
-                table: "QuestionConditionals",
-                column: "QuestionPartId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionConditionals_SourceQuestionId",
@@ -1313,6 +1308,11 @@ namespace Traisi.Migrations
                 name: "IX_SurveyLogic_QuestionId",
                 table: "SurveyLogic",
                 column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SurveyLogic_QuestionPartId",
+                table: "SurveyLogic",
+                column: "QuestionPartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SurveyLogic_RootId",

@@ -26,6 +26,12 @@ namespace Traisi.Data.Models.Questions
         public LabelCollection<Label> Labels { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public LabelCollection<Label> DescriptionLabels { get; set; }
+
+        /// <summary>
         /// The associated QuestionPart for this QuestionPartView
         /// </summary>
         /// <value></value>
@@ -74,6 +80,7 @@ namespace Traisi.Data.Models.Questions
         public QuestionPartView()
         {
             this.Labels = new LabelCollection<Label>();
+            this.DescriptionLabels = new LabelCollection<Label>();
             this.QuestionPartViewChildren = new List<QuestionPartView>();
         }
     }
