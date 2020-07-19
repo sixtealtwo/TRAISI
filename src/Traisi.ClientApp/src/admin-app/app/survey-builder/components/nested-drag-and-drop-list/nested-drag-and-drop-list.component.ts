@@ -328,9 +328,16 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 			"",
 			this.currentLanguage
 		);
+
+		let newDescriptionLabel: QuestionPartViewLabel = new QuestionPartViewLabel(
+			0,
+			"",
+			this.currentLanguage
+		)
 		let newQPartView: QuestionPartView = new QuestionPartView(
 			0,
 			newQPartLabel,
+			newDescriptionLabel,
 			null,
 			0,
 			[],
@@ -343,7 +350,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 				"",
 				this.currentLanguage
 			);
-			newQPartView.catiDependent = new QuestionPartView(
+			newQPartView.catiDependent = (
 				0,
 				newCatiQPartLabel
 			);

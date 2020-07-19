@@ -49,12 +49,13 @@ import { SBPageStructureViewModel } from 'app/survey-builder/services/survey-bui
 import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
 import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
 import { QuestionConditionalOperator } from 'app/survey-builder/models/question-conditional-operator.model';
+import { SurveyLogic } from 'app/survey-builder/models/survey-logic.model';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
 let Block = Parchment.query('block');
 
-class NewBlock extends Block {}
+class NewBlock extends Block { }
 NewBlock['tagName'] = 'DIV';
 Quill.register(NewBlock, true);
 
@@ -155,9 +156,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		private cDRef: ChangeDetectorRef,
 		private _router: Router,
 		private _editorData: SurveyBuilderEditorData
-	) {}
+	) { }
 
-	public ngOnInit(): void {}
+	public ngOnInit(): void { }
 
 	public reset(): void {
 		//  this._router.navigate( ['#basic']);
@@ -239,7 +240,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 							cmpRef.instance.id = i;
 							cmpRef.instance.questionConfiguration = conf;
 
-							console.log(configurationValues); 
+							console.log(configurationValues);
 							if (configurationValues.has(conf.name)) {
 								cmpRef.instance.processPriorValue(
 									configurationValues.get(conf.name)
@@ -278,6 +279,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public saveConfiguration(): void {
+		console.log('in save configuration');
 		this.configurationValues = [];
 		this.childrenComponents.forEach(compRef => {
 			let config = new QuestionConfigurationValue(
@@ -453,7 +455,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 							});
 						}
 					},
-					error => {}
+					error => { }
 				);
 		}
 	}
@@ -528,7 +530,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			return false;
 		} else if (
 			this.questionType.responseType ===
-				QuestionResponseType.OptionSelect ||
+			QuestionResponseType.OptionSelect ||
 			this.questionType.responseType === QuestionResponseType.OptionList
 		) {
 			if (this.thisQuestion[0] && this.thisQuestion[0].children) {
@@ -781,5 +783,13 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				});
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @param model 
+	 */
+	public onConditionalLogicChanged(model: SurveyLogic) {
+		console.log('in here ');
 	}
 }

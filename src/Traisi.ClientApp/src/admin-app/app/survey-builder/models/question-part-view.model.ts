@@ -6,6 +6,7 @@ export class QuestionPartView {
 	constructor(
 		public id?: number,
 		public label?: QuestionPartViewLabel,
+		public descriptionLabel?: QuestionPartViewLabel,
 		public icon?: string,
 		public parentViewId?: number,
 		public questionPartViewChildren?: QuestionPartView[],

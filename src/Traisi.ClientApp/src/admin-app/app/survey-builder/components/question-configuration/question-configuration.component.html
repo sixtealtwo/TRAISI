@@ -1,10 +1,5 @@
 <div *ngIf="editing">
-	<form
-		(ngSubmit)="saveConfiguration()"
-		#f="ngForm"
-		novalidate
-		class="form-horizontal"
-	>
+	<form (ngSubmit)="saveConfiguration()" #f="ngForm" novalidate class="form-horizontal">
 		<div class="clearfix">
 			<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
 				<li class="nav-item">
@@ -56,18 +51,12 @@
 			>
 				<div *ngIf="questionBeingEdited.questionPart">
 					<div class="form-group form-group-adjust row">
-						<label
-							for="questionName"
-							class="col-md-2 col-form-label text-md-right"
-							>Question Name</label
-						>
+						<label for="questionName" class="col-md-2 col-form-label text-md-right">Question Name</label>
 						<div class="col-md-8">
 							<input
 								type="text"
 								name="questionName"
-								[(ngModel)]="
-									questionBeingEdited.questionPart.name
-								"
+								[(ngModel)]="questionBeingEdited.questionPart.name"
 								class="form-control mt-2"
 								id="questionName"
 								placeholder="Question Name"
@@ -80,17 +69,11 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group form-group-adjust row">
-					<label
-						for="questionText"
-						class="col-md-2 col-form-label text-md-right"
-						>{{
-							questionBeingEdited.questionPart
-								? "Question
-						Text"
-								: "Section Name"
-						}}</label
-					>
+				<div class="form-group form-group-adjust row configuration-input">
+					<label for="questionText" class="col-md-2 col-form-label text-md-right">{{
+						questionBeingEdited.questionPart ? 'Question
+						Title' : 'Section Name'
+					}}</label>
 					<div class="col-md-10">
 						<input
 							*ngIf="!questionBeingEdited.questionPart"
@@ -103,12 +86,10 @@
 						/>
 						<quill-editor
 							*ngIf="questionBeingEdited.questionPart"
-							(onEditorCreated)="
-								questiontextEditorCreated($event)
-							"
+							(onEditorCreated)="questiontextEditorCreated($event)"
 							(onContentChanged)="updateCursorOnType()"
 							(onSelectionChanged)="recordCursor($event)"
-							class="form-control"
+							class="form-control quill-input"
 							id="questionText"
 							theme="snow"
 							name="questionText"
@@ -116,178 +97,57 @@
 						>
 							<div quill-editor-toolbar>
 								<span class="ql-formats">
-									<button
-										class="ql-bold"
-										[title]="'Bold'"
-									></button>
-									<button
-										class="ql-italic"
-										[title]="'Italic'"
-									></button>
-									<button
-										class="ql-underline"
-										[title]="'Underline'"
-									></button>
+									<button class="ql-bold" [title]="'Bold'"></button>
+									<button class="ql-italic" [title]="'Italic'"></button>
+									<button class="ql-underline" [title]="'Underline'"></button>
 								</span>
 								<span class="ql-formats">
-									<select
-										class="ql-align"
-										[title]="'Aligment'"
-									>
+									<select class="ql-align" [title]="'Aligment'">
 										<option selected></option>
 										<option value="center"></option>
 										<option value="right"></option>
 										<option value="justify"></option>
 									</select>
 									<span class="ql-format-separator"></span>
-									<select
-										[title]="'Text Color'"
-										class="ql-color"
-										defaultValue="rgb(0, 0, 0)"
-									>
-										<option
-											value="rgb(0, 0, 0)"
-											label="rgb(0, 0, 0)"
-										></option>
-										<option
-											value="rgb(230, 0, 0)"
-											label="rgb(230, 0, 0)"
-										></option>
-										<option
-											value="rgb(255, 153, 0)"
-											label="rgb(255, 153, 0)"
-										></option>
-										<option
-											value="rgb(255, 255, 0)"
-											label="rgb(255, 255, 0)"
-										></option>
-										<option
-											value="rgb(0, 138, 0)"
-											label="rgb(0, 138, 0)"
-										></option>
-										<option
-											value="rgb(0, 102, 204)"
-											label="rgb(0, 102, 204)"
-										></option>
-										<option
-											value="rgb(153, 51, 255)"
-											label="rgb(153, 51, 255)"
-										></option>
-										<option
-											value="rgb(250, 204, 204)"
-											label="rgb(250, 204, 204)"
-										></option>
-										<option
-											value="rgb(255, 235, 204)"
-											label="rgb(255, 235, 204)"
-										></option>
-										<option
-											value="rgb(255, 255, 204)"
-											label="rgb(255, 255, 204)"
-										></option>
-										<option
-											value="rgb(204, 232, 204)"
-											label="rgb(204, 232, 204)"
-										></option>
-										<option
-											value="rgb(204, 224, 245)"
-											label="rgb(204, 224, 245)"
-										></option>
-										<option
-											value="rgb(235, 214, 255)"
-											label="rgb(235, 214, 255)"
-										></option>
-										<option
-											value="rgb(187, 187, 187)"
-											label="rgb(187, 187, 187)"
-										></option>
-										<option
-											value="rgb(240, 102, 102)"
-											label="rgb(240, 102, 102)"
-										></option>
-										<option
-											value="rgb(255, 194, 102)"
-											label="rgb(255, 194, 102)"
-										></option>
-										<option
-											value="rgb(255, 255, 102)"
-											label="rgb(255, 255, 102)"
-										></option>
-										<option
-											value="rgb(102, 185, 102)"
-											label="rgb(102, 185, 102)"
-										></option>
-										<option
-											value="rgb(102, 163, 224)"
-											label="rgb(102, 163, 224)"
-										></option>
-										<option
-											value="rgb(194, 133, 255)"
-											label="rgb(194, 133, 255)"
-										></option>
-										<option
-											value="rgb(136, 136, 136)"
-											label="rgb(136, 136, 136)"
-										></option>
-										<option
-											value="rgb(161, 0, 0)"
-											label="rgb(161, 0, 0)"
-										></option>
-										<option
-											value="rgb(178, 107, 0)"
-											label="rgb(178, 107, 0)"
-										></option>
-										<option
-											value="rgb(178, 178, 0)"
-											label="rgb(178, 178, 0)"
-										></option>
-										<option
-											value="rgb(0, 97, 0)"
-											label="rgb(0, 97, 0)"
-										></option>
-										<option
-											value="rgb(0, 71, 178)"
-											label="rgb(0, 71, 178)"
-										></option>
-										<option
-											value="rgb(107, 36, 178)"
-											label="rgb(107, 36, 178)"
-										></option>
-										<option
-											value="rgb(68, 68, 68)"
-											label="rgb(68, 68, 68)"
-										></option>
-										<option
-											value="rgb(92, 0, 0)"
-											label="rgb(92, 0, 0)"
-										></option>
-										<option
-											value="rgb(102, 61, 0)"
-											label="rgb(102, 61, 0)"
-										></option>
-										<option
-											value="rgb(102, 102, 0)"
-											label="rgb(102, 102, 0)"
-										></option>
-										<option
-											value="rgb(0, 55, 0)"
-											label="rgb(0, 55, 0)"
-										></option>
-										<option
-											value="rgb(0, 41, 102)"
-											label="rgb(0, 41, 102)"
-										></option>
-										<option
-											value="rgb(61, 20, 102)"
-											label="rgb(61, 20, 102)"
-										></option>
+									<select [title]="'Text Color'" class="ql-color" defaultValue="rgb(0, 0, 0)">
+										<option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+										<option value="rgb(230, 0, 0)" label="rgb(230, 0, 0)"></option>
+										<option value="rgb(255, 153, 0)" label="rgb(255, 153, 0)"></option>
+										<option value="rgb(255, 255, 0)" label="rgb(255, 255, 0)"></option>
+										<option value="rgb(0, 138, 0)" label="rgb(0, 138, 0)"></option>
+										<option value="rgb(0, 102, 204)" label="rgb(0, 102, 204)"></option>
+										<option value="rgb(153, 51, 255)" label="rgb(153, 51, 255)"></option>
+										<option value="rgb(250, 204, 204)" label="rgb(250, 204, 204)"></option>
+										<option value="rgb(255, 235, 204)" label="rgb(255, 235, 204)"></option>
+										<option value="rgb(255, 255, 204)" label="rgb(255, 255, 204)"></option>
+										<option value="rgb(204, 232, 204)" label="rgb(204, 232, 204)"></option>
+										<option value="rgb(204, 224, 245)" label="rgb(204, 224, 245)"></option>
+										<option value="rgb(235, 214, 255)" label="rgb(235, 214, 255)"></option>
+										<option value="rgb(187, 187, 187)" label="rgb(187, 187, 187)"></option>
+										<option value="rgb(240, 102, 102)" label="rgb(240, 102, 102)"></option>
+										<option value="rgb(255, 194, 102)" label="rgb(255, 194, 102)"></option>
+										<option value="rgb(255, 255, 102)" label="rgb(255, 255, 102)"></option>
+										<option value="rgb(102, 185, 102)" label="rgb(102, 185, 102)"></option>
+										<option value="rgb(102, 163, 224)" label="rgb(102, 163, 224)"></option>
+										<option value="rgb(194, 133, 255)" label="rgb(194, 133, 255)"></option>
+										<option value="rgb(136, 136, 136)" label="rgb(136, 136, 136)"></option>
+										<option value="rgb(161, 0, 0)" label="rgb(161, 0, 0)"></option>
+										<option value="rgb(178, 107, 0)" label="rgb(178, 107, 0)"></option>
+										<option value="rgb(178, 178, 0)" label="rgb(178, 178, 0)"></option>
+										<option value="rgb(0, 97, 0)" label="rgb(0, 97, 0)"></option>
+										<option value="rgb(0, 71, 178)" label="rgb(0, 71, 178)"></option>
+										<option value="rgb(107, 36, 178)" label="rgb(107, 36, 178)"></option>
+										<option value="rgb(68, 68, 68)" label="rgb(68, 68, 68)"></option>
+										<option value="rgb(92, 0, 0)" label="rgb(92, 0, 0)"></option>
+										<option value="rgb(102, 61, 0)" label="rgb(102, 61, 0)"></option>
+										<option value="rgb(102, 102, 0)" label="rgb(102, 102, 0)"></option>
+										<option value="rgb(0, 55, 0)" label="rgb(0, 55, 0)"></option>
+										<option value="rgb(0, 41, 102)" label="rgb(0, 41, 102)"></option>
+										<option value="rgb(61, 20, 102)" label="rgb(61, 20, 102)"></option>
 									</select>
 									<span class="ql-format-separator"></span>
 								</span>
-								<span
-									class="ql-ngx-tree ql-formats"
-									*ngIf="questionsBefore.length > 0"
-								>
+								<span class="ql-ngx-tree ql-formats" *ngIf="questionsBefore.length > 0">
 									<!--<ngx-dropdown-treeview-select #pipeTreeSelect [items]="questionsBefore"
 										[config]="treedropdownSingleConfig" (valueChange)="pipeQuestion()">
 									</ngx-dropdown-treeview-select> -->
@@ -296,25 +156,106 @@
 						</quill-editor>
 					</div>
 				</div>
+				
 				<div class="row">
 					<div class="col-md-12">
 						<hr class="edit-separator-hr" />
 					</div>
 				</div>
-				<div
-					class="form-group form-group-adjust row"
-					*ngIf="questionBeingEdited.catiDependent"
-				>
-					<label
-						for="catiQuestionText"
-						class="col-md-2 col-form-label text-md-right"
-						>{{
-							questionBeingEdited.questionPart
-								? "CATI
-						Text"
-								: "CATI Section Name"
-						}}</label
-					>
+
+				<div class="form-group form-group-adjust row configuration-input">
+					<label for="questionText" class="col-md-2 col-form-label text-md-right">{{
+						questionBeingEdited.questionPart ? 'Question
+						Description' : 'Section Name'
+					}}</label>
+					<div class="col-md-10">
+						<input
+							*ngIf="!questionBeingEdited.questionPart"
+							type="text"
+							name="questionTextInput"
+							class="form-control"
+							id="questionTextInput"
+							placeholder="Section Name"
+							[(ngModel)]="questionBeingEdited.descriptionLabel.value"
+						/>
+						<quill-editor
+							*ngIf="questionBeingEdited.questionPart"
+							(onEditorCreated)="questiontextEditorCreated($event)"
+							(onContentChanged)="updateCursorOnType()"
+							(onSelectionChanged)="recordCursor($event)"
+							class="form-control quill-input"
+							id="questionDescriptionText"
+							theme="snow"
+							name="questionDescriptionText"
+							[(ngModel)]="questionBeingEdited.descriptionLabel.value"
+						>
+							<div quill-editor-toolbar>
+								<span class="ql-formats">
+									<button class="ql-bold" [title]="'Bold'"></button>
+									<button class="ql-italic" [title]="'Italic'"></button>
+									<button class="ql-underline" [title]="'Underline'"></button>
+								</span>
+								<span class="ql-formats">
+									<select class="ql-align" [title]="'Aligment'">
+										<option selected></option>
+										<option value="center"></option>
+										<option value="right"></option>
+										<option value="justify"></option>
+									</select>
+									<span class="ql-format-separator"></span>
+									<select [title]="'Text Color'" class="ql-color" defaultValue="rgb(0, 0, 0)">
+										<option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+										<option value="rgb(230, 0, 0)" label="rgb(230, 0, 0)"></option>
+										<option value="rgb(255, 153, 0)" label="rgb(255, 153, 0)"></option>
+										<option value="rgb(255, 255, 0)" label="rgb(255, 255, 0)"></option>
+										<option value="rgb(0, 138, 0)" label="rgb(0, 138, 0)"></option>
+										<option value="rgb(0, 102, 204)" label="rgb(0, 102, 204)"></option>
+										<option value="rgb(153, 51, 255)" label="rgb(153, 51, 255)"></option>
+										<option value="rgb(250, 204, 204)" label="rgb(250, 204, 204)"></option>
+										<option value="rgb(255, 235, 204)" label="rgb(255, 235, 204)"></option>
+										<option value="rgb(255, 255, 204)" label="rgb(255, 255, 204)"></option>
+										<option value="rgb(204, 232, 204)" label="rgb(204, 232, 204)"></option>
+										<option value="rgb(204, 224, 245)" label="rgb(204, 224, 245)"></option>
+										<option value="rgb(235, 214, 255)" label="rgb(235, 214, 255)"></option>
+										<option value="rgb(187, 187, 187)" label="rgb(187, 187, 187)"></option>
+										<option value="rgb(240, 102, 102)" label="rgb(240, 102, 102)"></option>
+										<option value="rgb(255, 194, 102)" label="rgb(255, 194, 102)"></option>
+										<option value="rgb(255, 255, 102)" label="rgb(255, 255, 102)"></option>
+										<option value="rgb(102, 185, 102)" label="rgb(102, 185, 102)"></option>
+										<option value="rgb(102, 163, 224)" label="rgb(102, 163, 224)"></option>
+										<option value="rgb(194, 133, 255)" label="rgb(194, 133, 255)"></option>
+										<option value="rgb(136, 136, 136)" label="rgb(136, 136, 136)"></option>
+										<option value="rgb(161, 0, 0)" label="rgb(161, 0, 0)"></option>
+										<option value="rgb(178, 107, 0)" label="rgb(178, 107, 0)"></option>
+										<option value="rgb(178, 178, 0)" label="rgb(178, 178, 0)"></option>
+										<option value="rgb(0, 97, 0)" label="rgb(0, 97, 0)"></option>
+										<option value="rgb(0, 71, 178)" label="rgb(0, 71, 178)"></option>
+										<option value="rgb(107, 36, 178)" label="rgb(107, 36, 178)"></option>
+										<option value="rgb(68, 68, 68)" label="rgb(68, 68, 68)"></option>
+										<option value="rgb(92, 0, 0)" label="rgb(92, 0, 0)"></option>
+										<option value="rgb(102, 61, 0)" label="rgb(102, 61, 0)"></option>
+										<option value="rgb(102, 102, 0)" label="rgb(102, 102, 0)"></option>
+										<option value="rgb(0, 55, 0)" label="rgb(0, 55, 0)"></option>
+										<option value="rgb(0, 41, 102)" label="rgb(0, 41, 102)"></option>
+										<option value="rgb(61, 20, 102)" label="rgb(61, 20, 102)"></option>
+									</select>
+									<span class="ql-format-separator"></span>
+								</span>
+								<span class="ql-ngx-tree ql-formats" *ngIf="questionsBefore.length > 0">
+									<!--<ngx-dropdown-treeview-select #pipeTreeSelect [items]="questionsBefore"
+										[config]="treedropdownSingleConfig" (valueChange)="pipeQuestion()">
+									</ngx-dropdown-treeview-select> -->
+								</span>
+							</div>
+						</quill-editor>
+					</div>
+				</div>
+
+				<div class="form-group form-group-adjust row" *ngIf="questionBeingEdited.catiDependent">
+					<label for="catiQuestionText" class="col-md-2 col-form-label text-md-right">{{
+						questionBeingEdited.questionPart ? 'CATI
+						Text' : 'CATI Section Name'
+					}}</label>
 					<div class="col-md-10">
 						<input
 							*ngIf="!questionBeingEdited.questionPart"
@@ -323,199 +264,72 @@
 							class="form-control"
 							id="catiQuestionTextInput"
 							placeholder="CATI Section Name"
-							[(ngModel)]="
-								questionBeingEdited.catiDependent.label.value
-							"
+							[(ngModel)]="questionBeingEdited.catiDependent.label.value"
 						/>
 						<quill-editor
 							*ngIf="questionBeingEdited.questionPart"
-							(onEditorCreated)="
-								catiQuestiontextEditorCreated($event)
-							"
+							(onEditorCreated)="catiQuestiontextEditorCreated($event)"
 							(onContentChanged)="updateCatiCursorOnType()"
 							(onSelectionChanged)="recordCatiCursor($event)"
 							class="form-control"
 							id="catiQuestionText"
 							theme="snow"
 							name="catiQuestionText"
-							[(ngModel)]="
-								questionBeingEdited.catiDependent.label.value
-							"
+							[(ngModel)]="questionBeingEdited.catiDependent.label.value"
 						>
 							<div quill-editor-toolbar>
 								<span class="ql-formats">
-									<button
-										class="ql-bold"
-										[title]="'Bold'"
-									></button>
-									<button
-										class="ql-italic"
-										[title]="'Italic'"
-									></button>
-									<button
-										class="ql-underline"
-										[title]="'Underline'"
-									></button>
+									<button class="ql-bold" [title]="'Bold'"></button>
+									<button class="ql-italic" [title]="'Italic'"></button>
+									<button class="ql-underline" [title]="'Underline'"></button>
 								</span>
 								<span class="ql-formats">
-									<select
-										class="ql-align"
-										[title]="'Aligment'"
-									>
+									<select class="ql-align" [title]="'Aligment'">
 										<option selected></option>
 										<option value="center"></option>
 										<option value="right"></option>
 										<option value="justify"></option>
 									</select>
 									<span class="ql-format-separator"></span>
-									<select
-										[title]="'Text Color'"
-										class="ql-color"
-										defaultValue="rgb(0, 0, 0)"
-									>
-										<option
-											value="rgb(0, 0, 0)"
-											label="rgb(0, 0, 0)"
-										></option>
-										<option
-											value="rgb(230, 0, 0)"
-											label="rgb(230, 0, 0)"
-										></option>
-										<option
-											value="rgb(255, 153, 0)"
-											label="rgb(255, 153, 0)"
-										></option>
-										<option
-											value="rgb(255, 255, 0)"
-											label="rgb(255, 255, 0)"
-										></option>
-										<option
-											value="rgb(0, 138, 0)"
-											label="rgb(0, 138, 0)"
-										></option>
-										<option
-											value="rgb(0, 102, 204)"
-											label="rgb(0, 102, 204)"
-										></option>
-										<option
-											value="rgb(153, 51, 255)"
-											label="rgb(153, 51, 255)"
-										></option>
-										<option
-											value="rgb(250, 204, 204)"
-											label="rgb(250, 204, 204)"
-										></option>
-										<option
-											value="rgb(255, 235, 204)"
-											label="rgb(255, 235, 204)"
-										></option>
-										<option
-											value="rgb(255, 255, 204)"
-											label="rgb(255, 255, 204)"
-										></option>
-										<option
-											value="rgb(204, 232, 204)"
-											label="rgb(204, 232, 204)"
-										></option>
-										<option
-											value="rgb(204, 224, 245)"
-											label="rgb(204, 224, 245)"
-										></option>
-										<option
-											value="rgb(235, 214, 255)"
-											label="rgb(235, 214, 255)"
-										></option>
-										<option
-											value="rgb(187, 187, 187)"
-											label="rgb(187, 187, 187)"
-										></option>
-										<option
-											value="rgb(240, 102, 102)"
-											label="rgb(240, 102, 102)"
-										></option>
-										<option
-											value="rgb(255, 194, 102)"
-											label="rgb(255, 194, 102)"
-										></option>
-										<option
-											value="rgb(255, 255, 102)"
-											label="rgb(255, 255, 102)"
-										></option>
-										<option
-											value="rgb(102, 185, 102)"
-											label="rgb(102, 185, 102)"
-										></option>
-										<option
-											value="rgb(102, 163, 224)"
-											label="rgb(102, 163, 224)"
-										></option>
-										<option
-											value="rgb(194, 133, 255)"
-											label="rgb(194, 133, 255)"
-										></option>
-										<option
-											value="rgb(136, 136, 136)"
-											label="rgb(136, 136, 136)"
-										></option>
-										<option
-											value="rgb(161, 0, 0)"
-											label="rgb(161, 0, 0)"
-										></option>
-										<option
-											value="rgb(178, 107, 0)"
-											label="rgb(178, 107, 0)"
-										></option>
-										<option
-											value="rgb(178, 178, 0)"
-											label="rgb(178, 178, 0)"
-										></option>
-										<option
-											value="rgb(0, 97, 0)"
-											label="rgb(0, 97, 0)"
-										></option>
-										<option
-											value="rgb(0, 71, 178)"
-											label="rgb(0, 71, 178)"
-										></option>
-										<option
-											value="rgb(107, 36, 178)"
-											label="rgb(107, 36, 178)"
-										></option>
-										<option
-											value="rgb(68, 68, 68)"
-											label="rgb(68, 68, 68)"
-										></option>
-										<option
-											value="rgb(92, 0, 0)"
-											label="rgb(92, 0, 0)"
-										></option>
-										<option
-											value="rgb(102, 61, 0)"
-											label="rgb(102, 61, 0)"
-										></option>
-										<option
-											value="rgb(102, 102, 0)"
-											label="rgb(102, 102, 0)"
-										></option>
-										<option
-											value="rgb(0, 55, 0)"
-											label="rgb(0, 55, 0)"
-										></option>
-										<option
-											value="rgb(0, 41, 102)"
-											label="rgb(0, 41, 102)"
-										></option>
-										<option
-											value="rgb(61, 20, 102)"
-											label="rgb(61, 20, 102)"
-										></option>
+									<select [title]="'Text Color'" class="ql-color" defaultValue="rgb(0, 0, 0)">
+										<option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+										<option value="rgb(230, 0, 0)" label="rgb(230, 0, 0)"></option>
+										<option value="rgb(255, 153, 0)" label="rgb(255, 153, 0)"></option>
+										<option value="rgb(255, 255, 0)" label="rgb(255, 255, 0)"></option>
+										<option value="rgb(0, 138, 0)" label="rgb(0, 138, 0)"></option>
+										<option value="rgb(0, 102, 204)" label="rgb(0, 102, 204)"></option>
+										<option value="rgb(153, 51, 255)" label="rgb(153, 51, 255)"></option>
+										<option value="rgb(250, 204, 204)" label="rgb(250, 204, 204)"></option>
+										<option value="rgb(255, 235, 204)" label="rgb(255, 235, 204)"></option>
+										<option value="rgb(255, 255, 204)" label="rgb(255, 255, 204)"></option>
+										<option value="rgb(204, 232, 204)" label="rgb(204, 232, 204)"></option>
+										<option value="rgb(204, 224, 245)" label="rgb(204, 224, 245)"></option>
+										<option value="rgb(235, 214, 255)" label="rgb(235, 214, 255)"></option>
+										<option value="rgb(187, 187, 187)" label="rgb(187, 187, 187)"></option>
+										<option value="rgb(240, 102, 102)" label="rgb(240, 102, 102)"></option>
+										<option value="rgb(255, 194, 102)" label="rgb(255, 194, 102)"></option>
+										<option value="rgb(255, 255, 102)" label="rgb(255, 255, 102)"></option>
+										<option value="rgb(102, 185, 102)" label="rgb(102, 185, 102)"></option>
+										<option value="rgb(102, 163, 224)" label="rgb(102, 163, 224)"></option>
+										<option value="rgb(194, 133, 255)" label="rgb(194, 133, 255)"></option>
+										<option value="rgb(136, 136, 136)" label="rgb(136, 136, 136)"></option>
+										<option value="rgb(161, 0, 0)" label="rgb(161, 0, 0)"></option>
+										<option value="rgb(178, 107, 0)" label="rgb(178, 107, 0)"></option>
+										<option value="rgb(178, 178, 0)" label="rgb(178, 178, 0)"></option>
+										<option value="rgb(0, 97, 0)" label="rgb(0, 97, 0)"></option>
+										<option value="rgb(0, 71, 178)" label="rgb(0, 71, 178)"></option>
+										<option value="rgb(107, 36, 178)" label="rgb(107, 36, 178)"></option>
+										<option value="rgb(68, 68, 68)" label="rgb(68, 68, 68)"></option>
+										<option value="rgb(92, 0, 0)" label="rgb(92, 0, 0)"></option>
+										<option value="rgb(102, 61, 0)" label="rgb(102, 61, 0)"></option>
+										<option value="rgb(102, 102, 0)" label="rgb(102, 102, 0)"></option>
+										<option value="rgb(0, 55, 0)" label="rgb(0, 55, 0)"></option>
+										<option value="rgb(0, 41, 102)" label="rgb(0, 41, 102)"></option>
+										<option value="rgb(61, 20, 102)" label="rgb(61, 20, 102)"></option>
 									</select>
 									<span class="ql-format-separator"></span>
 								</span>
-								<span
-									class="ql-ngx-tree ql-formats"
-									*ngIf="questionsBefore.length > 0"
-								>
+								<span class="ql-ngx-tree ql-formats" *ngIf="questionsBefore.length > 0">
 									<!-- <ngx-dropdown-treeview-select #catiPipeTreeSelect [items]="questionsBefore"
 										[config]="treedropdownSingleConfig" (valueChange)="pipeCatiQuestion()">
 									</ngx-dropdown-treeview-select>-->
@@ -534,9 +348,7 @@
 				<div class="" *ngIf="questionBeingEdited.questionPart">
 					<div class="col-12 align-self-center">
 						<div class="form-group form-group-adjust row">
-							<label class="col-md-2 col-form-label text-md-right"
-								>Optional</label
-							>
+							<label class="col-md-2 col-form-label text-md-right">Optional</label>
 							<div class="col-md-10 align-self-center">
 								<div
 									class="custom-control custom-control-inline custom-control-nolabel custom-checkbox"
@@ -546,16 +358,10 @@
 										class="custom-control-input"
 										value=""
 										id="isOptionalCheck"
-										[(ngModel)]="
-											questionBeingEdited.isOptional
-										"
+										[(ngModel)]="questionBeingEdited.isOptional"
 										name="isOptional"
 									/>
-									<label
-										class="custom-control-label"
-										for="isOptionalCheck"
-										>Basic checkbox</label
-									>
+									<label class="custom-control-label" for="isOptionalCheck">Basic checkbox</label>
 								</div>
 							</div>
 						</div>
@@ -563,48 +369,26 @@
 				</div>
 				<div
 					class="form-group form-group-adjust row"
-					[hidden]="
-						questionBeingEdited.questionPart ||
-						!householdExistsBefore
-					"
+					[hidden]="questionBeingEdited.questionPart || !householdExistsBefore"
 				>
 					<div class="col-12">
 						<div class="form-group form-group-adjust row">
-							<label class="col-md-2 col-form-label text-md-right"
-								>Household</label
-							>
-							<div
-								class="col-md-10"
-								[hidden]="
-									questionBeingEdited.repeatSourceQuestionName !=
-									null
-								"
-							>
-								<label
-									class="form-check-label switch"
-									for="isHouseholdCheck"
-								>
+							<label class="col-md-2 col-form-label text-md-right">Household</label>
+							<div class="col-md-10" [hidden]="questionBeingEdited.repeatSourceQuestionName != null">
+								<label class="form-check-label switch" for="isHouseholdCheck">
 									<input
 										class="form-check-input"
 										type="checkbox"
 										value=""
 										id="isHouseholdCheck"
-										[(ngModel)]="
-											questionBeingEdited.isHousehold
-										"
+										[(ngModel)]="questionBeingEdited.isHousehold"
 										name="isHousehold"
 										#isHouseholdCheck
 									/>
 									<i></i>
 								</label>
 							</div>
-							<div
-								class="col-md-10 mt-2"
-								[hidden]="
-									questionBeingEdited.repeatSourceQuestionName ==
-									null
-								"
-							>
+							<div class="col-md-10 mt-2" [hidden]="questionBeingEdited.repeatSourceQuestionName == null">
 								<div class="form-check-label">
 									Household Disabled for Sections that Repeat
 								</div>
@@ -615,9 +399,7 @@
 				<div
 					class="row"
 					*ngIf="
-						questionBeingEdited.questionPart ||
-						(!questionBeingEdited.questionPart &&
-							householdExistsBefore)
+						questionBeingEdited.questionPart || (!questionBeingEdited.questionPart && householdExistsBefore)
 					"
 				>
 					<div class="col-md-12">
@@ -627,9 +409,7 @@
 				<div class="form-group form-group-adjust row">
 					<div class="col-12">
 						<div class="form-group form-group-adjust row">
-							<label class="col-md-2 col-form-label text-md-right"
-								>Repeat</label
-							>
+							<label class="col-md-2 col-form-label text-md-right">Repeat</label>
 							<div
 								class="col-md-10"
 								[hidden]="
@@ -638,10 +418,7 @@
 									questionBeingEdited.isHousehold
 								"
 							>
-								<label
-									class="pull-left form-check-label switch"
-									for="isRepeatCheck"
-								>
+								<label class="pull-left form-check-label switch" for="isRepeatCheck">
 									<input
 										class="form-check-input"
 										type="checkbox"
@@ -649,13 +426,8 @@
 										id="isRepeatCheck"
 										#isRepeat
 										name="isRepeat"
-										(change)="
-											repeatQuestion(isRepeat.checked)
-										"
-										[checked]="
-											questionBeingEdited.repeatSourceQuestionName !=
-											null
-										"
+										(change)="repeatQuestion(isRepeat.checked)"
+										[checked]="questionBeingEdited.repeatSourceQuestionName != null"
 									/>
 									<i></i>
 								</label>
@@ -665,24 +437,16 @@
 								</ngx-dropdown-treeview-select> -->
 							</div>
 							<div class="col-md-10 mt-2">
-								<span
-									[hidden]="questionBeingEdited.id != 0"
-									class="form-check-label"
+								<span [hidden]="questionBeingEdited.id != 0" class="form-check-label"
 									>Setting Repeat Available After Save</span
 								>
 								<span
-									[hidden]="
-										questionBeingEdited.id == 0 ||
-										repeatSourcesBefore.length > 0
-									"
+									[hidden]="questionBeingEdited.id == 0 || repeatSourcesBefore.length > 0"
 									class="form-check-label"
 									>No Repeat Sources Available</span
 								>
-								<span
-									class="form-check-label"
-									[hidden]="!questionBeingEdited.isHousehold"
-									>Repeating Disabled for Household
-									Questions</span
+								<span class="form-check-label" [hidden]="!questionBeingEdited.isHousehold"
+									>Repeating Disabled for Household Questions</span
 								>
 							</div>
 						</div>
@@ -690,47 +454,29 @@
 				</div>
 				<div
 					class="form-group form-group-adjust row"
-					*ngIf="
-						questionBeingEdited.questionPart === undefined ||
-						questionBeingEdited.questionPart === null
-					"
+					*ngIf="questionBeingEdited.questionPart === undefined || questionBeingEdited.questionPart === null"
 				>
 					<div class="col-12">
 						<div class="form-group form-group-adjust row">
-							<label class="col-md-2 col-form-label text-md-right"
-								>Display Multiple Questions</label
-							>
+							<label class="col-md-2 col-form-label text-md-right">Display Multiple Questions</label>
 							<div class="col-md-10 mt-2">
 								<div class="custom-control custom-checkbox">
 									<input
-										[(ngModel)]="
-											questionBeingEdited.isMultiView
-										"
+										[(ngModel)]="questionBeingEdited.isMultiView"
 										type="checkbox"
 										class="custom-control-input"
 										name="isMultiView"
 										id="display-multiple-checkbox"
 									/>
-									<label
-										class="custom-control-label"
-										for="display-multiple-checkbox"
-									></label>
+									<label class="custom-control-label" for="display-multiple-checkbox"></label>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div
-				role="tabpanel"
-				class="tab-pane"
-				id="advanced"
-				aria-labelledby="advanced-tab"
-				aria-expanded="true"
-			>
-				<ng-container
-					*ngFor="let config of configurations; let i = index"
-				>
+			<div role="tabpanel" class="tab-pane" id="advanced" aria-labelledby="advanced-tab" aria-expanded="true">
+				<ng-container *ngFor="let config of configurations; let i = index">
 					<ng-template #dynamic></ng-template>
 					<div *ngIf="i < configurations.length - 1" class="row">
 						<div class="col-md-12">
@@ -746,7 +492,14 @@
 				aria-labelledby="conditionals-tab"
 				aria-expanded="true"
 			>
-				<app-question-conditionals
+				<traisi-survey-logic-query-builder
+					[showValidationMessage]="false"
+					[showValidationQuestion]="false"
+					(onLogicChanged)="onConditionalLogicChanged($event)"
+					#queryBuilder
+				></traisi-survey-logic-query-builder>
+
+				<!-- <app-question-conditionals
 					#conditionals
 					*ngIf="conditionalsLoaded && questionBeingEdited.id != 0"
 					[questionOptions]="questionOptions"
@@ -758,10 +511,10 @@
 					[questionType]="questionType"
 					[sourceQuestionList]="sourceQuestionList"
 					[questionBeingEdited]="questionBeingEdited"
-				></app-question-conditionals>
+				></app-question-conditionals> -->
+
 				<div *ngIf="questionBeingEdited.id == 0">
-					Conditionals are available for a question only after being
-					added to the survey.
+					Conditionals are available for a question only after being added to the survey.
 				</div>
 			</div>
 		</div>
@@ -793,11 +546,7 @@
 			<button type="submit" class="btn btn-primary" [disabled]="isSaving">
 				<i *ngIf="!isSaving" class="fa fa-save"></i>
 				<i *ngIf="isSaving" class="fa fa-circle-o-notch fa-spin"></i>
-				{{
-					isSaving
-						? ("users.editor.Saving" | translate)
-						: ("users.editor.Save" | translate)
-				}}
+				{{ isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate) }}
 			</button>
 		</div>
 
