@@ -126,6 +126,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 			)
 			.subscribe({
 				next: model => {
+					console.log(model);
 					this._questionStructure = model;
 				},
 				error: error => {
@@ -137,20 +138,19 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 	public updateFullStructure(forceUpdate: boolean = false): void {
 		if (this.updateStructure || forceUpdate) {
 			forkJoin(
-			this.surveyBuilderService
-				.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(
-					this.surveyId,
-					"en"
-				),
+				this.surveyBuilderService
+					.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(
+						this.surveyId,
+						"en"
+					),
 				this._editorData.updateSurveyStructure())
-				.subscribe(([treelist,structure]) => {
+				.subscribe(([treelist, structure]) => {
 					this.fullStructure = this.surveyBuilderService.convertSurveyQuestionsStructureToTreeItems(treelist);
 					this._editorData.surveyStructure = <any>structure;
 					this.processHouseholdCheck();
 					this.householdAddedChange.emit(this.householdAdded);
 					this.updateStructure = false;
 					this.updateQuestionOffset();
-
 					this._editorData.currentPage = this.currentPage;
 				});
 		} else {
@@ -215,6 +215,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 	public configurationShown(): void {
 		this.qConfiguration.surveyId = this.surveyId;
 		this.qConfiguration.questionBeingEdited = new QuestionPartView();
+		console.log(this.questionBeingEdited);
 		this.qConfiguration.questionBeingEdited = JSON.parse(
 			JSON.stringify(this.questionBeingEdited)
 		);
@@ -279,6 +280,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 	 */
 	public editQuestionConfiguration(event: any, question: any): void {
 		event.stopPropagation();
+		console.log(question);
 		this.questionBeingEdited = question;
 		this.dragResult = new Subject<boolean>();
 		this.addingNewQuestion = false;
@@ -408,7 +410,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 								this.qConfiguration.configurationValues
 							)
 							.subscribe(result => {
-								
+
 								this.notificationService.indicateSurveyChange(
 									this.surveyId
 								);
@@ -769,7 +771,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 					if (
 						this.questionBeingEdited.questionPart &&
 						this.questionBeingEdited.questionPart.questionType ===
-							"household"
+						"household"
 					) {
 						this.householdAdded = false;
 						this.householdAddedChange.emit(this.householdAdded);

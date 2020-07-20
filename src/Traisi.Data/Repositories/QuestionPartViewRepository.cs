@@ -27,6 +27,7 @@ namespace Traisi.Data.Repositories
                     .Include(qp => qp.RepeatSource)
                     .Include(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
+                    .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.DescriptionLabels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qp => qp.RepeatSource)
                     .Include(sv => sv.QuestionPartViewChildren).ThenInclude(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
@@ -48,6 +49,17 @@ namespace Traisi.Data.Repositories
             return _appContext.QuestionPartViews
                .Where(q => q.Id == id)
                .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<QuestionPartView> GetQuestionPartViewLogic(int id)
+        {
+            return _appContext.QuestionPartViews.Where(q => q.Id == id)
+                .Include(x => x.QuestionPart).ThenInclude(x => x.Conditionals).ThenInclude(x => x.ValidationMessages).FirstOrDefaultAsync();
         }
 
         public QuestionPartView GetQuestionPartViewWithStructure(int questionPartViewId)

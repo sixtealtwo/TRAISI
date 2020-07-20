@@ -4,7 +4,7 @@ import { classNames, entityMap, entityTypes as entityTypeMap, SurveyLogicQueryEn
 import { SurveyBuilderEditorData } from '../services/survey-builder-editor-data.service';
 import { QuestionPartView } from '../models/question-part-view.model';
 import { Observable, concat, of, Subject, forkJoin, zip, combineLatest, pipe } from 'rxjs';
-import { QuestionOptionValueViewModel, SurveyBuilderClient } from '../services/survey-builder-client.service';
+import { QuestionOptionValueViewModel, SurveyBuilderClient, SurveyLogicRulesModel } from '../services/survey-builder-client.service';
 import { QuestionResponseType } from '../models/question-response-type.enum';
 import { tap, distinctUntilChanged, debounceTime, skip, first, concatMap } from 'rxjs/operators';
 import { GeneratedIdsViewModel } from 'shared/models/generated-ids-view-model.model';
@@ -27,6 +27,8 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 
 	public model: SurveyLogic;
 
+	public source: Observable<SurveyLogicRulesModel[]>;
+
 	/**
 	 *Creates an instance of SurveyLogicControlComponent.
 	 * @param {SurveyBuilderEditorData} _editor
@@ -45,14 +47,11 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	 * @param model 
 	 */
 	public onModelChanged(model: SurveyLogic): void {
-		console.log('in on model changed');
-		console.log(model);
 		this._builder
 			.updateSurveyLogic(this._editor.surveyId, this._editor.activeLanguage, model)
 			.subscribe((v: GeneratedIdsViewModel) => {
 				this._util.copyIds(v, model, 'rules');
 			});
-
 	}
 
 	/**
@@ -75,11 +74,8 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		});
 	}
 
-
 	public ngOnInit(): void {
-		// load survey state
-
-
+		this.source = this._builder.getSurveyLogic(this._editor.surveyId, this._editor.activeLanguage);
 	}
 	public ngOnDestroy(): void { }
 

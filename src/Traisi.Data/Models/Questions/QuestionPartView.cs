@@ -39,7 +39,6 @@ namespace Traisi.Data.Models.Questions
 
         public QuestionPartView ParentView { get; set; }
 
-
         [JsonIgnore]
         public int? ParentViewId { get; set; }
 

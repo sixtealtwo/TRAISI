@@ -180,9 +180,6 @@
 						/>
 						<quill-editor
 							*ngIf="questionBeingEdited.questionPart"
-							(onEditorCreated)="questiontextEditorCreated($event)"
-							(onContentChanged)="updateCursorOnType()"
-							(onSelectionChanged)="recordCursor($event)"
 							class="form-control quill-input"
 							id="questionDescriptionText"
 							theme="snow"
@@ -496,6 +493,7 @@
 					[showValidationMessage]="false"
 					[showValidationQuestion]="false"
 					(onLogicChanged)="onConditionalLogicChanged($event)"
+					[source]="conditionalSource"
 					#queryBuilder
 				></traisi-survey-logic-query-builder>
 

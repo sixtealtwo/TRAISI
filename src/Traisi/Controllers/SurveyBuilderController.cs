@@ -1075,6 +1075,104 @@ namespace Traisi.Controllers
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="surveyLogic"></param>
+        /// <returns></returns>
+        [HttpPut("surveys/{surveyId}/question-logic")]
+        [Consumes("application/json")]
+        [ProducesDefaultResponseType]
+        [Produces(typeof(GeneratedIdsViewModel))]
+        public async Task<IActionResult> UpdateQuestionLogic(int surveyId, [FromBody] SurveyLogicViewModel surveyLogicViewModel, [FromQuery] string language = "en")
+        {
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
+            /*if (survey == null)
+            {
+                return new NotFoundResult();
+            }
+            var surveyLogic = _mapper.Map<SurveyLogic>(surveyLogicViewModel, opts =>
+            {
+                opts.Items["Language"] = language;
+            });
+            await this._surveyBuilderService.UpdateSurveyLogic(survey, surveyLogic);
+            var idMap = _mapper.Map<GeneratedIdsViewModel>(surveyLogic); */
+            return new OkResult();
+            // return new OkObjectResult(idMap);
+        }
+
+        /// <summary>
+        /// Adds a new survey logic group to the survey and returns the ID of the new object.
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="language"></param>
+        /// <param name="surveyLogicViewModel"></param>
+        /// <returns></returns>
+        [HttpPost("surveys/{surveyId}/question-logic")]
+        [Consumes("application/json")]
+        [ProducesDefaultResponseType]
+        [Produces(typeof(int))]
+        public async Task<IActionResult> AddQuestionLogic(int surveyId, [FromBody] SurveyLogicViewModel surveyLogicViewModel, [FromQuery] string language = "en")
+        {
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
+            /*if (survey == null)
+            {
+                return new NotFoundResult();
+            }
+            var surveyLogic = _mapper.Map<SurveyLogic>(surveyLogicViewModel, opts =>
+            {
+                opts.Items["Language"] = language;
+            }); */
+            //await this._surveyBuilderService.AddSurveyLogic(survey, surveyLogic);
+            //return new OkObjectResult(surveyLogic.Id);
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// Retrives the list of survey logic for a particular survey
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <returns></returns>
+        [HttpGet("surveys/{surveyId}/question-logic/{questionPartViewId}")]
+        [Produces(typeof(List<SurveyLogicRulesModel>))]
+        public async Task<IActionResult> GetQuestionLogic(int surveyId, int questionPartViewId, [FromQuery] string language = "en")
+        {
+            var qpv = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewLogic(questionPartViewId);
+            if (qpv != null)
+            {
+                var mappedResult = _mapper.Map<List<SurveyLogicRulesModel>>(qpv.QuestionPart.Conditionals, opts =>
+            {
+                opts.Items["Language"] = language;
+            });
+                return new OkObjectResult(mappedResult);
+            }
+            else
+            {
+                return new NotFoundResult();
+            }
+        }
+
+        /// <summary>
+        /// Deletes a survey logic from the survey
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="surveyLogicId"></param>
+        /// <returns></returns>
+        [HttpDelete("surveys/{surveyId}/question-logic")]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> DeleteQuestionLogic(int surveyId, int surveyLogicId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
+            if (survey == null)
+            {
+                return new NotFoundResult();
+            }
+            var surveyLogic = this._unitOfWork.SurveyLogic.Get(surveyLogicId);
+            await this._surveyBuilderService.RemoveSurveyLogic(survey, surveyLogic);
+            return new OkResult();
+        }
+
+        /// <summary>
         /// Adds a new survey logic group to the survey and returns the ID of the new object.
         /// </summary>
         /// <param name="surveyId"></param>

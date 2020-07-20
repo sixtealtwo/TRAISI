@@ -45,11 +45,12 @@ import { DropdownTreeviewSelectComponent } from '../../../shared/dropdown-treevi
 import { DropdownTreeviewSelectI18n } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n';
 import { QuestionOptionValue } from '../../models/question-option-value.model';
 import { Router } from '@angular/router';
-import { SBPageStructureViewModel } from 'app/survey-builder/services/survey-builder-client.service';
+import { SBPageStructureViewModel, SurveyLogicRulesModel, SurveyBuilderClient } from 'app/survey-builder/services/survey-builder-client.service';
 import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
 import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
 import { QuestionConditionalOperator } from 'app/survey-builder/models/question-conditional-operator.model';
 import { SurveyLogic } from 'app/survey-builder/models/survey-logic.model';
+import { Observable } from 'rxjs';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -113,6 +114,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public conditionalsLoaded: boolean = false;
 	public isSaving: boolean = false;
 
+	public conditionalSource: Observable<SurveyLogicRulesModel[]>;
+
 	public quillQuestionTextModules = {
 		toolbar: [
 			['bold', 'italic', 'underline'], // toggled buttons
@@ -155,10 +158,13 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private cDRef: ChangeDetectorRef,
 		private _router: Router,
-		private _editorData: SurveyBuilderEditorData
+		private _editorData: SurveyBuilderEditorData,
+		private _builder: SurveyBuilderClient,
 	) { }
 
-	public ngOnInit(): void { }
+	public ngOnInit(): void {
+		// this.conditionalSource = this._builder.getQuestionLogic(this._editorData.surveyId, this.questionBeingEdited.id, this._editorData.activeLanguage);
+	}
 
 	public reset(): void {
 		//  this._router.navigate( ['#basic']);

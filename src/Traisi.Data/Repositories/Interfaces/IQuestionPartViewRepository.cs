@@ -15,5 +15,7 @@ namespace Traisi.Data.Repositories.Interfaces {
         List<QuestionPartView> GetQuestionPartViewsWithParent(int questionPartViewParentId);
 
 		Task<QuestionPartView> GetQuestionPartViewWithConditionals(int id);
+
+		Task<QuestionPartView> GetQuestionPartViewLogic(int id);
 	}
 }

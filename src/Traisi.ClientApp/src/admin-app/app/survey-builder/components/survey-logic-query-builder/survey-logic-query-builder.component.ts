@@ -20,6 +20,7 @@ import { SurveyLogicQueryConfig, SurveyLogicField } from './survey-logic-query-b
 import {
 	QuestionOptionValueViewModel,
 	SurveyBuilderClient,
+	SurveyLogicRulesModel,
 } from 'app/survey-builder/services/survey-builder-client.service';
 import { SurveyLogic } from 'app/survey-builder/models/survey-logic.model';
 import { QuestionPartView } from 'app/survey-builder/models/question-part-view.model';
@@ -71,13 +72,14 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 	@Output()
 	public onLogicDeleted: EventEmitter<Rule> = new EventEmitter();
 
-
-
 	@Input()
 	public showValidationQuestion: boolean = false;
 
 	@Input()
 	public showValidationMessage: boolean = false;
+
+	@Input()
+	public source: Observable<SurveyLogicRulesModel[]>;
 
 	/**
 	 *Creates an instance of SurveyLogicControlComponent.
@@ -156,10 +158,7 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 		// load survey state
 
 		this.questionList$ = this._editor.questionListChanged.pipe(
-			distinctUntilChanged(),
-			tap((v) => {
-				// console.log(v);
-			})
+			distinctUntilChanged()
 		);
 		this._editor.questionListChanged.subscribe((questionList) => {
 			this.buildConfig(questionList);
@@ -168,7 +167,8 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 
 		combineLatest(
 			this.isLoaded$,
-			this._builder.getSurveyLogic(this._editor.surveyId, this._editor.activeLanguage)
+			this.source,
+			
 		).subscribe((result) => {
 			this.queryModels = <Array<SurveyLogic>>result[1];
 		});

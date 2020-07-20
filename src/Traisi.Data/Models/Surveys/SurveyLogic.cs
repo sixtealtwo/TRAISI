@@ -23,7 +23,6 @@ namespace Traisi.Data.Models.Surveys
         public string Value { get; set; }
         public QuestionPart Question { get; set; }
 
-
         [ForeignKey("ValidationQuestion")]
         public int? ValidationQuestionId { get; set; }
         public QuestionPart ValidationQuestion { get; set; }

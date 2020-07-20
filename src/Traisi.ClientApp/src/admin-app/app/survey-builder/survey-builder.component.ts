@@ -34,7 +34,7 @@ import { SurveyBuilderClient } from './services/survey-builder-client.service';
 const Parchment = Quill.import('parchment');
 let Block = Parchment.query('block');
 
-class NewBlock extends Block {}
+class NewBlock extends Block { }
 NewBlock['tagName'] = 'DIV';
 Quill.register(NewBlock, true);
 Quill.register('modules/blotFormatter', BlotFormatter);
@@ -184,7 +184,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 					this.pageThemeInfo = {};
 					this.pageThemeInfo.viewerTemplate = '';
 				}
-			} catch (e) {}
+			} catch (e) { }
 
 			this.surveyBuilderService
 				.getStandardViewPageStructure(this.surveyId, this.currentLanguage)
@@ -291,7 +291,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
@@ -315,7 +315,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
@@ -333,7 +333,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 	}
 
@@ -356,7 +356,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
@@ -380,7 +380,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 	}
 
@@ -434,6 +434,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.surveyBuilderService
 			.getQuestionPartViewPageStructure(this.surveyId, pageId, this.currentLanguage)
 			.subscribe((page) => {
+				console.log(page); 
 				this.currentSurveyPage = page;
 				this.surveyPage.currentPage = page;
 				this.surveyPage.partsLeftToLoad = 1;
@@ -523,7 +524,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public createPage(title: string, icon: string): void {
 		let newlabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, title, this.currentLanguage);
-		let newPage: QuestionPartView = new QuestionPartView(0, newlabel,new QuestionPartViewLabel(0,null,this.currentLanguage), icon);
+		let newPage: QuestionPartView = new QuestionPartView(0, newlabel, new QuestionPartViewLabel(0, null, this.currentLanguage), icon);
 
 		this.surveyBuilderService.addStandardPage(this.surveyId, this.currentLanguage, newPage).subscribe(
 			(result) => {
@@ -603,7 +604,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 							this.surveyBuilderService
 								.updateCATIViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id)
 								.subscribe(
-									(result) => {},
+									(result) => { },
 									(error) => {
 										this.allPages = pageCache;
 									}

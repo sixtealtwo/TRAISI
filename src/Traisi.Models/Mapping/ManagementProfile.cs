@@ -190,7 +190,7 @@ namespace Traisi.Models.Mapping
                     if (s.QuestionPart == null)
                     {
                         svm.Label = s.Labels.FirstOrDefault(l => l.Language == language).Value;
-                        svm.DescriptionLabel = s.DescriptionLabels.FirstOrDefault(l => l.Language == language).Value;
+                        svm.DescriptionLabel = s.DescriptionLabels.FirstOrDefault(l => l.Language == language)?.Value;
                         svm.Type = "part";
                         svm.Children = s.QuestionPartViewChildren.OrderBy(q => q.Order)
                             .Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(opt.Mapper, language)).ToList();
@@ -199,6 +199,7 @@ namespace Traisi.Models.Mapping
                     {
                         svm.Id = s.QuestionPart.Id.ToString();
                         svm.Label = s.QuestionPart.Name;
+                        svm.DescriptionLabel = s.DescriptionLabels.FirstOrDefault(l => l.Language == language)?.Value;
                         svm.Type = "question~" + s.QuestionPart.QuestionType;
                         svm.Children = s.QuestionPart.QuestionOptions.Count <= 200
                             ? s.QuestionPart.QuestionOptions.OrderBy(o => o.Name).ThenBy(o => o.Order)
