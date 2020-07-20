@@ -13,6 +13,7 @@ import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { ValidationState, SurveyViewerValidationStateViewModel } from 'app/services/survey-viewer-api-client.service';
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
 import { SurveyRespondent } from 'traisi-question-sdk';
+import { ViewTransformer } from './view-transformer.service';
 
 /**
  *
@@ -63,7 +64,8 @@ export class SurveyNavigator {
 		private _state: SurveyViewerStateService,
 		private _conditionalEvaluator: ConditionalEvaluator,
 		@Inject('SurveyRespondentService')
-		private _respondentService: SurveyViewerRespondentService
+		private _respondentService: SurveyViewerRespondentService,
+		private _viewTransformer: ViewTransformer
 	) {
 		this.navigationStateChanged = new Subject<NavigationState>();
 		let initialState: NavigationState = {
@@ -453,7 +455,7 @@ export class SurveyNavigator {
 		} else {
 			let questionInstances = [];
 			let evals = [];
-			navigationState.activeRespondent = this._state.viewerState.groupMembers[navigationState.activeRespondentIndex]; 
+			navigationState.activeRespondent = this._state.viewerState.groupMembers[navigationState.activeRespondentIndex];
 			for (let question of questions) {
 				evals.push(this._conditionalEvaluator.shouldHide(question, navigationState.activeRespondent));
 			}
@@ -580,7 +582,7 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private _newState(): NavigationState {
 		return this._initializeNavigationSate(this._currentState);
