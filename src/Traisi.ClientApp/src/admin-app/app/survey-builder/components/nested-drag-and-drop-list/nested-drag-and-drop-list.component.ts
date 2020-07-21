@@ -214,8 +214,8 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 	 */
 	public configurationShown(): void {
 		this.qConfiguration.surveyId = this.surveyId;
+		
 		this.qConfiguration.questionBeingEdited = new QuestionPartView();
-		console.log(this.questionBeingEdited);
 		this.qConfiguration.questionBeingEdited = JSON.parse(
 			JSON.stringify(this.questionBeingEdited)
 		);
@@ -238,9 +238,8 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 				this.questionBeingEdited.questionPart.questionType
 			);
 		}
-		console.log(this.qConfiguration);
 		this.configurationModalShowing = true;
-
+		this.qConfiguration.configurationShown();
 		this.surveyBuilderService
 			.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(
 				this.surveyId,

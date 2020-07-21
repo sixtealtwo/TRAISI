@@ -1080,25 +1080,24 @@ namespace Traisi.Controllers
         /// <param name="surveyId"></param>
         /// <param name="surveyLogic"></param>
         /// <returns></returns>
-        [HttpPut("surveys/{surveyId}/question-logic")]
+        [HttpPut("surveys/{surveyId}/question-logic/{questionPartViewId}")]
         [Consumes("application/json")]
         [ProducesDefaultResponseType]
         [Produces(typeof(GeneratedIdsViewModel))]
-        public async Task<IActionResult> UpdateQuestionLogic(int surveyId, [FromBody] SurveyLogicViewModel surveyLogicViewModel, [FromQuery] string language = "en")
+        public async Task<IActionResult> UpdateQuestionLogic(int surveyId, int questionPartViewId, [FromBody] SurveyLogicViewModel surveyLogicViewModel, [FromQuery] string language = "en")
         {
-            var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
-            /*if (survey == null)
-            {
+            var qpv = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewLogic(questionPartViewId);
+            if(qpv == null) {
                 return new NotFoundResult();
             }
             var surveyLogic = _mapper.Map<SurveyLogic>(surveyLogicViewModel, opts =>
             {
                 opts.Items["Language"] = language;
             });
-            await this._surveyBuilderService.UpdateSurveyLogic(survey, surveyLogic);
-            var idMap = _mapper.Map<GeneratedIdsViewModel>(surveyLogic); */
-            return new OkResult();
-            // return new OkObjectResult(idMap);
+            await this._surveyBuilderService.UpdateQuestionLogic(qpv, surveyLogic);
+            var idMap = _mapper.Map<GeneratedIdsViewModel>(surveyLogic); 
+            return new OkObjectResult(idMap);
+           
         }
 
         /// <summary>

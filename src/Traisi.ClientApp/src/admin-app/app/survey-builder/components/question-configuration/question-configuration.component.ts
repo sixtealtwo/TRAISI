@@ -11,7 +11,7 @@ import {
 	AfterViewInit,
 	ViewChild,
 	ViewEncapsulation,
-	Input
+	Input,
 } from '@angular/core';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { QuestionPartView } from '../../models/question-part-view.model';
@@ -32,11 +32,7 @@ import { LocationFieldComponent } from './location-field/location.component';
 import { RadioComponent } from './radio-field/radio.component';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionConfigurationValue } from '../../models/question-configuration-value.model';
-import {
-	TreeviewItem,
-	TreeviewI18nDefault,
-	TreeviewSelection
-} from 'ngx-treeview';
+import { TreeviewItem, TreeviewI18nDefault, TreeviewSelection } from 'ngx-treeview';
 import { QuestionConditional } from '../../models/question-conditional.model';
 import { QuestionOptionConditional } from '../../models/question-option-conditional.model';
 import { QuestionConditionalsComponent } from './question-conditionals/question-conditionals.component';
@@ -45,18 +41,23 @@ import { DropdownTreeviewSelectComponent } from '../../../shared/dropdown-treevi
 import { DropdownTreeviewSelectI18n } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n';
 import { QuestionOptionValue } from '../../models/question-option-value.model';
 import { Router } from '@angular/router';
-import { SBPageStructureViewModel, SurveyLogicRulesModel, SurveyBuilderClient } from 'app/survey-builder/services/survey-builder-client.service';
+import {
+	SBPageStructureViewModel,
+	SurveyLogicRulesModel,
+	SurveyBuilderClient,
+} from 'app/survey-builder/services/survey-builder-client.service';
 import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
 import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
 import { QuestionConditionalOperator } from 'app/survey-builder/models/question-conditional-operator.model';
 import { SurveyLogic } from 'app/survey-builder/models/survey-logic.model';
 import { Observable } from 'rxjs';
+import { SurveyLogicQueryBuilderComponent } from '../survey-logic-query-builder/survey-logic-query-builder.component';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
 let Block = Parchment.query('block');
 
-class NewBlock extends Block { }
+class NewBlock extends Block {}
 NewBlock['tagName'] = 'DIV';
 Quill.register(NewBlock, true);
 
@@ -64,7 +65,7 @@ Quill.register(NewBlock, true);
 	selector: 'app-question-configuration',
 	templateUrl: './question-configuration.component.html',
 	styleUrls: ['./question-configuration.component.scss'],
-	encapsulation: ViewEncapsulation.None
+	encapsulation: ViewEncapsulation.None,
 })
 export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public surveyId: number;
@@ -86,10 +87,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public sourceQuestionOptionConditionals: QuestionOptionConditional[] = [];
 	public questionStructure: SBPageStructureViewModel[] = [];
 
-	public questionOptions: Map<string, QuestionOptionValue[]> = new Map<
-		string,
-		QuestionOptionValue[]
-	>();
+	public questionOptions: Map<string, QuestionOptionValue[]> = new Map<string, QuestionOptionValue[]>();
 
 	public childrenComponents = [];
 
@@ -105,7 +103,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		hasFilter: false,
 		hasCollapseExpand: false,
 		decoupleChildFromParent: false,
-		maxHeight: 500
+		maxHeight: 500,
 	};
 
 	public cursorPosition: number;
@@ -123,8 +121,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			[{ header: [1, 2, 3, 4, 5, 6, false] }],
 			[{ color: [] }], // dropdown with defaults from theme
 			[{ align: [] }],
-			['clean'] // remove formatting button
-		]
+			['clean'], // remove formatting button
+		],
 	};
 
 	@Input()
@@ -153,14 +151,17 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	@ViewChildren('dynamic', { read: ViewContainerRef })
 	public configTargets: QueryList<ViewContainerRef>;
 
+	@ViewChild('queryBuilder')
+	public queryBuilder: SurveyLogicQueryBuilderComponent;
+
 	constructor(
 		private builderService: SurveyBuilderService,
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private cDRef: ChangeDetectorRef,
 		private _router: Router,
 		private _editorData: SurveyBuilderEditorData,
-		private _builder: SurveyBuilderClient,
-	) { }
+		private _builder: SurveyBuilderClient
+	) {}
 
 	public ngOnInit(): void {
 		// this.conditionalSource = this._builder.getQuestionLogic(this._editorData.surveyId, this.questionBeingEdited.id, this._editorData.activeLanguage);
@@ -171,34 +172,24 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public pipeDropdown(e: TreeviewSelection): string {
-		let selected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n)
-			.selectedItem;
-		return selected !== undefined && selected !== null
-			? selected.text
-			: 'Pipe Question';
+		let selected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
+		return selected !== undefined && selected !== null ? selected.text : 'Pipe Question';
 	}
 
 	public catiPipeDropdown(e: TreeviewSelection): string {
-		let selected = (<DropdownTreeviewSelectI18n>(
-			this.catiPipeTreeSelect.i18n
-		)).selectedItem;
-		return selected !== undefined && selected !== null
-			? selected.text
-			: 'Pipe Question';
+		let selected = (<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem;
+		return selected !== undefined && selected !== null ? selected.text : 'Pipe Question';
 	}
 
 	public repeatDropdown(e: TreeviewSelection): string {
-		let selected = (<DropdownTreeviewSelectI18n>this.repeatTreeSelect.i18n)
-			.selectedItem;
-		return selected !== undefined && selected !== null
-			? selected.text
-			: 'Select Question';
+		let selected = (<DropdownTreeviewSelectI18n>this.repeatTreeSelect.i18n).selectedItem;
+		return selected !== undefined && selected !== null ? selected.text : 'Select Question';
 	}
 
 	public ngAfterViewInit() {
 		// this.updateAdvancedParams();
 		setTimeout(() => {
-			this.configTargets.changes.subscribe(item => {
+			this.configTargets.changes.subscribe((item) => {
 				this.updateAdvancedParams();
 			});
 		}, 200);
@@ -217,40 +208,25 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.childrenComponents = [];
 		if (this.configurations.length > 0) {
 			this.builderService
-				.getQuestionPartConfigurations(
-					this.surveyId,
-					this.questionBeingEdited.questionPart.id
-				)
-				.subscribe(configurationValues => {
-					for (
-						let i = 0;
-						i < this.configTargets.toArray().length;
-						i++
-					) {
+				.getQuestionPartConfigurations(this.surveyId, this.questionBeingEdited.questionPart.id)
+				.subscribe((configurationValues) => {
+					for (let i = 0; i < this.configTargets.toArray().length; i++) {
 						let conf = this.configurations[i];
-						let component = paramComponents.find(
-							c => c.id === conf.builderType
-						)?.component;
+						let component = paramComponents.find((c) => c.id === conf.builderType)?.component;
 
 						if (component) {
 							let target = this.configTargets.toArray()[i];
 							target.clear();
-							let paramComponent = this.componentFactoryResolver.resolveComponentFactory(
-								component
-							);
+							let paramComponent = this.componentFactoryResolver.resolveComponentFactory(component);
 
-							let cmpRef: any = target.createComponent(
-								paramComponent
-							);
+							let cmpRef: any = target.createComponent(paramComponent);
 
 							cmpRef.instance.id = i;
 							cmpRef.instance.questionConfiguration = conf;
 
 							console.log(configurationValues);
 							if (configurationValues.has(conf.name)) {
-								cmpRef.instance.processPriorValue(
-									configurationValues.get(conf.name)
-								);
+								cmpRef.instance.processPriorValue(configurationValues.get(conf.name));
 							}
 							this.childrenComponents.push(cmpRef);
 						}
@@ -272,7 +248,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			{ id: 'Switch', component: SwitchComponent },
 			{ id: 'TimeInput', component: TimeInputComponent },
 			{ id: 'LocationField', component: LocationFieldComponent },
-			{ id: 'Radio', component: RadioComponent }
+			{ id: 'Radio', component: RadioComponent },
 		];
 
 		return widgetComponents;
@@ -287,7 +263,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public saveConfiguration(): void {
 		console.log('in save configuration');
 		this.configurationValues = [];
-		this.childrenComponents.forEach(compRef => {
+		this.childrenComponents.forEach((compRef) => {
 			let config = new QuestionConfigurationValue(
 				compRef.instance.questionConfiguration.name,
 				compRef.instance.getValue()
@@ -315,49 +291,33 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public pipeQuestion() {
-		let pipeQSelected = (<DropdownTreeviewSelectI18n>(
-			this.pipeTreeSelect.i18n
-		)).selectedItem;
+		let pipeQSelected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
 		if (pipeQSelected) {
 			let currentCursorPosition = this.cursorPosition;
 			if (currentCursorPosition === undefined) {
-				currentCursorPosition =
-					this.questionQuillEditor.getLength() - 1;
+				currentCursorPosition = this.questionQuillEditor.getLength() - 1;
 			}
-			this.questionQuillEditor.insertText(
-				currentCursorPosition,
-				`{{ ${pipeQSelected.text} }}`
-			);
+			this.questionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
 			this.cursorPosition += pipeQSelected.text.length + 6;
 			this.questionQuillEditor.setSelection(this.cursorPosition);
 			this.questionQuillEditor.focus();
-			(<DropdownTreeviewSelectI18n>(
-				this.pipeTreeSelect.i18n
-			)).selectedItem = undefined;
+			(<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem = undefined;
 			this.pipeTreeSelect.value = undefined;
 		}
 	}
 
 	public pipeCatiQuestion() {
-		let pipeQSelected = (<DropdownTreeviewSelectI18n>(
-			this.catiPipeTreeSelect.i18n
-		)).selectedItem;
+		let pipeQSelected = (<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem;
 		if (pipeQSelected) {
 			let currentCursorPosition = this.catiCursorPosition;
 			if (currentCursorPosition === undefined) {
-				currentCursorPosition =
-					this.catiQuestionQuillEditor.getLength() - 1;
+				currentCursorPosition = this.catiQuestionQuillEditor.getLength() - 1;
 			}
-			this.catiQuestionQuillEditor.insertText(
-				currentCursorPosition,
-				`{{ ${pipeQSelected.text} }}`
-			);
+			this.catiQuestionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
 			this.catiCursorPosition += pipeQSelected.text.length + 6;
 			this.catiQuestionQuillEditor.setSelection(this.catiCursorPosition);
 			this.catiQuestionQuillEditor.focus();
-			(<DropdownTreeviewSelectI18n>(
-				this.catiPipeTreeSelect.i18n
-			)).selectedItem = undefined;
+			(<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem = undefined;
 			this.catiPipeTreeSelect.value = undefined;
 		}
 	}
@@ -366,12 +326,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		if (!enabled) {
 			this.questionBeingEdited.repeatSourceQuestionName = null;
 		} else {
-			let repeatQSelected = (<DropdownTreeviewSelectI18n>(
-				this.repeatTreeSelect.i18n
-			)).selectedItem;
+			let repeatQSelected = (<DropdownTreeviewSelectI18n>this.repeatTreeSelect.i18n).selectedItem;
 			if (repeatQSelected) {
-				this.questionBeingEdited.repeatSourceQuestionName =
-					repeatQSelected.value;
+				this.questionBeingEdited.repeatSourceQuestionName = repeatQSelected.value;
 			} else {
 				this.questionBeingEdited.repeatSourceQuestionName = null;
 			}
@@ -410,9 +367,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public processConfigurations() {
-		this.configurations = Object.values(
-			this.questionType.questionConfigurations
-		);
+		this.configurations = Object.values(this.questionType.questionConfigurations);
 
 		this.processQuestionTree();
 		if (this.questionType.typeName !== 'Survey Part') {
@@ -423,45 +378,36 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		// this.repeatTreeSelect.value = this.questionBeingEdited.repeatSourceQuestionName;
 		setTimeout(() => {
 			if (this.pipeTreeSelect) {
-				this.pipeTreeSelect.i18n.getText = e => this.pipeDropdown(e);
+				this.pipeTreeSelect.i18n.getText = (e) => this.pipeDropdown(e);
 			}
 			if (this.catiPipeTreeSelect) {
-				this.catiPipeTreeSelect.i18n.getText = e =>
-					this.pipeDropdown(e);
+				this.catiPipeTreeSelect.i18n.getText = (e) => this.pipeDropdown(e);
 			}
 			if (this.repeatTreeSelect) {
-				this.repeatTreeSelect.i18n.getText = e =>
-					this.repeatDropdown(e);
+				this.repeatTreeSelect.i18n.getText = (e) => this.repeatDropdown(e);
 			}
 		}, 0);
 
 		this.questionOptions = new Map<string, QuestionOptionValue[]>();
 
 		if (this.questionBeingEdited.questionPart) {
-			let qOptions = this._editorData.questionTypeMap.get(
-				this.questionBeingEdited.questionPart.questionType
-			).questionOptions;
-			Object.keys(qOptions).forEach(q => {
+			let qOptions = this._editorData.questionTypeMap.get(this.questionBeingEdited.questionPart.questionType)
+				.questionOptions;
+			Object.keys(qOptions).forEach((q) => {
 				this.questionOptions.set(q, []);
 			});
 
 			this.builderService
-				.getQuestionPartOptions(
-					this.surveyId,
-					this.questionBeingEdited.questionPart.id,
-					this.language
-				)
+				.getQuestionPartOptions(this.surveyId, this.questionBeingEdited.questionPart.id, this.language)
 				.subscribe(
-					options => {
+					(options) => {
 						if (options !== null) {
-							options.forEach(option => {
-								this.questionOptions
-									.get(option.name)
-									.push(option);
+							options.forEach((option) => {
+								this.questionOptions.get(option.name).push(option);
 							});
 						}
 					},
-					error => { }
+					(error) => {}
 				);
 		}
 	}
@@ -469,11 +415,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	private loadPastConditionals() {
 		console.log(this.questionBeingEdited.id);
 		this.builderService
-			.getQuestionPartConditionals(
-				this.surveyId,
-				this.questionBeingEdited.id
-			)
-			.subscribe(conditionals => {
+			.getQuestionPartConditionals(this.surveyId, this.questionBeingEdited.id)
+			.subscribe((conditionals) => {
 				this.conditionalOperators = conditionals;
 				this.conditionalsLoaded = true;
 				// this.builderService
@@ -530,13 +473,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	 *
 	 */
 	public allowConditionals(): boolean {
-		if (
-			this.questionType.typeName === 'Survey Part'
-		) {
+		if (this.questionType.typeName === 'Survey Part') {
 			return false;
 		} else if (
-			this.questionType.responseType ===
-			QuestionResponseType.OptionSelect ||
+			this.questionType.responseType === QuestionResponseType.OptionSelect ||
 			this.questionType.responseType === QuestionResponseType.OptionList
 		) {
 			if (this.thisQuestion[0] && this.thisQuestion[0].children) {
@@ -569,12 +509,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			questionBreak = `question~${this.questionType.typeName}~${this.questionBeingEdited.questionPart.id}`;
 		}
 
-		this.fullStructure.forEach(treeElement => {
+		this.fullStructure.forEach((treeElement) => {
 			let page = {
 				value: treeElement.value,
 				text: treeElement.text,
 				checked: false,
-				children: []
+				children: [],
 			};
 
 			if (treeElement.children) {
@@ -582,10 +522,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				if (this.questionType.typeName === 'Survey Part') {
 					sectionName = `part~${this.questionBeingEdited.id}`;
 				}
-				let {
-					pageReturn,
-					questionHitReturn
-				} = this.processQuestionPageIntoTree(
+				let { pageReturn, questionHitReturn } = this.processQuestionPageIntoTree(
 					page,
 					treeElement,
 					questionHitThisPage,
@@ -611,10 +548,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	/**
 	 * Processes the survey questions and creates a candidate list of source conditionals
 	 */
-	private processSourceConditionalsPage(
-		view: QuestionPartView,
-		depth: number
-	): void {
+	private processSourceConditionalsPage(view: QuestionPartView, depth: number): void {
 		// loop through the question structure and add to a list of possible questions
 		if (this.questionBeingEdited.id === view.id) {
 			return;
@@ -647,7 +581,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 						value: treeElement.value,
 						text: treeElement.text,
 						checked: false,
-						children: []
+						children: [],
 					};
 				}
 				questionHit = true;
@@ -660,16 +594,14 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 							value: treeElement.value,
 							text: treeElement.text,
 							checked: false,
-							children: []
+							children: [],
 						};
 					}
 					questionHit = true;
 				}
 
 				if (!questionHit && element.children) {
-					if (
-						(<string>element.children[0].value).startsWith('option')
-					) {
+					if ((<string>element.children[0].value).startsWith('option')) {
 						this.clearOptionsFromElement(element);
 					}
 				}
@@ -678,14 +610,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					value: element.value,
 					text: element.text,
 					checked: false,
-					children: []
+					children: [],
 				};
 				if (element.children) {
-					let {
-						pageReturn,
-						partReturn,
-						questionHitReturn
-					} = this.processQuestionPartIntoTree(
+					let { pageReturn, partReturn, questionHitReturn } = this.processQuestionPartIntoTree(
 						page,
 						element,
 						elementCopy,
@@ -697,12 +625,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					elementCopy = partReturn;
 					questionHit = questionHitReturn;
 				}
-				if (
-					!(
-						(<string>element.value).startsWith('part') &&
-						elementCopy.children.length === 0
-					)
-				) {
+				if (!((<string>element.value).startsWith('part') && elementCopy.children.length === 0)) {
 					page.children.push(new TreeviewItem(elementCopy));
 				}
 				if (
@@ -748,21 +671,19 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 						value: page.value,
 						text: page.text,
 						checked: false,
-						children: []
+						children: [],
 					};
 					part = {
 						value: partSource.value,
 						text: partSource.text,
 						checked: false,
-						children: []
+						children: [],
 					};
 				}
 				questionHit = true;
 			} else {
 				if (!questionHit && element.children) {
-					if (
-						(<string>element.children[0].value).startsWith('option')
-					) {
+					if ((<string>element.children[0].value).startsWith('option')) {
 						this.clearOptionsFromElement(element);
 					}
 				}
@@ -775,7 +696,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		return {
 			pageReturn: page,
 			partReturn: part,
-			questionHitReturn: questionHit
+			questionHitReturn: questionHit,
 		};
 	}
 
@@ -784,7 +705,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			if ((<string>element.children[0].value).startsWith('option')) {
 				element.children = undefined;
 			} else {
-				element.children.forEach(child => {
+				element.children.forEach((child) => {
 					this.clearOptionsFromElement(child);
 				});
 			}
@@ -792,10 +713,32 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	/**
-	 * 
-	 * @param model 
+	 *
+	 * @param model
 	 */
 	public onConditionalLogicChanged(model: SurveyLogic) {
 		console.log('in here ');
+		this._builder
+			.updateQuestionLogic(
+				this._editorData.surveyId,
+				this.questionBeingEdited.id,
+				this._editorData.activeLanguage,
+				model
+			)
+			.subscribe((v) => {
+				this.queryBuilder.updateIds(v, model);
+			});
+	}
+
+	/**
+	 * Called when the configuration dialog is shown and input properties set
+	 */
+	public configurationShown(): void {
+		console.log(this.questionBeingEdited.id);
+		this.conditionalSource = this._builder.getQuestionLogic(
+			this._editorData.surveyId,
+			this.questionBeingEdited.id,
+			this._editorData.activeLanguage
+		);
 	}
 }

@@ -87,5 +87,11 @@ namespace Traisi.Services.Interfaces
 
         public Task UpdateSurveyLogic(Survey survey, SurveyLogic logic);
 
+        public Task RemoveQuestionLogic(QuestionPartView question, SurveyLogic logic);
+
+        public Task AddQuestionLogic(QuestionPartView question, SurveyLogic logic);
+
+        public Task UpdateQuestionLogic(QuestionPartView question, SurveyLogic logic);
+
     }
 }

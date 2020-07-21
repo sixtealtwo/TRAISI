@@ -9,6 +9,8 @@ import {
 	Output,
 	EventEmitter,
 	Input,
+	OnChanges,
+	SimpleChanges,
 } from '@angular/core';
 import { QueryBuilderClassNames, QueryBuilderComponent, Rule, Entity } from 'angular2-query-builder';
 import { classNames, entityMap, entityTypes as entityTypeMap, SurveyLogicQueryEntityType } from './query-config';
@@ -34,7 +36,7 @@ import { QuestionResponseType } from 'app/survey-builder/models/question-respons
 	animations: [],
 	encapsulation: ViewEncapsulation.None,
 })
-export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
+export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy, OnChanges {
 	public classNames: QueryBuilderClassNames;
 	public config: SurveyLogicQueryConfig;
 
@@ -60,6 +62,8 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 
 	public entityTypes: Array<Entity> = entityTypeMap;
 
+	private _source: Observable<SurveyLogicRulesModel[]>;
+
 	@Input()
 	public surveyLogic: SurveyLogic;
 
@@ -79,7 +83,13 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 	public showValidationMessage: boolean = false;
 
 	@Input()
-	public source: Observable<SurveyLogicRulesModel[]>;
+	public allowMultipleLogic: boolean = true;
+
+	@Input()
+	public set source(val: Observable<SurveyLogicRulesModel[]>) {
+		this._source = val;
+		this._initSource();
+	}
 
 	/**
 	 *Creates an instance of SurveyLogicControlComponent.
@@ -131,7 +141,7 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 		this.modelChanged$.next(this.queryModels[index]);
 	}
 
-	public onEntityTypeChanged($event: Entity) { }
+	public onEntityTypeChanged($event: Entity) {}
 
 	public onValidationQuestionModelChange($event: QuestionPartView, index: number): void {
 		this.queryModels[index].validationQuestionId = $event.questionPart?.id;
@@ -142,7 +152,6 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 		let logic = { condition: 'and', rules: [], message: '', id: 0, validationQuestionId: null };
 		this.queryModels.push(logic);
 		this.onLogicAdded.emit(<any>logic);
-		
 	}
 
 	/**
@@ -157,20 +166,12 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 	public ngOnInit(): void {
 		// load survey state
 
-		this.questionList$ = this._editor.questionListChanged.pipe(
-			distinctUntilChanged()
-		);
+		this.questionList$ = this._editor.questionListChanged.pipe(distinctUntilChanged());
 		this._editor.questionListChanged.subscribe((questionList) => {
-			this.buildConfig(questionList);
-			this.isLoaded$.next(true);
-		});
-
-		combineLatest(
-			this.isLoaded$,
-			this.source,
-			
-		).subscribe((result) => {
-			this.queryModels = <Array<SurveyLogic>>result[1];
+			if (questionList.length > 0) {
+				this.buildConfig(questionList);
+				this.isLoaded$.next(true);
+			}
 		});
 
 		// only send an update to the server every 500 ms of a model change
@@ -178,6 +179,35 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 			this.surveyLogic = model;
 			this.onLogicChanged.emit(<any>model);
 		});
+	}
+
+	/**
+	 * Initializes the source for the conditionals
+	 */
+	private _initSource(): void {
+		/*if (this._source) {
+			
+		}*/
+	}
+
+	/**
+	 *
+	 * @param changes
+	 */
+	public ngOnChanges(changes: SimpleChanges): void {
+		if (changes['source'] && this._source) {
+			console.log('source changed');
+			console.log(this._source);
+			let sub = this.isLoaded$.subscribe((v) => {
+				this._source.subscribe((m) => {
+					this.queryModels = <Array<SurveyLogic>>m;
+					if (!this.allowMultipleLogic && this.queryModels.length === 0) {
+						this.addLogic();
+					}
+				});
+				sub.unsubscribe();
+			});
+		}
 	}
 
 	/**
@@ -189,7 +219,7 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy {
 		this._util.copyIds(v, model, 'rules');
 	}
 
-	public ngOnDestroy(): void { }
+	public ngOnDestroy(): void {}
 
 	/**
 	 * @param {string} questionName

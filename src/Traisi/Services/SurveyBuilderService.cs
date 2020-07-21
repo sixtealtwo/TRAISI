@@ -1060,5 +1060,50 @@ namespace Traisi.Services
         {
             return this._unitOfWork.SurveyViews.GetSurveyViewQuestionAndOptionStructure(surveyId, surveyViewName).QuestionPartViews.OrderBy(q => q.Order).ToList();
         }
+
+        public Task RemoveQuestionLogic(QuestionPartView question, SurveyLogic logic)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task AddQuestionLogic(QuestionPartView question, SurveyLogic logic)
+        {
+            this._unitOfWork.DbContext.Update(question);
+
+            if (!question.QuestionPart.Conditionals.Select(x => x.Id).Contains(logic.Id))
+            {
+                question.QuestionPart.Conditionals.Add(logic);
+            }
+
+            await this._unitOfWork.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="question"></param>
+        /// <param name="logic"></param>
+        /// <returns></returns>
+        public async Task UpdateQuestionLogic(QuestionPartView question, SurveyLogic logic)
+        {
+            this._unitOfWork.DbContext.Update(question);
+            var source = question.QuestionPart.Conditionals.FirstOrDefault(x => x.Id == logic.Id);
+            if (source == null && question.QuestionPart.Conditionals.Count == 0)
+            {
+                question.QuestionPart.Conditionals.Add(logic);
+            }
+            else if (
+                source == null && question.QuestionPart.Conditionals.Count > 0
+            )
+            {
+                return;
+            }
+            else
+            {
+                UpdateSurveyLogic(source, logic, source.Id, source);
+            }
+            await this._unitOfWork.SaveChangesAsync();
+            return;
+        }
     }
 }

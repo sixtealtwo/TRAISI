@@ -59,7 +59,9 @@ namespace Traisi.Data.Repositories
         public Task<QuestionPartView> GetQuestionPartViewLogic(int id)
         {
             return _appContext.QuestionPartViews.Where(q => q.Id == id)
-                .Include(x => x.QuestionPart).ThenInclude(x => x.Conditionals).ThenInclude(x => x.ValidationMessages).FirstOrDefaultAsync();
+                .Include(x => x.QuestionPart).ThenInclude(x => x.Conditionals)
+                .ThenInclude(x => x.Expressions).ThenInclude(x => x.Expressions)
+                .ThenInclude(x => x.ValidationMessages).FirstOrDefaultAsync();
         }
 
         public QuestionPartView GetQuestionPartViewWithStructure(int questionPartViewId)
