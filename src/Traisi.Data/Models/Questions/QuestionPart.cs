@@ -43,7 +43,7 @@ namespace Traisi.Data.Models.Questions
         /// List of conditionals that exist on this question part
         /// </summary>
         /// <value></value>
-        public virtual List<SurveyLogic> Conditionals { get; set; }
+        public List<SurveyLogic> Conditionals { get; set; } = new List<SurveyLogic>();
 
         public Survey Survey { get; set; }
 

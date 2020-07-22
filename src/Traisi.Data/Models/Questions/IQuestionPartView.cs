@@ -10,7 +10,7 @@ namespace Traisi.Data.Models.Questions
 
         LabelCollection<Label> Labels { get; set; }
 
-        ICollection<QuestionPartView> QuestionPartViewChildren { get; set; }
+        List<QuestionPartView> QuestionPartViewChildren { get; set; }
 
         QuestionPart QuestionPart { get; set; }
 

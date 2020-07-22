@@ -52,7 +52,7 @@ namespace Traisi.Data.Models.Questions
         [ForeignKey("SurveyView")]
         public int? SurveyViewId { get; set; }
 
-        public ICollection<QuestionPartView> QuestionPartViewChildren { get; set; }
+        public List<QuestionPartView> QuestionPartViewChildren { get; set; }
 
         /// <summary>
         /// The order (position) of this question part view inside of its containing survey view.
