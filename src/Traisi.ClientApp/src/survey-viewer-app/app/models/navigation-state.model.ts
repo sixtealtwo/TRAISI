@@ -2,7 +2,8 @@ import { QuestionInstance } from './question-instance.model';
 import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
-import { SurveyViewerValidationStateViewModel } from 'app/services/survey-viewer-api-client.service';
+import { SurveyViewerValidationStateViewModel } from './survey-viewer-validation-state.model';
+
 
 export interface NavigationState {
 	activePage?: SurveyViewPage;

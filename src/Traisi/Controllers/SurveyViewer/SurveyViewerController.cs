@@ -134,7 +134,7 @@ namespace Traisi.Controllers.SurveyViewer
         [HttpGet]
         [Authorize]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Produces(typeof(List<QuestionPartViewViewModel>))]
+        [Produces(typeof(List<SurveyViewPageViewModel>))]
         [Route("surveys/{surveyId}/")]
         public async Task<IActionResult> GetSurveyViewPages(int surveyId, [FromQuery] SurveyViewType viewType = SurveyViewType.RespondentView, [FromQuery] string language = "en")
         {

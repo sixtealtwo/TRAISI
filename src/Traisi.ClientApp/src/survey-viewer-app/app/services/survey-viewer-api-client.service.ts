@@ -11,7 +11,8 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { ResponseValidationState } from 'traisi-question-sdk';
+import { ValidationStateViewModel } from 'app/models/validation-state-view.model';
+import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -841,7 +842,7 @@ export class SurveyViewerClient {
         return _observableOf<SurveyView[]>(<any>null);
     }
 
-    getSurveyViewPages(surveyId: number, viewType: SurveyViewType | undefined, language: string | null | undefined): Observable<QuestionPartViewViewModel[]> {
+    getSurveyViewPages(surveyId: number, viewType: SurveyViewType | undefined, language: string | null | undefined): Observable<SurveyViewPageViewModel[]> {
         let url_ = this.baseUrl + "/api/SurveyViewer/surveys/{surveyId}?";
         if (surveyId === undefined || surveyId === null)
             throw new Error("The parameter 'surveyId' must be defined.");
@@ -869,14 +870,14 @@ export class SurveyViewerClient {
                 try {
                     return this.processGetSurveyViewPages(<any>response_);
                 } catch (e) {
-                    return <Observable<QuestionPartViewViewModel[]>><any>_observableThrow(e);
+                    return <Observable<SurveyViewPageViewModel[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<QuestionPartViewViewModel[]>><any>_observableThrow(response_);
+                return <Observable<SurveyViewPageViewModel[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetSurveyViewPages(response: HttpResponseBase): Observable<QuestionPartViewViewModel[]> {
+    protected processGetSurveyViewPages(response: HttpResponseBase): Observable<SurveyViewPageViewModel[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -886,7 +887,7 @@ export class SurveyViewerClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <QuestionPartViewViewModel[]>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <SurveyViewPageViewModel[]>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -894,7 +895,7 @@ export class SurveyViewerClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<QuestionPartViewViewModel[]>(<any>null);
+        return _observableOf<SurveyViewPageViewModel[]>(<any>null);
     }
 
     getSurveyViewQuestionConfiguration(questionId: number): Observable<QuestionConfiguration> {
@@ -1646,21 +1647,8 @@ export interface SurveyRespondentViewModel {
     id: number;
     name: string | undefined;
     relationship: string | undefined;
-    email?: string | undefined;
-    phoneNumber?: string | undefined;
-}
-
-export interface SurveyViewerValidationStateViewModel { 
-    clientValidationState?: ResponseValidationState
-    isValid: boolean;
-    questionValidationState: ValidationStateViewModel | undefined;
-    surveyLogicValidationState: ValidationStateViewModel | undefined;
-}
-
-export interface ValidationStateViewModel { 
-    relatedQuestions?: number[] | undefined;
-    validationState: ValidationState;
-    errorMessages: string[] | undefined;
+    email: string | undefined;
+    phoneNumber: string | undefined;
 }
 
 export enum ValidationState {
@@ -1860,10 +1848,9 @@ export interface QuestionPart {
     questionPartChildren: QuestionPart[] | undefined;
     questionConfigurations: QuestionConfiguration[] | undefined;
     questionOptions: QuestionOption[] | undefined;
-    questionConditionalsSource: QuestionConditional[] | undefined;
-    questionConditionalsTarget: QuestionConditional[] | undefined;
     questionOptionConditionalsSource: QuestionOptionConditional[] | undefined;
     isGroupQuestion: boolean;
+    conditionals: SurveyLogic[] | undefined;
     survey: Survey | undefined;
 }
 
@@ -1921,45 +1908,6 @@ export enum QuestionConditionalType {
     DoesNotContain = 11,
 }
 
-export interface QuestionConditional {
-    sourceQuestion: QuestionPartView | undefined;
-    sourceQuestionId: number;
-    condition: QuestionConditionalType;
-    value: string | undefined;
-}
-
-export interface QuestionPartView {
-    labels: LabelCollectionOfLabel | undefined;
-    questionPart: QuestionPart | undefined;
-    parentView: QuestionPartView | undefined;
-    conditionals: QuestionConditionalOperator[] | undefined;
-    surveyView: SurveyView | undefined;
-    questionPartViewChildren: QuestionPartView[] | undefined;
-    order: number;
-    isOptional: boolean;
-    isHousehold: boolean;
-    isMultiView: boolean;
-    isDefaultHidden: boolean;
-    repeatSource: QuestionPart | undefined;
-    icon: string | undefined;
-    catiDependent: QuestionPartView | undefined;
-}
-
-export interface QuestionConditionalOperator {
-    order: number;
-    operatorType: QuestionCondtionalOperatorType;
-    lhs: QuestionConditional | undefined;
-    rhs: QuestionConditional | undefined;
-    targetQuestionId: number;
-    lhsId: number | undefined;
-    rhsId: number | undefined;
-}
-
-export enum QuestionCondtionalOperatorType {
-    AND = 0,
-    OR = 1,
-}
-
 export enum SurveyLogicOperator {
     Equals = 0,
     NotEquals = 1,
@@ -1979,12 +1927,68 @@ export enum SurveyLogicType {
     Value = 1,
 }
 
-export interface QuestionPartViewViewModel {
-    questionChildren: QuestionPartViewViewModel[] | undefined;
-    id: number;
-    label: string | undefined;
+export interface QuestionPartView {
+    labels: LabelCollectionOfLabel | undefined;
+    descriptionLabels: LabelCollectionOfLabel | undefined;
+    questionPart: QuestionPart | undefined;
+    parentView: QuestionPartView | undefined;
+    surveyView: SurveyView | undefined;
+    questionPartViewChildren: QuestionPartView[] | undefined;
     order: number;
+    isOptional: boolean;
+    isHousehold: boolean;
+    isMultiView: boolean;
+    isDefaultHidden: boolean;
+    repeatSource: QuestionPart | undefined;
+    icon: string | undefined;
+    catiDependent: QuestionPartView | undefined;
+}
+
+export interface SurveyViewPageViewModel {
+    id: number;
+    sections: SurveyViewSectionViewModel[] | undefined;
+    questions: QuestionViewModel[] | undefined;
+    order: number;
+    label: string | undefined;
+    icon: string | undefined;
+}
+
+export interface SurveyViewSectionViewModel {
+    id: number;
+    order: number;
+    questions: QuestionViewModel[] | undefined;
+    label: string | undefined;
+    descriptionLabel: string | undefined;
+    icon: string | undefined;
+    isHousehold: boolean;
+    repeatSource: number;
+    isRepeat: boolean;
+    isMultiView: boolean;
+}
+
+export interface QuestionViewModel {
+    id: number;
+    questionId: number;
+    name: string | undefined;
+    label: string | undefined;
+    descriptionLabel: string | undefined;
     questionType: string | undefined;
+    isOptional: boolean;
+    isRepeat: boolean;
+    repeatSource: number;
+    order: number;
+    isHousehold: boolean;
+    isMultiView: boolean;
+    configuration: { [key: string]: any; } | undefined;
+    conditionals: SurveyViewerLogicRulesViewModel[] | undefined;
+}
+
+export interface SurveyLogicBaseViewModel {
+}
+
+export interface SurveyViewerLogicRulesViewModel extends SurveyLogicBaseViewModel {
+    condition: string | undefined;
+    rules: SurveyLogicBaseViewModel[] | undefined;
 }
 
 export enum SurveyViewType {
@@ -2005,6 +2009,15 @@ export interface SurveyViewerViewModel {
     welcomeText: string | undefined;
     surveyCompletionText: string | undefined;
     screeningQuestions: string[] | undefined;
+}
+
+export interface QuestionPartViewViewModel {
+    questionChildren: QuestionPartViewViewModel[] | undefined;
+    id: number;
+    label: string | undefined;
+    descriptionLabel: string | undefined;
+    order: number;
+    questionType: string | undefined;
 }
 
 export interface SurveyViewModel {

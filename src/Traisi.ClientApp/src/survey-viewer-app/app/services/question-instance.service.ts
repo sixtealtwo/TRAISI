@@ -10,7 +10,8 @@ import {
 import { SurveyViewerResponseService } from './survey-viewer-response.service';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { SurveyViewerValidationStateViewModel, ValidationState } from './survey-viewer-api-client.service';
+import { ValidationState } from './survey-viewer-api-client.service';
+import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
 
 @Injectable()
 export class QuestionInstanceState {

@@ -25,6 +25,5 @@ namespace Traisi.Models.ViewModels
 
 		public bool IsMultiView {get;set;}
 
-        public List<QuestionConditionalOperator> Conditionals {get;set;}
     }
 }

@@ -705,7 +705,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/QuestionPartViewViewModel"
+                    "$ref": "#/components/schemas/SurveyViewPageViewModel"
                   }
                 }
               }
@@ -2235,20 +2235,6 @@
               "$ref": "#/components/schemas/QuestionOption"
             }
           },
-          "questionConditionalsSource": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/QuestionConditional"
-            }
-          },
-          "questionConditionalsTarget": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/QuestionConditional"
-            }
-          },
           "questionOptionConditionalsSource": {
             "type": "array",
             "nullable": true,
@@ -2258,6 +2244,13 @@
           },
           "isGroupQuestion": {
             "type": "boolean"
+          },
+          "conditionals": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/SurveyLogic"
+            }
           },
           "survey": {
             "nullable": true,
@@ -2432,36 +2425,65 @@
           11
         ]
       },
-      "QuestionConditional": {
+      "SurveyLogicOperator": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Equals",
+          "NotEquals",
+          "GreaterThan",
+          "GreaterThanEqualTo",
+          "LessThan",
+          "LessThanEqualTo",
+          "Contains",
+          "Like",
+          "AnyOf",
+          "AllOf",
+          "NoneOf"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "SurveyLogicType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Response",
+          "Value"
+        ],
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "AuditableEntity": {
         "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "sourceQuestion": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/QuestionPartView"
-              }
-            ]
-          },
-          "sourceQuestionId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "condition": {
-            "$ref": "#/components/schemas/QuestionConditionalType"
-          },
-          "value": {
-            "type": "string",
-            "nullable": true
-          }
-        }
+        "additionalProperties": false
       },
       "QuestionPartView": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "labels": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LabelCollectionOfLabel"
+              }
+            ]
+          },
+          "descriptionLabels": {
             "nullable": true,
             "oneOf": [
               {
@@ -2484,13 +2506,6 @@
                 "$ref": "#/components/schemas/QuestionPartView"
               }
             ]
-          },
-          "conditionals": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/QuestionConditionalOperator"
-            }
           },
           "surveyView": {
             "nullable": true,
@@ -2545,119 +2560,29 @@
           }
         }
       },
-      "QuestionConditionalOperator": {
+      "SurveyViewPageViewModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "order": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "operatorType": {
-            "$ref": "#/components/schemas/QuestionCondtionalOperatorType"
-          },
-          "lhs": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/QuestionConditional"
-              }
-            ]
-          },
-          "rhs": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/QuestionConditional"
-              }
-            ]
-          },
-          "targetQuestionId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lhsId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "rhsId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        }
-      },
-      "QuestionCondtionalOperatorType": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "AND",
-          "OR"
-        ],
-        "enum": [
-          0,
-          1
-        ]
-      },
-      "SurveyLogicOperator": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Equals",
-          "NotEquals",
-          "GreaterThan",
-          "GreaterThanEqualTo",
-          "LessThan",
-          "LessThanEqualTo",
-          "Contains",
-          "Like",
-          "AnyOf",
-          "AllOf",
-          "NoneOf"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10
-        ]
-      },
-      "SurveyLogicType": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Response",
-          "Value"
-        ],
-        "enum": [
-          0,
-          1
-        ]
-      },
-      "AuditableEntity": {
-        "type": "object",
-        "additionalProperties": false
-      },
-      "QuestionPartViewViewModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "questionChildren": {
+          "sections": {
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/QuestionPartViewViewModel"
+              "$ref": "#/components/schemas/SurveyViewSectionViewModel"
             }
           },
-          "id": {
+          "questions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/QuestionViewModel"
+            }
+          },
+          "order": {
             "type": "integer",
             "format": "int32"
           },
@@ -2665,15 +2590,147 @@
             "type": "string",
             "nullable": true
           },
-          "order": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "questionType": {
+          "icon": {
             "type": "string",
             "nullable": true
           }
         }
+      },
+      "SurveyViewSectionViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/QuestionViewModel"
+            }
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "descriptionLabel": {
+            "type": "string",
+            "nullable": true
+          },
+          "icon": {
+            "type": "string",
+            "nullable": true
+          },
+          "isHousehold": {
+            "type": "boolean"
+          },
+          "repeatSource": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isRepeat": {
+            "type": "boolean"
+          },
+          "isMultiView": {
+            "type": "boolean"
+          }
+        }
+      },
+      "QuestionViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "descriptionLabel": {
+            "type": "string",
+            "nullable": true
+          },
+          "questionType": {
+            "type": "string",
+            "nullable": true
+          },
+          "isOptional": {
+            "type": "boolean"
+          },
+          "isRepeat": {
+            "type": "boolean"
+          },
+          "repeatSource": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isHousehold": {
+            "type": "boolean"
+          },
+          "isMultiView": {
+            "type": "boolean"
+          },
+          "configuration": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {}
+          },
+          "conditionals": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/SurveyViewerLogicRulesViewModel"
+            }
+          }
+        }
+      },
+      "SurveyViewerLogicRulesViewModel": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SurveyLogicBaseViewModel"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "condition": {
+                "type": "string",
+                "nullable": true
+              },
+              "rules": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/SurveyLogicBaseViewModel"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SurveyLogicBaseViewModel": {
+        "type": "object",
+        "additionalProperties": false
       },
       "SurveyViewType": {
         "type": "integer",
@@ -2740,6 +2797,39 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "QuestionPartViewViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "questionChildren": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/QuestionPartViewViewModel"
+            }
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "descriptionLabel": {
+            "type": "string",
+            "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questionType": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

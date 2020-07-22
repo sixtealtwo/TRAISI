@@ -11,6 +11,7 @@ using Traisi.Sdk.Enums;
 using Traisi.ViewModels;
 using Traisi.Models.Surveys.Validation;
 using Traisi.Data.Models.Extensions;
+using Newtonsoft.Json.Linq;
 
 namespace Traisi.Models.Mapping
 {
@@ -155,7 +156,7 @@ namespace Traisi.Models.Mapping
             CreateMap<SurveyLogic, SurveyViewerLogicRuleViewModel>()
             .ForMember(s => s.SourceQuestionId, opts => opts.MapFrom(o => (o.QuestionId)))
             .ForMember(s => s.Operator, opts => opts.MapFrom(x => x.Operator))
-            .ForMember(s => s.Value, opts => opts.MapFrom(o => o.Value))
+            .ForMember(s => s.Value, opts => opts.ConvertUsing<StringToJsonValueConverter, string>(x => x.Value))
             .IncludeAllDerived();
 
             CreateMap<QuestionPartView, QuestionViewModel>()
@@ -270,6 +271,14 @@ namespace Traisi.Models.Mapping
             CreateMap<SurveyResponseValidationState, SurveyViewerValidationStateViewModel>()
             .ForMember(x => x.SurveyLogicValidationState, map => map.MapFrom(y => y.SurveyLogicError));
 
+        }
+    }
+
+    public class StringToJsonValueConverter : IValueConverter<string, object>
+    {
+        public object Convert(string sourceMember, ResolutionContext context)
+        {
+            return JToken.Parse(sourceMember);
         }
     }
 

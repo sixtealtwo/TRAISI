@@ -38,6 +38,6 @@ namespace Traisi.ViewModels.SurveyViewer
 
         public ConcurrentDictionary<string, object> Configuration { get; set; }
 
-        public List<SurveyLogicRulesModel> Conditionals { get; set; }
+        public List<SurveyViewerLogicRulesViewModel> Conditionals { get; set; }
     }
 }

@@ -101,7 +101,8 @@
       "extensionCode": null,
       "generateDefaultValues": true,
       "excludedTypeNames": [
-        "ValidationStateViewModel"
+        "ValidationStateViewModel",
+        "SurveyViewerValidationStateViewModel"
       ],
       "excludedParameterNames": [
         "AuditableEntity"
