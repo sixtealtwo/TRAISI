@@ -91,6 +91,7 @@ export class SurveyViewerStateService {
 					}
 				});
 
+			console.log(this);
 			obs.complete();
 		});
 	}

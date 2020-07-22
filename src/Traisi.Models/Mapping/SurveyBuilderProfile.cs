@@ -45,6 +45,8 @@ namespace Traisi.Models.Mapping
             })
             .IncludeAllDerived();
 
+            
+
             CreateMap<SurveyLogic, SurveyLogicRuleViewModel>()
             .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
             .ForMember(s => s.Value, opts => opts.ConvertUsing<LogicValueConverter, string>())

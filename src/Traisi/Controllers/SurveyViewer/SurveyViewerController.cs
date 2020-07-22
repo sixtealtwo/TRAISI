@@ -125,7 +125,6 @@ namespace Traisi.Controllers.SurveyViewer
         public async Task<IActionResult> GetSurveyViewQuestions(int viewId)
         {
             var surveys = await this._unitOfWork.SurveyViews.GetAsync(viewId);
-
             return new ObjectResult(surveys);
         }
 
@@ -140,7 +139,6 @@ namespace Traisi.Controllers.SurveyViewer
         public async Task<IActionResult> GetSurveyViewPages(int surveyId, [FromQuery] SurveyViewType viewType = SurveyViewType.RespondentView, [FromQuery] string language = "en")
         {
             List<QuestionPartView> pages = await this._viewService.GetSurveyViewPages(surveyId, viewType);
-
             var localizedModel = pages.ToLocalizedModel<List<SurveyViewPageViewModel>, QuestionPartView>(_mapper,language);
             return new ObjectResult(localizedModel);
         }

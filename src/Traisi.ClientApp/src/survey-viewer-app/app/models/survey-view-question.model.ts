@@ -13,6 +13,7 @@ export interface SurveyViewQuestion {
 	isOptional: boolean;
 	isRepeat: boolean;
 	label: string;
+	descriptionLabel: string;
 	name: string;
 	order: number;
 	viewOrder: number;

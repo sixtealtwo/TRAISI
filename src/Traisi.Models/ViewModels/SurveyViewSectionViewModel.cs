@@ -13,6 +13,8 @@ namespace Traisi.Models.ViewModels
 
         public string Label { get; set; }
 
+        public string DescriptionLabel {get;set;}
+
         public string Icon { get; set; }
 
         public bool IsHousehold {get;set;}

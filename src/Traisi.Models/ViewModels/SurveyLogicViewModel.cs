@@ -78,4 +78,21 @@ namespace Traisi.Models.ViewModels
         public string Entity { get; set; } = "value";
     }
 
+    public class SurveyViewerLogicRulesViewModel : SurveyLogicBaseViewModel
+    {
+        public string Condition { get; set; }
+
+        public List<SurveyLogicBaseViewModel> Rules { get; set; }
+
+    }
+
+    public class SurveyViewerLogicRuleViewModel : SurveyLogicBaseViewModel
+    {
+        public SurveyLogicOperator Operator { get; set; }
+        public int SourceQuestionId { get; set; }
+        public object Value { get; set; }
+
+    }
+
+
 }

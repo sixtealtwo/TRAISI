@@ -122,10 +122,11 @@ namespace Traisi.Models.Mapping
                     }
                 )
                 .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren.Where(q => q.QuestionPart != null)))
-                .AfterMap((s, svm, opt) => { 
-                    svm.Label = s.Labels[opt.Items["Language"] as string].Value; 
-                    
-                    });
+                .AfterMap((s, svm, opt) =>
+                {
+                    svm.Label = s.Labels[opt.Items["Language"] as string].Value;
+
+                });
 
             CreateMap<QuestionPartView, SurveyViewSectionViewModel>()
                 .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren))
@@ -146,6 +147,17 @@ namespace Traisi.Models.Mapping
             CreateMap<QuestionConditional, SurveyViewConditionalViewModel>()
                 .ForMember(m => m.ConditionalType, map => map.MapFrom(v => v.Condition));
 
+            CreateMap<SurveyLogic, SurveyViewerLogicRulesViewModel>()
+            //.ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
+            .ForMember(s => s.Rules, opts => opts.ConvertUsing<SurveyViewerLogicRuleValueConverter, List<SurveyLogic>>(x => x.Expressions))
+            .IncludeAllDerived();
+
+            CreateMap<SurveyLogic, SurveyViewerLogicRuleViewModel>()
+            .ForMember(s => s.SourceQuestionId, opts => opts.MapFrom(o => (o.QuestionId)))
+            .ForMember(s => s.Operator, opts => opts.MapFrom(x => x.Operator))
+            .ForMember(s => s.Value, opts => opts.MapFrom(o => o.Value))
+            .IncludeAllDerived();
+
             CreateMap<QuestionPartView, QuestionViewModel>()
                 .ForMember(m => m.QuestionType, map => map.MapFrom(v => v.QuestionPart.QuestionType))
                 .ForMember(m => m.IsOptional, map => map.MapFrom(v => v.IsOptional))
@@ -154,6 +166,7 @@ namespace Traisi.Models.Mapping
                 .ForMember(m => m.DescriptionLabel, map => map.Ignore())
                 .ForMember(m => m.Name, map => map.MapFrom(v => v.QuestionPart.Name))
                 .ForMember(m => m.IsHousehold, map => map.MapFrom(f => f.IsHousehold))
+                .ForMember(m => m.Conditionals, map => map.MapFrom(f => f.QuestionPart.Conditionals))
                 .ForMember(m => m.RepeatSource, map =>
                 {
                     map.MapFrom(f => f.RepeatSource.Id);
@@ -161,10 +174,11 @@ namespace Traisi.Models.Mapping
                 })
                 .AfterMap((s, svm, opt) =>
                 {
-                    try { 
-                        svm.Label = s.Labels[opt.Items["Language"] as string].Value; 
-                        svm.DescriptionLabel = s.DescriptionLabels[opt.Items["Language"] as string].Value; 
-                        }
+                    try
+                    {
+                        svm.Label = s.Labels[opt.Items["Language"] as string].Value;
+                        svm.DescriptionLabel = s.DescriptionLabels[opt.Items["Language"] as string].Value;
+                    }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
@@ -256,6 +270,27 @@ namespace Traisi.Models.Mapping
             CreateMap<SurveyResponseValidationState, SurveyViewerValidationStateViewModel>()
             .ForMember(x => x.SurveyLogicValidationState, map => map.MapFrom(y => y.SurveyLogicError));
 
+        }
+    }
+
+    public class SurveyViewerLogicRuleValueConverter : IValueConverter<List<SurveyLogic>, List<SurveyLogicBaseViewModel>>
+    {
+        public List<SurveyLogicBaseViewModel> Convert(List<SurveyLogic> sourceMember, ResolutionContext context)
+        {
+            List<SurveyLogicBaseViewModel> result = new List<SurveyLogicBaseViewModel>();
+            foreach (var logic in sourceMember)
+            {
+
+                if (logic.Condition != null)
+                {
+                    result.Add(context.Mapper.Map<SurveyViewerLogicRulesViewModel>(logic));
+                }
+                else
+                {
+                    result.Add(context.Mapper.Map<SurveyViewerLogicRuleViewModel>(logic));
+                }
+            }
+            return result;
         }
     }
 

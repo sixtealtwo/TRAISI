@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Traisi.Data.Models.Questions;
 using Traisi.ViewModels.Questions;
+using Traisi.Models.ViewModels;
 
 namespace Traisi.ViewModels.SurveyViewer
 {
@@ -37,6 +38,6 @@ namespace Traisi.ViewModels.SurveyViewer
 
         public ConcurrentDictionary<string, object> Configuration { get; set; }
 
-        public List<QuestionConditionalOperatorViewModel> Conditionals { get; set; }
+        public List<SurveyLogicRulesModel> Conditionals { get; set; }
     }
 }
