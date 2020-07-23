@@ -87,7 +87,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	private _responseSaved: Subject<boolean>;
 
-	public titleLabel: BehaviorSubject<string>;
+	public titleLabel: Subject<string> = new BehaviorSubject<string>('');
+
+	public descriptionLabel: Subject<string> = new BehaviorSubject<string>('');
 
 	private _questionInstance: SurveyQuestion<any>;
 
@@ -142,9 +144,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		private _instanceState: QuestionInstanceState,
 		private _responseService: SurveyViewerResponseService,
 		private _elementRef: ElementRef
-	) {
-
-	}
+	) {}
 
 	/**
 	 * Calcs unique repeat number
@@ -158,13 +158,14 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Unregister question etc and unsubscribe certain subs
 	 */
-	public ngOnDestroy(): void { }
+	public ngOnDestroy(): void {}
 
 	/**
 	 *
 	 */
 	public ngOnInit(): void {
-		this.processPipedQuestionLabel(this.question.label);
+		this.processPipedQuestionLabel(this.question.label, this.titleLabel);
+		this.processPipedQuestionLabel(this.question.descriptionLabel, this.descriptionLabel);
 
 		this.questionLoaderService.loadQuestionComponent(this.question, this.questionOutlet).subscribe(
 			(componentRef) => {
@@ -185,11 +186,14 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
 				if (this.questionSectionElement) {
 					if (this.displayClass !== '') {
-
 						this.renderer.addClass(this.questionSectionElement.nativeElement, this.displayClass);
 					} else {
 						// remove all of the classes
-						this.renderer.setAttribute(this.questionSectionElement.nativeElement, 'class', 'question-section');
+						this.renderer.setAttribute(
+							this.questionSectionElement.nativeElement,
+							'class',
+							'question-section'
+						);
 					}
 				}
 
@@ -237,16 +241,15 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						)).next(this.question.configuration);
 					});
 			},
-			(error) => { },
-			() => { }
+			(error) => {},
+			() => {}
 		);
 	}
 
 	/**
 	 * Autos advance
 	 */
-	private autoAdvance(): void {
-	}
+	private autoAdvance(): void {}
 
 	/**
 	 * Retrieves household tag
@@ -257,15 +260,15 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 			(key) => this._viewerStateService.viewerState.questionTypeMap[key] === 'household'
 		);
 		return Object.keys(this._viewerStateService.viewerState.questionNameMap).find(
-			(key) => this._viewerStateService.viewerState.questionNameMap[key].questionId === questionId);
+			(key) => this._viewerStateService.viewerState.questionNameMap[key].questionId === questionId
+		);
 	}
-
 
 	/**
 	 * Process piped question label
 	 * @param rawLabel
 	 */
-	private processPipedQuestionLabel(rawLabel: string): void {
+	private processPipedQuestionLabel(rawLabel: string, update: Subject<string>): void {
 		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
 		processedLabel = Utilities.replacePlaceholder(processedLabel, 'respondentName', this.respondent.name);
 		// get tag list
@@ -274,7 +277,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		if (tags && tags.length > 0) {
 			let questionIdsForResponse = tags.map(
-				(tag) => this._viewerStateService.viewerState.questionMap[this._viewerStateService.viewerState.questionNameMap[tag].questionId]
+				(tag) =>
+					this._viewerStateService.viewerState.questionMap[
+						this._viewerStateService.viewerState.questionNameMap[tag].questionId
+					]
 			);
 
 			questionIdsForResponse = questionIdsForResponse.filter((f) => {
@@ -286,7 +292,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					.loadSavedResponses(questionIdsForResponse, this.respondent)
 					.subscribe((responses) => {
 						tags.forEach((tag, index) => {
-							if (this._viewerStateService.viewerState.questionNameMap[tag].questionId === this.question.repeatSource) {
+							if (
+								this._viewerStateService.viewerState.questionNameMap[tag].questionId ===
+								this.question.repeatSource
+							) {
 								processedLabel = Utilities.replacePlaceholder(
 									processedLabel,
 									tag,
@@ -294,7 +303,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								);
 							} else if (
 								this.question.parentSection &&
-								this.question.parentSection.repeatSource === this._viewerStateService.viewerState.questionNameMap[tag].questionId
+								this.question.parentSection.repeatSource ===
+									this._viewerStateService.viewerState.questionNameMap[tag].questionId
 							) {
 								processedLabel = Utilities.replacePlaceholder(
 									processedLabel,
@@ -309,14 +319,16 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								);
 							}
 						});
-						this.titleLabel = new BehaviorSubject(processedLabel);
+						// this.titleLabel = new BehaviorSubject(processedLabel);
+						update.next(processedLabel);
 					});
 			}
 		} else {
-			this.titleLabel = new BehaviorSubject(processedLabel);
+			// this.titleLabel = new BehaviorSubject(processedLabel);
+			console.log(processedLabel);
+			update.next(processedLabel);
 		}
 	}
-
 
 	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
 		// this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState

@@ -22,23 +22,26 @@
 			<ng-container *ngIf="instanceState.validationState$ | async; let state">
 				<div
 					class="question-complete animated tada slow"
-					*ngIf="state.validationState === validationStates.Valid"
+					*ngIf="state.clientValidationState.qvalidationState === validationStates.Valid"
 				>
 					<i class="far fa-check-circle"></i>
 				</div>
 				<div
 					class="question-incomplete animated tada slow"
-					*ngIf="state.validationState === validationStates.Invalid"
+					*ngIf="state.clientValidationState.validationState === validationStates.Invalid"
 				>
 					<i class="far fa-times-circle"></i></div
 			></ng-container>
 		</div>
-		<div class="question-header-text col" [innerHTML]="titleLabel | async | safeHtml"></div>
+		<div class="question-header-text col" [innerHTML]="(titleLabel | async) | safeHtml"></div>
 	</div>
 
 	<span class="badge badge-info" *ngIf="question.isOptional" [hidden]="true">Optional</span>
 	<!-- <div class="question-header-divider mt-3 mb-0 mb-md-3"></div>-->
 	<div class="widget-body card-body">
+		<div class="question-description-text">
+			<span [innerHTML]="descriptionLabel | async | safeHtml"></span>
+		</div>
 		<div class="question-container-inner">
 			<ng-container *ngTemplateOutlet="!isLoaded ? loadingTemplate : questionTemplate"> </ng-container>
 		</div>
