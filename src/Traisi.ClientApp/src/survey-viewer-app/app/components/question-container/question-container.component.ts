@@ -36,8 +36,7 @@ import { QuestionInstance } from 'app/models/question-instance.model';
 import { SurveyTextTransformer } from 'app/services/survey-text-transform/survey-text-transformer.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
-import { ValidationState, SurveyViewerValidationStateViewModel } from 'app/services/survey-viewer-api-client.service';
-
+import { ValidationState } from 'app/services/survey-viewer-api-client.service';
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 export const fadeInOut = trigger('fadeInOut', [

@@ -10,10 +10,11 @@ import { expand, share, tap, flatMap, map, count, takeWhile, take } from 'rxjs/o
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
-import { ValidationState, SurveyViewerValidationStateViewModel } from 'app/services/survey-viewer-api-client.service';
+import { ValidationState } from 'app/services/survey-viewer-api-client.service';
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
 import { SurveyRespondent } from 'traisi-question-sdk';
 import { ViewTransformer } from './view-transformer.service';
+import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
 
 /**
  *

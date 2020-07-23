@@ -17,6 +17,7 @@ import {
 	NumberResponseData,
 	StringResponseData,
 } from 'traisi-question-sdk';
+import { SurveyViewerLogicRulesViewModel } from '../survey-viewer-api-client.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -182,6 +183,14 @@ export class ConditionalEvaluator {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Evaluates a particular conditional for true or false
+	 * @param conditional 
+	 */
+	public evaluate(conditional: SurveyViewerLogicRulesViewModel): boolean {
+		return false;
 	}
 
 	/**

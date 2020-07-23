@@ -3,7 +3,7 @@ import { ValidationStateViewModel } from './validation-state-view.model';
 
 export interface SurveyViewerValidationStateViewModel {
 	isValid: boolean;
-	clientValidationState: ResponseValidationState;
+	clientValidationState?: ResponseValidationState;
 	questionValidationState: ValidationStateViewModel | undefined;
 	surveyLogicValidationState: ValidationStateViewModel | undefined;
 }

@@ -57,3 +57,5 @@ export {
 	SurveyQuestionViewDirective,
 	TraisiSdkModule,
 } from './module/public_api';
+
+export { SurveyRespondent as SurveyRespondentViewModel } from './survey-respondent.model';

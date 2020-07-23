@@ -5,11 +5,11 @@ import { Observable, EMPTY } from 'rxjs';
 import {
 	SurveyResponseClient,
 	SurveyResponseViewModel,
-	SurveyViewerValidationStateViewModel,
 	QuestionResponseType,
 } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';
 import { tap } from 'rxjs/operators';
+import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
 
 @Injectable({
 	providedIn: 'root',

@@ -13,6 +13,7 @@ import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { ValidationStateViewModel } from 'app/models/validation-state-view.model';
 import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
+import { SurveyRespondentViewModel} from 'traisi-question-sdk';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -1643,13 +1644,6 @@ export class SurveyViewerClient {
     }
 }
 
-export interface SurveyRespondentViewModel {
-    id: number;
-    name: string | undefined;
-    relationship: string | undefined;
-    email: string | undefined;
-    phoneNumber: string | undefined;
-}
 
 export enum ValidationState {
     Invalid = 0,
