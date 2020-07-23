@@ -25,7 +25,6 @@ export {
 	TimeResponseData,
 	ResponseValue,
 	OptionSelectResponseData,
-	GroupMember,
 	QuestionResponseType
 } from './survey-question';
 

@@ -3,6 +3,7 @@ import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
 import { SurveyViewerValidationStateViewModel } from './survey-viewer-validation-state.model';
+import { SurveyRespondent } from 'traisi-question-sdk';
 
 
 export interface NavigationState {
@@ -13,7 +14,7 @@ export interface NavigationState {
 	activeSectionIndex?: number;
 	activeQuestionInstances: Array<QuestionInstance>;
 	activeQuestionIndex: number;
-	activeRespondent?: SurveyViewGroupMember;
+	activeRespondent?: SurveyRespondent;
 	activeRespondentIndex?: number;
 	activeValidationStates: { [id: number]: SurveyViewerValidationStateViewModel };
 	isMultiView?: boolean;

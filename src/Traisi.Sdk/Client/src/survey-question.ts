@@ -3,6 +3,7 @@ import { EventEmitter, Output } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
 import { QuestionOption } from './question-option';
+import { SurveyRespondent } from './survey-respondent.model';
 
 /**
  * Base abstract class for Survey Questions available to TRAISI
@@ -66,7 +67,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 
 	public isMultiPage: boolean = false;
 
-	public respondent: GroupMember;
+	public respondent: SurveyRespondent;
 
 	public questionOptions: Observable<QuestionOption[]>;
 
@@ -278,10 +279,4 @@ export enum QuestionResponseType {
 	Path = 8,
 	Timeline = 9,
 	None = 10,
-}
-
-export class GroupMember {
-	id: number;
-	name: string;
-	relationship: string;
 }

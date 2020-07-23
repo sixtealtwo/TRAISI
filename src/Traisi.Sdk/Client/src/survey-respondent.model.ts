@@ -1,7 +1,7 @@
 export interface SurveyRespondent {
-	name: string;
-	id: number;
-	relationship: string;
+	name?: string;
+	id?: number;
+	relationship?: string;
 	email?: string;
 	phoneNumber?: string;
 }

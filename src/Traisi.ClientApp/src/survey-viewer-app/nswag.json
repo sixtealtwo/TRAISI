@@ -89,20 +89,22 @@
       "useTransformResultMethod": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "markOptionalProperties": false,
+      "markOptionalProperties": true,
       "generateCloneMethod": false,
       "typeStyle": "Interface",
       "enumStyle": "Enum",
       "useLeafType": false,
       "classTypes": [],
-      "extendedClasses": [
-        "Cat"
-      ],
+      "extendedClasses": [],
       "extensionCode": null,
       "generateDefaultValues": true,
       "excludedTypeNames": [
         "ValidationStateViewModel",
-        "SurveyViewerValidationStateViewModel"
+        "SurveyViewerValidationStateViewModel",
+        "SurveyViewerLogicRuleViewModel",
+        "SurveyViewerLogicRulesViewModel",
+        "SurveyLogicOperator",
+        "SurveyLogicCondition"
       ],
       "excludedParameterNames": [
         "AuditableEntity"

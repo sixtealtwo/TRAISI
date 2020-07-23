@@ -1,9 +1,9 @@
 import { SurveyViewQuestion } from './survey-view-question.model';
 import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewSection } from './survey-view-section.model';
-import { SurveyViewGroupMember } from './survey-view-group-member.model';
 import { PageState } from './survey-viewer-state/page-state.model';
 import { SectionState } from './survey-viewer-state/section-state.model';
+import { SurveyRespondent } from 'traisi-question-sdk';
 
 export interface SurveyViewerState {
 	// list of survey pages
@@ -28,13 +28,13 @@ export interface SurveyViewerState {
 	activeRepeatIndex: number;
 
 	// list of group members
-	groupMembers: Array<SurveyViewGroupMember>;
+	groupMembers: Array<SurveyRespondent>;
 
 	// the index of the active group member
 	activeGroupMemberIndex: number;
 
 	// ref to the primary respondent
-	primaryRespondent: SurveyViewGroupMember;
+	primaryRespondent: SurveyRespondent;
 
 
 	isNavProcessing: boolean;

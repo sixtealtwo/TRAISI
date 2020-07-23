@@ -242,7 +242,6 @@ namespace Traisi.Models.Mapping
                     try { svm.Label = s.QuestionOptionLabels[opt.Items["Language"] as string].Value; }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
 
                     }
 

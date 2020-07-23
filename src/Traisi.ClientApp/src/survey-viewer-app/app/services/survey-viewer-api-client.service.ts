@@ -11,9 +11,8 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { ValidationStateViewModel } from 'app/models/validation-state-view.model';
 import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
-import { SurveyRespondentViewModel} from 'traisi-question-sdk';
+import { SurveyLogicCondition, SurveyLogicOperator, SurveyViewerLogicRulesViewModel } from 'app/models/survey-logic-rules.model';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -1644,6 +1643,13 @@ export class SurveyViewerClient {
     }
 }
 
+export interface SurveyRespondentViewModel {
+    id?: number;
+    name?: string | undefined;
+    relationship?: string | undefined;
+    email?: string | undefined;
+    phoneNumber?: string | undefined;
+}
 
 export enum ValidationState {
     Invalid = 0,
@@ -1653,10 +1659,10 @@ export enum ValidationState {
 }
 
 export interface SurveyResponseViewModel {
-    questionId: number;
-    responseValues: { [key: string]: any; }[] | undefined;
-    configuration: { [key: string]: any; } | undefined;
-    respondent: SurveyRespondentViewModel | undefined;
+    questionId?: number;
+    responseValues?: { [key: string]: any; }[] | undefined;
+    configuration?: { [key: string]: any; } | undefined;
+    respondent?: SurveyRespondentViewModel | undefined;
 }
 
 export enum QuestionResponseType {
@@ -1674,187 +1680,182 @@ export enum QuestionResponseType {
 }
 
 export interface SurveyCompletionStatus {
-    completedQuestionIds: number[] | undefined;
+    completedQuestionIds?: number[] | undefined;
 }
 
 export interface SurveyView {
-    survey: Survey | undefined;
-    questionPartViews: QuestionPartView[] | undefined;
-    welcomePageLabels: LabelCollectionOfLabel | undefined;
-    termsAndConditionsLabels: LabelCollectionOfLabel | undefined;
-    thankYouPageLabels: LabelCollectionOfLabel | undefined;
-    screeningQuestionLabels: LabelCollectionOfLabel | undefined;
-    viewName: string | undefined;
+    survey?: Survey | undefined;
+    questionPartViews?: QuestionPartView[] | undefined;
+    welcomePageLabels?: LabelCollectionOfLabel | undefined;
+    termsAndConditionsLabels?: LabelCollectionOfLabel | undefined;
+    thankYouPageLabels?: LabelCollectionOfLabel | undefined;
+    screeningQuestionLabels?: LabelCollectionOfLabel | undefined;
+    viewName?: string | undefined;
 }
 
 export interface AuditableEntity {
 }
 
 export interface Survey extends AuditableEntity {
-    code: string | undefined;
-    name: string | undefined;
-    owner: string | undefined;
-    group: string | undefined;
-    startAt: Date;
-    endAt: Date;
-    isActive: boolean;
-    isOpen: boolean;
-    successLink: string | undefined;
-    rejectionLink: string | undefined;
-    defaultLanguage: string | undefined;
-    styleTemplate: string | undefined;
-    surveyViews: SurveyViewCollectionOfSurveyView | undefined;
-    surveyPermissions: SurveyPermission[] | undefined;
-    groupCodes: Groupcode[] | undefined;
-    shortcodes: Shortcode[] | undefined;
-    extensionConfigurations: ExtensionConfiguration[] | undefined;
-    titleLabels: LabelCollectionOfLabel | undefined;
-    surveyLogic: SurveyLogic[] | undefined;
-    hasGroupCodes: boolean;
+    code?: string | undefined;
+    name?: string | undefined;
+    owner?: string | undefined;
+    group?: string | undefined;
+    startAt?: Date;
+    endAt?: Date;
+    isActive?: boolean;
+    isOpen?: boolean;
+    successLink?: string | undefined;
+    rejectionLink?: string | undefined;
+    defaultLanguage?: string | undefined;
+    styleTemplate?: string | undefined;
+    surveyViews?: SurveyViewCollectionOfSurveyView | undefined;
+    surveyPermissions?: SurveyPermission[] | undefined;
+    groupCodes?: Groupcode[] | undefined;
+    shortcodes?: Shortcode[] | undefined;
+    extensionConfigurations?: ExtensionConfiguration[] | undefined;
+    titleLabels?: LabelCollectionOfLabel | undefined;
+    surveyLogic?: SurveyLogic[] | undefined;
+    hasGroupCodes?: boolean;
 }
 
 export interface Anonymous {
-    Item: SurveyView | undefined;
+    Item?: SurveyView | undefined;
 }
 
 export interface SurveyViewCollectionOfSurveyView extends Anonymous {
 }
 
 export interface SurveyPermission {
-    id: number;
-    userId: string | undefined;
-    user: ApplicationUser | undefined;
-    surveyId: number;
-    survey: Survey | undefined;
-    permissionCode: string | undefined;
-    permissions: string[] | undefined;
+    id?: number;
+    userId?: string | undefined;
+    user?: ApplicationUser | undefined;
+    surveyId?: number;
+    survey?: Survey | undefined;
+    permissionCode?: string | undefined;
+    permissions?: string[] | undefined;
 }
 
 export interface IdentityUserOfString {
-    id: string | undefined;
-    userName: string | undefined;
-    normalizedUserName: string | undefined;
-    email: string | undefined;
-    normalizedEmail: string | undefined;
-    emailConfirmed: boolean;
-    passwordHash: string | undefined;
-    securityStamp: string | undefined;
-    concurrencyStamp: string | undefined;
-    phoneNumber: string | undefined;
-    phoneNumberConfirmed: boolean;
-    twoFactorEnabled: boolean;
-    lockoutEnd: Date | undefined;
-    lockoutEnabled: boolean;
-    accessFailedCount: number;
+    id?: string | undefined;
+    userName?: string | undefined;
+    normalizedUserName?: string | undefined;
+    email?: string | undefined;
+    normalizedEmail?: string | undefined;
+    emailConfirmed?: boolean;
+    passwordHash?: string | undefined;
+    securityStamp?: string | undefined;
+    concurrencyStamp?: string | undefined;
+    phoneNumber?: string | undefined;
+    phoneNumberConfirmed?: boolean;
+    twoFactorEnabled?: boolean;
+    lockoutEnd?: Date | undefined;
+    lockoutEnabled?: boolean;
+    accessFailedCount?: number;
 }
 
 export interface IdentityUser extends IdentityUserOfString {
 }
 
 export interface ApplicationUser extends IdentityUser {
-    friendlyName: string | undefined;
-    jobTitle: string | undefined;
-    fullName: string | undefined;
-    configuration: string | undefined;
-    isEnabled: boolean;
-    isLockedOut: boolean;
-    createdBy: string | undefined;
-    updatedBy: string | undefined;
-    createdDate: Date;
-    updatedDate: Date;
-    roles: IdentityUserRoleOfString[] | undefined;
-    claims: IdentityUserClaimOfString[] | undefined;
+    friendlyName?: string | undefined;
+    jobTitle?: string | undefined;
+    fullName?: string | undefined;
+    configuration?: string | undefined;
+    isEnabled?: boolean;
+    isLockedOut?: boolean;
+    createdBy?: string | undefined;
+    updatedBy?: string | undefined;
+    createdDate?: Date;
+    updatedDate?: Date;
+    roles?: IdentityUserRoleOfString[] | undefined;
+    claims?: IdentityUserClaimOfString[] | undefined;
 }
 
 export interface IdentityUserRoleOfString {
-    userId: string | undefined;
-    roleId: string | undefined;
+    userId?: string | undefined;
+    roleId?: string | undefined;
 }
 
 export interface IdentityUserClaimOfString {
-    id: number;
-    userId: string | undefined;
-    claimType: string | undefined;
-    claimValue: string | undefined;
+    id?: number;
+    userId?: string | undefined;
+    claimType?: string | undefined;
+    claimValue?: string | undefined;
 }
 
 export interface Groupcode {
-    id: number;
-    survey: Survey | undefined;
-    name: string | undefined;
-    code: string | undefined;
-    createdDate: Date;
-    isTest: boolean;
+    id?: number;
+    survey?: Survey | undefined;
+    name?: string | undefined;
+    code?: string | undefined;
+    createdDate?: Date;
+    isTest?: boolean;
 }
 
 export interface Shortcode {
-    id: number;
-    survey: Survey | undefined;
-    groupcode: Groupcode | undefined;
-    code: string | undefined;
-    isTest: boolean;
-    createdDate: Date;
-    surveyCompleted: boolean;
+    id?: number;
+    survey?: Survey | undefined;
+    groupcode?: Groupcode | undefined;
+    code?: string | undefined;
+    isTest?: boolean;
+    createdDate?: Date;
+    surveyCompleted?: boolean;
 }
 
 export interface ExtensionConfiguration {
-    survey: Survey | undefined;
+    survey?: Survey | undefined;
     extensionName: string;
     configuration: string;
 }
 
 export interface Anonymous2 {
-    Item: Label | undefined;
-    Default: Label | undefined;
+    Item?: Label | undefined;
+    Default?: Label | undefined;
 }
 
 export interface LabelCollectionOfLabel extends Anonymous2 {
 }
 
 export interface Label {
-    value: string | undefined;
-    language: string | undefined;
+    value?: string | undefined;
+    language?: string | undefined;
 }
 
 export interface SurveyLogic {
-    condition: SurveyLogicCondition | undefined;
-    expressions: SurveyLogic[] | undefined;
-    validationMessages: LabelCollectionOfLabel | undefined;
-    value: string | undefined;
-    question: QuestionPart | undefined;
-    validationQuestionId: number | undefined;
-    validationQuestion: QuestionPart | undefined;
-    parentId: number | undefined;
-    parent: SurveyLogic | undefined;
-    root: SurveyLogic | undefined;
-    operator: SurveyLogicOperator | undefined;
-    logicType: SurveyLogicType | undefined;
-}
-
-export enum SurveyLogicCondition {
-    And = 0,
-    Or = 1,
+    condition?: SurveyLogicCondition | undefined;
+    expressions?: SurveyLogic[] | undefined;
+    validationMessages?: LabelCollectionOfLabel | undefined;
+    value?: string | undefined;
+    question?: QuestionPart | undefined;
+    validationQuestionId?: number | undefined;
+    validationQuestion?: QuestionPart | undefined;
+    parentId?: number | undefined;
+    parent?: SurveyLogic | undefined;
+    root?: SurveyLogic | undefined;
+    operator?: SurveyLogicOperator | undefined;
+    logicType?: SurveyLogicType | undefined;
 }
 
 export interface QuestionPart {
-    questionType: string | undefined;
-    name: string | undefined;
-    questionPartChildren: QuestionPart[] | undefined;
-    questionConfigurations: QuestionConfiguration[] | undefined;
-    questionOptions: QuestionOption[] | undefined;
-    questionOptionConditionalsSource: QuestionOptionConditional[] | undefined;
-    isGroupQuestion: boolean;
-    conditionals: SurveyLogic[] | undefined;
-    survey: Survey | undefined;
+    questionType?: string | undefined;
+    name?: string | undefined;
+    questionPartChildren?: QuestionPart[] | undefined;
+    questionConfigurations?: QuestionConfiguration[] | undefined;
+    questionOptions?: QuestionOption[] | undefined;
+    questionOptionConditionalsSource?: QuestionOptionConditional[] | undefined;
+    isGroupQuestion?: boolean;
+    conditionals?: SurveyLogic[] | undefined;
+    survey?: Survey | undefined;
 }
 
 export interface QuestionConfiguration {
-    name: string | undefined;
-    value: string | undefined;
-    isResourceOnly: boolean;
-    valueType: ConfigurationValueType;
-    questionConfigurationLabels: LabelCollectionOfLabel | undefined;
-    isSourceInputRequired: boolean;
+    name?: string | undefined;
+    value?: string | undefined;
+    isResourceOnly?: boolean;
+    valueType?: ConfigurationValueType;
+    questionConfigurationLabels?: LabelCollectionOfLabel | undefined;
+    isSourceInputRequired?: boolean;
 }
 
 export enum ConfigurationValueType {
@@ -1872,19 +1873,19 @@ export enum ConfigurationValueType {
 }
 
 export interface QuestionOption {
-    name: string | undefined;
-    code: string | undefined;
-    questionOptionLabels: LabelCollectionOfLabel | undefined;
-    order: number;
-    questionOptionConditionalsTarget: QuestionOptionConditional[] | undefined;
-    questionPartParent: QuestionPart | undefined;
+    name?: string | undefined;
+    code?: string | undefined;
+    questionOptionLabels?: LabelCollectionOfLabel | undefined;
+    order?: number;
+    questionOptionConditionalsTarget?: QuestionOptionConditional[] | undefined;
+    questionPartParent?: QuestionPart | undefined;
 }
 
 export interface QuestionOptionConditional {
-    targetOption: QuestionOption | undefined;
-    sourceQuestion: QuestionPart | undefined;
-    condition: QuestionConditionalType;
-    value: string | undefined;
+    targetOption?: QuestionOption | undefined;
+    sourceQuestion?: QuestionPart | undefined;
+    condition?: QuestionConditionalType;
+    value?: string | undefined;
 }
 
 export enum QuestionConditionalType {
@@ -1902,87 +1903,68 @@ export enum QuestionConditionalType {
     DoesNotContain = 11,
 }
 
-export enum SurveyLogicOperator {
-    Equals = 0,
-    NotEquals = 1,
-    GreaterThan = 2,
-    GreaterThanEqualTo = 3,
-    LessThan = 4,
-    LessThanEqualTo = 5,
-    Contains = 6,
-    Like = 7,
-    AnyOf = 8,
-    AllOf = 9,
-    NoneOf = 10,
-}
-
 export enum SurveyLogicType {
     Response = 0,
     Value = 1,
 }
 
 export interface QuestionPartView {
-    labels: LabelCollectionOfLabel | undefined;
-    descriptionLabels: LabelCollectionOfLabel | undefined;
-    questionPart: QuestionPart | undefined;
-    parentView: QuestionPartView | undefined;
-    surveyView: SurveyView | undefined;
-    questionPartViewChildren: QuestionPartView[] | undefined;
-    order: number;
-    isOptional: boolean;
-    isHousehold: boolean;
-    isMultiView: boolean;
-    isDefaultHidden: boolean;
-    repeatSource: QuestionPart | undefined;
-    icon: string | undefined;
-    catiDependent: QuestionPartView | undefined;
+    labels?: LabelCollectionOfLabel | undefined;
+    descriptionLabels?: LabelCollectionOfLabel | undefined;
+    questionPart?: QuestionPart | undefined;
+    parentView?: QuestionPartView | undefined;
+    surveyView?: SurveyView | undefined;
+    questionPartViewChildren?: QuestionPartView[] | undefined;
+    order?: number;
+    isOptional?: boolean;
+    isHousehold?: boolean;
+    isMultiView?: boolean;
+    isDefaultHidden?: boolean;
+    repeatSource?: QuestionPart | undefined;
+    icon?: string | undefined;
+    catiDependent?: QuestionPartView | undefined;
 }
 
 export interface SurveyViewPageViewModel {
-    id: number;
-    sections: SurveyViewSectionViewModel[] | undefined;
-    questions: QuestionViewModel[] | undefined;
-    order: number;
-    label: string | undefined;
-    icon: string | undefined;
+    id?: number;
+    sections?: SurveyViewSectionViewModel[] | undefined;
+    questions?: QuestionViewModel[] | undefined;
+    order?: number;
+    label?: string | undefined;
+    icon?: string | undefined;
 }
 
 export interface SurveyViewSectionViewModel {
-    id: number;
-    order: number;
-    questions: QuestionViewModel[] | undefined;
-    label: string | undefined;
-    descriptionLabel: string | undefined;
-    icon: string | undefined;
-    isHousehold: boolean;
-    repeatSource: number;
-    isRepeat: boolean;
-    isMultiView: boolean;
+    id?: number;
+    order?: number;
+    questions?: QuestionViewModel[] | undefined;
+    label?: string | undefined;
+    descriptionLabel?: string | undefined;
+    icon?: string | undefined;
+    isHousehold?: boolean;
+    repeatSource?: number;
+    isRepeat?: boolean;
+    isMultiView?: boolean;
 }
 
 export interface QuestionViewModel {
-    id: number;
-    questionId: number;
-    name: string | undefined;
-    label: string | undefined;
-    descriptionLabel: string | undefined;
-    questionType: string | undefined;
-    isOptional: boolean;
-    isRepeat: boolean;
-    repeatSource: number;
-    order: number;
-    isHousehold: boolean;
-    isMultiView: boolean;
-    configuration: { [key: string]: any; } | undefined;
-    conditionals: SurveyViewerLogicRulesViewModel[] | undefined;
+    id?: number;
+    questionId?: number;
+    name?: string | undefined;
+    label?: string | undefined;
+    descriptionLabel?: string | undefined;
+    questionType?: string | undefined;
+    isOptional?: boolean;
+    isRepeat?: boolean;
+    repeatSource?: number;
+    order?: number;
+    isHousehold?: boolean;
+    isMultiView?: boolean;
+    configuration?: { [key: string]: any; } | undefined;
+    conditionals?: SurveyViewerLogicRulesViewModel[] | undefined;
 }
 
 export interface SurveyLogicBaseViewModel {
-}
-
-export interface SurveyViewerLogicRulesViewModel extends SurveyLogicBaseViewModel {
-    condition: string | undefined;
-    rules: SurveyLogicBaseViewModel[] | undefined;
 }
 
 export enum SurveyViewType {
@@ -1994,50 +1976,50 @@ export interface QuestionOptionsViewModel {
 }
 
 export interface SurveyViewerViewModel {
-    questions: QuestionPartViewViewModel[] | undefined;
-    id: number;
-    viewName: string | undefined;
-    survey: SurveyViewModel | undefined;
-    titleText: string | undefined;
-    termsAndConditionsText: string | undefined;
-    welcomeText: string | undefined;
-    surveyCompletionText: string | undefined;
-    screeningQuestions: string[] | undefined;
+    questions?: QuestionPartViewViewModel[] | undefined;
+    id?: number;
+    viewName?: string | undefined;
+    survey?: SurveyViewModel | undefined;
+    titleText?: string | undefined;
+    termsAndConditionsText?: string | undefined;
+    welcomeText?: string | undefined;
+    surveyCompletionText?: string | undefined;
+    screeningQuestions?: string[] | undefined;
 }
 
 export interface QuestionPartViewViewModel {
-    questionChildren: QuestionPartViewViewModel[] | undefined;
-    id: number;
-    label: string | undefined;
-    descriptionLabel: string | undefined;
-    order: number;
-    questionType: string | undefined;
+    questionChildren?: QuestionPartViewViewModel[] | undefined;
+    id?: number;
+    label?: string | undefined;
+    descriptionLabel?: string | undefined;
+    order?: number;
+    questionType?: string | undefined;
 }
 
 export interface SurveyViewModel {
-    id: number;
-    code: string | undefined;
-    name: string | undefined;
-    owner: string | undefined;
-    group: string | undefined;
-    createdDate: Date;
-    updatedDate: Date;
-    startAt: Date;
-    endAt: Date;
-    isActive: boolean;
-    isOpen: boolean;
-    successLink: string | undefined;
-    rejectionLink: string | undefined;
-    defaultLanguage: string | undefined;
-    styleTemplate: string | undefined;
-    surveyPermissions: SurveyPermissionViewModel[] | undefined;
+    id?: number;
+    code?: string | undefined;
+    name?: string | undefined;
+    owner?: string | undefined;
+    group?: string | undefined;
+    createdDate?: Date;
+    updatedDate?: Date;
+    startAt?: Date;
+    endAt?: Date;
+    isActive?: boolean;
+    isOpen?: boolean;
+    successLink?: string | undefined;
+    rejectionLink?: string | undefined;
+    defaultLanguage?: string | undefined;
+    styleTemplate?: string | undefined;
+    surveyPermissions?: SurveyPermissionViewModel[] | undefined;
 }
 
 export interface SurveyPermissionViewModel {
-    id: number;
-    userId: string | undefined;
-    surveyId: number;
-    permissions: string[] | undefined;
+    id?: number;
+    userId?: string | undefined;
+    surveyId?: number;
+    permissions?: string[] | undefined;
 }
 
 export interface FileResponse {
