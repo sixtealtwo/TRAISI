@@ -6,7 +6,6 @@ import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable, iif } from 'rxjs';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { Stack } from 'stack-typescript';
-import { QuestionCondtionalOperatorType } from 'app/models/question-conditional-operator-type.enum';
 import { SurveyViewerResponseService } from '../survey-viewer-response.service';
 import {
 	SurveyRespondent,
@@ -228,26 +227,7 @@ export class ConditionalEvaluator {
 		return (logic as SurveyLogicRules).condition !== undefined;
 	}
 
-	/**
-	 * Evaluates the next expression stored on the stack.
-	 * @private
-	 * @param {Stack<any>} valueStack
-	 * @param {Stack<QuestionCondtionalOperatorType>} operatorStack
-	 * @returns {void}
-	 */
-	private evaluateValue(valueStack: Stack<any>, operatorStack: Stack<QuestionCondtionalOperatorType>): void {
-		if (valueStack.length === 1) {
-			return;
-		}
-		let operator = operatorStack.pop();
-		let lhs = valueStack.pop();
-		let rhs = valueStack.pop();
-		if (operator === QuestionCondtionalOperatorType.AND) {
-			valueStack.push(lhs && rhs);
-		} else {
-			valueStack.push(lhs || rhs);
-		}
-	}
+
 
 	private _listSourceQuestions(
 		logic: SurveyLogicRules | SurveyLogicRule,
