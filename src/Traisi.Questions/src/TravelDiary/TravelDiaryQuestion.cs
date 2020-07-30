@@ -22,6 +22,16 @@ namespace Traisi.Sdk.Questions
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
+         /// <summary>
+        /// The minimum or earliest allowed date
+        /// </summary>
+        [QuestionConfiguration(ConfigurationValueType.Date,
+        DisplayName = "Min Date",
+        Description = "Minimum Date.",
+        SurveyBuilderValueType = QuestionBuilderType.Date,
+        DefaultValue = "1/1/2018")]
+        public DateTime MinDate;
+
     }
 
 }
