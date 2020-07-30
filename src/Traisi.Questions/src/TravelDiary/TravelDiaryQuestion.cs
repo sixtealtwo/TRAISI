@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Traisi.Sdk.Attributes;
@@ -26,10 +27,10 @@ namespace Traisi.Sdk.Questions
         /// The minimum or earliest allowed date
         /// </summary>
         [QuestionConfiguration(ConfigurationValueType.Date,
-        DisplayName = "Min Date",
-        Description = "Minimum Date.",
+        DisplayName = "TimeStart",
+        Description = "The start time of each day.",
         SurveyBuilderValueType = QuestionBuilderType.Date,
-        DefaultValue = "1/1/2018")]
+        DefaultValue = "1/1/2018 4:00AM")]
         public DateTime MinDate;
 
     }
