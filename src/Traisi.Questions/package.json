@@ -27,6 +27,7 @@
 		"@ng-select/ng-select": "^4.0.0",
 		"@types/jquery": "^3.3.38",
 		"ang-jsoneditor": "^1.9.4",
+		"angular-calendar": "^0.28.16",
 		"angular2-text-mask": "^9.0.0",
 		"babel-plugin-transform-typescript-metadata": "^0.3.0",
 		"dot": "^1.1.3",
