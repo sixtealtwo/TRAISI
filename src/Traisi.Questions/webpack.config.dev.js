@@ -113,8 +113,11 @@ module.exports = {
         }
     ],*/
 	externals: [
+		/^@angular\/platform-browser\/animations/,
+		/^@angular\/animations/,
 		/^@angular\/common/,
 		/^@angular\/core/,
+		/^@angular\/upgrade/,
 		/^@angular\/upgrade/,
 		/^@angular\/forms/,
 		/^@angular\/platform-browser/,

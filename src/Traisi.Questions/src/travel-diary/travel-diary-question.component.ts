@@ -11,6 +11,8 @@ import styleString from './travel-diary-question.component.scss';
 	styles: ['' + styleString],
 })
 export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit, OnVisibilityChanged {
+
+    public viewDate: Date = new Date();
     ngOnInit(): void {
         throw new Error("Method not implemented.");
     }

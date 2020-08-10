@@ -30,6 +30,9 @@ import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
 import * as AngularForms from '@angular/forms';
+import * as AngularAnimations from '@angular/animations';
+import * as AngularPlatformAnimations from '@angular/platform-browser/animations';
+import * as AngularPlatformBrowser from '@angular/platform-browser';
 import * as Upgrade from '@angular/upgrade/static';
 import * as popover from 'ngx-bootstrap/popover';
 import * as alert from 'ngx-bootstrap/alert';
@@ -183,6 +186,18 @@ export class QuestionLoaderService {
 		SystemJS.registry.set(
 			'rxjs/operators',
 			SystemJS.newModule(rxjsOperators)
+		);
+		SystemJS.registry.set(
+			'@angular/animations',
+			SystemJS.newModule(AngularAnimations)
+		);
+		SystemJS.registry.set(
+			'@angular/platform-browser/animations',
+			SystemJS.newModule(AngularPlatformAnimations)
+		);
+		SystemJS.registry.set(
+			'@angular/platform-browser',
+			SystemJS.newModule(AngularPlatformBrowser)
 		);
 	}
 
