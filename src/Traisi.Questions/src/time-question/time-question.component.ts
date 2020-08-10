@@ -11,8 +11,8 @@ import {
 
 import { Time } from '@angular/common';
 
-import templateString from './text-question.component.html';
-import styleString from './text-question.component.scss';
+import templateString from './time-question.component.html';
+import styleString from './time-question.component.scss';
 
 @Component({
 	selector: 'traisi-time-question',
