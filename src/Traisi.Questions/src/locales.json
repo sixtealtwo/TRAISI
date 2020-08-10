@@ -15,7 +15,8 @@
 		"household": "Household",
 		"stated_preference": "Stated Preference",
 		"slider": "Value Slider",
-		"contact-information": "Contact Information"
+		"contact-information": "Contact Information",
+		"travel-diary": "Travel Diary V2"
 	},
 	"fr": {
 		"text": "Texte",
@@ -33,6 +34,7 @@
 		"household": "Household",
 		"stated_preference": "Stated Preference",
 		"slider": "Value Slider",
-		"contact-information": "Contact Information"
+		"contact-information": "Contact Information",
+		"travel-diary": "Travel Diary V2"
 	}
 }

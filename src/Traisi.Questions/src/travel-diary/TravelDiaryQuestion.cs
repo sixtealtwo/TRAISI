@@ -19,7 +19,7 @@ namespace Traisi.Sdk.Questions
         }
         public string Icon
         {
-            get => "fas fa-table";
+            get => "fas fa-map-marked-alt";
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 

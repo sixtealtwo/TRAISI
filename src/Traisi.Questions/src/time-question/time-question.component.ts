@@ -3,19 +3,21 @@ import {
 	QuestionConfiguration,
 	ResponseTypes,
 	SurveyQuestion,
-	SurveyResponder,
 	SurveyViewer,
 	TimeResponseData,
-	ResponseValidationState
+	ResponseValidationState,
+	SurveyRespondentService
 } from 'traisi-question-sdk';
 
 import { Time } from '@angular/common';
-import templateString from './time-question.component.html';
+
+import templateString from './text-question.component.html';
+import styleString from './text-question.component.scss';
 
 @Component({
 	selector: 'traisi-time-question',
-	template: templateString,
-	styles: [require('./time-question.component.scss').toString()]
+	template: ''+templateString,
+	styles: [''+styleString]
 })
 export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> implements OnInit {
 	public readonly QUESTION_TYPE_NAME: string = 'Time Question';
@@ -33,7 +35,7 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
-		@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder
+		@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService
 	) {
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;

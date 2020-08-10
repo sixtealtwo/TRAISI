@@ -8,7 +8,8 @@ module.exports = {
 		general: path.join(process.cwd(), './src/traisi-questions.module.ts'),
 		map: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
 		sp: path.join(process.cwd(), './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'),
-		spbuilder: path.join(process.cwd(), './src/stated-preference/builder/traisi-sp-question-builder.module.ts')
+		spbuilder: path.join(process.cwd(), './src/stated-preference/builder/traisi-sp-question-builder.module.ts'),
+		traveldiary: path.join(process.cwd(), './src/travel-diary/travel-diary-question.module.ts')
 	},
 
 	output: {
