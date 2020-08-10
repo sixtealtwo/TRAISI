@@ -137,7 +137,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 					component: TimeQuestionComponent
 				},
 				{
-					name: 'household-question',
+					name: 'traisi-household-question',
 					id: 'household',
 					component: HouseholdQuestionComponent
 				},
