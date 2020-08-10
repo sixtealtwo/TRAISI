@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, InjectionToken } from '@angular/core';
+import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -69,7 +69,20 @@ import { SurveyViewerResponseService } from './services/survey-viewer-response.s
 import { SurveyViewerRespondentService } from './services/survey-viewer-respondent.service';
 import { SurveyProgressComponent } from './components/survey-progress/survey-progress.component';
 import { StorageServiceModule, StorageService } from 'ngx-webstorage-service';
-
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
+import {
+	CalendarModule,
+	DateAdapter,
+	CalendarCommonModule,
+	CalendarDayModule,
+	CalendarView,
+	CalendarUtils,
+  } from 'angular-calendar';
+  export const calendarProps = {
+	provide: DateAdapter,
+	useFactory: adapterFactory,
+  };
+export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarProps);
 export const STORAGE_TOKEN =
 	new InjectionToken<StorageService>('STORAGE_TOKEN');
 
@@ -129,6 +142,7 @@ export const STORAGE_TOKEN =
 		SurveyNavigationModule.forRoot(),
 		SurveyViewerAuthorizationModule,
 		ToastrModule.forRoot(),
+		calModule,
 		StorageServiceModule
 	],
 	providers: [

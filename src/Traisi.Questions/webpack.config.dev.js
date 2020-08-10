@@ -94,7 +94,7 @@ module.exports = {
 			},
 			{
 				test: /\.m?js$/,
-				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), /node_modules/],
+				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), /node_modules/,path.resolve(__dirname, 'angular-calendar')],
 				use: {
 					loader: 'babel-loader',
 					options: {

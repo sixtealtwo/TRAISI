@@ -126,7 +126,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public viewerTheme: SurveyViewerTheme;
 
 	public isShowComplete: boolean = false;
-
+	viewDate: Date = new Date();
 	public currentUser: SurveyUser;
 
 	public get userShortcode(): string {

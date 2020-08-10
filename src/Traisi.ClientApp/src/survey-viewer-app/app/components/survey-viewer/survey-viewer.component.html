@@ -22,6 +22,7 @@
 		</nav>
 		<!-- Begin page content -->
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 container" #surveyBodyContainer>
+
 			<div *ngIf="navigator.navigationState$ | async as state; else loading" class="questions-outer-container">
 				<div class="content-header">
 					<span class="page-header survey-section-header">{{ state.activePage?.label }}</span>

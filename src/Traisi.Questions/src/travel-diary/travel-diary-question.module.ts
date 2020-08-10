@@ -1,16 +1,30 @@
 import { NgModule, ModuleWithProviders } from '@angular/core'
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl'
 import { HttpClientModule } from '@angular/common/http'
 import { CommonModule } from '@angular/common'
-import { MapEndpointService } from '../services/mapservice.service'
 import { TravelDiaryQuestionComponent } from './travel-diary-question.component'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-// export const ngxMapWithConfig = NgxMapboxGLModule
+import {
+  CalendarModule,
+  DateAdapter,
+  CalendarCommonModule,
+  CalendarDayModule,
+  CalendarView,
+  CalendarUtils,
+  
+} from 'angular-calendar'
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap'
+import { FlatpickrModule } from 'angularx-flatpickr'
+import { FormsModule } from '@angular/forms'
 
+export const calendarProps = {
+  provide: DateAdapter,
+  useFactory: adapterFactory,
+};
+export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarProps);
+
+console.log(CalendarCommonModule.forRoot(calendarProps));
 @NgModule({
-  declarations: [TravelDiaryQuestionComponent],
+  declarations: [TravelDiaryQuestionComponent], 
   entryComponents: [TravelDiaryQuestionComponent],
   providers: [
     {
@@ -26,19 +40,24 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     },
   ],
   imports: [
-    
-    BrowserAnimationsModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
     CommonModule,
+    FormsModule,
     HttpClientModule,
+    NgbModalModule,
+    calModule,
+    // CalendarCommonModule,
+    FlatpickrModule.forRoot(),
+
   ],
+  exports: [
+    CalendarModule, 
+    CalendarCommonModule
+  ]
 })
 export default class TravelDiaryQuestionModule {
   static forRoot(): ModuleWithProviders<TravelDiaryQuestionComponent> {
     return {
+
       ngModule: TravelDiaryQuestionComponent,
       providers: [],
     }
