@@ -22,7 +22,6 @@ export const calendarProps = {
 };
 export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarProps);
 
-console.log(CalendarCommonModule.forRoot(calendarProps));
 @NgModule({
   declarations: [TravelDiaryQuestionComponent], 
   entryComponents: [TravelDiaryQuestionComponent],
@@ -45,7 +44,6 @@ console.log(CalendarCommonModule.forRoot(calendarProps));
     HttpClientModule,
     NgbModalModule,
     calModule,
-    // CalendarCommonModule,
     FlatpickrModule.forRoot(),
 
   ],
