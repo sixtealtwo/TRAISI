@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class SurveyTextTransformer {
 	public constructor() {}
@@ -11,6 +11,9 @@ export class SurveyTextTransformer {
 	 * @param text
 	 */
 	public transformText(text: string): string {
+		if (!text) {
+			return '';
+		}
 		let yesterdayRegex = /\{\{\s*yesterday\s*\}\}/;
 		let todayRegex = /\{\{\s*today\s*\}\}/;
 		let yesterdayDate = new Date();

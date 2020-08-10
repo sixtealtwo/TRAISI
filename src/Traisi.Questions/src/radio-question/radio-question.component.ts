@@ -75,6 +75,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 *
 	 */
 	public ngAfterViewInit(): void {
+		console.log('in radio after view init');
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
@@ -118,6 +119,8 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 * @param options
 	 */
 	public onOptionsLoaded(options: QuestionOption[]): void {
+		console.log('options loaded');
+		console.log(options); 
 		this.options = options;
 	}
 }

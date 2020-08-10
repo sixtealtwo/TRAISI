@@ -325,7 +325,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 			}
 		} else {
 			// this.titleLabel = new BehaviorSubject(processedLabel);
-			console.log(processedLabel);
 			update.next(processedLabel);
 		}
 	}

@@ -5,7 +5,11 @@ export function getItem(sKey) {
 	return (
 		decodeURIComponent(
 			document.cookie.replace(
-				new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'),
+				new RegExp(
+					'(?:(?:^|.*;)\\s*' +
+						encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') +
+						'\\s*\\=\\s*([^;]*).*$)|^.*$'
+				),
 				'$1'
 			)
 		) || null
@@ -57,10 +61,14 @@ export function removeItem(sKey, sPath, sDomain) {
 }
 
 export function hasItem(sKey) {
-	return new RegExp('(?:^|;\\s*)' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=').test(document.cookie);
+	return new RegExp('(?:^|;\\s*)' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=').test(
+		document.cookie
+	);
 }
 export function keys() {
-	let aKeys = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, '').split(/\s*(?:\=[^;]*)?;\s*/);
+	let aKeys = document.cookie
+		.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, '')
+		.split(/\s*(?:\=[^;]*)?;\s*/);
 	for (let nIdx = 0; nIdx < aKeys.length; nIdx++) {
 		aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]);
 	}
@@ -81,7 +89,7 @@ export class Utilities {
 		setItem: setItem,
 		removeItem: removeItem,
 		hasItem: hasItem,
-		keys: keys
+		keys: keys,
 	};
 
 	public static getHttpResponseMessage(data: HttpResponseBase | any): string[] {
@@ -89,7 +97,9 @@ export class Utilities {
 
 		if (data instanceof HttpResponseBase) {
 			if (this.checkNoNetwork(data)) {
-				responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
+				responses.push(
+					`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`
+				);
 			} else {
 				let responseObject = this.getResponseBody(data);
 
@@ -295,7 +305,7 @@ export class Utilities {
 	}
 
 	public static toTitleCase(text: string) {
-		return text.replace(/\w\S*/g, function(subString) {
+		return text.replace(/\w\S*/g, function (subString) {
 			return subString.charAt(0).toUpperCase() + subString.substr(1).toLowerCase();
 		});
 	}
@@ -403,7 +413,11 @@ export class Utilities {
 		if (window.location.origin) {
 			base = window.location.origin;
 		} else {
-			base = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+			base =
+				window.location.protocol +
+				'//' +
+				window.location.hostname +
+				(window.location.port ? ':' + window.location.port : '');
 		}
 		return base.replace(/\/$/, '');
 	}
@@ -679,11 +693,11 @@ export class Utilities {
 	public static debounce(func: (...args) => any, wait: number, immediate?: boolean) {
 		let timeout;
 
-		return function() {
+		return function () {
 			let context = this;
 			let args_ = arguments;
 
-			let later = function() {
+			let later = function () {
 				timeout = null;
 				if (!immediate) {
 					func.apply(context, args_);
@@ -722,10 +736,13 @@ export class Utilities {
 	};
 
 	public static extractPlaceholders = (text: string): string[] => {
+		if (!text) {
+			return null;
+		}
 		let regexTest = /{{ [\w\s]* }}/g;
 		let placeholderMatch = text.match(regexTest);
 		if (placeholderMatch !== null) {
-			return placeholderMatch.map(name => name.substring(3, name.length - 3));
+			return placeholderMatch.map((name) => name.substring(3, name.length - 3));
 		} else {
 			return null;
 		}
@@ -741,6 +758,12 @@ export class Utilities {
 		replaceValueClass: string = 'piped-value',
 		tooltip: string = ''
 	): string => {
-		return sourceText.replace(`{{ ${tag} }}`, `<span tooltip="${tooltip}" class="${replaceValueClass}">${replacementValue}</span>`);
+		if (!replacementValue) {
+			return sourceText;
+		}
+		return sourceText.replace(
+			`{{ ${tag} }}`,
+			`<span tooltip="${tooltip}" class="${replaceValueClass}">${replacementValue}</span>`
+		);
 	};
 }
