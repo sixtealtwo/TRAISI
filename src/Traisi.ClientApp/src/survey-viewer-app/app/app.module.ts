@@ -83,6 +83,7 @@ import {
 	useFactory: adapterFactory,
   };
 export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarProps);
+export const calC: ModuleWithProviders = CalendarCommonModule.forRoot(calendarProps);
 export const STORAGE_TOKEN =
 	new InjectionToken<StorageService>('STORAGE_TOKEN');
 
@@ -143,6 +144,7 @@ export const STORAGE_TOKEN =
 		SurveyViewerAuthorizationModule,
 		ToastrModule.forRoot(),
 		calModule,
+		calC,
 		StorageServiceModule
 	],
 	providers: [

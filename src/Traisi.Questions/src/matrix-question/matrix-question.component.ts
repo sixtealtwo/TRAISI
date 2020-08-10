@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
-	SurveyResponder,
 	QuestionConfiguration,
 	SurveyViewer,
 	OnSurveyQuestionInit,

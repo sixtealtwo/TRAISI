@@ -105,7 +105,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	 * @param {*} result
 	 * @memberof TextQuestionComponent
 	 */
-	public onResponseSaved(result: any): void {
+	public onResponseSaved(): void {
 		this.validationState.emit(ResponseValidationState.VALID);
 	}
 

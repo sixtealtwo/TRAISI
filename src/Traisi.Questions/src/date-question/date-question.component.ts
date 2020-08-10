@@ -8,11 +8,11 @@ import {
 import {
 	SurveyQuestion,
 	ResponseTypes,
-	SurveyResponder,
 	QuestionConfiguration,
 	SurveyViewer,
 	DateResponseData,
-	ResponseValidationState
+	ResponseValidationState,
+	SurveyRespondentService
 } from 'traisi-question-sdk';
 import {
 	BsDatepickerDirective,
@@ -44,7 +44,7 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date>
 		@Inject('SurveyViewerService')
 		private _surveyViewerService: SurveyViewer,
 		@Inject('SurveyResponderService')
-		private _surveyResponderService: SurveyResponder
+		private _surveyResponderService: SurveyRespondentService
 	) {
 		super();
 

@@ -52,6 +52,8 @@ import * as rxjsBehaviourSubject from 'rxjs/BehaviorSubject';
 import * as rxjsObservable from 'rxjs/Observable';
 import * as traisiSdkModule from 'traisi-question-sdk';
 import * as angularPopper from 'angular-popper';
+import * as angularCalendar from 'angular-calendar';
+import * as adapterFactory from 'angular-calendar/date-adapters/date-fns';
 import { share, map, expand } from 'rxjs/operators';
 import { find } from 'lodash';
 
@@ -198,6 +200,14 @@ export class QuestionLoaderService {
 		SystemJS.registry.set(
 			'@angular/platform-browser',
 			SystemJS.newModule(AngularPlatformBrowser)
+		);
+		SystemJS.registry.set(
+			'angular-calendar',
+			SystemJS.newModule(angularCalendar)
+		);
+		SystemJS.registry.set(
+			'angular-calendar/date-adapters/date-fns',
+			SystemJS.newModule(adapterFactory)
 		);
 	}
 

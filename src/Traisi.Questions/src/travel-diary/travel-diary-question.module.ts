@@ -9,7 +9,8 @@ import {
   CalendarDayModule,
   CalendarView,
   CalendarUtils,
-  
+  CalendarTooltipDirective,
+  CalendarTooltipWindowComponent,
 } from 'angular-calendar'
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap'
@@ -19,11 +20,13 @@ import { FormsModule } from '@angular/forms'
 export const calendarProps = {
   provide: DateAdapter,
   useFactory: adapterFactory,
-};
-export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarProps);
-
+}
+export const calModule: ModuleWithProviders = CalendarModule.forRoot(
+  calendarProps,
+)
+console.log(CalendarTooltipWindowComponent);
 @NgModule({
-  declarations: [TravelDiaryQuestionComponent], 
+  declarations: [TravelDiaryQuestionComponent],
   entryComponents: [TravelDiaryQuestionComponent],
   providers: [
     {
@@ -36,26 +39,23 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
         },
       ],
       multi: true,
-    },
+    }
   ],
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
     NgbModalModule,
-    calModule,
     FlatpickrModule.forRoot(),
-
+    CalendarModule.forRoot(calendarProps),
+    CalendarCommonModule.forRoot(calendarProps),
+    CalendarDayModule,
   ],
-  exports: [
-    CalendarModule, 
-    CalendarCommonModule
-  ]
+  exports: [CalendarDayModule, CalendarModule, CalendarCommonModule],
 })
 export default class TravelDiaryQuestionModule {
   static forRoot(): ModuleWithProviders<TravelDiaryQuestionComponent> {
     return {
-
       ngModule: TravelDiaryQuestionComponent,
       providers: [],
     }

@@ -6,8 +6,9 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"skipLibCheck": true,
-		"target": "esnext",
+		"target": "es5",
 		"module":"amd",
+		"lib": ["es2015", "dom"],
 		"outDir": "dist",
 		"baseUrl": "src",
 		"plugins": [
@@ -15,7 +16,8 @@
 				"name": "typescript-tslint-plugin"
 			}
 		],
-		"paths": {}
+		"isolatedModules": false,
+		"paths": {} 
 	},
 	"exclude": ["dist/**/*", "node_modules/**", "node_modules/", "node_modules/**/*"],
 	"angularCompilerOptions": {

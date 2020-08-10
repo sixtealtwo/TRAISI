@@ -62,7 +62,7 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 	 * Response saved callback.
 	 * @param result
 	 */
-	public onResponseSaved(result: any): void {
+	public onResponseSaved(): void {
 		this.validationState.emit(ResponseValidationState.VALID);
 		// this.autoAdvance.emit(500);
 	}

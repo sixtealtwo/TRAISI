@@ -29,7 +29,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), path.resolve(__dirname, 'node_modules')],
+				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), path.resolve(__dirname, 'node_modules/angular-calendar/')],
 				use: {
 					loader: 'babel-loader',
 					options: {},
@@ -92,7 +92,7 @@ module.exports = {
 					},
 				],
 			},
-			{
+			/*{
 				test: /\.m?js$/,
 				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), /node_modules/,path.resolve(__dirname, 'angular-calendar')],
 				use: {
@@ -101,7 +101,7 @@ module.exports = {
 						presets: ['@babel/preset-env'],
 					},
 				},
-			},
+			},*/
 		],
 	},
 	/*externals: [
@@ -126,6 +126,7 @@ module.exports = {
 		/^@fortawesome/,
 		/^bootstrap/,
 		/^bootswatch/,
+		/^angular-calendar/,
 		/^rxjs/,
 		/^traisi-question-sdk/,
 	],

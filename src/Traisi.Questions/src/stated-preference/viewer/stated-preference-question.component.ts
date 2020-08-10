@@ -10,8 +10,8 @@ import {
 	ResponseTypes,
 	ResponseValidationState,
 	SurveyQuestion,
-	SurveyResponder,
-	SurveyViewer
+	SurveyViewer,
+	SurveyRespondentService
 } from 'traisi-question-sdk';
 import { StatedPreferenceConfig } from '../stated-preference-config.model';
 import { StatedPreferenceTemplateContext } from './stated-preference-template-context.model';
@@ -51,7 +51,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
-		@Inject('SurveyResponderService') private _responderService: SurveyResponder,
+		@Inject('SurveyResponderService') private _responderService: SurveyRespondentService,
 		@Inject('SurveyViewerApiEndpointService') private _viewerApi
 	) {
 		super();
@@ -78,7 +78,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 
 	public onQuestionShown(): void { }
 	public onQuestionHidden(): void { }
-	public onResponseSaved(result: any): void { }
+	public onResponseSaved(): void { }
 
 	/**
 	 * @private
@@ -235,7 +235,8 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 */
 	public responseValue(this: StatedPreferenceTemplateContext, questionName: string, type?: string): string {
 		if (this.isResponsesLoaded) {
-			let value = this.component._responderService.getResponseValue(questionName, this.component.respondent);
+			// let value = this.component._responderService.getResponseValue(questionName, this.component.respondent);
+			let value = null;
 			if (type == undefined) {
 				return value[0] === undefined ? "NULL" : value[0].value;
 			} else if (type === 'distance') {

@@ -2,7 +2,6 @@ import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core'
 import {
 	SurveyQuestion,
 	ResponseTypes,
-	SurveyResponder,
 	QuestionConfiguration,
 	SurveyViewer,
 	OnSurveyQuestionInit,

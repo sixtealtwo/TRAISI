@@ -126,6 +126,7 @@ module.exports = {
 		/^@fortawesome/,
 		/^bootstrap/,
 		/^bootswatch/,
+		/^angular-calendar/,
 		/^rxjs/,
 		/^traisi-question-sdk/
 	],

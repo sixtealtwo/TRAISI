@@ -38,15 +38,26 @@ export class TravelDiaryQuestionComponent
   implements OnInit, AfterViewInit, OnVisibilityChanged {
   public viewDate: Date = new Date()
 
-
-  events: CalendarEvent[] =     [{
-    title: 'No event end date',
-    start: setHours(setMinutes(new Date(), 9), 12),
-    color: {
+  events: CalendarEvent[] = [
+    {
+      title: 'Home',
+      start: setHours(setMinutes(new Date(), 0), 3),
+      end: setHours(setMinutes(new Date(), 0), 8),
+      color: {
         primary: '#1e90ff',
         secondary: '#D1E8FF',
       },
-  }]
+    },
+    {
+      title: 'Home',
+      start: setHours(setMinutes(new Date(), 0), 17),
+      end: setHours(setMinutes(new Date(), 0), 24),
+      color: {
+        primary: '#1e90ff',
+        secondary: '#D1E8FF',
+      },
+    },
+  ]
 
   public ngOnInit(): void {}
   public ngAfterViewInit(): void {}
