@@ -8,6 +8,7 @@ import {
   ViewEncapsulation,
   OnInit,
   AfterViewInit,
+  ViewChild,
 } from '@angular/core'
 import {
   startOfDay,
@@ -24,7 +25,7 @@ import {
 import templateString from './travel-diary-question.component.html'
 import styleString from './travel-diary-question.component.scss'
 import { TravelDiaryService } from './travel-diary.service'
-import { CalendarEvent, CalendarView } from 'angular-calendar'
+import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-calendar'
 
 @Component({
   selector: 'traisi-travel-diary-question',
@@ -37,6 +38,9 @@ export class TravelDiaryQuestionComponent
   extends SurveyQuestion<ResponseTypes.Location>
   implements OnInit, AfterViewInit, OnVisibilityChanged {
   public viewDate: Date = new Date()
+
+  @ViewChild('schedule')
+  public scheduleComponent: CalendarDayViewComponent;
 
   events: CalendarEvent[] = [
     {
