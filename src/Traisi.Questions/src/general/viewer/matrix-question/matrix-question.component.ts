@@ -23,19 +23,8 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json>
   constructor(private surveyViewerService: SurveyViewer) {
     super()
 
-    this.surveyViewerService.configurationData.subscribe(
-      this.loadConfigurationData,
-    )
   }
 
-  /**
-   * Loads configuration data once it is available.
-   * @param data
-   */
-  loadConfigurationData(data: QuestionConfiguration[]) {
-    console.log(data)
-    this.data = data
-  }
 
-  ngOnInit() {}
+  public ngOnInit(): void {}
 }
