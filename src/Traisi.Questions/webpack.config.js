@@ -1,15 +1,14 @@
 const path = require('path');
-const WebpackSystemRegister = require('webpack-system-register');
-const { AngularCompilerPlugin } = require('@ngtools/webpack');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const WebpackBar = require('webpackbar');
 module.exports = {
 	entry: {
-		general: path.join(process.cwd(), './src/general/traisi-questions.module.ts'),
+		general: path.join(process.cwd(), './src/general/viewer/traisi-questions-viewer.module.ts'),
+		'general-builder': path.join(process.cwd(), './src/general/builder/traisi-questions-builder.module.ts'),
 		map: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
 		sp: path.join(process.cwd(), './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'),
-		spbuilder: path.join(process.cwd(), './src/stated-preference/builder/traisi-sp-question-builder.module.ts'),
-		traveldiary: path.join(process.cwd(), './src/travel-diary/travel-diary-question.module.ts')
+		'sp-builder': path.join(process.cwd(), './src/stated-preference/builder/traisi-sp-question-builder.module.ts'),
+		'travel-diary': path.join(process.cwd(), './src/travel-diary/travel-diary-question.module.ts')
 	},
 
 	output: {
