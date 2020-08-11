@@ -5,7 +5,7 @@ const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const WebpackBar = require('webpackbar');
 module.exports = {
 	entry: {
-		general: path.join(process.cwd(), './src/traisi-questions.module.ts'),
+		general: path.join(process.cwd(), './src/general/traisi-questions.module.ts'),
 		map: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
 		sp: path.join(process.cwd(), './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'),
 		spbuilder: path.join(process.cwd(), './src/stated-preference/builder/traisi-sp-question-builder.module.ts'),

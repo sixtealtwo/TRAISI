@@ -19,11 +19,14 @@ import {
 	BsDatepickerConfig
 } from 'ngx-bootstrap/datepicker';
 import { DateQuestionConfiguration } from './date-question.configuration';
+
 import templateString from './date-question.component.html';
+import styleString from './date-question.component.scss';
+
 @Component({
 	selector: 'traisi-date-question',
-	template: templateString,
-	styles: [require('./date-question.component.scss').toString()]
+	template: ''+{templateString},
+	styles: [''+styleString]
 })
 export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date>
 	implements OnInit {

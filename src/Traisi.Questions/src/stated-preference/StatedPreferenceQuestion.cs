@@ -11,8 +11,7 @@ namespace Traisi.Sdk.Questions
     [SurveyQuestion(QuestionResponseType.Json,
     CodeBundleName = "traisi-questions-sp.module.js",
     CustomBuilderCodeBundleName = "traisi-questions-spbuilder.module.js",
-    CustomBuilderView = "stated_preference_custom_builder",
-     ResponseValidator = typeof(TextQuestionValidator)),
+    CustomBuilderView = "stated_preference_custom_builder"),
    ]
     public class StatedPreferenceQuestion : ISurveyQuestion
     {

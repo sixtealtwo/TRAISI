@@ -3,7 +3,7 @@ import { MapQuestionComponent } from './map-question.component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { MapEndpointService } from '../services/mapservice.service';
+import { MapEndpointService } from './services/mapservice.service';
 
 // export const ngxMapWithConfig = NgxMapboxGLModule
 

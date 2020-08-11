@@ -21,7 +21,7 @@ import { NumberQuestionValidatorDirective } from './number-question/number-quest
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SliderQuestionComponent } from './slider-question/slider-question.component';
-import { ContactInformationQuestionComponent } from 'contact-information-question/contact-information-question.component';
+import { ContactInformationQuestionComponent } from './contact-information-question/contact-information-question.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();

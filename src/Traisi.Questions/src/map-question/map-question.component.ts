@@ -13,8 +13,8 @@ import {
 	SurveyViewer,
 	QuestionConfigurationService,
 } from 'traisi-question-sdk';
-import { GeoLocation } from '../models/geo-location.model';
-import { MapEndpointService } from '../services/mapservice.service';
+import { GeoLocation } from './models/geo-location.model';
+import { MapEndpointService } from './services/mapservice.service';
 import templateString from './map-question.component.html';
 import styleString from './map-question.component.scss';
 import * as mapboxgl from 'mapbox-gl';
