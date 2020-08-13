@@ -181,7 +181,7 @@ namespace Traisi
             // Add cors
             services.AddCors();
             services.AddSignalR();
-
+            services.AddMemoryCache();
             // Register the OpenIddict services.
             services
                 .AddOpenIddict()
@@ -547,6 +547,8 @@ namespace Traisi
             services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
             services.AddScoped<IAccountManager, AccountManager>();
 
+            services.AddSingleton<SurveyCache>();
+
             // Auth Handlers
             services
                 .AddSingleton
@@ -729,7 +731,6 @@ namespace Traisi
                                 env.IsDevelopment()
                                     ? "../Traisi.ClientApp/"
                                     : "Traisi.ClientApp/";
-                            Console.WriteLine(spa.Options.SourcePath);
                             spa.Options.StartupTimeout =
                                 TimeSpan.FromSeconds(599);
                             spa.Options.DefaultPage = "/admin/index.html";
@@ -752,7 +753,6 @@ namespace Traisi
                                 env.IsDevelopment()
                                     ? "../Traisi.ClientApp/"
                                     : "Traisi.ClientApp/";
-                            Console.WriteLine(spa.Options.SourcePath);
                             spa.Options.DefaultPage = "/survey/index.html";
                             spa.Options.StartupTimeout =
                                 TimeSpan.FromSeconds(599);

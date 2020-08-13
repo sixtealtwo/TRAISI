@@ -28,6 +28,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.7" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="3.1.3" />
 		<PackageReference Include="Serilog.AspnetCore" Version="3.2.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
@@ -122,15 +123,14 @@
 
 	<Target Name="BuildRunWebpack" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
 		<Message Text="Building admin angular app..." Importance="high" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  --source-map" StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  --source-map" StandardOutputImportance="low" StandardErrorImportance="low" />
 		<Message Text="Building survey viewer angular app..." Importance="high" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --aot=false --build-optimizer=false --source-map" StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --aot=false --build-optimizer=false --source-map" StandardOutputImportance="low" StandardErrorImportance="low" />
 		<Message Text="Finished building client side components." Importance="high" />
 	</Target>
 
 	<Target Name="CopyClientBuild" AfterTargets="Build">
-	 <RemoveDir
-            Directories="$(OutputPath)\Traisi.ClientApp" />
+	 <RemoveDir Directories="$(OutputPath)\Traisi.ClientApp" />
 	<Message Text="Copying client files to output directory..." Importance="high" />
 		<ItemGroup>
 			<_CopyItems Include="$(SpaRoot)dist\**" />
@@ -142,11 +142,11 @@
 		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
 
 		<Message Text="Installing node package dependencies for main client app..." Importance="high" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install --no-audit" StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install --no-audit" StandardOutputImportance="low" StandardErrorImportance="low" />
 		<Message Text="Building admin angular app..." Importance="high" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  " StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  " StandardOutputImportance="low" StandardErrorImportance="low" />
 		<Message Text="Building survey viewer angular app..." Importance="high" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=false --build-optimizer=false" StandardOutputImportance="low" StandardErrorImportance="low"/>
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=false --build-optimizer=false" StandardOutputImportance="low" StandardErrorImportance="low" />
 
 		<!--<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -/- -/-prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -/- survey-viewer-app -/-prod -/-aot=false -/-build-optimizer=false" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
