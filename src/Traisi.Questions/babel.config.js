@@ -2,6 +2,7 @@ module.exports = function (api) {
 	api.cache(true);
 
 	const presets = [
+		['@babel/preset-env'],
 		[
 			'@babel/preset-typescript',
 			{
@@ -20,6 +21,7 @@ module.exports = function (api) {
 				"legacy": true,
 			}
 		],
+		'babel-plugin-replace-ts-export-assignment',
 		"@babel/plugin-transform-block-scoping",
 		["@babel/plugin-proposal-class-properties", { "loose": true }]
 	];

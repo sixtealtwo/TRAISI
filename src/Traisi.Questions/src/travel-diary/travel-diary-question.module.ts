@@ -7,9 +7,6 @@ import {
   DateAdapter,
   CalendarCommonModule,
   CalendarDayModule,
-  CalendarView,
-  CalendarUtils,
-  CalendarTooltipDirective,
   CalendarTooltipWindowComponent,
 } from 'angular-calendar'
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
@@ -24,6 +21,7 @@ export const calendarProps = {
 export const calModule: ModuleWithProviders = CalendarModule.forRoot(
   calendarProps,
 )
+
 console.log(CalendarTooltipWindowComponent);
 @NgModule({
   declarations: [TravelDiaryQuestionComponent],
