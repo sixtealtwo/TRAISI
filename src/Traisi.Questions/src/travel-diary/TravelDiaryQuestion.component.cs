@@ -9,7 +9,7 @@ using Traisi.Sdk.Library.ResponseTypes;
 namespace Traisi.Sdk.Questions
 {
 
-    [SurveyQuestion(QuestionResponseType.None, CodeBundleName = "traisi-questions-traveldiary.module.js")]
+    [SurveyQuestion(QuestionResponseType.None, CodeBundleName = "traisi-questions-travel-diary.module.js")]
     public class TravelDiaryQuestion : ISurveyQuestion
     {
 

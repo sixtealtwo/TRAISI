@@ -11,6 +11,10 @@ export class TravelDiaryService {
 
     }
 
+    public initialize(): void {
+        
+    }
+
     public get diaryEvents(): CalendarEvent[] {
         return undefined;
     }

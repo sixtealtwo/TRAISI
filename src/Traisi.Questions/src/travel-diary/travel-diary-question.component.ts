@@ -10,22 +10,16 @@ import {
   AfterViewInit,
   ViewChild,
 } from '@angular/core'
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  setHours,
-  isSameMonth,
-  setMinutes,
-  addHours,
-} from 'date-fns'
+import { setHours, isSameMonth, setMinutes, addHours } from 'date-fns'
 import templateString from './travel-diary-question.component.html'
 import styleString from './travel-diary-question.component.scss'
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal'
 import { TravelDiaryService } from './travel-diary.service'
-import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-calendar'
+import {
+  CalendarEvent,
+  CalendarView,
+  CalendarDayViewComponent,
+} from 'angular-calendar'
 
 @Component({
   selector: 'traisi-travel-diary-question',
@@ -40,7 +34,14 @@ export class TravelDiaryQuestionComponent
   public viewDate: Date = new Date()
 
   @ViewChild('schedule')
-  public scheduleComponent: CalendarDayViewComponent;
+  public scheduleComponent: CalendarDayViewComponent
+
+  public constructor(
+    private _travelDiaryService: TravelDiaryService,
+    private _modalService: BsModalService,
+  ) {
+    super()
+  }
 
   events: CalendarEvent[] = [
     {
@@ -65,6 +66,8 @@ export class TravelDiaryQuestionComponent
 
   public ngOnInit(): void {}
   public ngAfterViewInit(): void {}
-  public onQuestionShown(): void {}
+  public onQuestionShown(): void {
+    // called when the question is visible again
+  }
   public onQuestionHidden(): void {}
 }
