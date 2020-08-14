@@ -65,8 +65,7 @@ namespace Traisi.Sdk.Questions
             DisplayName = "Home Location",
             Description = "Whether or not this response will be saved as the respondent's home location.",
             SurveyBuilderValueType = QuestionBuilderType.SingleSelect,
-            DefaultValue = false,
-            Resource = "mapquestion-home-location")]
+            DefaultValue = false)]
         public bool IsHomeLocation = false;
     }
 }

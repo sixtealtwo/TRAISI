@@ -76,6 +76,7 @@ namespace Traisi.Sdk.Services
         {
             var typeDefinition =
                 new QuestionTypeDefinition(Activator.CreateInstance(questionType) as ISurveyQuestion, attribute);
+            Console.WriteLine(questionType);
             var configurations = ReadQuestionConfigurationData(questionType, sourceAssembly);
             typeDefinition.QuestionConfigurations = configurations;
             var parameterOptions = ReadQuestionOptionData(questionType, sourceAssembly);
