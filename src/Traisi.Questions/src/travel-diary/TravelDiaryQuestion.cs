@@ -23,7 +23,7 @@ namespace Traisi.Sdk.Questions
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
-         /// <summary>
+        /// <summary>
         /// The minimum or earliest allowed date
         /// </summary>
         [QuestionConfiguration(ConfigurationValueType.Date,
@@ -32,6 +32,14 @@ namespace Traisi.Sdk.Questions
         SurveyBuilderValueType = QuestionBuilderType.Date,
         DefaultValue = "1/1/2018 4:00AM")]
         public DateTime MinDate;
+
+        [QuestionConfiguration(ConfigurationValueType.Custom,
+    DisplayName = "Purpose",
+    Description = "Purpose of being at location.",
+    SurveyBuilderValueType = QuestionBuilderType.MultiSelect,
+    DefaultValue = "home",
+    SharedResource = "mapquestion-purpose")]
+        public string[] Purposes = new string[] { };
 
     }
 

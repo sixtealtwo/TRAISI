@@ -203,8 +203,16 @@ namespace Traisi.Sdk.Services
             if (configAttribute.Resource != null)
                 using (var ms = new MemoryStream())
                 {
-                    sourceAssembly.GetManifestResourceStream(configAttribute.Resource).CopyTo(ms);
-                    data = ms.ToArray();
+                    try
+                    {
+                        sourceAssembly.GetManifestResourceStream(configAttribute.Resource).CopyTo(ms);
+                        data = ms.ToArray();
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError("Could not find requested quesiont resource: " + configAttribute.Resource);
+                    }
+
                 }
 
             return data;

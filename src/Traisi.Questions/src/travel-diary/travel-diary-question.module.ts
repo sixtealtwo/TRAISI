@@ -10,9 +10,11 @@ import {
   CalendarTooltipWindowComponent,
 } from 'angular-calendar'
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap'
 import { FlatpickrModule } from 'angularx-flatpickr'
 import { FormsModule } from '@angular/forms'
+import { TravelDiaryEditDialogComponent } from './travel-diary-edit-dialog.component'
+import { ModalModule, BsModalService } from 'ngx-bootstrap/modal'
+
 
 export const calendarProps = {
   provide: DateAdapter,
@@ -22,10 +24,9 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(
   calendarProps,
 )
 
-console.log(CalendarTooltipWindowComponent);
 @NgModule({
-  declarations: [TravelDiaryQuestionComponent],
-  entryComponents: [TravelDiaryQuestionComponent],
+  declarations: [TravelDiaryQuestionComponent,TravelDiaryEditDialogComponent],
+  entryComponents: [TravelDiaryQuestionComponent,TravelDiaryEditDialogComponent],
   providers: [
     {
       provide: 'widgets',
@@ -35,6 +36,11 @@ console.log(CalendarTooltipWindowComponent);
           id: 'travel-diary',
           component: TravelDiaryQuestionComponent,
         },
+        {
+          name: 'traisi-travel-diary-edit-dialog',
+          id: 'travel-diary-edit-dialog',
+          component: TravelDiaryEditDialogComponent,
+        },
       ],
       multi: true,
     }
@@ -43,13 +49,13 @@ console.log(CalendarTooltipWindowComponent);
     CommonModule,
     FormsModule,
     HttpClientModule,
-    NgbModalModule,
+    ModalModule.forRoot(), 
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot(calendarProps),
     CalendarCommonModule.forRoot(calendarProps),
     CalendarDayModule,
   ],
-  exports: [CalendarDayModule, CalendarModule, CalendarCommonModule],
+  exports: [CalendarDayModule, CalendarModule, CalendarCommonModule,],
 })
 export default class TravelDiaryQuestionModule {
   static forRoot(): ModuleWithProviders<TravelDiaryQuestionComponent> {

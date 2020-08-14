@@ -10,7 +10,6 @@
 	<div class="row">
 		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 			<div class="sidebar-sticky">
-
 				<div class="survey-title text-center">
 					{{ session.surveyTitle }}
 				</div>
@@ -22,7 +21,6 @@
 		</nav>
 		<!-- Begin page content -->
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 container" #surveyBodyContainer>
-
 			<div *ngIf="navigator.navigationState$ | async as state; else loading" class="questions-outer-container">
 				<div class="content-header">
 					<span class="page-header survey-section-header">{{ state.activePage?.label }}</span>
@@ -36,7 +34,11 @@
 				</div>
 
 				<div class="questions-container flex-grow-1" #questionsContainer>
-					<div class="question-section" #questionSection>
+					<div
+						class="question-section"
+						[ngClass]="{ 'single-question': state.activeQuestionInstances.length === 1 }"
+						#questionSection
+					>
 						<ng-container
 							*ngFor="let question of state.activeQuestionInstances; trackBy: trackById.bind(this); let i = index"
 						>

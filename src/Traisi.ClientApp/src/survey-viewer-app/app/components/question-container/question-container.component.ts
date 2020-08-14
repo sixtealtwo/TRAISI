@@ -183,7 +183,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this.question.configuration
 				);
 
-				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
+				/* this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
 				if (this.questionSectionElement) {
 					if (this.displayClass !== '') {
 						this.renderer.addClass(this.questionSectionElement.nativeElement, this.displayClass);
@@ -195,7 +195,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 							'question-section'
 						);
 					}
-				}
+				} */
 
 				// this._responseSaved = new Subject<boolean>();
 
@@ -320,11 +320,13 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 							}
 						});
 						// this.titleLabel = new BehaviorSubject(processedLabel);
+						console.log(processedLabel);
 						update.next(processedLabel);
 					});
 			}
 		} else {
 			// this.titleLabel = new BehaviorSubject(processedLabel);
+			console.log(processedLabel);
 			update.next(processedLabel);
 		}
 	}

@@ -1,21 +1,22 @@
-<div class="modal-header">
-  <h4 class="modal-title pull-left"></h4>
-  <button
-    type="button"
-    class="close pull-right"
-    aria-label="Close"
-    (click)="modalRef.hide()"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-  <ng-template #mapTemplate>
-    <ng-container #container></ng-container>
-  </ng-template>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" (click)="modalRef.hide()">
-    Close
-  </button>
+<div bsModal #newEntryModal="bs-modal" class="modal fade">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title pull-left"></h4>
+				<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<ng-template #mapTemplate>
+					<ng-container #container></ng-container>
+				</ng-template>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" (click)="modalRef.hide()">
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
 </div>

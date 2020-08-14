@@ -1,11 +1,9 @@
+<div class="travel-diary-question" [style.height.px]="viewHeight">
+	<mwl-calendar-day-view [viewDate]="viewDate" [events]="events" [dayStartHour]="4" [dayEndHour]="24" #schedule>
+	</mwl-calendar-day-view>
+	<div class="add-event-overlay">
+		<button type="button" class="btn btn-primary" (click)="newEvent()">+ New Event</button>
+	</div>
+</div>
 
-
-<mwl-calendar-day-view
-  [viewDate]="viewDate"
-  [events]="events"
-  [dayStartHour]="4"
-  [dayEndHour]="24"
-  #schedule
->
-</mwl-calendar-day-view>
-<button type="button" class="btn btn-primary">+ New Event</button>
+<traisi-travel-diary-edit-dialog #entryDialog></traisi-travel-diary-edit-dialog>

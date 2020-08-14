@@ -4,6 +4,12 @@
 	border-left: solid 3px #ffadad;
 }
 
+:host {
+	width: 100%;
+	overflow: hidden;
+	flex-grow: 1;
+}
+
 .loading {
 	position: relative;
 	background-color: #fff;
@@ -102,6 +108,10 @@
 	position: relative;
 }
 
+section.question-widget {
+	flex-grow: 1;
+}
+
 .view-compact {
 	position: relative;
 }
@@ -120,6 +130,10 @@
 
 section.display-full {
 	position: absolute;
+}
+
+section.question-widget {
+	overflow: hidden;
 }
 
 .question-header {
@@ -192,7 +206,6 @@ section.display-full {
 
 		animation-iteration-count: 5;
 	}
-
 }
 
 .question-header-text {
