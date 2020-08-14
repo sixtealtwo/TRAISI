@@ -1,11 +1,16 @@
-@import "~angular-calendar/css/angular-calendar.css";
+@import '~angular-calendar/css/angular-calendar.css';
 
 .travel-diary-question {
-    overflow-y: auto;
-    .add-event-overlay {
-        position: absolute;
-        bottom: 60px;
-        right: 50px;
-        z-index: 10;
-    }
+	overflow-y: auto;
+	.add-event-overlay {
+		position: absolute;
+		bottom: 60px;
+		right: 50px;
+		z-index: 10;
+	}
+	margin-bottom: 20px;
+
+	.mapboxgl-ctrl-geocoder {
+		display: none;
+	}
 }

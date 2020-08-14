@@ -74,6 +74,14 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	public configurations: Observable<QuestionConfiguration[]>;
 
 	/**
+	 * The container height for this component. Used in cases where component height should be
+	 * manually set or other issues with layout.
+	 *
+	 * @type {number}
+	 */
+	public containerHeight: number;
+
+	/**
 	 *
 	 *
 	 * @private

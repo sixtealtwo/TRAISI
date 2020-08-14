@@ -85,6 +85,15 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@ViewChild('questionTemplate', { read: ViewContainerRef, static: true })
 	public questionOutlet: ViewContainerRef;
 
+	@ViewChild('section')
+	public sectionElementRef: ElementRef;
+
+	@ViewChild('headerDiv')
+	public headerDivRef: ElementRef;
+
+	@ViewChild('descriptionDiv')
+	public descriptionDivRef: ElementRef;
+
 	private _responseSaved: Subject<boolean>;
 
 	public titleLabel: Subject<string> = new BehaviorSubject<string>('');
@@ -183,27 +192,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this.question.configuration
 				);
 
-				/* this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
-				if (this.questionSectionElement) {
-					if (this.displayClass !== '') {
-						this.renderer.addClass(this.questionSectionElement.nativeElement, this.displayClass);
-					} else {
-						// remove all of the classes
-						this.renderer.setAttribute(
-							this.questionSectionElement.nativeElement,
-							'class',
-							'question-section'
-						);
-					}
-				} */
-
-				// this._responseSaved = new Subject<boolean>();
-
 				this._instanceState.initialize(this.respondent, this.surveyViewQuestion, componentRef.instance);
 
-				// this._responseSaved.pipe(share()).subscribe(this.onResponseSaved);
-
-				// surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
 				surveyQuestionInstance.autoAdvance.subscribe((result: number) => {
 					setTimeout(() => {
 						this.autoAdvance();
@@ -223,7 +213,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
 					.subscribe((options: SurveyViewQuestionOption[]) => {
 						this.isLoaded = true;
-
+						this.updateContainerHeight();
 						this._questionInstance = componentRef.instance;
 						if (componentRef.instance.__proto__.hasOwnProperty('onOptionsLoaded')) {
 							(<OnOptionsLoaded>componentRef.instance).onOptionsLoaded(options);
@@ -262,6 +252,21 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		return Object.keys(this._viewerStateService.viewerState.questionNameMap).find(
 			(key) => this._viewerStateService.viewerState.questionNameMap[key].questionId === questionId
 		);
+	}
+
+	public onResize(event: Event): void {
+		this.updateContainerHeight();
+	}
+
+	private updateContainerHeight(): void {
+		if (this.isLoaded) {
+			let containerHeight: number =
+				this.sectionElementRef.nativeElement.offsetHeight -
+				this.headerDivRef.nativeElement.offsetHeight -
+				this.descriptionDivRef.nativeElement.offsetHeight -
+				40;
+			this._instanceState.questionInstance.containerHeight = containerHeight;
+		}
 	}
 
 	/**

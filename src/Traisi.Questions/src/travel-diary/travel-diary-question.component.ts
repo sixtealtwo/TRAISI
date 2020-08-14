@@ -11,8 +11,8 @@ import { TravelDiaryEditDialogComponent } from './travel-diary-edit-dialog.compo
 @Component({
 	selector: 'traisi-travel-diary-question',
 	template: '' + templateString,
-  providers: [TravelDiaryService],
-  encapsulation: ViewEncapsulation.None,
+	providers: [TravelDiaryService],
+	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
 	styles: ['' + styleString],
 })
@@ -62,16 +62,20 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.L
 	}
 
 	public ngOnInit(): void {
-		console.log(this._elementRef);
-		console.log(this._elementRef.nativeElement.parentNode);
-		this.viewHeight = this._elementRef.nativeElement.parentNode.offsetHeight - 100;
-		console.log(this.viewHeight);
+		console.log(this);
+		// initialize service with configuration
+		this._travelDiaryService.initialize(this.configuration);
 	}
 	public ngAfterViewInit(): void {}
 	public onQuestionShown(): void {
 		// called when the question is visible again
+		console.log('in on on shown ');
 		console.log(this._elementRef);
 		console.log(this._elementRef.nativeElement.parentNode);
 	}
 	public onQuestionHidden(): void {}
+
+	public traisiOnInit(): void {
+		console.log('in on init ');
+	}
 }

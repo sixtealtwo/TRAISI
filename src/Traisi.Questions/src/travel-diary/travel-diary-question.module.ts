@@ -14,6 +14,7 @@ import { FlatpickrModule } from 'angularx-flatpickr'
 import { FormsModule } from '@angular/forms'
 import { TravelDiaryEditDialogComponent } from './travel-diary-edit-dialog.component'
 import { ModalModule, BsModalService } from 'ngx-bootstrap/modal'
+import { NgSelectModule } from '@ng-select/ng-select'
 
 
 export const calendarProps = {
@@ -54,6 +55,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(
     CalendarModule.forRoot(calendarProps),
     CalendarCommonModule.forRoot(calendarProps),
     CalendarDayModule,
+    NgSelectModule
   ],
   exports: [CalendarDayModule, CalendarModule, CalendarCommonModule,],
 })
