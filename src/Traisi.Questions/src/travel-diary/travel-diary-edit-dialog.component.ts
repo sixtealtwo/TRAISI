@@ -19,6 +19,7 @@ import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-c
 import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 import { TravelDiaryConfiguration } from './travel-diary-configuration.model';
 import { Subject, BehaviorSubject, Observable, concat, of } from 'rxjs';
+import { User } from './day-view-scheduler.component';
 @Component({
 	selector: 'traisi-travel-diary-edit-dialog',
 	template: '' + templateString,
@@ -27,7 +28,7 @@ import { Subject, BehaviorSubject, Observable, concat, of } from 'rxjs';
 	styles: ['' + styleString],
 })
 export class TravelDiaryEditDialogComponent implements AfterViewInit {
-	@Output() saved: EventEmitter<TimelineResponseData> = new EventEmitter();
+	@Output() public saved: EventEmitter<TimelineResponseData | { users: User[] }> = new EventEmitter();
 
 	public modalRef: BsModalRef;
 
@@ -62,6 +63,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	public dialogSave(): void {
 		console.log(this.model);
 		this.hide();
+		this.saved.emit(this.model);
 	}
 
 	public hide(): void {
@@ -80,6 +82,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.searchInFocus = false;
 	}
 
+	public get users(): any {
+		return this._travelDiaryService.users;
+	}
+
 	public get purposes(): string[] {
 		return this._travelDiaryService.configuration.purposes;
 	}
@@ -93,19 +99,16 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public locationChanged(event): void {
-		console.log(event);
 		let r = [event.center[0], event.center[1]];
-		console.log(r);
 		(<any>this._mapComponent).setMarkerLocation(r);
 		(<any>this._mapComponent).flyToPosition(r);
 		(<any>this._mapComponent).saveLocation({ lat: r[1], lng: r[0] });
 	}
 
 	public mapResonse(response): void {
-		console.log(response);
 		this.model.address = response['address'];
 		this.model.latitude = response['latitude'];
-		this.model.latitude = response['longitude'];
+		this.model.longitude = response['longitude'];
 	}
 
 	public ngAfterViewInit(): void {

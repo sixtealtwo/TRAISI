@@ -1,13 +1,14 @@
-import { SurveyQuestion, ResponseTypes, OnVisibilityChanged } from 'traisi-question-sdk';
+import { SurveyQuestion, ResponseTypes, OnVisibilityChanged, LocationResponseData } from 'traisi-question-sdk';
 import { Component, ViewEncapsulation, OnInit, AfterViewInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { setHours, isSameMonth, setMinutes, addHours } from 'date-fns';
 import templateString from './travel-diary-question.component.html';
 import styleString from './travel-diary-question.component.scss';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { TravelDiaryService } from './travel-diary.service';
+import { TravelDiaryService, colors } from './travel-diary.service';
 import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-calendar';
 import { TravelDiaryEditDialogComponent } from './travel-diary-edit-dialog.component';
-
+import { User } from './day-view-scheduler.component';
+import { BehaviorSubject } from 'rxjs';
 @Component({
 	selector: 'traisi-travel-diary-question',
 	template: '' + templateString,
@@ -36,46 +37,35 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.L
 		super();
 	}
 
-	events: CalendarEvent[] = [
-		{
-			title: 'Home',
-			start: setHours(setMinutes(new Date(), 0), 3),
-			end: setHours(setMinutes(new Date(), 0), 8),
-			color: {
-				primary: '#1e90ff',
-				secondary: '#D1E8FF',
-			},
-		},
-		{
-			title: 'Home',
-			start: setHours(setMinutes(new Date(), 0), 17),
-			end: setHours(setMinutes(new Date(), 0), 24),
-			color: {
-				primary: '#1e90ff',
-				secondary: '#D1E8FF',
-			},
-		},
-	];
+	events: CalendarEvent[] = [];
+
+	public get users(): any[] {
+		return this._travelDiaryService.respondents;
+	}
 
 	public newEvent(): void {
 		this.entryDialog.show();
 	}
 
+	public entrySaved(event: LocationResponseData | { users: User[] }) {
+		console.log('saved');
+		console.log(event);
+	}
+
 	public ngOnInit(): void {
 		console.log(this);
 		// initialize service with configuration
-		this._travelDiaryService.initialize(this.configuration);
+		this._travelDiaryService.initialize(this.respondent, this.configuration);
 	}
 	public ngAfterViewInit(): void {}
-	public onQuestionShown(): void {
-		// called when the question is visible again
-		console.log('in on on shown ');
-		console.log(this._elementRef);
-		console.log(this._elementRef.nativeElement.parentNode);
-	}
+	public onQuestionShown(): void {}
 	public onQuestionHidden(): void {}
 
 	public traisiOnInit(): void {
 		console.log('in on init ');
+	}
+
+	public get isComponentLoaded(): BehaviorSubject<boolean> {
+		return this._travelDiaryService.isLoaded;
 	}
 }
