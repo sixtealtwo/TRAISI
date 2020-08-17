@@ -1,14 +1,17 @@
 <div class="matrix-question">
 	<form>
-		<div class="matrix-table">
+		<div class="matrix-table ">
 			<div class="matrix-row">
 				<div class="matrix-space"></div>
-				<div class="matrix-header" *ngFor="let header of columnLabels">{{ header }}</div>
+				<div class="matrix-header" *ngFor="let header of columnLabels;">{{ header }}</div>
 			</div>
 
-			<div class="matrix-row" *ngFor="let header of rowLabels">
+			<div class="matrix-row " *ngFor="let header of rowLabels;; let row = index">
 				<div class="matrix-header">{{ header }}</div>
-				<div class="matrix-entry" *ngFor="let entry of columnLabels"><input type="radio" /></div>
+				<div *ngFor="let entry of columnLabels; let col = index" class="custom-control custom-radio matrix-entry">
+          <input type="radio" id="customRadio{{row}}-{{col}}" name="customRadio{{row}}" class="custom-control-input">
+          <label class="custom-control-label" for="customRadio{{row}}-{{col}}">h</label>
+        </div>
 			</div>
 		</div>
 	</form>
