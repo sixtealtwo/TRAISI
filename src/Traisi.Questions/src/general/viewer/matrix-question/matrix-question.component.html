@@ -9,9 +9,9 @@
 			<div class="matrix-row " *ngFor="let header of rowLabels;; let row = index">
 				<div class="matrix-header">{{ header }}</div>
 				<div *ngFor="let entry of columnLabels; let col = index" class="custom-control custom-radio matrix-entry">
-          <input [value]="model[row+'_'+col]" type="radio" id="customRadio{{row}}_{{col}}" name="customRadio{{row}}" class="custom-control-input"
-           (change)="changed($event,row+'_'+col)">
-          <label class="custom-control-label" for="customRadio{{row}}_{{col}}">h</label>
+          <input [value]="entry" type="radio" id="customRadio{{row}}_{{col}}" name="{{header}}" class="custom-control-input"
+           (change)="changed($event,row+'_'+col)" [(ngModel)]="model[header]">
+          <label class="custom-control-label" for="customRadio{{row}}_{{col}}"></label>
         </div>
 			</div>
 		</div>

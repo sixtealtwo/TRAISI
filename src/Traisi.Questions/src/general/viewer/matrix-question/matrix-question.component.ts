@@ -43,11 +43,9 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 		}
 	}
 
-
-	public changed(event,id): void {
-		console.log(event);
-    this.model[id] = true;
-    console.log(this.model);
+	public changed(event, id): void {
+		console.log(this.model);
+		this.response.emit(this.model);
 	}
 
 	public traisiOnInit(): void {
