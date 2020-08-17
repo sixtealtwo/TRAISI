@@ -1,30 +1,48 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core';
 import {
-  SurveyQuestion,
-  ResponseTypes,
-  QuestionConfiguration,
-  SurveyViewer,
-} from 'traisi-question-sdk'
-import templateString from './matrix-question.component.html'
-import styleString from './matrix-question.component.scss'
+	SurveyQuestion,
+	ResponseTypes,
+	QuestionConfiguration,
+	SurveyViewer,
+	QuestionOption,
+  ResponseValidationState,
+} from 'traisi-question-sdk';
+import templateString from './matrix-question.component.html';
+import styleString from './matrix-question.component.scss';
 @Component({
-  selector: 'traisi-matrix-question',
-  template: '' + templateString,
-  styles: ['' + styleString],
+	selector: 'traisi-matrix-question',
+	template: '' + templateString,
+	styles: ['' + styleString],
 })
-export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json>
-  implements OnInit {
-  data: QuestionConfiguration[]
+export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> implements OnInit {
+	data: QuestionConfiguration[];
 
-  /**
-   *
-   * @param surveyViewerService
-   */
-  constructor(private surveyViewerService: SurveyViewer) {
-    super()
+	/**
+	 *
+	 * @param surveyViewerService
+	 */
+	constructor() {
+		super();
+	}
 
-  }
+	public rowLabels: string[] = [];
+	public columnLabels: string[] = [];
 
+	public ngOnInit(): void {}
 
-  public ngOnInit(): void {}
+	public onOptionsLoaded(options: QuestionOption[]): void {
+		// this.options = options;
+		for (let i of options) {
+			if (i['name'] === 'Row Options') {
+				this.rowLabels.push(i['label']);
+			} else {
+				this.columnLabels.push(i['label']);
+			}
+		}
+	}
+
+	public traisiOnInit(): void {
+    console.log(this);
+    this.validationState.emit(ResponseValidationState.VALID);
+	}
 }

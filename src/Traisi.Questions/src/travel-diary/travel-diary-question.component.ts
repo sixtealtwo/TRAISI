@@ -55,7 +55,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.L
 	public ngOnInit(): void {
 		console.log(this);
 		// initialize service with configuration
-		this._travelDiaryService.initialize(this.respondent, this.configuration);
+		this._travelDiaryService.initialize(this.respondent, this.configuration, this.surveyId);
 	}
 	public ngAfterViewInit(): void {}
 	public onQuestionShown(): void {}

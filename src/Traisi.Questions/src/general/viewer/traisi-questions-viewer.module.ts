@@ -40,6 +40,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		NumberQuestionValidatorDirective,
 		HouseholdQuestionComponent,
 		SliderQuestionComponent,
+		MatrixQuestionComponent,
 		ContactInformationQuestionComponent
 	],
 	bootstrap: [TextQuestionComponent],
@@ -55,6 +56,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		DateQuestionComponent,
 		LikertQuestionComponent,
 		HouseholdQuestionComponent,
+		MatrixQuestionComponent,
 		SliderQuestionComponent,
 		ContactInformationQuestionComponent
 	],
@@ -150,6 +152,11 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 					name: 'traisi-contact-information-question',
 					id: 'contact-information',
 					component: ContactInformationQuestionComponent
+				},
+				{
+					name: 'traisi-matrix-question',
+					id: 'matrix-qauestion',
+					component: MatrixQuestionComponent
 				}
 			]
 		}

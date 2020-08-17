@@ -1,3 +1,15 @@
-<p>
-  Matrix
-</p>
+<div class="matrix-question">
+	<form>
+		<div class="matrix-table">
+			<div class="matrix-row">
+				<div class="matrix-space"></div>
+				<div class="matrix-header" *ngFor="let header of columnLabels">{{ header }}</div>
+			</div>
+
+			<div class="matrix-row" *ngFor="let header of rowLabels">
+				<div class="matrix-header">{{ header }}</div>
+				<div class="matrix-entry" *ngFor="let entry of columnLabels"><input type="radio" /></div>
+			</div>
+		</div>
+	</form>
+</div>

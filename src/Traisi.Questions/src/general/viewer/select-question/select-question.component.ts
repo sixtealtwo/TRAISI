@@ -90,5 +90,7 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 		}
 	}
 
+	
+
 	public onResponseSaved(): void {}
 }

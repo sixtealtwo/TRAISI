@@ -5,8 +5,9 @@ import { TravelDiaryConfiguration } from './travel-diary-configuration.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
 import { formatRelative } from 'date-fns';
-import { SurveyRespondentService, SurveyRespondent } from 'traisi-question-sdk';
+import { SurveyRespondentService, SurveyRespondent, SurveyResponseService, QuestionResponseType } from 'traisi-question-sdk';
 import { User } from './day-view-scheduler.component';
+import { Console } from 'console';
 
 export const colors: any = {
 	red: {
@@ -40,12 +41,21 @@ export class TravelDiaryService {
 
 	public users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
+	public surveyId: number;
+
 	public constructor(
 		private _http: HttpClient,
-		@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService
+		@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService,
+		@Inject('SurveyResponseService') private _responderService: SurveyResponseService
 	) {}
 
-	public initialize(respondent: SurveyRespondent, configuration: any): void {
+	/**
+	 *
+	 *
+	 * @param {SurveyRespondent} respondent
+	 * @param {*} configuration
+	 */
+	public initialize(respondent: SurveyRespondent, configuration: any, surveyId: number): void {
 		let ps = configuration.purpose.split(' | ');
 		console.log(ps);
 		this.configuration.purposes = ps;
@@ -62,6 +72,14 @@ export class TravelDiaryService {
 			this.users.next(this.respondents);
 			this.isLoaded.next(true);
 		});
+		this.surveyId = surveyId;
+	}
+
+	public loadPreviousLocations(): void {
+		this._responderService.listSurveyResponsesOfType(this.surveyId,QuestionResponseType.Location).subscribe(x => {
+			console.log('privious locations: ');
+			console.log(x);
+		})
 	}
 
 	public loadAddresses(): void {
