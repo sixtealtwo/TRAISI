@@ -5,7 +5,7 @@ import {
 	QuestionConfiguration,
 	SurveyViewer,
 	QuestionOption,
-  ResponseValidationState,
+	ResponseValidationState,
 } from 'traisi-question-sdk';
 import templateString from './matrix-question.component.html';
 import styleString from './matrix-question.component.scss';
@@ -30,6 +30,8 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 
 	public ngOnInit(): void {}
 
+	public model = {};
+
 	public onOptionsLoaded(options: QuestionOption[]): void {
 		// this.options = options;
 		for (let i of options) {
@@ -41,8 +43,15 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 		}
 	}
 
+
+	public changed(event,id): void {
+		console.log(event);
+    this.model[id] = true;
+    console.log(this.model);
+	}
+
 	public traisiOnInit(): void {
-    console.log(this);
-    this.validationState.emit(ResponseValidationState.VALID);
+		console.log(this);
+		this.validationState.emit(ResponseValidationState.VALID);
 	}
 }
