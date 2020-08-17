@@ -7,7 +7,7 @@ using Traisi.Sdk.Interfaces;
 
 namespace Traisi.Sdk.Questions
 {
-    [SurveyQuestion(QuestionResponseType.OptionSelect, CodeBundleName = "traisi-questions-general.module.js")]
+    [SurveyQuestion(QuestionResponseType.Json, CodeBundleName = "traisi-questions-general.module.js")]
     public class MatrixQuestion : ISurveyQuestion
     {
         public string TypeName => "matrix";
