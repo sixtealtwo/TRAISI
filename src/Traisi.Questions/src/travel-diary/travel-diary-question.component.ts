@@ -23,7 +23,7 @@ import { BehaviorSubject } from 'rxjs';
 	entryComponents: [],
 	styles: ['' + styleString],
 })
-export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
+export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.Timeline>
 	implements OnInit, AfterViewInit, OnVisibilityChanged {
 	public viewDate: Date = new Date();
 

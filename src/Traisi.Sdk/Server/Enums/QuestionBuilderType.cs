@@ -19,6 +19,7 @@ namespace Traisi.Sdk.Enums
 		Location,
 		SingleSelect,
 		Time,
-		Colour
+		Colour,
+		Response
 	}
 }

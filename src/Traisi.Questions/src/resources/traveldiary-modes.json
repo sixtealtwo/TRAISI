@@ -1,0 +1,9 @@
+{
+	"options": [
+		"auto",
+        "transit",
+        "walk",
+        "bike"
+	]
+}
+

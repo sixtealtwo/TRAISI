@@ -230,6 +230,7 @@ export interface TimelineResponseData
   timeA: Date
   timeB: Date
   name: string
+  mode?: string;
   order: number
   purpose: string
 }

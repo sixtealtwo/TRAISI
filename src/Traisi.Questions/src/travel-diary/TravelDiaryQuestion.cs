@@ -34,12 +34,19 @@ namespace Traisi.Sdk.Questions
         public DateTime MinDate;
 
         [QuestionConfiguration(ConfigurationValueType.Custom,
-    DisplayName = "Purpose",
-    Description = "Purpose of being at location.",
-    SurveyBuilderValueType = QuestionBuilderType.MultiSelect,
-    DefaultValue = "home",
-    SharedResource = "mapquestion-purpose")]
+		DisplayName = "Purpose",
+		Description = "Purpose of being at location.",
+		SurveyBuilderValueType = QuestionBuilderType.MultiSelect,
+		DefaultValue = "home",
+		SharedResource = "mapquestion-purpose")]
         public string[] Purposes = new string[] { };
+
+        [QuestionConfiguration(ConfigurationValueType.Custom,
+		DisplayName = "Mode",
+		Description = "What travel modes are available.",
+		SurveyBuilderValueType = QuestionBuilderType.MultiSelect,
+		SharedResource = "traveldiary-modes")]
+        public string[] Modeds = new string[] { };
 
     }
 

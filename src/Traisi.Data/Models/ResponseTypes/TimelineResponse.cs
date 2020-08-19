@@ -19,6 +19,8 @@ namespace Traisi.Data.Models.ResponseTypes
         public DateTimeOffset TimeB { get; set; }
 
         public int? Order { get; set; }
+
+        public string? Mode {get;set;}
     }
 
     public class TimelineTmpResponse : LocationLatLngResponse
@@ -32,6 +34,8 @@ namespace Traisi.Data.Models.ResponseTypes
         public DateTimeOffset TimeB { get; set; }
 
         public int? Order { get; set; }
+
+        public string? Mode {get;set;}
     }
 
 }
