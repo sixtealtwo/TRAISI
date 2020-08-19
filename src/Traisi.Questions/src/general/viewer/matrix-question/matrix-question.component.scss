@@ -3,10 +3,16 @@
 	flex-direction: row;
 }
 
-.matrix-header, .matrix-space, .matrix-entry {
+:not(.matrix-header) .matrix-row:nth-child(even) {
+	background-color: #ddd;
+}
+
+.matrix-header,
+.matrix-space,
+.matrix-entry {
 	flex-grow: 1;
 }
 
-.matrix-entry  {
-	border-right: solid 1px #DDD;
+.matrix-entry {
+	// border-right: solid 1px #ddd;
 }

@@ -108,6 +108,10 @@ export abstract class SurveyQuestion<
     this.questionOptions = new ReplaySubject<QuestionOption[]>()
     this.configurations = new ReplaySubject<QuestionConfiguration[]>()
     this.response = new EventEmitter<ResponseData<T>>()
+    this.responseWithRespondent = new EventEmitter<{
+      respondent: SurveyRespondent
+      response: ResponseData<T>
+    }>()
     this.autoAdvance = new EventEmitter<number>()
     this.validationState = new EventEmitter<ResponseValidationState>()
     this.savedResponse = new ReplaySubject<ResponseData<T> | 'none'>(1)
