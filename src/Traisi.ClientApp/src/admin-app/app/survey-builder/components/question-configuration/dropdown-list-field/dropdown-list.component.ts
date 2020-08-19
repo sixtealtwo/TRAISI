@@ -4,57 +4,48 @@ import { AlertService, MessageSeverity } from '../../../../../../shared/services
 
 @Component({
 	selector: 'app-dropdown-list',
-	templateUrl: './dropdown-list.component.html'
+	templateUrl: './dropdown-list.component.html',
 })
-
 export class DropdownListComponent implements OnInit {
-
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
+	public options: { value: string; label: string }[] = [];
+	public selected: string;
 
-	public dropDownListSelectedId: string;
-
-	// Dropdown List
-	public dropDownListItems: Array<string> = [];
-
-	constructor(
-		private alertService: AlertService
-	) {}
+	constructor(private alertService: AlertService) {}
 
 	ngOnInit() {
 		let optionData = JSON.parse(this.questionConfiguration.resourceData);
 		optionData.options.forEach((element) => {
-			this.dropDownListItems.push(element);
+			this.options.push({
+				label: element,
+				value: element,
+			});
 		});
-
-		if (this.dropDownListSelectedId === undefined) {
-			this.setDefaultValue();
-		}
 	}
 
-	setDefaultValue() {
-		this.dropDownListSelectedId = this.dropDownListItems[0];
+	/**
+	 *
+	 * @param last
+	 */
+	public processPriorValue(last: string): void {
+		this.selected = last;
 	}
 
-	getValue(){
-		if (this.dropDownListSelectedId === null){
+	public onChanged(event): void {
+		console.log(event);
+		console.log(this.selected);
+	}
+	getValue() {
+		if (this.selected === null) {
 			this.alertService.stopLoadingMessage();
-		this.alertService.showStickyMessage(
-			'Not Completed', 
-			`Please fill the form completely`,
-			MessageSeverity.error
-		);
+			this.alertService.showStickyMessage(
+				'Not Completed',
+				`Please fill the form completely`,
+				MessageSeverity.error
+			);
 			return;
 		}
-		return JSON.stringify({id: this.dropDownListSelectedId});
+		return this.selected ;
 	}
-
-	processPriorValue(last: string) {
-		this.dropDownListSelectedId = JSON.parse(last).id;
-	}
-
-	valueChanged(e){
-		this.dropDownListSelectedId = this.dropDownListItems.filter(dd => dd === e)[0];
-	}
-
 }

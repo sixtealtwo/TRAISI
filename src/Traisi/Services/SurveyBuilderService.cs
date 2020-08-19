@@ -201,11 +201,12 @@ namespace Traisi.Services
 
             if (configuration == null)
             {
+                var valueType = this._questions.QuestionTypeDefinitions[questionPart.QuestionType].QuestionConfigurations[name].ValueType;
                 QuestionConfiguration qc = new QuestionConfiguration()
                 {
                     Name = name,
-                    Value = value.ToString(),
-                    ValueType = this._questions.QuestionTypeDefinitions[questionPart.QuestionType].QuestionConfigurations[name].ValueType
+                    Value = value == null ? null : value.ToString(),
+                    ValueType = valueType
                 };
                 questionPart.QuestionConfigurations.Add(qc);
                 return qc;

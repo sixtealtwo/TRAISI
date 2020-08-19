@@ -5,7 +5,7 @@
 		>{{ questionConfiguration.name }}</label
 	>
 	<div class="col-md-9">
-		<ngx-select
+		<!-- <ngx-select
 			id="{{ 'singleselect-' + id }}"
 			[defaultValue]="dropDownListSelectedId"
 			[allowClear]="false"
@@ -16,6 +16,20 @@
 			<ng-template ngx-select-option-not-found>
 				Nothing found
 			</ng-template>
-		</ngx-select>
+		</ngx-select> -->
+
+		<ng-select
+			[items]="options"
+			[multiple]="false"
+			[searchable]="true"
+			class="option-select"
+			placeholder="Select ..."
+			bindLabel="label"
+			bindValue="value"
+			[(ngModel)]="selected"
+			(change)="onChanged($event)"></ng-select>
+			<small id="{{ 'config-description-' + id }}" class="form-text text-muted">
+				{{ questionConfiguration.description }}
+			</small>
 	</div>
 </div>

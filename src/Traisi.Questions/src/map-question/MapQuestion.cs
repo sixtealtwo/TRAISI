@@ -64,7 +64,7 @@ namespace Traisi.Sdk.Questions
         [QuestionConfiguration(ConfigurationValueType.Boolean,
             DisplayName = "Home Location",
             Description = "Whether or not this response will be saved as the respondent's home location.",
-            SurveyBuilderValueType = QuestionBuilderType.SingleSelect,
+            SurveyBuilderValueType = QuestionBuilderType.Switch,
             DefaultValue = false)]
         public bool IsHomeLocation = false;
     }

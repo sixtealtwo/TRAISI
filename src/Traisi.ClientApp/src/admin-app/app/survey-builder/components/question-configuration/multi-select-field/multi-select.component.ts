@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { QuestionConfigurationDefinition } from '../../../models/question-configuration-definition.model';
 import { Select2OptionData } from 'ng-select2';
+import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
+import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
 
 @Component({
 	selector: 'app-multi-select',
@@ -11,36 +13,41 @@ export class MultiSelectComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 
-	public options: Select2OptionData[] = [];
+	public options: { value: string; label: string }[] = [];
 	public selected: string[] = [];
 
-	public select2Options: any = {
-		theme: 'bootstrap',
-		multiple: true,
-	};
+	public model: { value: string; label: string }[];
+
 	public multiSelectValues: string;
 
 	@ViewChild('selectElement', { static: true })
 	public selectElement: ElementRef;
 
-	constructor() {}
+	constructor(private _editorData: SurveyBuilderEditorData) {}
+
+	public onChanged(event): void {
+		console.log(event);
+		console.log(this.model);
+	}
 
 	public ngOnInit(): void {
-		let optionData = JSON.parse(this.questionConfiguration.resourceData);
-		if (optionData) {
-			optionData.options.forEach((element) => {
-				this.options.push({ text: element, id: element });
-			});
+		if (this.questionConfiguration.valueType === 'Response') {
+			// using response data
+			for (let q of this._editorData.questionList) {
+				this.options.push({
+					label: q.questionPart.name,
+					value: '' + q.questionPart.id,
+				});
+			}
+		} else {
+			// using custom option data
+			let optionData = JSON.parse(this.questionConfiguration.resourceData);
+			if (optionData) {
+				optionData.options.forEach((element) => {
+					this.options.push({ label: element, value: element });
+				});
+			}
 		}
-		$(this.selectElement.nativeElement)['selectpicker']();
-		this.setDefaultValue();
-
-		$(this.selectElement.nativeElement).on('changed.bs.select', (e, clickedIndex, isSelected, previousValue) => {
-			// do something...
-			let values: Array<string> = $(this.selectElement.nativeElement)['selectpicker']('val');
-			this.multiSelectValues = values.join(' | ');
-			// console.log(e);
-		});
 	}
 
 	public setDefaultValue() {
@@ -49,7 +56,7 @@ export class MultiSelectComponent implements OnInit {
 	}
 
 	public getValue() {
-		return JSON.stringify(this.multiSelectValues);
+		return this.model;
 	}
 
 	/**
@@ -57,23 +64,8 @@ export class MultiSelectComponent implements OnInit {
 	 * @param last
 	 */
 	public processPriorValue(last: string): void {
-		this.multiSelectValues = JSON.parse(last);
-
-		if (this.multiSelectValues) {
-			this.selected = this.multiSelectValues.split(' | ');
-
-			setTimeout(() => {
-				(<any>$(this.selectElement.nativeElement)).selectpicker('val', this.selected);
-				(<any>$(this.selectElement.nativeElement)).selectpicker('refresh');
-				// console.log((<any>$(this.selectElement.nativeElement)).selectpicker().val());
-			});
-		}
-	}
-
-	public getSelect2GroupedList(): Select2OptionData[] {
-		return this.options;
-	}
-	public changed(data: { value: string[] }) {
-		// this.multiSelectValues = data.value.join(' | ');
+		console.log('prior: ');
+		console.log(last);
+		this.model = JSON.parse(last);
 	}
 }

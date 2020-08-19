@@ -19,5 +19,6 @@ namespace Traisi.Sdk.Enums
 		Label,
 		Question,
 		KeyValuePair,
+		Response
 	}
 }

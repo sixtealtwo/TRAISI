@@ -53,6 +53,7 @@
 		<ProjectReference Include="..\Traisi.Sdk\Traisi.Sdk.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	<EmbeddedResource Include="src/resources/traveldiary-modes.json" LogicalName="traveldiary-modes" />
 		<EmbeddedResource Include="src/resources/mapquestion-purpose.json" LogicalName="mapquestion-purpose" />
 		<EmbeddedResource Include="src/resources/numberquestion-format.json" LogicalName="numberquestion-format" />
 	</ItemGroup>
