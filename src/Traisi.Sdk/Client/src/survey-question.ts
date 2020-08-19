@@ -1,169 +1,175 @@
-import { ResponseValidationState } from './question-response-state';
-import { EventEmitter, Output } from '@angular/core';
-import { QuestionConfiguration } from './question-configuration';
-import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
-import { QuestionOption } from './question-option';
-import { SurveyRespondent } from './survey-respondent.model';
+import { ResponseValidationState } from './question-response-state'
+import { EventEmitter, Output } from '@angular/core'
+import { QuestionConfiguration } from './question-configuration'
+import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs'
+import { QuestionOption } from './question-option'
+import { SurveyRespondent } from './survey-respondent.model'
 
 /**
  * Base abstract class for Survey Questions available to TRAISI
  */
-export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> {
-	/**
-	 * Output binding - question components embedded in other question types can subscribe
-	 * to the questions response event to receive the generated "data" of that question type
-	 * when it is completed by the user.
-	 * @type {EventEmitter<ResponseData<T>>}
-	 * @memberof SurveyQuestion
-	 */
-	@Output()
-	public readonly response: EventEmitter<ResponseData<T>>;
+export abstract class SurveyQuestion<
+  T extends ResponseTypes | ResponseTypes[]
+> {
+  /**
+   * Output binding - question components embedded in other question types can subscribe
+   * to the questions response event to receive the generated "data" of that question type
+   * when it is completed by the user.
+   * @type {EventEmitter<ResponseData<T>>}
+   * @memberof SurveyQuestion
+   */
+  @Output()
+  public readonly response: EventEmitter<ResponseData<T>>
 
-	@Output()
-	public readonly autoAdvance: EventEmitter<number>;
+  @Output()
+  public readonly responseWithRespondent: EventEmitter<{
+    respondent: SurveyRespondent
+    response: ResponseData<T>
+  }>
 
-	@Output()
-	public readonly validationState: EventEmitter<ResponseValidationState>;
+  @Output()
+  public readonly autoAdvance: EventEmitter<number>
 
-	/**
-	 * This value is id associated with the survey question. Each id will be unique.
-	 */
-	public questionId: number;
+  @Output()
+  public readonly validationState: EventEmitter<ResponseValidationState>
 
-	/**
-	 * The survey id
-	 */
-	public surveyId: number;
+  /**
+   * This value is id associated with the survey question. Each id will be unique.
+   */
+  public questionId: number
 
-	/**
-	 * The configuration for this question
-	 */
-	public configuration: QuestionConfiguration;
+  /**
+   * The survey id
+   */
+  public surveyId: number
 
-	/**
-	 * The server configuration for this quesiton. This isn't specific to a survey, but related
-	 * to the global server configuration, typically private configuration values.
-	 * @type {{ [id: string] : any; }}
-	 */
-	public serverConfiguration: { [id: string]: any };
+  /**
+   * The configuration for this question
+   */
+  public configuration: QuestionConfiguration
 
-	/**
-	 * The validity state of the question
-	 */
-	public isValid: boolean;
+  /**
+   * The server configuration for this quesiton. This isn't specific to a survey, but related
+   * to the global server configuration, typically private configuration values.
+   * @type {{ [id: string] : any; }}
+   */
+  public serverConfiguration: { [id: string]: any }
 
-	/**
-	 * The saved response - if any
-	 */
-	public savedResponse: ReplaySubject<ResponseData<T> | 'none'>;
+  /**
+   * The validity state of the question
+   */
+  public isValid: boolean
 
-	public isLoaded: BehaviorSubject<boolean>;
+  /**
+   * The saved response - if any
+   */
+  public savedResponse: ReplaySubject<ResponseData<T> | 'none'>
 
-	public data: Array<any>;
+  public isLoaded: BehaviorSubject<boolean>
 
-	public pageIndex?: number;
+  public data: Array<any>
 
-	public displayClass: string = '';
+  public pageIndex?: number
 
-	public isMultiPage: boolean = false;
+  public displayClass: string = ''
 
-	public respondent: SurveyRespondent;
+  public isMultiPage: boolean = false
 
-	public questionOptions: Observable<QuestionOption[]>;
+  public respondent: SurveyRespondent
 
-	public configurations: Observable<QuestionConfiguration[]>;
+  public questionOptions: Observable<QuestionOption[]>
 
-	/**
-	 * The container height for this component. Used in cases where component height should be
-	 * manually set or other issues with layout.
-	 *
-	 * @type {number}
-	 */
-	public containerHeight: number;
+  public configurations: Observable<QuestionConfiguration[]>
 
-	/**
-	 *
-	 *
-	 * @private
-	 * @param {QuestionConfiguration} configuration
-	 * @memberof SurveyQuestion
-	 */
-	public loadConfiguration(configuration: QuestionConfiguration): void {
-		this.configuration = configuration;
-		this.isLoaded = new BehaviorSubject<boolean>(false);
-	}
+  /**
+   * The container height for this component. Used in cases where component height should be
+   * manually set or other issues with layout.
+   *
+   * @type {number}
+   */
+  public containerHeight: number
 
-	/**
-	 *
-	 */
-	constructor() {
-		this.questionOptions = new ReplaySubject<QuestionOption[]>();
-		this.configurations = new ReplaySubject<QuestionConfiguration[]>();
-		this.response = new EventEmitter<ResponseData<T>>();
-		this.autoAdvance = new EventEmitter<number>();
-		this.validationState = new EventEmitter<ResponseValidationState>();
-		this.savedResponse = new ReplaySubject<ResponseData<T> | 'none'>(1);
-		this.questionId = -1;
-		this.surveyId = -1;
-		this.configuration = <QuestionConfiguration>{};
-		this.isLoaded = new BehaviorSubject<boolean>(false);
-		this.isValid = false;
-		this.respondent = {
-			relationship: '',
-			id: -1,
-			name: ''
-		};
-		this.data = [];
-	}
+  /**
+   *
+   *
+   * @private
+   * @param {QuestionConfiguration} configuration
+   * @memberof SurveyQuestion
+   */
+  public loadConfiguration(configuration: QuestionConfiguration): void {
+    this.configuration = configuration
+    this.isLoaded = new BehaviorSubject<boolean>(false)
+  }
 
-	/**
-	 * A question can override this method to signal to the survey viewer that
-	 * the question implements special next functionality.
-	 */
-	public canNavigateInternalNext(): boolean {
-		return false;
-	}
+  /**
+   *
+   */
+  constructor() {
+    this.questionOptions = new ReplaySubject<QuestionOption[]>()
+    this.configurations = new ReplaySubject<QuestionConfiguration[]>()
+    this.response = new EventEmitter<ResponseData<T>>()
+    this.autoAdvance = new EventEmitter<number>()
+    this.validationState = new EventEmitter<ResponseValidationState>()
+    this.savedResponse = new ReplaySubject<ResponseData<T> | 'none'>(1)
+    this.questionId = -1
+    this.surveyId = -1
+    this.configuration = <QuestionConfiguration>{}
+    this.isLoaded = new BehaviorSubject<boolean>(false)
+    this.isValid = false
+    this.respondent = {
+      relationship: '',
+      id: -1,
+      name: '',
+    }
+    this.data = []
+  }
 
-	/**
-	 * An override to signal to the viewer that this question has an internal navigation
-	 * handler.
-	 */
-	public canNavigateInternalPrevious(): boolean {
-		return false;
-	}
+  /**
+   * A question can override this method to signal to the survey viewer that
+   * the question implements special next functionality.
+   */
+  public canNavigateInternalNext(): boolean {
+    return false
+  }
 
-	/**
-	 * Called when the next is triggered in the survey viewer.
-	 */
-	public navigateInternalNext(): boolean {
-		return true;
-	}
+  /**
+   * An override to signal to the viewer that this question has an internal navigation
+   * handler.
+   */
+  public canNavigateInternalPrevious(): boolean {
+    return false
+  }
 
-	/**
-	 * Called when previous is triggered in the survey viewer.
-	 */
-	public navigateInternalPrevious(): boolean {
-		return true;
-	}
+  /**
+   * Called when the next is triggered in the survey viewer.
+   */
+  public navigateInternalNext(): boolean {
+    return true
+  }
 
-	public onResponseSaved(): void {
+  /**
+   * Called when previous is triggered in the survey viewer.
+   */
+  public navigateInternalPrevious(): boolean {
+    return true
+  }
 
-	}
+  public onResponseSaved(): void {}
 
-	/**
-	 *
-	 *
-	 * @memberof SurveyQuestion
-	 */
-	public traisiOnInit(): void { }
+  /**
+   *
+   *
+   * @memberof SurveyQuestion
+   */
+  public traisiOnInit(): void {}
 
-	/**
-	 * Called when the question has completed loading all of its data.
-	 * This includes any saved response data and configuration data.
-	 */
-	public traisiOnLoaded(): void { }
+  /**
+   * Called when the question has completed loading all of its data.
+   * This includes any saved response data and configuration data.
+   */
+  public traisiOnLoaded(): void {}
 
-	public traisiOnUnloaded(): void { }
+  public traisiOnUnloaded(): void {}
 }
 
 /**
@@ -173,82 +179,87 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
  * @interface TraisiBuildable
  */
 export interface TraisiBuildable {
-	typeName: string;
-	icon: string;
+  typeName: string
+  icon: string
 }
 
-export abstract class ResponseData<T extends ResponseTypes | ResponseTypes[]> { }
+export abstract class ResponseData<T extends ResponseTypes | ResponseTypes[]> {}
 
 export interface StringResponseData extends ResponseData<ResponseTypes.String> {
-	value: string;
+  value: string
 }
 
-export interface DecimalResponseData extends ResponseData<ResponseTypes.Decminal> {
-	value: number;
+export interface DecimalResponseData
+  extends ResponseData<ResponseTypes.Decminal> {
+  value: number
 }
 
 export interface NumberResponseData extends ResponseData<ResponseTypes.Number> {
-	value: number;
+  value: number
 }
 
-
-export interface IntegerResponseData extends ResponseData<ResponseTypes.Integer> {
-	value: number;
+export interface IntegerResponseData
+  extends ResponseData<ResponseTypes.Integer> {
+  value: number
 }
 
 export interface TimeResponseData extends ResponseData<ResponseTypes.Time> {
-	value: Date;
+  value: Date
 }
 
 export interface DateResponseData extends ResponseData<ResponseTypes.Date> {
-	value: Date;
+  value: Date
 }
 
-export interface LocationResponseData extends ResponseData<ResponseTypes.Location> {
-	latitude: number;
-	longitude: number;
-	address: string;
+export interface LocationResponseData
+  extends ResponseData<ResponseTypes.Location> {
+  latitude: number
+  longitude: number
+  address: string
 }
 
-export interface TimelineResponseData extends ResponseData<ResponseTypes.Timeline> {
-	latitude: number;
-	longitude: number;
-	address: string;
-	timeA: Date;
-	timeB: Date;
-	name: string;
-	order: number;
-	purpose: string;
+export interface TimelineResponseData
+  extends ResponseData<ResponseTypes.Timeline> {
+  latitude: number
+  longitude: number
+  address: string
+  timeA: Date
+  timeB: Date
+  name: string
+  order: number
+  purpose: string
 }
 
 export interface RangeResponseData extends ResponseData<ResponseTypes.Range> {
-	min: number;
-	max: number;
+  min: number
+  max: number
 }
 
-export interface BooleanResponseData extends ResponseData<ResponseTypes.Boolean> {
-	value: boolean;
+export interface BooleanResponseData
+  extends ResponseData<ResponseTypes.Boolean> {
+  value: boolean
 }
 
 export interface ListResponseData extends ResponseData<ResponseTypes.List> {
-	values: Array<any>;
+  values: Array<any>
 }
 
-export interface OptionSelectResponseData extends ResponseData<ResponseTypes.OptionSelect> {
-	value: any;
-	name: any;
-	code: string;
+export interface OptionSelectResponseData
+  extends ResponseData<ResponseTypes.OptionSelect> {
+  value: any
+  name: any
+  code: string
 }
 
 export interface RouteResponseData extends ResponseData<ResponseTypes.Path> {
-	points: Array<any>;
+  points: Array<any>
 }
 
 /**
  * Wrapper interface format for save response returned from survey - responseValue in includes the dat
  */
 export interface ResponseValue<T extends ResponseTypes> {
-	responseValues: ResponseData<T>;
+  responseValues: ResponseData<T>
 }
 
 /**
@@ -258,33 +269,33 @@ export interface ResponseValue<T extends ResponseTypes> {
  * @enum {number}
  */
 export enum ResponseTypes {
-	Location = 'location',
-	String = 'string',
-	Integer = 'integer',
-	Time = 'time',
-	Date = 'date',
-	Timeline = 'timeline',
-	Decminal = 'decimal',
-	Json = 'json',
-	Path = 'path',
-	Range = 'Range',
-	List = 'List',
-	Boolean = 'boolean',
-	OptionSelect = 'option-select',
-	Number = 'number',
-	None = 'none'
+  Location = 'location',
+  String = 'string',
+  Integer = 'integer',
+  Time = 'time',
+  Date = 'date',
+  Timeline = 'timeline',
+  Decminal = 'decimal',
+  Json = 'json',
+  Path = 'path',
+  Range = 'Range',
+  List = 'List',
+  Boolean = 'boolean',
+  OptionSelect = 'option-select',
+  Number = 'number',
+  None = 'none',
 }
 
 export enum QuestionResponseType {
-	String = 0,
-	Boolean = 1,
-	Number = 2,
-	Location = 3,
-	Json = 4,
-	OptionSelect = 5,
-	DateTime = 6,
-	Time = 7,
-	Path = 8,
-	Timeline = 9,
-	None = 10,
+  String = 0,
+  Boolean = 1,
+  Number = 2,
+  Location = 3,
+  Json = 4,
+  OptionSelect = 5,
+  DateTime = 6,
+  Time = 7,
+  Path = 8,
+  Timeline = 9,
+  None = 10,
 }

@@ -50,6 +50,7 @@ export class QuestionInstanceState {
 		this._questionInstance = questionInstance;
 		this._questionModel = questionModel;
 		this._questionInstance.response.subscribe(this.onSaveResponse);
+		this._questionInstance.responseWithRespondent.subscribe(this.onSaveResponseWithRespondent);
 		this._questionInstance.validationState.subscribe(this.onValidationStateChanged);
 		this._questionInstance.respondent = respondent;
 		this.validationState$ = new BehaviorSubject<SurveyViewerValidationStateViewModel>({
@@ -94,6 +95,25 @@ export class QuestionInstanceState {
 		// array if not done so
 		this._responseService
 			.saveResponse(this._questionModel, this._respondent, 0, Array.isArray(response) ? response : [response])
+			.subscribe(this.onResponseSaved);
+	};
+
+	/**
+	 * Emits a saved response for a parituclar respondent
+	 *
+	 * @private
+	 */
+	private onSaveResponseWithRespondent = (response: {
+		respondent: SurveyRespondent;
+		response: ResponseData<ResponseTypes>[];
+	}): void => {
+		this._responseService
+			.saveResponse(
+				this._questionModel,
+				response.respondent,
+				0,
+				Array.isArray(response.response) ? response.response : [response.response]
+			)
 			.subscribe(this.onResponseSaved);
 	};
 

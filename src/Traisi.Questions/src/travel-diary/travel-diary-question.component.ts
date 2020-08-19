@@ -50,11 +50,13 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.L
 	public entrySaved(event: LocationResponseData | { users: User[] }) {
 		console.log('saved');
 		console.log(event);
+		
 	}
 
 	public ngOnInit(): void {
 		console.log(this);
 		// initialize service with configuration
+		
 		this._travelDiaryService.initialize(this.respondent, this.configuration, this.surveyId);
 	}
 	public ngAfterViewInit(): void {}

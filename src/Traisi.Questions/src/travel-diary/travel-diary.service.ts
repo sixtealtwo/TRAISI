@@ -5,7 +5,13 @@ import { TravelDiaryConfiguration } from './travel-diary-configuration.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
 import { formatRelative } from 'date-fns';
-import { SurveyRespondentService, SurveyRespondent, SurveyResponseService, QuestionResponseType } from 'traisi-question-sdk';
+import {
+	SurveyRespondentService,
+	SurveyRespondent,
+	SurveyResponseService,
+	QuestionResponseType,
+	ResponseTypes,
+} from 'traisi-question-sdk';
 import { User } from './day-view-scheduler.component';
 import { Console } from 'console';
 
@@ -43,6 +49,8 @@ export class TravelDiaryService {
 
 	public surveyId: number;
 
+	public responseData: { [userId: number]: ResponseTypes.Location };
+
 	public constructor(
 		private _http: HttpClient,
 		@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService,
@@ -76,10 +84,12 @@ export class TravelDiaryService {
 	}
 
 	public loadPreviousLocations(): void {
-		this._responderService.listSurveyResponsesOfType(this.surveyId,QuestionResponseType.Location).subscribe(x => {
-			console.log('privious locations: ');
-			console.log(x);
-		})
+		this._responderService
+			.listSurveyResponsesOfType(this.surveyId, QuestionResponseType.Location)
+			.subscribe((x) => {
+				console.log('privious locations: ');
+				console.log(x);
+			});
 	}
 
 	public loadAddresses(): void {
