@@ -6,8 +6,12 @@
 
 :host {
 	width: 100%;
-	overflow: hidden;
+
 	flex-grow: 1;
+}
+
+.single-question :host {
+	overflow: hidden;
 }
 
 .loading {
@@ -132,7 +136,7 @@ section.display-full {
 	position: absolute;
 }
 
-section.question-widget {
+.single-question section.question-widget {
 	overflow: hidden;
 }
 
