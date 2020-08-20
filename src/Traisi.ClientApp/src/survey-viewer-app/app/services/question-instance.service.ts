@@ -124,7 +124,10 @@ export class QuestionInstanceState {
 	private onResponseSaved = (result: SurveyViewerValidationStateViewModel): void => {
 		if (result.isValid) {
 			result.clientValidationState = ResponseValidationState.VALID;
+		} else {
+			result.clientValidationState = ResponseValidationState.INVALID;
 		}
+		console.log(result);
 		this.validationState$.next(result);
 		this.onValidationStateChanged(result);
 		this._questionInstance.onResponseSaved();

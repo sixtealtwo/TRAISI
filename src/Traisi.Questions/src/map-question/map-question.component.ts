@@ -27,6 +27,7 @@ import { MapEndpointService } from './services/mapservice.service';
 import templateString from './map-question.component.html';
 import styleString from './map-question.component.scss';
 import * as mapboxgl from 'mapbox-gl';
+import markerPng from './marker.png';
 @Component({
 	selector: 'traisi-map-question',
 	template: '' + templateString,
@@ -208,7 +209,15 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			this.locationFound(event);
 		});
 
-		this._marker = new mapboxgl.Marker();
+		var el = document.createElement('div');
+		el.style.backgroundImage = `url(${markerPng})`;
+		el.className = 'marker-overlay';
+		el.style.width = '64px';
+		el.style.height = '64px';
+		el.innerHTML = '<i class="fas fa-home"></i>';
+		this._marker = new mapboxgl.Marker(el, {
+			anchor: 'bottom',
+		});
 
 		setTimeout(() => {
 			this._map.resize();
@@ -366,9 +375,11 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param mapConfig
 	 */
 	public loadConfiguration(mapConfig: any): void {
+		console.log(mapConfig);
 		this.accessToken = mapConfig.AccessToken;
-		let purpose = JSON.parse(mapConfig.purpose);
-		this.purpose = purpose.id;
+		if (mapConfig.purpose) {
+			this.purpose = mapConfig.purpose;
+		}
 	}
 
 	public resetInput(): void {

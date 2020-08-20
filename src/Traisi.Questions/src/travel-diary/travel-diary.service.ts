@@ -54,9 +54,13 @@ export class TravelDiaryService {
 	public constructor(
 		private _http: HttpClient,
 		@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService,
-		@Inject('SurveyResponseService') private _responseService: SurveyResponseService
+		@Inject('SurveyResponseService') private _responseService: SurveyResponseService,
+		@Inject('SurveyId') private _surveyId: number,
+		@Inject('Configuration') private _configuration: any,
+		@Inject('Household') private _respondents: SurveyRespondent[]
 	) {
 		console.log(_responseService);
+		console.log(this);
 	}
 
 	/**
@@ -66,8 +70,8 @@ export class TravelDiaryService {
 	 * @param {*} configuration
 	 */
 	public initialize(respondent: SurveyRespondent, configuration: any, surveyId: number): void {
-		let ps = configuration.purpose.split(' | ');
-		this.configuration.purposes = ps;
+		this.configuration.purposes = configuration.purposes ?? [];
+		this.configuration.modes = configuration.modes ?? [];
 		this.loadAddresses();
 
 		this._respondentService.getSurveyGroupMembers(respondent).subscribe((respondents) => {

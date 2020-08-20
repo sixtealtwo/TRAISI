@@ -12,20 +12,10 @@ import {
 	ElementRef,
 	InjectionToken,
 	Type,
-	Inject
+	Inject,
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
-import {
-	Observable,
-	of,
-	Operator,
-	Subscriber,
-	Observer,
-	ReplaySubject,
-	from,
-	EMPTY,
-	forkJoin
-} from 'rxjs';
+import { Observable, of, Operator, Subscriber, Observer, ReplaySubject, from, EMPTY, forkJoin } from 'rxjs';
 import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
@@ -67,7 +57,7 @@ type ComponentFactoryBoundToModule<T> = any;
 declare const SystemJS;
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class QuestionLoaderService {
 	private _componentFactories: {
@@ -105,110 +95,35 @@ export class QuestionLoaderService {
 
 	private init(): void {
 		SystemJS.registry.set('@angular/core', SystemJS.newModule(AngularCore));
-		SystemJS.registry.set(
-			'@angular/common',
-			SystemJS.newModule(AngularCommon)
-		);
-		SystemJS.registry.set(
-			'@angular/common/http',
-			SystemJS.newModule(AngularHttp)
-		);
-		SystemJS.registry.set(
-			'@angular/forms',
-			SystemJS.newModule(AngularForms)
-		);
-		SystemJS.registry.set(
-			'@angular/platform-browser',
-			SystemJS.newModule(BrowserModule)
-		);
-		SystemJS.registry.set(
-			'@angular/upgrade/static',
-			SystemJS.newModule(Upgrade)
-		);
-		SystemJS.registry.set(
-			'@angular/upgrade',
-			SystemJS.newModule(UpgradeModule)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/popover',
-			SystemJS.newModule(popover)
-		);
+		SystemJS.registry.set('@angular/common', SystemJS.newModule(AngularCommon));
+		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
+		SystemJS.registry.set('@angular/forms', SystemJS.newModule(AngularForms));
+		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(BrowserModule));
+		SystemJS.registry.set('@angular/upgrade/static', SystemJS.newModule(Upgrade));
+		SystemJS.registry.set('@angular/upgrade', SystemJS.newModule(UpgradeModule));
+		SystemJS.registry.set('ngx-bootstrap/popover', SystemJS.newModule(popover));
 		SystemJS.registry.set('ngx-bootstrap/alert', SystemJS.newModule(alert));
-		SystemJS.registry.set(
-			'ngx-bootstrap/datepicker',
-			SystemJS.newModule(datepicker)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/buttons',
-			SystemJS.newModule(buttons)
-		);
+		SystemJS.registry.set('ngx-bootstrap/datepicker', SystemJS.newModule(datepicker));
+		SystemJS.registry.set('ngx-bootstrap/buttons', SystemJS.newModule(buttons));
 		SystemJS.registry.set('ngx-bootstrap/modal', SystemJS.newModule(modal));
-		SystemJS.registry.set(
-			'ngx-bootstrap/dropdown',
-			SystemJS.newModule(dropdown)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/carousel',
-			SystemJS.newModule(carousel)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/tooltip',
-			SystemJS.newModule(tooltip)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/timepicker',
-			SystemJS.newModule(timePicker)
-		);
-		SystemJS.registry.set(
-			'traisi-question-sdk',
-			SystemJS.newModule(traisiSdkModule)
-		);
+		SystemJS.registry.set('ngx-bootstrap/dropdown', SystemJS.newModule(dropdown));
+		SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
+		SystemJS.registry.set('ngx-bootstrap/tooltip', SystemJS.newModule(tooltip));
+		SystemJS.registry.set('ngx-bootstrap/timepicker', SystemJS.newModule(timePicker));
+		SystemJS.registry.set('traisi-question-sdk', SystemJS.newModule(traisiSdkModule));
 		SystemJS.registry.set('rxjs/Subject', SystemJS.newModule(rxjsSubject));
-		SystemJS.registry.set(
-			'rxjs/BehaviorSubject',
-			SystemJS.newModule(rxjsBehaviourSubject)
-		);
-		SystemJS.registry.set(
-			'rxjs/internal/BehaviorSubject',
-			SystemJS.newModule(rxjsBehaviourSubject)
-		);
-		SystemJS.registry.set(
-			'rxjs/Observable',
-			SystemJS.newModule(rxjsObservable)
-		);
-		SystemJS.registry.set(
-			'rxjs/ReplaySubject',
-			SystemJS.newModule(rxjsReplaySubject)
-		);
+		SystemJS.registry.set('rxjs/BehaviorSubject', SystemJS.newModule(rxjsBehaviourSubject));
+		SystemJS.registry.set('rxjs/internal/BehaviorSubject', SystemJS.newModule(rxjsBehaviourSubject));
+		SystemJS.registry.set('rxjs/Observable', SystemJS.newModule(rxjsObservable));
+		SystemJS.registry.set('rxjs/ReplaySubject', SystemJS.newModule(rxjsReplaySubject));
 		SystemJS.registry.set('rxjs', SystemJS.newModule(rxjs));
-		SystemJS.registry.set(
-			'angular-popper',
-			SystemJS.newModule(angularPopper)
-		);
-		SystemJS.registry.set(
-			'rxjs/operators',
-			SystemJS.newModule(rxjsOperators)
-		);
-		SystemJS.registry.set(
-			'@angular/animations',
-			SystemJS.newModule(AngularAnimations)
-		);
-		SystemJS.registry.set(
-			'@angular/platform-browser/animations',
-			SystemJS.newModule(AngularPlatformAnimations)
-		);
-		SystemJS.registry.set(
-			'@angular/platform-browser',
-			SystemJS.newModule(AngularPlatformBrowser)
-		);
-		SystemJS.registry.set(
-			'angular-calendar',
-			SystemJS.newModule(angularCalendar)
-		);
-		SystemJS.registry.set(
-			'angular-calendar/date-adapters/date-fns',
-			SystemJS.newModule(adapterFactory)
-		);
+		SystemJS.registry.set('angular-popper', SystemJS.newModule(angularPopper));
+		SystemJS.registry.set('rxjs/operators', SystemJS.newModule(rxjsOperators));
+		SystemJS.registry.set('@angular/animations', SystemJS.newModule(AngularAnimations));
+		SystemJS.registry.set('@angular/platform-browser/animations', SystemJS.newModule(AngularPlatformAnimations));
+		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(AngularPlatformBrowser));
+		SystemJS.registry.set('angular-calendar', SystemJS.newModule(angularCalendar));
+		SystemJS.registry.set('angular-calendar/date-adapters/date-fns', SystemJS.newModule(adapterFactory));
 	}
 
 	/**
@@ -225,9 +140,7 @@ export class QuestionLoaderService {
 	 * @returns {Observable<any>}
 	 * @memberof QuestionLoaderService
 	 */
-	public getQuestionComponentFactory(
-		questionType: string
-	): Observable<ComponentFactoryBoundToModule<any>> {
+	public getQuestionComponentFactory(questionType: string): Observable<ComponentFactoryBoundToModule<any>> {
 		// reuse the preloaded component factory
 
 		if (questionType in this._componentFactories) {
@@ -235,76 +148,49 @@ export class QuestionLoaderService {
 		}
 		// if the module has already loaded.. but the question does not exist yet
 		else if (questionType in this._moduleRefs) {
-			return of(
-				this.createComponentFactory(
-					this._moduleRefs[questionType],
-					questionType
-				)
-			).pipe(
+			return of(this.createComponentFactory(this._moduleRefs[questionType], questionType)).pipe(
 				map((componentFactory: ComponentFactoryBoundToModule<any>) => {
 					if (!(questionType in this._componentFactories)) {
-						this._componentFactories[
-							questionType
-						] = componentFactory;
+						this._componentFactories[questionType] = componentFactory;
 					}
 					return componentFactory;
 				})
 			);
 		} else {
 			return from(
-				SystemJS.import(
-					this._questionLoaderEndpointService.getClientCodeEndpointUrl(
-						questionType
-					)
-				)
+				SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))
 			).pipe(
 				map((module: any) => {
 					if (module.default.name in this._moduleRefs) {
 						return this._moduleRefs[module.default.name];
 					}
-					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(
-						module.default
-					);
-					const moduleRef: any = moduleFactory.ngModuleFactory.create(
-						this.injector
-					);
+					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
+					const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
 					this._moduleRefs[<string>module.default.name] = moduleRef;
 					return moduleRef;
 				}),
 				map((moduleRef: any) => {
-					const componentFactory: ComponentFactoryBoundToModule<any> = <
-						ComponentFactoryBoundToModule<any>
-						>this.createComponentFactory(moduleRef, questionType);
+					const componentFactory: ComponentFactoryBoundToModule<any> = <ComponentFactoryBoundToModule<any>>(
+						this.createComponentFactory(moduleRef, questionType)
+					);
 					return componentFactory;
 				}),
-				expand(
-					(componentFactory: ComponentFactoryBoundToModule<any>) => {
-						if (!(questionType in this._componentFactories)) {
-							this._componentFactories[
-								questionType
-							] = componentFactory;
-						} else {
-							return EMPTY;
-						}
-						let hasDependency: boolean = false;
-						for (let key of Object.keys(
-							componentFactory['ngModule']._providers
-						)) {
-							let provider =
-								componentFactory['ngModule']._providers[key];
-							if (
-								provider !== undefined &&
-								provider.hasOwnProperty('dependency')
-							) {
-								hasDependency = true;
-								return this.getQuestionComponentFactory(
-									provider.name
-								);
-							}
-						}
-						return of(componentFactory);
+				expand((componentFactory: ComponentFactoryBoundToModule<any>) => {
+					if (!(questionType in this._componentFactories)) {
+						this._componentFactories[questionType] = componentFactory;
+					} else {
+						return EMPTY;
 					}
-				),
+					let hasDependency: boolean = false;
+					for (let key of Object.keys(componentFactory['ngModule']._providers)) {
+						let provider = componentFactory['ngModule']._providers[key];
+						if (provider !== undefined && provider.hasOwnProperty('dependency')) {
+							hasDependency = true;
+							return this.getQuestionComponentFactory(provider.name);
+						}
+					}
+					return of(componentFactory);
+				}),
 				share()
 			);
 		}
@@ -323,13 +209,13 @@ export class QuestionLoaderService {
 
 		// let cat = moduleRef.injector.get('test');
 		const resolver = moduleRef.componentFactoryResolver;
-		let widget = find(widgets[0], item => {
+		let widget = find(widgets[0], (item) => {
 			return item.id.toLowerCase() === questionType.toLowerCase();
 		});
 
-		const componentFactory: ComponentFactoryBoundToModule<any> = <
-			ComponentFactoryBoundToModule<any>
-			>resolver.resolveComponentFactory(widget.component);
+		const componentFactory: ComponentFactoryBoundToModule<any> = <ComponentFactoryBoundToModule<any>>(
+			resolver.resolveComponentFactory(widget.component)
+		);
 
 		if (!(questionType in this._componentFactories)) {
 			// 	this._componentFactories[questionType] = componentFactory;
@@ -346,32 +232,66 @@ export class QuestionLoaderService {
 		question: ISurveyQuestion,
 		viewContainerRef: ViewContainerRef
 	): Observable<ComponentRef<any>> {
-		return new Observable(o => {
+		return new Observable((o) => {
 			forkJoin([
 				this.getQuestionComponentFactory(question.questionType),
-				this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(
-					question.questionType
-				)
+				this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(question.questionType),
 			]).subscribe({
 				next: ([componentFactory, configuration]) => {
-					this._questionConfigurationService.setQuestionServerConfiguration(
-						question,
-						configuration
-					);
+					this._questionConfigurationService.setQuestionServerConfiguration(question, configuration);
 				},
 				error: (r) => {
 					console.log(r);
 					console.error('Error loading question / getting factory.');
 				},
 				complete: () => {
+					const injector: Injector = Injector.create({
+						providers: [
+							{
+								provide: 'TESTHELLO',
+								useValue: {
+									value: 'HELLO',
+								},
+							},
+						],
+						parent: this.injector,
+					});
 					let componentRef = viewContainerRef.createComponent(
 						this._componentFactories[question.questionType],
 						undefined,
-						this.injector
+						injector
 					);
 					o.next(componentRef);
 					o.complete();
-				}
+				},
+			});
+		});
+	}
+
+	/**
+	 * Loads the appropriate component factory async
+	 * @param question
+	 * @param viewContainerRef
+	 */
+	public loadQuestionComponentFactory(
+		question: ISurveyQuestion,
+	): Observable<ComponentFactory<any>> {
+		return new Observable((o) => {
+			forkJoin([
+				this.getQuestionComponentFactory(question.questionType),
+				this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(question.questionType),
+			]).subscribe({
+				next: ([componentFactory, configuration]) => {
+					this._questionConfigurationService.setQuestionServerConfiguration(question, configuration);
+				},
+				error: (r) => {
+					console.log(r);
+					console.error('Error loading question / getting factory.');
+				},
+				complete: () => {
+					o.next(this._componentFactories[question.questionType]);
+					o.complete();
+				},
 			});
 		});
 	}
@@ -380,11 +300,7 @@ export class QuestionLoaderService {
 	 * Retrieves the server configuration (file) for the associated question type.
 	 * @param question
 	 */
-	public getQuestionConfiguration(
-		question: ISurveyQuestion
-	): Observable<any> {
-		return this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(
-			question.questionType
-		);
+	public getQuestionConfiguration(question: ISurveyQuestion): Observable<any> {
+		return this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(question.questionType);
 	}
 }

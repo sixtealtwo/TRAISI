@@ -25,5 +25,6 @@
 			"username": "traisi"
 		}
 	],
-	"debug.showBreakpointsInOverviewRuler": true
+	"debug.showBreakpointsInOverviewRuler": true,
+	"editor.wordWrapColumn": 120
 }

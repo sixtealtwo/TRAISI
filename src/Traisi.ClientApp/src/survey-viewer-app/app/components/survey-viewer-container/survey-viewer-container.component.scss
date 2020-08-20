@@ -5,6 +5,10 @@
 	background: #e2e6ef !important;
 }
 
+.single-question .question-widget {
+	overflow: hidden;
+}
+
 .traisi-survey-viewer-container {
 	position: absolute;
 	margin-bottom: auto;
@@ -53,7 +57,6 @@
 	color: white;
 	text-align: center;
 }
-
 
 .survey-viewer-container {
 	position: absolute;

@@ -72,6 +72,22 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public show(): void {
 		this.modal.show();
+		let componentRef = null;
+		let factories = this._questionLoaderService.componentFactories;
+		// console.log(factories);
+		let sub = Object.keys(this._questionLoaderService.componentFactories).forEach((key) => {
+			let factory = this._questionLoaderService.componentFactories[key];
+			if (factory.selector === 'traisi-map-question') {
+				componentRef = this.mapTemplate.createComponent(factory, undefined, this._injector);
+				let instance: SurveyQuestion<any> = <SurveyQuestion<any>>componentRef.instance;
+				instance.containerHeight = 300;
+				instance['loadGeocoder'] = false;
+				instance.response.subscribe((value) => {
+					this.mapResonse(value);
+				});
+				this._mapComponent = instance;
+			}
+		}); 
 	}
 
 	public searchFocus(): void {
@@ -115,23 +131,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.model.longitude = response['longitude'];
 	}
 
-	public ngAfterViewInit(): void {
-		let componentRef = null;
-		let factories = this._questionLoaderService.componentFactories;
-		// console.log(factories);
-		let sub = Object.keys(this._questionLoaderService.componentFactories).forEach((key) => {
-			let factory = this._questionLoaderService.componentFactories[key];
-			if (factory.selector === 'traisi-map-question') {
-				componentRef = this.mapTemplate.createComponent(factory, undefined, this._injector);
-				let instance: SurveyQuestion<any> = <SurveyQuestion<any>>componentRef.instance;
-				instance.containerHeight = 300;
-				instance['loadGeocoder'] = false;
-				instance.response.subscribe((value) => {
-					this.mapResonse(value);
-				});
-				this._mapComponent = instance;
-			}
-		});
-	}
+	public ngAfterViewInit(): void {}
 	public ngOnInit(): void {}
 }

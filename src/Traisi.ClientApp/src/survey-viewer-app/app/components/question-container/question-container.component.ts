@@ -9,6 +9,7 @@ import {
 	Inject,
 	ElementRef,
 	Renderer2,
+	Injector,
 } from '@angular/core';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
@@ -37,6 +38,7 @@ import { SurveyTextTransformer } from 'app/services/survey-text-transform/survey
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
 import { ValidationState } from 'app/services/survey-viewer-api-client.service';
+import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 export const fadeInOut = trigger('fadeInOut', [
@@ -152,7 +154,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		private _textTransformer: SurveyTextTransformer,
 		private _instanceState: QuestionInstanceState,
 		private _responseService: SurveyViewerResponseService,
-		private _elementRef: ElementRef
+		@Inject('SurveyRespondentService') private _respondentService: SurveyViewerRespondentService,
+		private _elementRef: ElementRef,
+		private _injector: Injector
 	) {}
 
 	/**
@@ -169,6 +173,32 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 */
 	public ngOnDestroy(): void {}
 
+	private createInjector(): Injector {
+		let injector: Injector = Injector.create({
+			providers: [
+				{
+					provide: 'SurveyId',
+					useValue: this.surveyId,
+				},
+				{
+					provide: 'Configuration',
+					useValue: {
+						...this._questionConfigurationService.getQuestionServerConfiguration(
+							this.question.questionType
+						),
+						...this.question.configuration,
+					},
+				},
+				{
+					provide: 'Household',
+					useValue: this._respondentService.respondents,
+				},
+			],
+			parent: this._injector,
+		});
+		return injector;
+	}
+
 	/**
 	 *
 	 */
@@ -176,16 +206,22 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		this.processPipedQuestionLabel(this.question.label, this.titleLabel);
 		this.processPipedQuestionLabel(this.question.descriptionLabel, this.descriptionLabel);
 
-		this.questionLoaderService.loadQuestionComponent(this.question, this.questionOutlet).subscribe(
-			(componentRef) => {
+		this.questionLoaderService.loadQuestionComponentFactory(this.question).subscribe(
+			(componentFactoryRef) => {
+				let componentRef = this.questionOutlet.createComponent(
+					componentFactoryRef,
+					undefined,
+					this.createInjector()
+				);
 				let surveyQuestionInstance: SurveyQuestion<any> = <SurveyQuestion<any>>componentRef.instance;
-				let config = {
+
+				surveyQuestionInstance.loadConfiguration({
 					...this._questionConfigurationService.getQuestionServerConfiguration(this.question.questionType),
 					...this.question.configuration,
-				};
-				surveyQuestionInstance.loadConfiguration(config);
+				});
 				surveyQuestionInstance.questionId = this.question.questionId;
 				surveyQuestionInstance.surveyId = this.surveyId;
+				surveyQuestionInstance.containerHeight = 100;
 
 				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign(
 					{},
@@ -258,6 +294,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		this.updateContainerHeight();
 	}
 
+	/**
+	 * Calculates and updates the container height for the question instance.
+	 */
 	private updateContainerHeight(): void {
 		if (this.isLoaded) {
 			let containerHeight: number =

@@ -43,7 +43,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="_unitOfWork"></param>
         /// <param name="manager"></param>
@@ -66,7 +65,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="questionId"></param>
         /// <param name="subRespondentId"></param>
@@ -89,7 +87,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="question"></param>
@@ -275,7 +272,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="question"></param>
         /// <param name="respondent"></param>
@@ -298,7 +294,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="response"></param>
         /// <param name="data"></param>
@@ -338,7 +333,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="response"></param>
         /// <param name="responseData"></param>
@@ -353,7 +347,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="question"></param>
@@ -378,7 +371,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="question"></param>
@@ -402,11 +394,9 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="response"></param>
         /// <param name="responseData"></param>
-
         internal void SaveJsonResponse(
             SurveyResponse response,
             object responseData
@@ -439,7 +429,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="question"></param>
@@ -466,13 +455,11 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="question"></param>
         /// <param name="respondent"></param>
         /// <param name="response"></param>
-
         /// <returns></returns>
         internal void SaveTimelineResponse(
             SurveyResponse response,
@@ -518,7 +505,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="question"></param>
@@ -545,7 +531,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
@@ -562,7 +547,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="surveyId"></param>
         /// <param name="type"></param>
@@ -599,7 +583,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <typeparam name="List"></typeparam>
         /// <returns></returns>
@@ -627,7 +610,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="questionIds"></param>
         /// <param name="respondent"></param>
@@ -649,7 +631,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="questionNames"></param>
         /// <param name="respondent"></param>
@@ -669,7 +650,6 @@ namespace Traisi.Services
 
         /// <summary>
         ///
-
         /// </summary>
         /// <param name="surveyId"></param>
         /// <param name="respondentId"></param>
