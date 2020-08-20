@@ -21,6 +21,7 @@ import {
 	SurveyQuestion,
 	ResponseValidationState,
 	QuestionConfigurationService,
+	TraisiValues,
 } from 'traisi-question-sdk';
 import { SurveyViewQuestion as ISurveyQuestion, SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -177,11 +178,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		let injector: Injector = Injector.create({
 			providers: [
 				{
-					provide: 'SurveyId',
+					provide: TraisiValues.SurveyId,
 					useValue: this.surveyId,
 				},
 				{
-					provide: 'Configuration',
+					provide: TraisiValues.Configuration,
 					useValue: {
 						...this._questionConfigurationService.getQuestionServerConfiguration(
 							this.question.questionType
@@ -190,8 +191,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					},
 				},
 				{
-					provide: 'Household',
+					provide: TraisiValues.Household,
 					useValue: this._respondentService.respondents,
+				},
+				{
+					provide: TraisiValues.Respondent,
+					useValue: this._respondentService.respondents[0],
 				},
 			],
 			parent: this._injector,

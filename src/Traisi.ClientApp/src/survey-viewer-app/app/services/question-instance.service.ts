@@ -127,7 +127,6 @@ export class QuestionInstanceState {
 		} else {
 			result.clientValidationState = ResponseValidationState.INVALID;
 		}
-		console.log(result);
 		this.validationState$.next(result);
 		this.onValidationStateChanged(result);
 		this._questionInstance.onResponseSaved();

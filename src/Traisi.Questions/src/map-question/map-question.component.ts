@@ -21,6 +21,7 @@ import {
 	SurveyQuestion,
 	SurveyViewer,
 	QuestionConfigurationService,
+	TraisiValues,
 } from 'traisi-question-sdk';
 import { GeoLocation } from './models/geo-location.model';
 import { MapEndpointService } from './services/mapservice.service';
@@ -28,6 +29,7 @@ import templateString from './map-question.component.html';
 import styleString from './map-question.component.scss';
 import * as mapboxgl from 'mapbox-gl';
 import markerPng from './marker.png';
+import { MapQuestionConfiguration } from './models/map-question-configuration.model';
 @Component({
 	selector: 'traisi-map-question',
 	template: '' + templateString,
@@ -128,10 +130,12 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	constructor(
 		private mapEndpointService: MapEndpointService,
 		private _configurationService: QuestionConfigurationService,
-		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer
+		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
+		@Inject(TraisiValues.Configuration) private _configuration: MapQuestionConfiguration
 	) {
 		super();
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
+		console.log(this._configuration);
 	}
 
 	/**
@@ -151,13 +155,13 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public ngOnInit(): void {
 		// this.accessToken = this._configurationService.getQuestionServerConfiguration('location')['AccessToken'];
-		this.accessToken =
-			'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2s4Y3IwN3U3MG1obzNsczJjMGhoZWc4MiJ9.OCDfSypjueUF_gKejRr6Og';
+		this.accessToken = this._configuration.AccessToken;
+		if (this._configuration.purpose) {
+			this.purpose = this._configuration.purpose;
+		}
 	}
 
-	public traisiOnInit(): void {
-		console.log(this);
-	}
+	public traisiOnInit(): void {}
 
 	/**
 	 * Called when response data is ready
@@ -183,6 +187,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.savedResponse.subscribe(this.onSavedResponseData);
 		this.surveyViewerService.updateNavigationState(false);
 
+		console.log(this);
 		(mapboxgl as any).accessToken = this.accessToken;
 		this._map = new mapboxgl.Map({
 			container: this.mapContainer.nativeElement,
@@ -375,11 +380,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param mapConfig
 	 */
 	public loadConfiguration(mapConfig: any): void {
-		console.log(mapConfig);
-		this.accessToken = mapConfig.AccessToken;
-		if (mapConfig.purpose) {
-			this.purpose = mapConfig.purpose;
-		}
+		// this.accessToken = mapConfig.AccessToken;
 	}
 
 	public resetInput(): void {

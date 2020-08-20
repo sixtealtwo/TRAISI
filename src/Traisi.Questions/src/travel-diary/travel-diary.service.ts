@@ -11,6 +11,7 @@ import {
 	SurveyResponseService,
 	QuestionResponseType,
 	ResponseTypes,
+	TraisiValues,
 } from 'traisi-question-sdk';
 import { User } from './day-view-scheduler.component';
 import { Console } from 'console';
@@ -55,9 +56,10 @@ export class TravelDiaryService {
 		private _http: HttpClient,
 		@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService,
 		@Inject('SurveyResponseService') private _responseService: SurveyResponseService,
-		@Inject('SurveyId') private _surveyId: number,
-		@Inject('Configuration') private _configuration: any,
-		@Inject('Household') private _respondents: SurveyRespondent[]
+		@Inject(TraisiValues.SurveyId) private _surveyId: number,
+		@Inject(TraisiValues.Configuration) private _configuration: any,
+		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
+		@Inject(TraisiValues.Household) private _respondents: SurveyRespondent[]
 	) {
 		console.log(_responseService);
 		console.log(this);
@@ -69,12 +71,12 @@ export class TravelDiaryService {
 	 * @param {SurveyRespondent} respondent
 	 * @param {*} configuration
 	 */
-	public initialize(respondent: SurveyRespondent, configuration: any, surveyId: number): void {
-		this.configuration.purposes = configuration.purposes ?? [];
-		this.configuration.modes = configuration.modes ?? [];
+	public initialize(): void {
+		this.configuration.purposes = this._configuration.purposes ?? [];
+		this.configuration.modes = this._configuration.modes ?? [];
 		this.loadAddresses();
 
-		this._respondentService.getSurveyGroupMembers(respondent).subscribe((respondents) => {
+		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
 			for (let x of respondents) {
 				this.respondents.push({
 					id: x.id,
@@ -85,14 +87,16 @@ export class TravelDiaryService {
 			this.users.next(this.respondents);
 			this.isLoaded.next(true);
 		});
-		this.surveyId = surveyId;
+		this.loadPreviousLocations();
 	}
 
 	public loadPreviousLocations(): void {
-		this._responseService.listSurveyResponsesOfType(this.surveyId, QuestionResponseType.Location).subscribe((x) => {
-			console.log('privious locations: ');
-			console.log(x);
-		});
+		this._responseService
+			.listSurveyResponsesOfType(this._surveyId, QuestionResponseType.Location)
+			.subscribe((x) => {
+				console.log('privious locations: ');
+				console.log(x);
+			});
 	}
 
 	public loadAddresses(): void {

@@ -63,7 +63,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 				start: event.timeA,
 				end: event.timeB,
 				draggable: true,
-				resizable: {afterEnd: true},
+				resizable: { afterEnd: true },
 				meta: {
 					user: u,
 				},
@@ -76,10 +76,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public ngOnInit(): void {
-		console.log(this);
-		// initialize service with configuration
-
-		this._travelDiaryService.initialize(this.respondent, this.configuration, this.surveyId);
+		this._travelDiaryService.initialize();
 	}
 	public ngAfterViewInit(): void {}
 	public onQuestionShown(): void {}
