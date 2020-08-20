@@ -54,8 +54,10 @@ export class TravelDiaryService {
 	public constructor(
 		private _http: HttpClient,
 		@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService,
-		@Inject('SurveyResponseService') private _responderService: SurveyResponseService
-	) {}
+		@Inject('SurveyResponseService') private _responseService: SurveyResponseService
+	) {
+		console.log(_responseService);
+	}
 
 	/**
 	 *
@@ -65,7 +67,6 @@ export class TravelDiaryService {
 	 */
 	public initialize(respondent: SurveyRespondent, configuration: any, surveyId: number): void {
 		let ps = configuration.purpose.split(' | ');
-		console.log(ps);
 		this.configuration.purposes = ps;
 		this.loadAddresses();
 
@@ -84,12 +85,10 @@ export class TravelDiaryService {
 	}
 
 	public loadPreviousLocations(): void {
-		this._responderService
-			.listSurveyResponsesOfType(this.surveyId, QuestionResponseType.Location)
-			.subscribe((x) => {
-				console.log('privious locations: ');
-				console.log(x);
-			});
+		this._responseService.listSurveyResponsesOfType(this.surveyId, QuestionResponseType.Location).subscribe((x) => {
+			console.log('privious locations: ');
+			console.log(x);
+		});
 	}
 
 	public loadAddresses(): void {

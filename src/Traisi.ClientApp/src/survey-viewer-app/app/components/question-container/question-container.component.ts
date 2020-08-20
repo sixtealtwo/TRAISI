@@ -327,23 +327,13 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								);
 							}
 						});
-						// this.titleLabel = new BehaviorSubject(processedLabel);
-						console.log(processedLabel);
 						update.next(processedLabel);
 					});
 			}
 		} else {
-			// this.titleLabel = new BehaviorSubject(processedLabel);
-			console.log(processedLabel);
 			update.next(processedLabel);
 		}
 	}
-
-	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
-		// this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState
-		// = this.responseValidationState;
-		// this._navigator.responseChanged();
-	};
 
 	/**
 	 * Will unload is called before the active question is swapped out of view.

@@ -331,8 +331,6 @@ export class QuestionLoaderService {
 			ComponentFactoryBoundToModule<any>
 			>resolver.resolveComponentFactory(widget.component);
 
-		console.log('component factory');
-		console.log(componentFactory);
 		if (!(questionType in this._componentFactories)) {
 			// 	this._componentFactories[questionType] = componentFactory;
 		}

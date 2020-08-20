@@ -15,6 +15,10 @@ export abstract class SurveyResponseService {
     questionName: string,
     respondent: SurveyRespondent,
   ): Array<ResponseData<ResponseTypes>>
+  abstract getResponseValue(
+    questionId: number,
+    respondent: SurveyRespondent,
+  ): Observable<ResponseData<ResponseTypes>>;
   abstract saveResponse(
     question: { id: number } | any,
     respondent: SurveyRespondent,

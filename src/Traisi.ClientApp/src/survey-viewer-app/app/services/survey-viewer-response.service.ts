@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { SurveyRespondent, SurveyQuestion, ResponseData, ResponseTypes, SurveyRespondentService, SurveyResponseService } from 'traisi-question-sdk';
+import {
+	SurveyRespondent,
+	SurveyQuestion,
+	ResponseData,
+	ResponseTypes,
+	SurveyRespondentService,
+	SurveyResponseService,
+} from 'traisi-question-sdk';
 import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable, EMPTY } from 'rxjs';
 import {
@@ -14,16 +21,11 @@ import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-v
 @Injectable({
 	providedIn: 'root',
 })
-export class SurveyViewerResponseService  {
-
-
-
+export class SurveyViewerResponseService {
 	private _responses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
 	private _invalidResponses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
 
-	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) {
-	
-	}
+	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) {}
 
 	/**
 	 * Gets the stored response for the passed respondent and question, this will return null
@@ -52,12 +54,12 @@ export class SurveyViewerResponseService  {
 	}
 
 	/**
-	 * 
-	 * @param surveyId 
-	 * @param type 
+	 *
+	 * @param surveyId
+	 * @param type
 	 */
 	public listSurveyResponsesOfType(surveyId: number, type: QuestionResponseType): Observable<any> {
-		return this._responseClient.listResponsesOfType(surveyId,type );
+		return this._responseClient.listResponsesOfType(surveyId, type);
 	}
 
 	/**
@@ -66,22 +68,18 @@ export class SurveyViewerResponseService  {
 	 * @param respondent
 	 */
 	public hasStoredResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): boolean {
-		if(!respondent)
-		{
+		if (!respondent) {
 			return false;
-		}
-		else if (this._responses[respondent.id]?.[question.questionId]) {
+		} else if (this._responses[respondent.id]?.[question.questionId]) {
 			return true;
 		}
 		return false;
 	}
 
 	private _hasStoredInvalidResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): boolean {
-		if(!respondent)
-		{
+		if (!respondent) {
 			return false;
-		}
-		else if (this._invalidResponses[respondent.id]?.[question.questionId]) {
+		} else if (this._invalidResponses[respondent.id]?.[question.questionId]) {
 			return true;
 		}
 		return false;

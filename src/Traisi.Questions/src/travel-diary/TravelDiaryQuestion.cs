@@ -49,10 +49,22 @@ namespace Traisi.Sdk.Questions
         public string[] Modes = new string[] { };
 
         [QuestionConfiguration(ConfigurationValueType.Response,
-        DisplayName = "Home Departure Time",
-        Description = "Which survey questions indicate a home departure time.",
+        DisplayName = "Home Departure",
+        Description = "Which question indicates the respondent left home.",
         SurveyBuilderValueType = QuestionBuilderType.MultiSelect)]
         public int[] DepartureQuestionIds = new int[] { };
+
+        [QuestionConfiguration(ConfigurationValueType.Response,
+        DisplayName = "Return Home",
+        Description = "Which question indicates the respondent returned home.",
+        SurveyBuilderValueType = QuestionBuilderType.MultiSelect)]
+        public int[] ReturnQuestionIds = new int[] { };
+
+        [QuestionConfiguration(ConfigurationValueType.Response,
+        DisplayName = "Home All Day",
+        Description = "Which question indicates the respondent was home all day.",
+        SurveyBuilderValueType = QuestionBuilderType.MultiSelect)]
+        public int[] HomeAllDayIds = new int[] { };
 
     }
 
