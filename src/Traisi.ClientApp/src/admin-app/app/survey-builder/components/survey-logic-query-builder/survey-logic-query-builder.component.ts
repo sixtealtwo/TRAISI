@@ -120,6 +120,7 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy, OnCh
 	public onModelChange($event: SurveyLogic, index: number): void {
 		this.queryModels[index] = $event;
 		this.modelChanged$.next($event);
+		console.log(this.queryModels);
 	}
 	public onValidationMessageModelChange($event: string, index: number): void {
 		this.queryModels[index].message = $event;
@@ -130,6 +131,8 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy, OnCh
 		let value = $event.map((i) => i.code);
 		rule.value = value;
 		this.modelChanged$.next(this.queryModels[index]);
+		
+		
 	}
 
 	public onFieldValueChanged($event: SurveyLogicField, rule: Rule) {
@@ -176,6 +179,7 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy, OnCh
 
 		// only send an update to the server every 500 ms of a model change
 		this.modelChanged$.pipe(skip(1), debounceTime(1000)).subscribe((model) => {
+			console.log(model);
 			this.surveyLogic = model;
 			this.onLogicChanged.emit(<any>model);
 		});

@@ -224,7 +224,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 							cmpRef.instance.id = i;
 							cmpRef.instance.questionConfiguration = conf;
 
-							console.log(configurationValues);
 							if (configurationValues.has(conf.name)) {
 								cmpRef.instance.processPriorValue(configurationValues.get(conf.name));
 							}
@@ -717,7 +716,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	 * @param model
 	 */
 	public onConditionalLogicChanged(model: SurveyLogic) {
-		console.log('in here ');
 		this._builder
 			.updateQuestionLogic(
 				this._editorData.surveyId,

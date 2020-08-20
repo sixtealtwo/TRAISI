@@ -60,7 +60,7 @@ namespace Traisi.Data.Repositories
         {
             return _appContext.QuestionPartViews.Where(q => q.Id == id)
                 .Include(x => x.QuestionPart).ThenInclude(x => x.Conditionals)
-                .ThenInclude(x => x.Expressions).ThenInclude(x => x.Expressions)
+                .ThenInclude(x => x.Expressions).ThenInclude(x => x.Expressions).ThenInclude(x => x.Expressions)
                 .ThenInclude(x => x.ValidationMessages).FirstOrDefaultAsync();
         }
 

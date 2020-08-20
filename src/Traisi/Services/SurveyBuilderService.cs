@@ -978,6 +978,7 @@ namespace Traisi.Services
             this._unitOfWork.DbContext.Update(oldLogic);
             oldLogic.ValidationMessages["en"].Value = newLogic.ValidationMessages["en"].Value;
             oldLogic.Operator = newLogic.Operator;
+            oldLogic.Condition = newLogic.Condition;
             oldLogic.QuestionId = newLogic.QuestionId;
             oldLogic.ValidationQuestionId = newLogic.ValidationQuestionId;
             oldLogic.Value = newLogic.Value;
