@@ -94,6 +94,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		return this._travelDiaryService.addresses$;
 	}
 
+	public get modes(): string[] {
+		return this._travelDiaryService.configuration.modes;
+	}
+
 	public get addressInput(): Subject<string> {
 		return this._travelDiaryService.addressInput$;
 	}

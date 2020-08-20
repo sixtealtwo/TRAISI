@@ -154,7 +154,7 @@ namespace Traisi.Data
             builder.Entity<QuestionPartView>().HasMany(s => s.DescriptionLabels).WithOne().HasForeignKey("QuestionPartViewDescriptionId").OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().HasMany(qp => qp.QuestionPartViewChildren).WithOne(qc => qc.ParentView).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().ToTable($"{nameof(this.QuestionPartViews)}");
-            builder.Entity<QuestionPart>().HasMany(v => v.Conditionals).WithOne(v => v.Question).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPart>().HasMany(v => v.Conditionals).WithOne().HasForeignKey(x => x.QuestionId).OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<QuestionOption>().HasMany(o => o.QuestionOptionLabels).WithOne().HasForeignKey("QuestionOptionId").OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionOption>().HasMany(q => q.QuestionOptionConditionalsTarget).WithOne(o => o.TargetOption).OnDelete(DeleteBehavior.Cascade);

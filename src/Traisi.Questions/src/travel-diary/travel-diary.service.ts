@@ -33,7 +33,7 @@ export const colors: any = {
 export class TravelDiaryService {
 	public diaryEvents$: BehaviorSubject<CalendarEvent>;
 
-	public configuration: TravelDiaryConfiguration = { purposes: [] };
+	public configuration: TravelDiaryConfiguration = { purposes: [], modes: [] };
 
 	public addresses$: Observable<string[]>;
 

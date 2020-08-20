@@ -1,3 +1,4 @@
 export interface TravelDiaryConfiguration {
-    purposes: string [];
+	purposes: string[];
+	modes: string[];
 }
