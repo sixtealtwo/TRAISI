@@ -10,6 +10,7 @@ import {
 	ElementRef,
 	Renderer2,
 	Injector,
+	StaticProvider,
 } from '@angular/core';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
@@ -174,7 +175,27 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 */
 	public ngOnDestroy(): void {}
 
+	public configurationFactory = () => {
+		return {
+			...this._questionConfigurationService.getQuestionServerConfiguration(this.question.questionType),
+			...this.question.configuration,
+		};
+	};
+
+	private createServerConfigProviders(): StaticProvider[] {
+		let c = this._questionConfigurationService.listConfigurations();
+		let providers: StaticProvider[] = [];
+		for (let provider of c) {
+			providers.push({
+				provide: `${provider.question}.${provider.property}`.toLowerCase(),
+				useValue: provider['value'],
+			});
+		}
+		return providers;
+	}
+
 	private createInjector(): Injector {
+		this.createServerConfigProviders();
 		let injector: Injector = Injector.create({
 			providers: [
 				{
@@ -183,12 +204,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				},
 				{
 					provide: TraisiValues.Configuration,
-					useValue: {
-						...this._questionConfigurationService.getQuestionServerConfiguration(
-							this.question.questionType
-						),
-						...this.question.configuration,
-					},
+					useFactory: this.configurationFactory,
+					deps: [],
 				},
 				{
 					provide: TraisiValues.Household,
@@ -196,8 +213,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				},
 				{
 					provide: TraisiValues.Respondent,
-					useValue: this._respondentService.respondents[0],
+					useValue: this._respondentService.primaryRespondent,
 				},
+				this.createServerConfigProviders(),
 			],
 			parent: this._injector,
 		});

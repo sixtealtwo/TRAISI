@@ -73,7 +73,7 @@ export class TravelDiaryService {
 	 */
 	public initialize(): void {
 		this.configuration.purposes = this._configuration.purposes ?? [];
-		this.configuration.modes = this._configuration.modes ?? [];
+		this.configuration.modes =this._configuration.modes ?? [];
 		this.loadAddresses();
 
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
@@ -91,12 +91,12 @@ export class TravelDiaryService {
 	}
 
 	public loadPreviousLocations(): void {
-		this._responseService
-			.listSurveyResponsesOfType(this._surveyId, QuestionResponseType.Location)
-			.subscribe((x) => {
-				console.log('privious locations: ');
-				console.log(x);
-			});
+		this._responseService.listSurveyResponsesOfType(this._surveyId, QuestionResponseType.Location).subscribe((x) => {
+			// console.log('privious locations: ');
+			// console.log(x);
+			let rValues = x.responseValues;
+			console.log(x[0]);
+		});
 	}
 
 	public loadAddresses(): void {

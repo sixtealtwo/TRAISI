@@ -131,11 +131,13 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		private mapEndpointService: MapEndpointService,
 		private _configurationService: QuestionConfigurationService,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
-		@Inject(TraisiValues.Configuration) private _configuration: MapQuestionConfiguration
+		@Inject(TraisiValues.Configuration) private _configuration: MapQuestionConfiguration,
+		@Inject('location.accesstoken') private _accessToken: string
 	) {
 		super();
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
-		console.log(this._configuration);
+		this._configuration.AccessToken = _accessToken;
+		this.accessToken = _accessToken;
 	}
 
 	/**
@@ -186,8 +188,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	public ngAfterViewInit(): void {
 		this.savedResponse.subscribe(this.onSavedResponseData);
 		this.surveyViewerService.updateNavigationState(false);
-
-		console.log(this);
 		(mapboxgl as any).accessToken = this.accessToken;
 		this._map = new mapboxgl.Map({
 			container: this.mapContainer.nativeElement,
