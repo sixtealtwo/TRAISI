@@ -23,7 +23,7 @@ namespace Traisi.UnitTests.Services
         }
 
         [Fact]
-        public void SingleLayerExpression_StringEquals_ReturnsValidationError()
+        public async void SingleLayerExpression_StringEquals_ReturnsValidationError()
         {
             SurveyResponse response = new SurveyResponse();
             response.ResponseValues = new List<ResponseValue>();
@@ -51,7 +51,7 @@ namespace Traisi.UnitTests.Services
 
             this._unitOfWork.SurveyResponses.Add(response);
 
-            this._validationService.ListSurveyLogicErrorsForResponse(response, respondent);
+            await this._validationService.ListSurveyLogicErrorsForResponse(response, respondent);
 
         }
 

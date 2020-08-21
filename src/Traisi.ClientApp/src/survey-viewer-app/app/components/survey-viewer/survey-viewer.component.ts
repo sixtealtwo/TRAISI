@@ -19,7 +19,7 @@ import { sortBy } from 'lodash';
 import { flatMap, share } from 'rxjs/operators';
 import { SurveyUser } from 'shared/models/survey-user.model';
 import { Utilities } from 'shared/services/utilities';
-import { ResponseValidationState, SurveyRespondent } from 'traisi-question-sdk';
+import { ResponseValidationState, SurveyRespondent, TraisiValues } from 'traisi-question-sdk';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyViewQuestion } from '../../models/survey-view-question.model';
@@ -41,6 +41,7 @@ import { QuestionInstance } from 'app/models/question-instance.model';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { NavigationState } from 'app/models/navigation-state.model';
 import { AuthService } from 'shared/services/auth.service';
+import { SurveyViewerProviders } from 'app/providers/survey-viewer.providers';
 interface SpecialPageDataInput {
 	pageHTML: string;
 	pageThemeInfo: string;
@@ -65,7 +66,7 @@ interface SpecialPageDataInput {
 			]),
 		]),
 	],
-	providers: [],
+	providers: [SurveyViewerProviders],
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
 	public surveyId: number;
@@ -126,7 +127,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public viewerTheme: SurveyViewerTheme;
 
 	public isShowComplete: boolean = false;
-	viewDate: Date = new Date();
+	public viewDate: Date = new Date();
 	public currentUser: SurveyUser;
 
 	public get userShortcode(): string {
@@ -167,12 +168,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private _titleService: Title,
 		private elementRef: ElementRef,
 		private _authService: AuthService,
-		private _respondentService: SurveyViewerRespondentService,
-
+		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyViewerRespondentService,
 		@Inject(LOCAL_STORAGE) private _storage: StorageService
 	) {
 		this.ref = this;
-
 	}
 
 	/**
@@ -267,8 +266,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	private navigationStateChanged(v: NavigationState): void {
 		let saveState = {
-			shortcode: this._authService.currentSurveyUser.shortcode,
-			surveyId: String(this._authService.currentSurveyUser.surveyId),
+			shortcode: this.session.shortcode ?? this._authService.currentSurveyUser.id,
+			surveyId: this.surveyId,
 			state: {
 				activeQuestionIndex: v.activeQuestionIndex ?? 0,
 				activeValidationStates: [],
@@ -280,7 +279,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				isPreviousEnabled: false,
 				activeRespondentIndex: v.activeRespondentIndex ?? 0,
 				activeSectionIndex: v.activeSectionIndex,
-			}
+			},
 		};
 		this._storage.set(`surveyState:${this.surveyId}`, saveState);
 	}
@@ -331,6 +330,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					});
 					this.viewerState.primaryRespondent = members[0];
 					this._respondentService.primaryRespondent = members[0];
+					this._respondentService.respondents = members;
 				}
 				let pageCount: number = 0;
 				let viewOrder: number = 0;
@@ -445,22 +445,22 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public initializeNavigator(): void {
 		if (this._storage.has(`surveyState:${this.surveyId}`)) {
 			let restoredState: {
-				shortcode: string,
-				surveyId: number,
-				state: NavigationState
+				shortcode: string;
+				surveyId: number;
+				state: NavigationState;
 			} = this._storage.get(`surveyState:${this.surveyId}`);
 
-			if (restoredState.shortcode === this._authService.currentSurveyUser.shortcode &&
-				this.session.surveyId === restoredState.surveyId) {
-				this.navigator.initialize(restoredState.state).subscribe((v) => { });
-			}
-			else {
+			if (
+				restoredState.shortcode ===
+					(this._authService.currentSurveyUser.shortcode ?? this._authService.currentSurveyUser.id) &&
+				this.session.surveyId === restoredState.surveyId
+			) {
+				this.navigator.initialize(restoredState.state).subscribe((v) => {});
+			} else {
 				this.navigator.initialize().subscribe();
 				console.log('previous survey data is invalid, resetting to new state');
 			}
-
-		}
-		else {
+		} else {
 			console.log('no previous data, using base initialized');
 			this.navigator.initialize().subscribe();
 		}
@@ -493,7 +493,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		// this._navigationService.navigatePrevious();
 
 		this.navigator.navigatePrevious().subscribe({
-			next: (v) => { },
+			next: (v) => {},
 			complete: () => {
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
@@ -508,7 +508,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigateNext(): void {
 		this.viewerState.isNavProcessing = true;
 		this.navigator.navigateNext().subscribe({
-			next: (v) => { },
+			next: (v) => {},
 			complete: () => {
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
@@ -593,9 +593,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
-	public ngAfterContentInit(): void { }
+	public ngAfterContentInit(): void {}
 
-	public ngAfterViewChecked(): void { }
+	public ngAfterViewChecked(): void {}
 
 	/**
 	 * Uses dark buttons

@@ -36,7 +36,11 @@
 				<div class="questions-container flex-grow-1" #questionsContainer>
 					<div
 						class="question-section"
-						[ngClass]="{ 'single-question': state.activeQuestionInstances.length === 1 }"
+						[ngClass]="{
+							'single-question':
+								state.activeQuestionInstances.length === 1 &&
+								state.activeQuestionInstances[0]?.component?.isFillVertical
+						}"
 						#questionSection
 					>
 						<ng-container

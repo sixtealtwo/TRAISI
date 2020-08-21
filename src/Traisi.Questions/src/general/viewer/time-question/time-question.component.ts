@@ -6,7 +6,8 @@ import {
 	SurveyViewer,
 	TimeResponseData,
 	ResponseValidationState,
-	SurveyRespondentService
+	SurveyRespondentService,
+	TraisiValues
 } from 'traisi-question-sdk';
 
 import { Time } from '@angular/common';
@@ -35,7 +36,7 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
-		@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService
+		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyRespondentService
 	) {
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;

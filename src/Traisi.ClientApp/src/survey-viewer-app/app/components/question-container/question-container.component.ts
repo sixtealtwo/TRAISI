@@ -144,7 +144,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * @param _navigation
 	 */
 	constructor(
-		@Inject('QuestionLoaderService')
+		@Inject(TraisiValues.QuestionLoader)
 		private questionLoaderService: QuestionLoaderService,
 		@Inject('SurveyViewerService')
 		private surveyViewerService: SurveyViewerService,
@@ -155,11 +155,13 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		private _questionConfigurationService: QuestionConfigurationService,
 		private _textTransformer: SurveyTextTransformer,
 		private _instanceState: QuestionInstanceState,
-		private _responseService: SurveyViewerResponseService,
-		@Inject('SurveyRespondentService') private _respondentService: SurveyViewerRespondentService,
+		@Inject(TraisiValues.SurveyResponseService) private _responseService: SurveyViewerResponseService,
+		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyViewerRespondentService,
 		private _elementRef: ElementRef,
 		private _injector: Injector
-	) {}
+	) {
+		console.log(this); 
+	}
 
 	/**
 	 * Calcs unique repeat number
@@ -198,10 +200,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		this.createServerConfigProviders();
 		let injector: Injector = Injector.create({
 			providers: [
-				{
-					provide: TraisiValues.SurveyId,
-					useValue: this.surveyId,
-				},
 				{
 					provide: TraisiValues.Configuration,
 					useFactory: this.configurationFactory,

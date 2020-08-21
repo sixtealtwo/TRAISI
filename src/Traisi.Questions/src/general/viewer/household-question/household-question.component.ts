@@ -1,5 +1,12 @@
 import { Component, OnInit, Inject, ChangeDetectorRef, OnChanges, DoCheck, AfterContentInit } from '@angular/core';
-import { SurveyQuestion, ResponseTypes, SurveyRespondent, ResponseValidationState, SurveyRespondentService } from 'traisi-question-sdk';
+import {
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyRespondent,
+	ResponseValidationState,
+	SurveyRespondentService,
+	TraisiValues,
+} from 'traisi-question-sdk';
 import { SurveyRespondentEdit } from './models/survey-respondent-edit.model';
 import templateString from './household-question.component.html';
 import styleString from './household-question.component.scss';
@@ -8,7 +15,8 @@ import styleString from './household-question.component.scss';
 	template: '' + templateString,
 	styles: ['' + styleString],
 })
-export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit, DoCheck, AfterContentInit {
+export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.None>
+	implements OnInit, DoCheck, AfterContentInit {
 	public typeName: string;
 	public icon: string;
 
@@ -17,13 +25,24 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	public primaryRespondent;
 	public SurveyRespondentEdit;
 
-	public relationships: Array<string> = ['Spouse/Partner', 'Child', 'Parent', 'Grandparent', 'Grandchild', 'Roommate', 'Other'];
+	public relationships: Array<string> = [
+		'Spouse/Partner',
+		'Child',
+		'Parent',
+		'Grandparent',
+		'Grandchild',
+		'Roommate',
+		'Other',
+	];
 
 	/**
 	 *
 	 * @param _surveyResponderService
 	 */
-	constructor(@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService, private _cdRef: ChangeDetectorRef) {
+	constructor(
+		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyRespondentService,
+		private _cdRef: ChangeDetectorRef
+	) {
 		super();
 
 		this.respondents = [];
@@ -75,7 +94,6 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			arr.splice(0, 1);
 
 			arr.forEach((element) => {
-
 				this.respondents.push({
 					respondent: element,
 					isSaved: true,
@@ -101,8 +119,6 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 
 	/** */
 	public saveRespondent(respondentEdit: SurveyRespondentEdit): void {
-
-	
 		if (respondentEdit.respondent.id === undefined) {
 			this._respondentService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
 				(value) => {
@@ -115,7 +131,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				}
 			);
 		} else {
-			console.log('updating');  
+			console.log('updating');
 			this._respondentService.updateSurveyGroupMember(respondentEdit.respondent).subscribe(
 				(value) => {
 					respondentEdit.isSaved = true;

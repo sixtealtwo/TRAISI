@@ -324,7 +324,7 @@ namespace Traisi.Models.Mapping
                                                     .Replace(" ", "")] =
                                                 JToken.Parse(a.Value);
                                         }
-                                        catch (Exception e)
+                                        catch (Exception)
                                         {
                                             svm
                                                 .Configuration[ResponseValueResolver
@@ -362,8 +362,9 @@ namespace Traisi.Models.Mapping
                                 string]
                                 .Value;
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
+                        
                     }
                 });
 

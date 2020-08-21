@@ -210,7 +210,7 @@ namespace Traisi.Sdk.Services
                     }
                     catch (Exception e)
                     {
-                        _logger.LogError("Could not find requested quesiont resource: " + configAttribute.Resource);
+                        _logger.LogError(e,"Could not find requested quesiont resource: " + configAttribute.Resource);
                     }
 
                 }

@@ -12,7 +12,7 @@ import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditi
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { ValidationState } from 'app/services/survey-viewer-api-client.service';
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
-import { SurveyRespondent } from 'traisi-question-sdk';
+import { SurveyRespondent, TraisiValues } from 'traisi-question-sdk';
 import { ViewTransformer } from './view-transformer.service';
 import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
 
@@ -64,9 +64,9 @@ export class SurveyNavigator {
 	public constructor(
 		private _state: SurveyViewerStateService,
 		private _conditionalEvaluator: ConditionalEvaluator,
-		@Inject('SurveyRespondentService')
+		@Inject(TraisiValues.SurveyRespondentService)
 		private _respondentService: SurveyViewerRespondentService,
-		private _viewTransformer: ViewTransformer
+		private _viewTransformer: ViewTransformer 
 	) {
 		this.navigationStateChanged = new Subject<NavigationState>();
 		let initialState: NavigationState = {

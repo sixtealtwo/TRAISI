@@ -5,16 +5,26 @@ import {
 	LocationResponseData,
 	TimelineResponseData,
 } from 'traisi-question-sdk';
-import { Component, ViewEncapsulation, OnInit, AfterViewInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
+import {
+	Component,
+	ViewEncapsulation,
+	OnInit,
+	AfterViewInit,
+	ViewChild,
+	ElementRef,
+	TemplateRef,
+	Injector,
+} from '@angular/core';
 import { setHours, isSameMonth, setMinutes, addHours } from 'date-fns';
 import templateString from './travel-diary-question.component.html';
 import styleString from './travel-diary-question.component.scss';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { TravelDiaryService, colors } from './travel-diary.service';
+import { TravelDiaryService } from './services/travel-diary.service';
 import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-calendar';
-import { TravelDiaryEditDialogComponent } from './travel-diary-edit-dialog.component';
-import { User, DayViewSchedulerComponent } from './day-view-scheduler.component';
+import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-dialog.component';
+import { User, DayViewSchedulerComponent } from './components/day-view-scheduler.component';
 import { BehaviorSubject } from 'rxjs';
+import { colors } from './models/consts';
 @Component({
 	selector: 'traisi-travel-diary-question',
 	template: '' + templateString,
@@ -38,12 +48,15 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public constructor(
 		private _travelDiaryService: TravelDiaryService,
 		private _modalService: BsModalService,
-		private _elementRef: ElementRef
+		private _elementRef: ElementRef,
+		private _injector: Injector
 	) {
 		super();
+		this.isFillVertical = true;
+		console.log(this._injector); 
 	}
 
-	events: CalendarEvent[] = [];
+	public events: CalendarEvent[] = [];
 
 	public get users(): any[] {
 		return this._travelDiaryService.respondents;
@@ -53,9 +66,11 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this.entryDialog.show();
 	}
 
+	public editEvent(event): void {
+		this.entryDialog.showEdit(event);
+	}
+
 	public entrySaved(event: TimelineResponseData & { users: User[] }) {
-		console.log('saved');
-		console.log(event);
 		let events: CalendarEvent[] = [];
 		for (let u of event.users) {
 			events.push({
@@ -71,8 +86,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 			});
 		}
 		this.events = events;
-		console.log(this.events);
-		// this.scheduleComponent.
 	}
 
 	public ngOnInit(): void {

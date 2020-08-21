@@ -73,7 +73,7 @@ export abstract class SurveyQuestion<
 
   public displayClass: string = ''
 
-  public isMultiPage: boolean = false
+  public isFillVertical: boolean = false
 
   public respondent: SurveyRespondent
 

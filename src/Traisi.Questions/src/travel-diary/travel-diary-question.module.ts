@@ -12,15 +12,15 @@ import {
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule } from '@angular/forms';
-import { TravelDiaryEditDialogComponent } from './travel-diary-edit-dialog.component';
+import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-dialog.component';
 import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { DayViewSchedulerComponent } from './day-view-scheduler.component';
+import { DayViewSchedulerComponent } from './components/day-view-scheduler.component';
 
 export const calendarProps = {
 	provide: DateAdapter,
 	useFactory: adapterFactory,
-};
+}; 
 export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarProps);
 
 @NgModule({

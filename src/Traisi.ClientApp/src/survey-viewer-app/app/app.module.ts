@@ -64,12 +64,12 @@ import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { PipesModule } from '../../shared/pipes/pipes.module';
 import { QuestionConfigurationService } from './services/question-configuration.service';
-import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
+import { QuestionConfigurationService as Config, TraisiValues } from 'traisi-question-sdk';
 import { SurveyViewerResponseService } from './services/survey-viewer-response.service';
 import { SurveyViewerRespondentService } from './services/survey-viewer-respondent.service';
 import { SurveyProgressComponent } from './components/survey-progress/survey-progress.component';
 import { StorageServiceModule, StorageService } from 'ngx-webstorage-service';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {
 	CalendarModule,
 	DateAdapter,
@@ -77,15 +77,14 @@ import {
 	CalendarDayModule,
 	CalendarView,
 	CalendarUtils,
-  } from 'angular-calendar';
-  export const calendarProps = {
+} from 'angular-calendar';
+export const calendarProps = {
 	provide: DateAdapter,
 	useFactory: adapterFactory,
-  };
+};
 export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarProps);
 export const calC: ModuleWithProviders = CalendarCommonModule.forRoot(calendarProps);
-export const STORAGE_TOKEN =
-	new InjectionToken<StorageService>('STORAGE_TOKEN');
+export const STORAGE_TOKEN = new InjectionToken<StorageService>('STORAGE_TOKEN');
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -114,7 +113,7 @@ export const STORAGE_TOKEN =
 		SurveyGroupcodePageComponent,
 		SurveyShortcodePageComponent,
 		Footer1Component,
-		SurveyProgressComponent
+		SurveyProgressComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -145,7 +144,7 @@ export const STORAGE_TOKEN =
 		ToastrModule.forRoot(),
 		calModule,
 		calC,
-		StorageServiceModule
+		StorageServiceModule,
 	],
 	providers: [
 		LocalStoreManager,
@@ -157,13 +156,12 @@ export const STORAGE_TOKEN =
 		{ provide: 'SurveyViewerApiEndpointService', useClass: SurveyViewerApiEndpointService },
 		SurveyViewerEndpointService,
 		ConfigurationService,
-		QuestionLoaderService,
 		ConditionalEvaluator,
 		SurveyResponderService,
 		SurveyViewerRespondentService,
 		SurveyViewerResponseService,
-		{ provide: 'SurveyResponseService', useExisting: SurveyViewerResponseService },
-		{ provide: 'SurveyRespondentService', useExisting: SurveyViewerRespondentService },
+		{ provide: TraisiValues.SurveyResponseService, useExisting: SurveyViewerResponseService },
+		{ provide: TraisiValues.SurveyRespondentService, useExisting: SurveyViewerRespondentService },
 		SurveyViewerStateService,
 		FormControlDirective,
 		FormGroupDirective,
@@ -171,7 +169,7 @@ export const STORAGE_TOKEN =
 		httpInterceptorProviders,
 		SurveyResponderEndpointService,
 		BsModalRef,
-		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService },
+		{ provide: TraisiValues.QuestionLoader, useExisting: QuestionLoaderService },
 		{ provide: 'CONFIG_SERVICE', useExisting: QuestionConfigurationService },
 		{ provide: Config, useExisting: QuestionConfigurationService },
 		SurveyDataResolver,
@@ -183,10 +181,9 @@ export const STORAGE_TOKEN =
 			multi: true,
 		},
 		SurveyViewerResponseService,
-		SurveyViewerResponseService,
 
 		// SurveyDataResolver
 	],
 	bootstrap: [SurveyViewerContainerComponent],
 })
-export class AppModule { }
+export class AppModule {}

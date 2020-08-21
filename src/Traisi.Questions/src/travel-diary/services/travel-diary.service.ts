@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { Subject, BehaviorSubject, Observable, concat, of } from 'rxjs';
-import { TravelDiaryConfiguration } from './travel-diary-configuration.model';
+import { TravelDiaryConfiguration } from '../models/travel-diary-configuration.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
 import { formatRelative } from 'date-fns';
@@ -12,24 +12,13 @@ import {
 	QuestionResponseType,
 	ResponseTypes,
 	TraisiValues,
+	LocationResponseData,
 } from 'traisi-question-sdk';
-import { User } from './day-view-scheduler.component';
+import { User } from '../components/day-view-scheduler.component';
 import { Console } from 'console';
+import { TravelDiaryEditDialogComponent } from '../components/travel-diary-edit-dialog.component';
+import { colors } from '../models/consts';
 
-export const colors: any = {
-	red: {
-		primary: '#ad2121',
-		secondary: '#FAE3E3',
-	},
-	blue: {
-		primary: '#1e90ff',
-		secondary: '#D1E8FF',
-	},
-	yellow: {
-		primary: '#e3bc08',
-		secondary: '#FDF1BA',
-	},
-};
 @Injectable()
 export class TravelDiaryService {
 	public diaryEvents$: BehaviorSubject<CalendarEvent>;
@@ -54,14 +43,13 @@ export class TravelDiaryService {
 
 	public constructor(
 		private _http: HttpClient,
-		@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService,
-		@Inject('SurveyResponseService') private _responseService: SurveyResponseService,
+		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyRespondentService,
+		@Inject(TraisiValues.SurveyResponseService) private _responseService: SurveyResponseService,
 		@Inject(TraisiValues.SurveyId) private _surveyId: number,
 		@Inject(TraisiValues.Configuration) private _configuration: any,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
 		@Inject(TraisiValues.Household) private _respondents: SurveyRespondent[]
 	) {
-		console.log(_responseService);
 		console.log(this);
 	}
 
@@ -72,8 +60,9 @@ export class TravelDiaryService {
 	 * @param {*} configuration
 	 */
 	public initialize(): void {
-		this.configuration.purposes = this._configuration.purposes ?? [];
-		this.configuration.modes =this._configuration.modes ?? [];
+		console.log(this._configuration);
+		this.configuration.purposes = this._configuration.purpose ?? [];
+		this.configuration.modes = this._configuration.mode ?? [];
 		this.loadAddresses();
 
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
@@ -88,15 +77,17 @@ export class TravelDiaryService {
 			this.isLoaded.next(true);
 		});
 		this.loadPreviousLocations();
+
+		console.log(this.configuration);
 	}
 
 	public loadPreviousLocations(): void {
-		this._responseService.listSurveyResponsesOfType(this._surveyId, QuestionResponseType.Location).subscribe((x) => {
-			// console.log('privious locations: ');
-			// console.log(x);
-			let rValues = x.responseValues;
-			console.log(x[0]);
-		});
+		this._responseService
+			.listSurveyResponsesOfType(this._surveyId, QuestionResponseType.Location)
+			.subscribe((x) => {
+				let rValues = x.responseValues;
+				console.log(x[0]);
+			});
 	}
 
 	public loadAddresses(): void {
@@ -138,4 +129,14 @@ export class TravelDiaryService {
 	public get diaryEvents(): CalendarEvent[] {
 		return undefined;
 	}
+
+	/**
+	 * Adds the new event data.
+	 *
+	 * @param {LocationResponseData} event
+	 */
+	public newEvent(event: LocationResponseData): void {}
+
+	// deletes the associated event
+	public deleteEvent(event: LocationResponseData): void {}
 }
