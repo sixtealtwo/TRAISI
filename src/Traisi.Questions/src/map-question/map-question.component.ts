@@ -50,7 +50,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 	private _defaultPosition: number[] = [-79.4, 43.67];
 
-	public preferredHeight = 500;
+	public preferredHeight = 350;
 
 	/**
 	 * Gets marker position
@@ -216,6 +216,13 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			this.locationFound(event);
 		});
 
+		this._map.on('load', () => {
+			setTimeout(() => {
+				console.log(this); 
+				this._map.resize();
+			});
+		});
+
 		var el = document.createElement('div');
 		el.style.backgroundImage = `url(${markerPng})`;
 		el.className = 'marker-overlay';
@@ -224,10 +231,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		el.innerHTML = '<i class="fas fa-home"></i>';
 		this._marker = new mapboxgl.Marker(el, {
 			anchor: 'bottom',
-		});
-
-		setTimeout(() => {
-			this._map.resize();
 		});
 	}
 
