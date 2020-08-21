@@ -50,7 +50,7 @@
       "outputType": "OpenApi3",
       "newLineBehavior": "Auto",
       "assemblyPaths": [
-        "../../../TRAISI/bin/Debug/netcoreapp3.1/Traisi.dll"
+        "../../../Traisi/bin/Debug/netcoreapp3.1/Traisi.dll"
       ],
       "assemblyConfig": null,
       "referencePaths": [],

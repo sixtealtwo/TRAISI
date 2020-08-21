@@ -28,9 +28,9 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 
 	public constructor(
 		private _responseClient: SurveyResponseClient,
-		private _session: SurveyViewerSession,
-		@Inject(TraisiValues.SurveyId) private _surveyId: number
-	) {
+		private _session: SurveyViewerSession
+	) // @Inject(TraisiValues.SurveyId) private _surveyId: number
+	{
 		super();
 	}
 
@@ -299,7 +299,7 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 		let respondentIds = respondents.map((r) => r.id);
 		return new Observable((obs) => {
 			this._responseClient
-				.listSurveyResponsesForQuestionsForMultipleRespondents(this._surveyId, queryIds, respondentIds)
+				.listSurveyResponsesForQuestionsForMultipleRespondents(this._session.surveyId, queryIds, respondentIds)
 				.subscribe((result) => {
 					console.log(result);
 				});

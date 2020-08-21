@@ -76,6 +76,7 @@ import {
 	CalendarView,
 	CalendarUtils,
 } from 'angular-calendar';
+import { SurveyViewerProviders } from './providers/survey-viewer.providers';
 export const calendarProps = {
 	provide: DateAdapter,
 	useFactory: adapterFactory,

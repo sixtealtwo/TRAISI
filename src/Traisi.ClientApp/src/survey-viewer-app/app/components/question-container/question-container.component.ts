@@ -42,6 +42,7 @@ import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
 import { ValidationState } from 'app/services/survey-viewer-api-client.service';
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
+import { SurveyViewerProviders } from 'app/providers/survey-viewer.providers';
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 export const fadeInOut = trigger('fadeInOut', [
@@ -161,7 +162,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		private _elementRef: ElementRef,
 		private _injector: Injector
 	) {
-		console.log(this); 
+		console.log(this);
 	}
 
 	/**
@@ -312,8 +313,14 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		);
 	}
 
+	/**
+	 * 
+	 * @param event 
+	 */
 	public onResize(event: Event): void {
-		this.updateContainerHeight();
+		if (this._instanceState.questionInstance.isFillVertical) {
+			this.updateContainerHeight();
+		}
 	}
 
 	/**
@@ -321,11 +328,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 */
 	private updateContainerHeight(): void {
 		if (this.isLoaded) {
-			let containerHeight: number =
+			let containerHeight: number = this._instanceState.questionInstance.isFillVertical ?
 				this.sectionElementRef.nativeElement.offsetHeight -
 				this.headerDivRef.nativeElement.offsetHeight -
 				this.descriptionDivRef.nativeElement.offsetHeight -
-				40;
+				40 : 500;
 			this._instanceState.questionInstance.containerHeight = containerHeight;
 		}
 	}
