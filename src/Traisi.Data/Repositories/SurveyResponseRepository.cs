@@ -177,12 +177,13 @@ namespace Traisi.Data.Repositories
             return result;
         }
 
-        public async  Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, List<SurveyRespondent> users) {
-               var r1 = await this._entities.Where(s => users.Any( x => x.Id == s.Respondent.Id) &&
-            questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
-                .Include(v => v.ResponseValues)
-                .Include(v => v.QuestionPart)
-                .Include(v => v.SurveyAccessRecord).ToListAsync();
+        public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, List<SurveyRespondent> users)
+        {
+            var r1 = await this._entities.Where(s => users.Any(x => x.Id == s.Respondent.Id) &&
+         questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
+             .Include(v => v.ResponseValues)
+             .Include(v => v.QuestionPart)
+             .Include(v => v.SurveyAccessRecord).ToListAsync();
             var result = r1.GroupBy(x => x.QuestionPart.Id, (key, g) => g.OrderByDescending(e => e.SurveyAccessRecord.AccessDateTime).FirstOrDefault()).ToList();
             // result.ForEach(r => r.QuestionPart = null);
             return result;
@@ -250,7 +251,8 @@ namespace Traisi.Data.Repositories
         /// <returns></returns>
         public async Task<List<int>> ListQuestionIdsForCompletedResponses(int surveyId, SurveyRespondent respondent)
         {
-            return await this._entities.Where(r => r.Respondent == respondent && (respondent as PrimaryRespondent).Survey.Id == surveyId).Select(r => r.QuestionPart.Id).ToListAsync();
+            return await this._entities.Where(r => r.Respondent.Id == respondent.Id
+            && r.QuestionPart.SurveyId == surveyId).Select(r => r.QuestionPart.Id).ToListAsync();
         }
     }
 

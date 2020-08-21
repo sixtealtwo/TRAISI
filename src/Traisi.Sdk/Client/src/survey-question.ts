@@ -73,7 +73,9 @@ export abstract class SurveyQuestion<
 
   public displayClass: string = ''
 
-  public isFillVertical: boolean = false
+  public isFillVertical: boolean = false;
+
+  public preferredHeight: number = undefined;
 
   public respondent: SurveyRespondent
 
@@ -230,7 +232,7 @@ export interface TimelineResponseData
   timeA: Date
   timeB: Date
   name: string
-  mode?: string;
+  mode?: string
   order: number
   purpose: string
 }

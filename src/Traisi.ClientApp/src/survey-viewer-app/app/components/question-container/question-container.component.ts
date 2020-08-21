@@ -161,9 +161,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyViewerRespondentService,
 		private _elementRef: ElementRef,
 		private _injector: Injector
-	) {
-		console.log(this);
-	}
+	) {}
 
 	/**
 	 * Calcs unique repeat number
@@ -314,13 +312,13 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * 
-	 * @param event 
+	 *
+	 * @param event
 	 */
 	public onResize(event: Event): void {
-		if (this._instanceState.questionInstance.isFillVertical) {
-			this.updateContainerHeight();
-		}
+		// if (this._instanceState.questionInstance.isFillVertical) {
+		this.updateContainerHeight();
+		// }
 	}
 
 	/**
@@ -328,11 +326,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 */
 	private updateContainerHeight(): void {
 		if (this.isLoaded) {
-			let containerHeight: number = this._instanceState.questionInstance.isFillVertical ?
-				this.sectionElementRef.nativeElement.offsetHeight -
-				this.headerDivRef.nativeElement.offsetHeight -
-				this.descriptionDivRef.nativeElement.offsetHeight -
-				40 : 500;
+			let containerHeight: number = this._instanceState.questionInstance.isFillVertical
+				? this.sectionElementRef.nativeElement.offsetHeight -
+				  this.headerDivRef.nativeElement.offsetHeight -
+				  this.descriptionDivRef.nativeElement.offsetHeight -
+				  40
+				: this._instanceState.questionInstance.preferredHeight;
 			this._instanceState.questionInstance.containerHeight = containerHeight;
 		}
 	}

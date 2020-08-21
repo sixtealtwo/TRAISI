@@ -50,6 +50,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 	private _defaultPosition: number[] = [-79.4, 43.67];
 
+	public preferredHeight = 500;
+
 	/**
 	 * Gets marker position
 	 */
@@ -138,7 +140,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
 		this._configuration.AccessToken = _accessToken;
 		this.accessToken = _accessToken;
-		this.containerHeight = 500;
 	}
 
 	/**
