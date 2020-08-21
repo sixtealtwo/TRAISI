@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import {
 	SurveyQuestion,
 	ResponseTypes,
 	SurveyRespondent,
 	ResponseData,
 	ResponseValidationState,
+	SurveyViewQuestion,
 } from 'traisi-question-sdk';
 import { SurveyViewerResponseService } from './survey-viewer-response.service';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ValidationState } from './survey-viewer-api-client.service';
-import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
+import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
 
 @Injectable()
 export class QuestionInstanceState {

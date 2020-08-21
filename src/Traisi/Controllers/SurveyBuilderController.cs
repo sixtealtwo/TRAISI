@@ -321,6 +321,7 @@ namespace Traisi.Controllers
                         this._surveyBuilderService.UpdateQuestionPartName(surveyId, questionPartView.QuestionPart, updatedQPartView.QuestionPart?.Name);
                         this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.repeatSourceQuestionName, updatedQPartView.Icon);
                         this._surveyBuilderService.SetQuestionPartViewLabel(questionPartView, updatedQPartView.Label.Value, updatedQPartView.Label.Language);
+                        this._surveyBuilderService.SetQuestionPartViewDescriptionLabel(questionPartView, updatedQPartView.DescriptionLabel.Value, updatedQPartView.Label.Language);
                         questionPartView.IsMultiView = updatedQPartView.IsMultiView;
 
                         if (updatedQPartView.CATIDependent != null)

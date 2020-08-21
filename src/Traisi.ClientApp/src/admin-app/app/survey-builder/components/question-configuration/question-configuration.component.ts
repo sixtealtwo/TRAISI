@@ -261,6 +261,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public saveConfiguration(): void {
 		console.log('in save configuration');
+		console.log(this); 
 		this.configurationValues = [];
 		this.childrenComponents.forEach((compRef) => {
 			let config = new QuestionConfigurationValue(

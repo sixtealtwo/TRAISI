@@ -23,7 +23,6 @@ import * as AngularForms from '@angular/forms';
 import * as AngularAnimations from '@angular/animations';
 import * as AngularPlatformAnimations from '@angular/platform-browser/animations';
 import * as AngularPlatformBrowser from '@angular/platform-browser';
-import * as Upgrade from '@angular/upgrade/static';
 import * as popover from 'ngx-bootstrap/popover';
 import * as alert from 'ngx-bootstrap/alert';
 import * as buttons from 'ngx-bootstrap/buttons';
@@ -36,7 +35,6 @@ import * as tooltip from 'ngx-bootstrap/tooltip';
 import * as timePicker from 'ngx-bootstrap/timepicker';
 import * as rxjsSubject from 'rxjs/Subject';
 import * as rxjsReplaySubject from 'rxjs/ReplaySubject';
-import * as rxjsOperators from 'rxjs/operators';
 import * as rxjs from 'rxjs';
 import * as rxjsBehaviourSubject from 'rxjs/BehaviorSubject';
 import * as rxjsObservable from 'rxjs/Observable';
@@ -46,10 +44,9 @@ import * as angularCalendar from 'angular-calendar';
 import * as adapterFactory from 'angular-calendar/date-adapters/date-fns';
 import { share, map, expand } from 'rxjs/operators';
 import { find } from 'lodash';
-
-import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
+import * as rxjsOperators from 'rxjs/operators';
 import { UpgradeModule } from '@angular/upgrade/static';
-import { SurveyQuestion, QuestionConfiguration } from 'traisi-question-sdk';
+import { SurveyQuestion, QuestionConfiguration, SurveyViewQuestion } from 'traisi-question-sdk';
 import { QuestionConfigurationService } from './question-configuration.service';
 
 type ComponentFactoryBoundToModule<T> = any;
@@ -99,8 +96,8 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
 		SystemJS.registry.set('@angular/forms', SystemJS.newModule(AngularForms));
 		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(BrowserModule));
-		SystemJS.registry.set('@angular/upgrade/static', SystemJS.newModule(Upgrade));
-		SystemJS.registry.set('@angular/upgrade', SystemJS.newModule(UpgradeModule));
+		SystemJS.registry.set('@angular/upgrade/static', SystemJS.newModule(UpgradeModule));
+		// SystemJS.registry.set('@angular/upgrade', SystemJS.newModule(UpgradeModule));
 		SystemJS.registry.set('ngx-bootstrap/popover', SystemJS.newModule(popover));
 		SystemJS.registry.set('ngx-bootstrap/alert', SystemJS.newModule(alert));
 		SystemJS.registry.set('ngx-bootstrap/datepicker', SystemJS.newModule(datepicker));
@@ -229,7 +226,7 @@ export class QuestionLoaderService {
 	 * @param viewContainerRef
 	 */
 	public loadQuestionComponent(
-		question: ISurveyQuestion,
+		question: SurveyViewQuestion,
 		viewContainerRef: ViewContainerRef
 	): Observable<ComponentRef<any>> {
 		return new Observable((o) => {
@@ -274,7 +271,7 @@ export class QuestionLoaderService {
 	 * @param viewContainerRef
 	 */
 	public loadQuestionComponentFactory(
-		question: ISurveyQuestion,
+		question: SurveyViewQuestion,
 	): Observable<ComponentFactory<any>> {
 		return new Observable((o) => {
 			forkJoin([
@@ -300,7 +297,7 @@ export class QuestionLoaderService {
 	 * Retrieves the server configuration (file) for the associated question type.
 	 * @param question
 	 */
-	public getQuestionConfiguration(question: ISurveyQuestion): Observable<any> {
+	public getQuestionConfiguration(question: SurveyViewQuestion): Observable<any> {
 		return this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(question.questionType);
 	}
 }

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyViewerStateService } from 'app/services/survey-viewer-state.service';
-import { SurveyViewPage } from 'app/models/survey-view-page.model';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { NavigationState } from 'app/models/navigation-state.model';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
-import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
+import { SurveyViewPage, SurveyViewSection } from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-survey-progress',
@@ -25,7 +24,7 @@ export class SurveyProgressComponent implements OnInit {
 	 *
 	 * @param page
 	 */
-	public navigateToPage(page: SurveyViewPage) {
+	public navigateToPage(page: SurveyViewPage): void {
 		this.navigator.navigateToPage(page.id).subscribe();
 	}
 
@@ -34,7 +33,7 @@ export class SurveyProgressComponent implements OnInit {
 	 * @param section
 	 * @param page
 	 */
-	public navigateToSection(section: SurveyViewSection, page: SurveyViewPage) {
+	public navigateToSection(section: SurveyViewSection, page: SurveyViewPage): void {
 		this.navigator.navigateToSection(page, section).subscribe();
 	}
 }

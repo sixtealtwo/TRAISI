@@ -21,8 +21,6 @@ import { SurveyViewerComponent } from './components/survey-viewer/survey-viewer.
 import { QuestionLoaderService } from './services/question-loader.service';
 import { SurveyViewerService } from './services/survey-viewer.service';
 import { SurveyResponderEndpointService } from './services/survey-responder-endpoint.service';
-import { SurveyResponderService } from './services/survey-responder.service';
-import 'jquery';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { SurveyViewerTranslateLanguageLoader } from './services/survey-viewer-translation.service';
@@ -157,7 +155,6 @@ export const STORAGE_TOKEN = new InjectionToken<StorageService>('STORAGE_TOKEN')
 		SurveyViewerEndpointService,
 		ConfigurationService,
 		ConditionalEvaluator,
-		SurveyResponderService,
 		SurveyViewerRespondentService,
 		SurveyViewerResponseService,
 		{ provide: TraisiValues.SurveyResponseService, useExisting: SurveyViewerResponseService },

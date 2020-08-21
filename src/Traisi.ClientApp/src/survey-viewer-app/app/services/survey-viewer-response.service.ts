@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import {
 	SurveyRespondent,
 	SurveyQuestion,
@@ -6,8 +6,9 @@ import {
 	ResponseTypes,
 	SurveyRespondentService,
 	SurveyResponseService,
+	SurveyViewQuestion,
+	TraisiValues,
 } from 'traisi-question-sdk';
-import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable, EMPTY } from 'rxjs';
 import {
 	SurveyResponseClient,
@@ -16,16 +17,22 @@ import {
 } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';
 import { tap } from 'rxjs/operators';
-import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
+import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class SurveyViewerResponseService {
+export class SurveyViewerResponseService extends SurveyResponseService {
 	private _responses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
 	private _invalidResponses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
 
-	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) {}
+	public constructor(
+		private _responseClient: SurveyResponseClient,
+		private _session: SurveyViewerSession,
+		@Inject(TraisiValues.SurveyId) private _surveyId: number
+	) {
+		super();
+	}
 
 	/**
 	 * Gets the stored response for the passed respondent and question, this will return null
@@ -260,6 +267,41 @@ export class SurveyViewerResponseService {
 					complete: () => {
 						obs.complete();
 					},
+				});
+		});
+	}
+
+	/**
+	 *	Preloads all of the existing response information for the passed questions
+	 *	for all of teh passed respondents. It is possible for responses to not exist,
+	 *	which is normal behaviour and will return empty results.
+	 *
+	 * @param {Array<SurveyViewQuestion>} questions
+	 * @param {Array<SurveyRespondent>} respondents
+	 * @returns {Observable<{ [respondentId: number]: Array<ResponseData<ResponseTypes>> }>}
+	 */
+	public loadSavedResponsesForRespondents(
+		questions: Array<SurveyViewQuestion>,
+		respondents: Array<SurveyRespondent>
+	): Observable<{ [respondentId: number]: Array<ResponseData<ResponseTypes>> }> {
+		let queryIds = [];
+		for (let question of questions) {
+			for (let respondent of respondents) {
+				if (!this.hasStoredResponse(question, respondent)) {
+					queryIds.push(question.questionId);
+				}
+			}
+		}
+		if (queryIds.length === 0) {
+			// return empty, data already exists for these respondents
+			return EMPTY;
+		}
+		let respondentIds = respondents.map((r) => r.id);
+		return new Observable((obs) => {
+			this._responseClient
+				.listSurveyResponsesForQuestionsForMultipleRespondents(this._surveyId, queryIds, respondentIds)
+				.subscribe((result) => {
+					console.log(result);
 				});
 		});
 	}

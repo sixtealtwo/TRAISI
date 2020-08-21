@@ -15,7 +15,6 @@ import {
 } from 'rxjs';
 import { ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyViewGroupMember } from '../models/survey-view-group-member.model';
-import { SurveyViewQuestion } from '../models/survey-view-question.model';
 import { NavigationStart } from '@angular/router';
 import { NavigationState } from 'app/models/navigation-state.model';
 import { SurveyResponseClient } from './survey-viewer-api-client.service';

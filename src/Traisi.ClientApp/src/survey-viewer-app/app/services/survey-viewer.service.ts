@@ -5,12 +5,9 @@ import 'rxjs/add/observable/of';
 import { SurveyStart } from '../models/survey-start.model';
 import { SurveyViewType } from '../models/survey-view-type.enum';
 import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
-import { QuestionConfiguration, QuestionOption, SurveyViewer, SurveyRespondent } from 'traisi-question-sdk';
-// import { User } from 'shared/models/user.model';
-import { SurveyViewPage } from '../models/survey-view-page.model';
+import { QuestionConfiguration, QuestionOption, SurveyViewer, SurveyRespondent, SurveyViewPage } from 'traisi-question-sdk';
 import { SurveyViewQuestionOption } from '../models/survey-view-question-option.model';
 import { ActivatedRoute, Router, RouterEvent, ActivationStart, Params } from '@angular/router';
-import { SurveyResponderService } from './survey-responder.service';
 import { SurveyViewerTheme } from '../models/survey-viewer-theme.model';
 import { SurveyViewThankYouModel } from '../models/survey-view-thankyou.model';
 import { SurveyWelcomeModel } from '../models/survey-welcome.model';
@@ -98,7 +95,6 @@ export class SurveyViewerService implements  OnInit {
 	 * @param {SurveyViewerEndpointService} _surveyViewerEndpointService
 	 * @param {AuthService} _authService
 	 * @param {Router} router
-	 * @param {SurveyResponderService} _responderService
 	 * @memberof SurveyViewerService
 	 */
 	constructor(

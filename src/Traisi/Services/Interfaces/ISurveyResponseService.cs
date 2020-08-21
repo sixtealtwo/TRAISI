@@ -72,6 +72,14 @@ namespace Traisi.Services.Interfaces
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="questionIds"></param>
+        /// <param name="respondent"></param>
+        /// <returns></returns>
+        Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsMultipleRespondentsAsync(List<int> questionIds, List<SurveyRespondent> respondents);
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="questionNames"></param>
         /// <param name="respondent"></param>
         /// <returns></returns>

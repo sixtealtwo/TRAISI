@@ -1,6 +1,6 @@
 {
 	"extends": "../../tsconfig.spec.json",
-	
+
 	"compilerOptions": {
 		"outDir": "../out-tsc/spec",
 		"allowSyntheticDefaultImports": true,
@@ -11,21 +11,20 @@
 		"target": "es2015",
 		"module": "es6",
 		"moduleResolution": "node",
-		"types": [ "node", "jquery"],
+		"types": ["node", "jquery"],
 		"lib": ["es2015", "dom", "esnext"],
 		"paths": {
 			"app/*": ["app/*"],
-			"shared/*": ["../shared/*"]
+			"shared/*": ["../shared/*"],
+			"rxjs": ["../node_modules/rxjs"],
+			"rxjs/*": ["../node_modules/rxjs/*"]
 			// "rxjs/*": ["../../node_modules/rxjs/*"],
 			// "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
 		},
 		"resolveJsonModule": true
-		
 	},
-	
-	
-	
-	"files": ["test.ts", "polyfills.ts", "app/app.component.spec.ts", ],
-	"include": [ "**/*.spec.ts"],
+
+	"files": ["test.ts", "polyfills.ts", "app/app.component.spec.ts"],
+	"include": ["**/*.spec.ts"],
 	"exclude": ["../../node_modules"]
 }

@@ -88,6 +88,11 @@ namespace Traisi.Data.Repositories
             return _entities.Where(predicate);
         }
 
+        public async virtual Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _entities.Where(predicate).ToListAsync();
+        }
+
 
         public virtual TEntity GetSingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {

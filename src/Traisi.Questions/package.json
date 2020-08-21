@@ -110,6 +110,6 @@
 	},
 	"peerDependencies": {
 		"jquery": "^3.5.1",
-		"rxjs": "^6.5.5"
+		"rxjs": "^6.6.2"
 	}
 }

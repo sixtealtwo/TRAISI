@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SurveyRespondent, SurveyQuestion } from 'traisi-question-sdk';
-import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable, EMPTY } from 'rxjs';
 import { SurveyResponseClient, SurveyRespondentClient } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';

@@ -1,9 +1,7 @@
-import { SurveyViewQuestion } from './survey-view-question.model';
-import { SurveyViewPage } from './survey-view-page.model';
-import { SurveyViewSection } from './survey-view-section.model';
+
 import { PageState } from './survey-viewer-state/page-state.model';
 import { SectionState } from './survey-viewer-state/section-state.model';
-import { SurveyRespondent } from 'traisi-question-sdk';
+import { SurveyRespondent, SurveyViewPage, SurveyViewSection, SurveyViewQuestion } from 'traisi-question-sdk';
 
 export interface SurveyViewerState {
 	// list of survey pages

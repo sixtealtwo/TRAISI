@@ -190,7 +190,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 
 		this.qConfiguration.questionBeingEdited = new QuestionPartView();
 		this.qConfiguration.questionBeingEdited = JSON.parse(JSON.stringify(this.questionBeingEdited));
-		if(!this.qConfiguration.questionBeingEdited.descriptionLabel) {
+		if (!this.qConfiguration.questionBeingEdited.descriptionLabel) {
 			this.qConfiguration.questionBeingEdited.descriptionLabel = new QuestionPartViewLabel();
 		}
 		this.qConfiguration.questionBeingEdited.questionPartViewChildren = this.getQuestionPartViewChildren(
@@ -418,6 +418,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 				cleanedQuestion.catiDependent.questionPartViewChildren = null;
 			}
 			cleanedQuestion.conditionals = this.qConfiguration.getUpdatedConditionals();
+			console.log(cleanedQuestion); 
 			this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, cleanedQuestion).subscribe(
 				(result) => {
 					this._client

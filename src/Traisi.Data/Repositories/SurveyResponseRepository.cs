@@ -177,6 +177,17 @@ namespace Traisi.Data.Repositories
             return result;
         }
 
+        public async  Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, List<SurveyRespondent> users) {
+               var r1 = await this._entities.Where(s => users.Any( x => x.Id == s.Respondent.Id) &&
+            questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
+                .Include(v => v.ResponseValues)
+                .Include(v => v.QuestionPart)
+                .Include(v => v.SurveyAccessRecord).ToListAsync();
+            var result = r1.GroupBy(x => x.QuestionPart.Id, (key, g) => g.OrderByDescending(e => e.SurveyAccessRecord.AccessDateTime).FirstOrDefault()).ToList();
+            // result.ForEach(r => r.QuestionPart = null);
+            return result;
+        }
+
         /// <summary>
         ///     
         /// </summary>

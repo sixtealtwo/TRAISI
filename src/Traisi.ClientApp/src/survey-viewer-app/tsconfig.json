@@ -16,6 +16,8 @@
 		"paths": {
 			"app/*": ["app/*"],
 			"shared/*": ["../shared/*"],
+			"rxjs": ["../node_modules/rxjs"],
+			"rxjs/*": ["../node_modules/rxjs/*"]
 		},
 		"resolveJsonModule": true
 	},

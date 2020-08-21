@@ -5,24 +5,23 @@ import {
   ResponseData,
   QuestionResponseType,
 } from './survey-question'
+import { SurveyViewQuestion } from './survey-view-question.model'
+import { SurveyViewerValidationStateViewModel } from './survey-validation.model'
 export abstract class SurveyResponseService {
   id: number
   abstract listSurveyResponsesOfType(
     surveyId: number,
     type: QuestionResponseType,
   ): Observable<any>
-  abstract getResponseValue(
-    questionName: string,
-    respondent: SurveyRespondent,
-  ): Array<ResponseData<ResponseTypes>>
-  abstract getResponseValue(
-    questionId: number,
-    respondent: SurveyRespondent,
-  ): Observable<ResponseData<ResponseTypes>>;
   abstract saveResponse(
-    question: { id: number } | any,
+    question: SurveyViewQuestion,
     respondent: SurveyRespondent,
     repeat: number,
     responseData: Array<ResponseData<ResponseTypes>>,
-  ): Observable<any>
+  ): Observable<SurveyViewerValidationStateViewModel>
+
+  abstract loadSavedResponsesForRespondents(
+    questions: Array<SurveyViewQuestion>,
+    respondents: Array<SurveyRespondent>,
+  ): Observable<{ [respondentId: number]: Array<ResponseData<ResponseTypes>> }>
 }

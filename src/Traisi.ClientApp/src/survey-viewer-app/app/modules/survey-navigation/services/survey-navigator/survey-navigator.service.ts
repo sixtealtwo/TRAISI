@@ -3,18 +3,15 @@ import { SurveyViewerStateService } from '../../../../services/survey-viewer-sta
 import { Subject, Observable, Observer, BehaviorSubject, EMPTY, forkJoin } from 'rxjs';
 import { NavigationState } from '../../../../models/navigation-state.model';
 import { QuestionInstance } from 'app/models/question-instance.model';
-import { SurveyViewPage } from 'app/models/survey-view-page.model';
-import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { findIndex, every } from 'lodash';
 import { expand, share, tap, flatMap, map, count, takeWhile, take } from 'rxjs/operators';
-import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { ValidationState } from 'app/services/survey-viewer-api-client.service';
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
-import { SurveyRespondent, TraisiValues } from 'traisi-question-sdk';
+import { SurveyRespondent, TraisiValues, SurveyViewPage, SurveyViewSection, SurveyViewQuestion } from 'traisi-question-sdk';
 import { ViewTransformer } from './view-transformer.service';
-import { SurveyViewerValidationStateViewModel } from 'app/models/survey-viewer-validation-state.model';
+import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
 
 /**
  *

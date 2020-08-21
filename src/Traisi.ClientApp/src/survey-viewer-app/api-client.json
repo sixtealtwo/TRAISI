@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v13.6.2.0 (NJsonSchema v10.1.23.0 (Newtonsoft.Json v12.0.0.0))",
+  "x-generator": "NSwag v13.7.0.0 (NJsonSchema v10.1.24.0 (Newtonsoft.Json v12.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "SurveyViewer API",
@@ -399,6 +399,70 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyResponseViewModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SurveyResponse/questions/respondents/responses": {
+      "get": {
+        "tags": [
+          "SurveyResponse"
+        ],
+        "operationId": "SurveyResponse_ListSurveyResponsesForQuestionsForMultipleRespondents",
+        "parameters": [
+          {
+            "name": "surveyId",
+            "in": "header",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "questionIds",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "x-position": 2
+          },
+          {
+            "name": "respondentIds",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
             },
             "x-position": 3
           }
@@ -2307,7 +2371,8 @@
           "Custom",
           "Label",
           "Question",
-          "KeyValuePair"
+          "KeyValuePair",
+          "Response"
         ],
         "enum": [
           0,
@@ -2320,7 +2385,8 @@
           7,
           8,
           9,
-          10
+          10,
+          11
         ]
       },
       "QuestionOption": {

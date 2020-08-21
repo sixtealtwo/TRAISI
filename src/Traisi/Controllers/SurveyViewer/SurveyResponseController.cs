@@ -18,6 +18,7 @@ using Traisi.Services.Interfaces;
 using Traisi.ViewModels.SurveyViewer;
 using AutoMapper;
 using Traisi.Models.Surveys.Validation;
+using System.Linq;
 
 namespace Traisi.Controllers.SurveyViewer
 {
@@ -171,6 +172,25 @@ namespace Traisi.Controllers.SurveyViewer
             }
             var responses = await this._resonseService.ListSurveyResponsesForQuestionsAsync(new List<int>(questionIds), respondent);
             return new OkObjectResult(_mapper.Map<List<SurveyResponseViewModel>>(responses));
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<SurveyResponseViewModel>), StatusCodes.Status200OK)]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        [Route("questions/respondents/responses", Name = "List_Responses_For_Specified_Questions_Multiple_Respondents")]
+        public async Task<IActionResult> ListSurveyResponsesForQuestionsForMultipleRespondents([FromHeader] int surveyId, [FromQuery] int[] questionIds,
+            [FromQuery] int[] respondentIds)
+        {
+            var rCollectopm = respondentIds.ToList();
+            var respondents = await this._unitOfWork.SurveyRespondents.FindAsync(x => respondentIds.Any(y => y == x.Id));
+            if (respondents == null)
+            {
+                return new NotFoundObjectResult(new List<SurveyResponseViewModel>());
+            }
+            var responses = await this._resonseService.ListSurveyResponsesForQuestionsMultipleRespondentsAsync(new List<int>(questionIds), respondents);
+            return new OkResult();
+            
+            //return new OkObjectResult(_mapper.Map<List<SurveyResponseViewModel>>(responses));
         }
 
         [HttpGet]

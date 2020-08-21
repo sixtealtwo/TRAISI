@@ -2,7 +2,6 @@ import { Injectable, Inject } from '@angular/core';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import { every as _every, some as _some } from 'lodash';
 import { point } from '@turf/helpers';
-import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable, iif } from 'rxjs';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { Stack } from 'stack-typescript';
@@ -13,13 +12,9 @@ import {
 	ResponseTypes,
 	NumberResponseData,
 	StringResponseData,
+	SurveyViewQuestion,
 } from 'traisi-question-sdk';
-import {
-	SurveyLogicRules,
-	SurveyLogicRule,
-	SurveyLogicOperator,
-	SurveyLogicCondition,
-} from 'app/models/survey-logic-rules.model';
+import { SurveyLogicRules, SurveyLogicRule, SurveyLogicOperator, SurveyLogicCondition } from 'traisi-question-sdk';
 @Injectable({
 	providedIn: 'root',
 })
@@ -226,8 +221,6 @@ export class ConditionalEvaluator {
 	private _isRulesLogic(logic: SurveyLogicRules | SurveyLogicRule): logic is SurveyLogicRule {
 		return (logic as SurveyLogicRules).condition !== undefined;
 	}
-
-
 
 	private _listSourceQuestions(
 		logic: SurveyLogicRules | SurveyLogicRule,

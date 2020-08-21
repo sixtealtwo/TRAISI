@@ -1,9 +1,7 @@
 import { QuestionInstance } from './question-instance.model';
-import { SurveyViewPage } from './survey-view-page.model';
-import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
-import { SurveyViewerValidationStateViewModel } from './survey-viewer-validation-state.model';
-import { SurveyRespondent } from 'traisi-question-sdk';
+import { SurveyRespondent, SurveyViewPage, SurveyViewSection } from 'traisi-question-sdk';
+import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
 
 
 export interface NavigationState {

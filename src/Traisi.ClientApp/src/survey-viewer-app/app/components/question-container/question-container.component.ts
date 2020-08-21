@@ -23,8 +23,9 @@ import {
 	ResponseValidationState,
 	QuestionConfigurationService,
 	TraisiValues,
+	SurveyViewQuestion,
 } from 'traisi-question-sdk';
-import { SurveyViewQuestion as ISurveyQuestion, SurveyViewQuestion } from '../../models/survey-view-question.model';
+
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { BehaviorSubject, Subject, forkJoin } from 'rxjs';
 import { SurveyViewerComponent } from '../survey-viewer/survey-viewer.component';
@@ -57,7 +58,7 @@ export const fadeInOut = trigger('fadeInOut', [
 })
 export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()
-	public question: ISurveyQuestion;
+	public question: SurveyViewQuestion;
 
 	@Input()
 	public surveyId: number;
