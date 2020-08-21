@@ -129,6 +129,11 @@
 		<Message Text="Finished building client side components." Importance="high" />
 	</Target>
 
+	<Target Name="BuildTraisiClientSdk" AfterTargets="Build">
+		<Exec WorkingDirectory="..\Traisi.Sdk\Client" Command="npm run build" StandardOutputImportance="low" StandardErrorImportance="low" />
+		<Message Text="Building Traisi.Sdk client module" Importance="high" />
+	</Target>
+
 	<Target Name="CopyClientBuild" AfterTargets="Build">
 	 <RemoveDir Directories="$(OutputPath)\Traisi.ClientApp" />
 	<Message Text="Copying client files to output directory..." Importance="high" />
