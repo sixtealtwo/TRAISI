@@ -1,23 +1,82 @@
-{
-	"options": [
-		"home",
-		"usual work location",
-		"work-related/business meeting",
-		"school/education",
-		"school-related/school-trip",
-		"restaurant, bar, coffee",
-		"visiting friends, family",
-		"recreation, sports, leisure, arts",
-		"worship, religion",
-		"health and personal care",
-		"drop someone off",
-		"pick someone up",
-		"daycare",
-		"education (including TA/RA work)",
-		"shopping and errands (groceries, corner store, shopping center, gas station, etc.)",
-		"services (bank, hairdresser, lawyer, notary, mechanic, etc.)",
-		"other"
-
-	]
-}
-
+[
+	{
+		"label": "home",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "usual work location",
+		"icon": "fas fa-home",
+		"id": "work"
+	},
+	{
+		"label": "work-related/business meeting",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "school/education",
+		"icon": "fas fa-home",
+		"id": "school"
+	},
+	{
+		"label": "school-related/school-trip",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "restaurant, bar, coffee",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "visiting friends, family",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "recreation, sports, leisure, arts",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "worship, religion",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "health and personal care",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "drop someone off",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "pick someone up",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "education (including TA/RA work)",
+		"icon": "fas fa-home",
+		"id": "home"
+	},
+	{
+		"label": "shopping and errands (groceries, corner store, shopping center, gas station, etc.)",
+		"icon": "fas fa-home",
+		"id": "shopping"
+	},
+	{
+		"label": "services (bank, hairdresser, lawyer, notary, mechanic, etc.)",
+		"icon": "fas fa-home",
+		"id": "services"
+	},
+	{
+		"label": "other",
+		"icon": "fas fa-home",
+		"id": "other"
+	}
+]
