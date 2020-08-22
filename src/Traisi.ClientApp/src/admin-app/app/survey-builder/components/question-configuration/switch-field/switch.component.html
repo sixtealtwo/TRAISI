@@ -1,4 +1,4 @@
-<div class="form-group form-group-adjust row">
+<!-- <div class="form-group form-group-adjust row">
 	<div class="custom-control custom-checkbox">
 		<div class="col-auto">
 			<input
@@ -12,9 +12,18 @@
 				questionConfiguration.name
 			}}</label>
 
-			<small id="{{ 'config-description-' + id }}" class="form-text text-muted">
-				{{ questionConfiguration.description }}
-			</small>
+			
 		</div>
+	</div>
+</div> -->
+
+<div class="form-group form-group-adjust row">
+	
+	<div class="col-md-9 custom-control custom-checkbox">
+		<input type="checkbox" class="custom-control-input" id="{{ 'config-check-' + id }}" />
+		<label class="custom-control-label" for="{{ 'config-check-' + id }}">{{ questionConfiguration.name }}</label>
+		<small id="{{ 'config-description-' + id }}" class="form-text text-muted">
+			{{ questionConfiguration.description }}
+		</small>
 	</div>
 </div>

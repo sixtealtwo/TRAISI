@@ -52,7 +52,7 @@ namespace Traisi.Sdk.Questions
             DefaultValue = "-79.40|43.67")]
         public Tuple<double, double> Centre = new Tuple<double, double>(-79.40, 43.67);
 
-        [QuestionConfiguration(ConfigurationValueType.String,
+        [QuestionConfiguration(ConfigurationValueType.Custom,
             DisplayName = "Purpose",
             Description = "Purpose of being at location.",
             SurveyBuilderValueType = QuestionBuilderType.SingleSelect,

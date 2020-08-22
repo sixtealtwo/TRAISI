@@ -29,6 +29,7 @@
     "@angular/upgrade": "^9.1.12",
     "@aspnet/signalr": "^1.1.4",
     "@fortawesome/angular-fontawesome": "^0.6.0",
+    "@fortawesome/fontawesome-pro": "^5.14.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",

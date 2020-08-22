@@ -16,7 +16,8 @@ export class SurveyDataResolver implements Resolve<SurveyData> {
 	 */
 	public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
 		return this._viewer.surveyData.pipe(
-			tap(x => {
+			tap((x) => {
+				console.log('in resolver'); 
 				console.log(x);
 			}),
 			take(1)

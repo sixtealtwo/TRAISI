@@ -13,7 +13,7 @@ export class MultiSelectComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 
-	public options: { value: string; label: string }[] = [];
+	public options: {}[] = [];
 	public selected: string[] = [];
 
 	public model: { value: string; label: string }[];
@@ -26,8 +26,6 @@ export class MultiSelectComponent implements OnInit {
 	constructor(private _editorData: SurveyBuilderEditorData) {}
 
 	public onChanged(event): void {
-		console.log(event);
-		console.log(this.model);
 	}
 
 	public ngOnInit(): void {
@@ -37,14 +35,15 @@ export class MultiSelectComponent implements OnInit {
 				this.options.push({
 					label: q.questionPart.name,
 					value: '' + q.questionPart.id,
+					id: '',
 				});
 			}
 		} else {
 			// using custom option data
 			let optionData = JSON.parse(this.questionConfiguration.resourceData);
 			if (optionData) {
-				optionData.options.forEach((element) => {
-					this.options.push({ label: element, value: element });
+				optionData.forEach((element) => {
+					this.options.push(element);
 				});
 			}
 		}

@@ -75,25 +75,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	/**
 	 * Gets marker icon
 	 */
-	public get markerIcon(): string {
-		switch (this.purpose) {
-			case 'home':
-				return 'fas fa-home';
-			case 'work':
-				return 'fas fa-building';
-			case 'school':
-				return 'fas fa-school';
-			case 'daycare':
-				return 'fas fa-child';
-			case 'shopping':
-				return 'fas fa-shopping-cart';
-			case 'facilitate passenger':
-				return 'fas fa-car-side';
-			case 'other':
-				return 'fas fa-location-arrow';
-			default:
-				return '';
-		}
+	public getMarkerIcon(purpose: { label: string; id: string; icon: string }): string {
+		return purpose.icon;
 	}
 
 	@ViewChild('mapbox', { static: true })
@@ -139,7 +122,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		super();
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
 		this._configuration.AccessToken = _accessToken;
+
 		this.accessToken = _accessToken;
+		console.log(_configuration);
 	}
 
 	/**
@@ -161,9 +146,12 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		// this.accessToken = this._configurationService.getQuestionServerConfiguration('location')['AccessToken'];
 		this.accessToken = this._configuration.AccessToken;
 		if (this._configuration.purpose) {
-			this.purpose = this._configuration.purpose;
+			try {
+				this._configuration.purpose = JSON.parse(this._configuration.purpose);
+				this.purpose = this._configuration.purpose;
+			} catch {}
 		}
-	}
+	} 
 
 	public traisiOnInit(): void {}
 
@@ -227,7 +215,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		el.className = 'marker-overlay';
 		el.style.width = '64px';
 		el.style.height = '64px';
-		el.innerHTML = '<i class="fas fa-home"></i>';
+		let iconStr = this.getMarkerIcon(<any>this._configuration.purpose);
+		console.log(iconStr);
+		el.innerHTML = `<i class="${iconStr}"></i>`;
 		this._marker = new mapboxgl.Marker(el, {
 			anchor: 'bottom',
 		});
@@ -391,6 +381,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public loadConfiguration(mapConfig: any): void {
 		// this.accessToken = mapConfig.AccessToken;
+		console.log(mapConfig);
 	}
 
 	public resetInput(): void {

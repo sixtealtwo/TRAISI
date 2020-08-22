@@ -11,16 +11,14 @@ export class DropdownListComponent implements OnInit {
 	public questionConfiguration: QuestionConfigurationDefinition;
 	public options: { value: string; label: string }[] = [];
 	public selected: string;
+	public selectedFull: any;
 
-	constructor(private alertService: AlertService) {}
+	public constructor(private alertService: AlertService) {}
 
-	ngOnInit() {
+	public ngOnInit() {
 		let optionData = JSON.parse(this.questionConfiguration.resourceData);
-		optionData.options.forEach((element) => {
-			this.options.push({
-				label: element,
-				value: element,
-			});
+		optionData.forEach((element) => {
+			this.options.push(element);
 		});
 	}
 
@@ -29,12 +27,18 @@ export class DropdownListComponent implements OnInit {
 	 * @param last
 	 */
 	public processPriorValue(last: string): void {
-		this.selected = last;
+
+		if (last) {
+			let model = JSON.parse(last);
+			this.selectedFull = model;
+			this.selected = model.id;
+		}
 	}
 
 	public onChanged(event): void {
-		console.log(event);
-		console.log(this.selected);
+
+		this.selectedFull = event;
+
 	}
 	getValue() {
 		if (this.selected === null) {
@@ -46,6 +50,6 @@ export class DropdownListComponent implements OnInit {
 			);
 			return;
 		}
-		return this.selected ;
+		return this.selectedFull;
 	}
 }

@@ -68,6 +68,9 @@
 
 .question-description-text {
 	margin-bottom: 15px;
+	font-family: Metropolis;
+    font-size: 20px;
+    color: #c3c3c3;
 }
 
 .question-widget {
@@ -215,9 +218,11 @@ section.display-full {
 
 .question-header-text {
 	// max-width: calc(100% - 70px);
-	font-weight: 400;
 	flex-grow: 1;
-	font-size: 1.2em;
+	font-size: 25px;
+    font-family: Metropolis;
+    font-weight: bold;
+    color: #848282;
 }
 
 .question-header-divider {
