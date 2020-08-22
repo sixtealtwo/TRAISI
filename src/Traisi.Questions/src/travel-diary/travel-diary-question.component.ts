@@ -23,8 +23,8 @@ import { TravelDiaryService } from './services/travel-diary.service';
 import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-calendar';
 import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-dialog.component';
 import { User, DayViewSchedulerComponent } from './components/day-view-scheduler.component';
-import { BehaviorSubject } from 'rxjs';
-import { colors } from './models/consts';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { colors, DialogMode } from './models/consts';
 @Component({
 	selector: 'traisi-travel-diary-question',
 	template: '' + templateString,
@@ -53,51 +53,50 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	) {
 		super();
 		this.isFillVertical = true;
-		console.log(this._injector); 
 	}
 
-	public events: CalendarEvent[] = [];
+	public get events$(): Observable<CalendarEvent[]> {
+		return this._travelDiaryService.diaryEvents$;
+	}
 
 	public get users(): any[] {
 		return this._travelDiaryService.respondents;
 	}
 
 	public newEvent(): void {
-		this.entryDialog.show();
+		this.entryDialog.show(DialogMode.New);
 	}
 
 	public editEvent(event): void {
 		this.entryDialog.showEdit(event);
 	}
 
-	public entrySaved(event: TimelineResponseData & { users: User[] }) {
-		let events: CalendarEvent[] = [];
-		for (let u of event.users) {
-			events.push({
-				title: event.name,
-				start: event.timeA,
-				end: event.timeB,
-				draggable: true,
-				resizable: { afterEnd: true },
-				meta: {
-					user: u,
-				},
-				color: colors.blue,
-			});
-		}
-		this.events = events;
+	public newEntrySaved(event: TimelineResponseData & { users: User[] }) {
+		this._travelDiaryService.newEvent(event);
+	}
+
+	public eventDeleted(event: TimelineResponseData & {id: number}): void {
+		this._travelDiaryService.deleteEvent(event );
 	}
 
 	public ngOnInit(): void {
 		this._travelDiaryService.initialize();
+		this._travelDiaryService.diaryEvents$.subscribe(this.eventsUpdated);
 	}
+
+	public eventsUpdated = (events: CalendarEvent[]): void => {
+		console.log(events);
+	};
+
+	public eventClicked({ event }: { event: CalendarEvent }): void {
+		this.entryDialog.show(DialogMode.Edit, event.meta.model);
+	}
+
 	public ngAfterViewInit(): void {}
 	public onQuestionShown(): void {}
 	public onQuestionHidden(): void {}
 
-	public traisiOnInit(): void {
-		console.log('in on init ');
-	}
+	public traisiOnInit(): void {}
 
 	public get isComponentLoaded(): BehaviorSubject<boolean> {
 		return this._travelDiaryService.isLoaded;

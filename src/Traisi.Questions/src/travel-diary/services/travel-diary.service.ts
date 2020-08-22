@@ -15,6 +15,7 @@ import {
 	LocationResponseData,
 	SurveyViewQuestion,
 	SurveyViewerLogicRuleViewModel,
+	TimelineResponseData,
 } from 'traisi-question-sdk';
 import { User } from '../components/day-view-scheduler.component';
 import { Console } from 'console';
@@ -22,10 +23,11 @@ import { TravelDiaryEditDialogComponent } from '../components/travel-diary-edit-
 import { colors } from '../models/consts';
 import { url } from 'inspector';
 import { get } from 'http';
+import { NumberQuestionConfiguration } from 'general/viewer/number-question/number-question.configuration';
 
 @Injectable()
 export class TravelDiaryService {
-	public diaryEvents$: BehaviorSubject<CalendarEvent>;
+	public diaryEvents$: BehaviorSubject<CalendarEvent[]>;
 
 	public configuration: TravelDiaryConfiguration = {
 		purpose: [],
@@ -51,6 +53,8 @@ export class TravelDiaryService {
 
 	public responseData: { [userId: number]: ResponseTypes.Location };
 
+	private _diaryEvents: CalendarEvent[] = [];
+
 	public constructor(
 		private _http: HttpClient,
 		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyRespondentService,
@@ -61,6 +65,7 @@ export class TravelDiaryService {
 		@Inject(TraisiValues.Household) private _respondents: SurveyRespondent[],
 		private _injector: Injector
 	) {
+		this.diaryEvents$ = new BehaviorSubject<CalendarEvent[]>([]);
 		console.log(this);
 	}
 
@@ -175,8 +180,44 @@ export class TravelDiaryService {
 	 *
 	 * @param {LocationResponseData} event
 	 */
-	public newEvent(event: LocationResponseData): void {}
+	public newEvent(event: TimelineResponseData & { users: User[] }): void {
+		let events: CalendarEvent[] = this._diaryEvents;
+		for (let u of event.users) {
+			events.push({
+				title: event.name,
+				start: event.timeA,
+				end: event.timeB,
+				draggable: true,
+				resizable: { afterEnd: true },
+				meta: {
+					purpose: event.purpose['label'],
+					address: event.address['stnumber'] + ' ' + event.address['staddress'] + ' ' + event.address['city'],
+					user: u,
+					model: event,
+					id: Date.now(),
+				},
+				color: colors.blue,
+			});
+		}
+		this.diaryEvents$.next(events);
+		this._diaryEvents = events;
+	}
 
 	// deletes the associated event
-	public deleteEvent(event: LocationResponseData): void {}
+	public deleteEvent(event: TimelineResponseData & { id: number }): void {
+		console.log('in delete');
+		console.log(event);
+		console.log(this);
+		for (let i = 0; i < this._diaryEvents.length; i++) {
+			let e = this._diaryEvents[i];
+			if (e.meta.model.id === event.id) {
+				console.log('deleted ');
+				this._diaryEvents.splice(i, 1);
+				console.log('event removed');
+				break;
+			}
+		}
+		this._diaryEvents = this._diaryEvents;
+		this.diaryEvents$.next(this._diaryEvents);
+	}
 }

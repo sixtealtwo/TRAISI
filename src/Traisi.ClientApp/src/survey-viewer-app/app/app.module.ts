@@ -167,7 +167,7 @@ export const STORAGE_TOKEN = new InjectionToken<StorageService>('STORAGE_TOKEN')
 		httpInterceptorProviders,
 		SurveyResponderEndpointService,
 		BsModalRef,
-		{ provide: TraisiValues.QuestionLoader, useExisting: QuestionLoaderService },
+		{ provide: TraisiValues.QuestionLoader, useClass: QuestionLoaderService }, 
 		{ provide: 'CONFIG_SERVICE', useExisting: QuestionConfigurationService },
 		{ provide: Config, useExisting: QuestionConfigurationService },
 		SurveyDataResolver,

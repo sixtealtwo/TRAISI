@@ -16,6 +16,10 @@ export class QuestionConfigurationService {
 		this._configurations[question.questionType] = configuration;
 	}
 
+	public setQuestionServerConfiguratioByType(questionType: string, configuration: any): void {
+		this._configurations[questionType] = configuration;
+	}
+
 	public getQuestionServerConfiguration(question: string): any {
 		return this._configurations[question];
 	}

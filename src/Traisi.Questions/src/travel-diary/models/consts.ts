@@ -12,3 +12,8 @@ export const colors: any = {
 		secondary: '#FDF1BA',
 	},
 };
+
+export enum DialogMode {
+	New,
+	Edit,
+}

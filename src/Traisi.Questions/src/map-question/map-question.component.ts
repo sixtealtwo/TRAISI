@@ -374,6 +374,12 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		}
 	}
 
+	public resize(): void {
+		if (this._map) {
+			this._map.resize();
+		}
+	}
+
 	/**
 	 * Determines whether question hidden on
 	 */

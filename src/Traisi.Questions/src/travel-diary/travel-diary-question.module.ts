@@ -20,7 +20,7 @@ import { DayViewSchedulerComponent } from './components/day-view-scheduler.compo
 export const calendarProps = {
 	provide: DateAdapter,
 	useFactory: adapterFactory,
-}; 
+};
 export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarProps);
 
 @NgModule({
@@ -39,14 +39,21 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 					name: 'traisi-travel-diary-edit-dialog',
 					id: 'travel-diary-edit-dialog',
 					component: TravelDiaryEditDialogComponent,
-        },
-        {
+				},
+				{
 					name: 'traisi-travel-dairy-day-view-scheduler',
 					id: 'travel-diary-scheduler',
 					component: DayViewSchedulerComponent,
 				},
 			],
 			multi: true,
+		},
+		{
+			provide: 'dependencies',
+			useValue: {
+				dependency: true,
+				name: 'location',
+			},
 		},
 	],
 	imports: [

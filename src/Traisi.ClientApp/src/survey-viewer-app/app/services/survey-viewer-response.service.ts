@@ -300,7 +300,6 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 				.listSurveyResponsesForQuestionsForMultipleRespondents(this._session.surveyId, queryIds, respondents.map((r) => r.id))
 				.subscribe({
 					next: (responses) => {
-						console.log(responses);
 						// store each response
 						for (let response of responses) {
 							this._storeResponse(response.questionId, response.respondent, response.responseValues);

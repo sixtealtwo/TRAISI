@@ -1,4 +1,10 @@
-import { SurveyQuestion, ResponseTypes, OnVisibilityChanged, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
+import {
+	SurveyQuestion,
+	ResponseTypes,
+	OnVisibilityChanged,
+	TimelineResponseData,
+	TraisiValues,
+} from 'traisi-question-sdk';
 import {
 	Component,
 	ViewEncapsulation,
@@ -12,6 +18,7 @@ import {
 	Injector,
 	AfterViewInit,
 	SkipSelf,
+	ApplicationRef,
 } from '@angular/core';
 import templateString from './travel-diary-edit-dialog.component.html';
 import styleString from './travel-diary-edit-dialog.component.scss';
@@ -21,6 +28,7 @@ import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal'
 import { TravelDiaryConfiguration } from '../models/travel-diary-configuration.model';
 import { Subject, BehaviorSubject, Observable, concat, of } from 'rxjs';
 import { User } from './day-view-scheduler.component';
+import { DialogMode } from 'travel-diary/models/consts';
 @Component({
 	selector: 'traisi-travel-diary-edit-dialog',
 	template: '' + templateString,
@@ -45,7 +53,15 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public searchInFocus: boolean = false;
 
-	public model: TimelineResponseData;
+	public model: TimelineResponseData | { users: User[]; id: number };
+
+	public dialogMode: DialogMode;
+
+	public dialogModeEdit = DialogMode.Edit;
+
+	public dialogModeNew = DialogMode.New;
+
+	private _isMapLoaded = false;
 
 	/**
 	 *Creates an instance of TravelDiaryEditDialogComponent.
@@ -65,6 +81,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	private resetModel(): void {
 		this.model = {
+			id: Date.now(),
 			address: undefined,
 			latitude: 0,
 			longitude: 0,
@@ -79,7 +96,11 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	public dialogSave(): void {
 		console.log(this.model);
 		this.hide();
-		this.eventSaved.emit(this.model);
+		if (this.dialogMode === DialogMode.New) {
+			this.newEventSaved.emit(this.model);
+		} else {
+			this.eventSaved.emit(this.model);
+		}
 	}
 
 	public hide(): void {
@@ -91,30 +112,43 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.modal.show();
 	}
 
+	public delete(): void {
+		this.eventDeleted.emit(this.model);
+		this.modal.hide();
+		this.resetModel();
+	}
+
 	/**
 	 * Show a new model
 	 *
 	 */
-	public show(): void {
-		this.resetModel();
+	public show(mode: DialogMode, model?: TimelineResponseData): void {
+		this.dialogMode = mode;
+		if (mode == DialogMode.New) {
+			this.resetModel();
+		} else {
+			this.model = model;
+		}
+
 		this.modal.show();
-		let componentRef = null;
-		let factories = this._questionLoaderService.componentFactories;
-		console.log(this._questionLoaderService); 
-		let sub = Object.keys(this._questionLoaderService.componentFactories).forEach((key) => {
-			let factory = this._questionLoaderService.componentFactories[key];
-			if (factory.selector === 'traisi-map-question') {
-				console.log('resolved?');
-				componentRef = this.mapTemplate.createComponent(factory, undefined, this._injector);
-				let instance: SurveyQuestion<any> = <SurveyQuestion<any>>componentRef.instance;
-				instance.containerHeight = 300;
-				instance['loadGeocoder'] = false;
-				instance.response.subscribe((value) => {
-					this.mapResonse(value);
-				});
-				this._mapComponent = instance;
-			}
-		});
+		if (!this._isMapLoaded) {
+			let componentRef = null;
+			let factories = this._questionLoaderService.componentFactories;
+			let sub = Object.keys(this._questionLoaderService.componentFactories).forEach((key) => {
+				let factory = this._questionLoaderService.componentFactories[key];
+				if (factory.selector === 'traisi-map-question') {
+					componentRef = this.mapTemplate.createComponent(factory, undefined, this._injector);
+					let instance: SurveyQuestion<any> = <SurveyQuestion<any>>componentRef.instance;
+					instance.containerHeight = 300;
+					instance['loadGeocoder'] = false;
+					instance.response.subscribe((value) => {
+						this.mapResonse(value);
+					});
+					this._mapComponent = instance;
+					this._isMapLoaded = true;
+				}
+			});
+		}
 	}
 
 	public searchFocus(): void {
@@ -123,6 +157,11 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public searchBlur(): void {
 		this.searchInFocus = false;
+		if (this._mapComponent) {
+			setTimeout(() => {
+				this._mapComponent['resize']();
+			}, 100);
+		}
 	}
 
 	public get users(): any {
@@ -130,7 +169,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public get purposes(): string[] {
-		return this._travelDiaryService.configuration.purposes;
+		return this._travelDiaryService.configuration.purpose;
 	}
 
 	public get addresses(): Observable<string[]> {
@@ -138,7 +177,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public get modes(): string[] {
-		return this._travelDiaryService.configuration.modes;
+		return this._travelDiaryService.configuration.mode;
 	}
 
 	public get addressInput(): Subject<string> {

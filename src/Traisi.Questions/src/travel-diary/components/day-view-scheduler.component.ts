@@ -9,6 +9,7 @@ import {
 	OnChanges,
 	Output,
 	SimpleChanges,
+	ViewEncapsulation,
 } from '@angular/core';
 import { CalendarUtils, CalendarWeekViewComponent, DateAdapter, getWeekViewPeriod } from 'angular-calendar';
 import {
@@ -22,6 +23,7 @@ import {
 } from 'calendar-utils';
 import { DragEndEvent, DragMoveEvent } from 'angular-draggable-droppable';
 import templateString from './day-view-scheduler.component.html';
+import styleString from './day-view-scheduler.component.scss';
 
 export interface User {
 	id: number;
@@ -75,6 +77,8 @@ export class DayViewSchedulerCalendarUtils extends CalendarUtils {
 	// tslint:disable-line max-classes-per-file
 	selector: 'traisi-travel-dairy-day-view-scheduler',
 	template: '' + templateString,
+	encapsulation: ViewEncapsulation.None,
+	styles: ['' + styleString],
 	providers: [DayViewSchedulerCalendarUtils],
 })
 export class DayViewSchedulerComponent extends CalendarWeekViewComponent implements OnChanges {
@@ -85,6 +89,8 @@ export class DayViewSchedulerComponent extends CalendarWeekViewComponent impleme
 	view: DayViewScheduler;
 
 	daysInWeek = 1;
+
+	public console = console;
 
 	constructor(
 		protected cdr: ChangeDetectorRef,
@@ -97,12 +103,10 @@ export class DayViewSchedulerComponent extends CalendarWeekViewComponent impleme
 
 	trackByUserId = (index: number, row: User) => row.id;
 
-	ngOnChanges(changes: SimpleChanges): void {
+	public ngOnChanges(changes: SimpleChanges): void {
 		super.ngOnChanges(changes);
 
-		console.log(changes);
 		if (changes.users || changes.events) {
-			console.log('in refresh');
 			this.refreshBody();
 			this.emitBeforeViewRender();
 		}

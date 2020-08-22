@@ -54,7 +54,7 @@ type ComponentFactoryBoundToModule<T> = any;
 declare const SystemJS;
 
 @Injectable({
-	providedIn: 'root',
+	providedIn: 'platform',
 })
 export class QuestionLoaderService {
 	private _componentFactories: {
@@ -154,16 +154,24 @@ export class QuestionLoaderService {
 				})
 			);
 		} else {
-			return from(
-				SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))
-			).pipe(
-				map((module: any) => {
-					if (module.default.name in this._moduleRefs) {
-						return this._moduleRefs[module.default.name];
+			return forkJoin({
+				clientCode: from(
+					SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))
+				),
+				serverConfig: this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(questionType),
+			}).pipe(
+				map((result: { clientCode: any; serverConfig: any }) => {
+					if (result.clientCode.default.name in this._moduleRefs) {
+						return this._moduleRefs[result.clientCode.name];
 					}
-					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
+					console.log(result);
+					this._questionConfigurationService.setQuestionServerConfiguratioByType(
+						questionType,
+						result.serverConfig
+					);
+					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(result.clientCode.default);
 					const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
-					this._moduleRefs[<string>module.default.name] = moduleRef;
+					this._moduleRefs[<string>result.clientCode.default.name] = moduleRef;
 					return moduleRef;
 				}),
 				map((moduleRef: any) => {
@@ -230,27 +238,15 @@ export class QuestionLoaderService {
 		viewContainerRef: ViewContainerRef
 	): Observable<ComponentRef<any>> {
 		return new Observable((o) => {
-			forkJoin([
-				this.getQuestionComponentFactory(question.questionType),
-				this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(question.questionType),
-			]).subscribe({
-				next: ([componentFactory, configuration]) => {
-					this._questionConfigurationService.setQuestionServerConfiguration(question, configuration);
-				},
+			forkJoin([this.getQuestionComponentFactory(question.questionType)]).subscribe({
+				next: ([componentFactory]) => {},
 				error: (r) => {
 					console.log(r);
 					console.error('Error loading question / getting factory.');
 				},
 				complete: () => {
 					const injector: Injector = Injector.create({
-						providers: [
-							{
-								provide: 'TESTHELLO',
-								useValue: {
-									value: 'HELLO',
-								},
-							},
-						],
+						providers: [],
 						parent: this.injector,
 					});
 					let componentRef = viewContainerRef.createComponent(
@@ -270,9 +266,7 @@ export class QuestionLoaderService {
 	 * @param question
 	 * @param viewContainerRef
 	 */
-	public loadQuestionComponentFactory(
-		question: SurveyViewQuestion,
-	): Observable<ComponentFactory<any>> {
+	public loadQuestionComponentFactory(question: SurveyViewQuestion): Observable<ComponentFactory<any>> {
 		return new Observable((o) => {
 			forkJoin([
 				this.getQuestionComponentFactory(question.questionType),
