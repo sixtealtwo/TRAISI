@@ -66,7 +66,6 @@ export class TravelDiaryService {
 		private _injector: Injector
 	) {
 		this.diaryEvents$ = new BehaviorSubject<CalendarEvent[]>([]);
-		console.log(this);
 	}
 
 	/**
@@ -92,9 +91,15 @@ export class TravelDiaryService {
 			this.users.next(this.respondents);
 			this.isLoaded.next(true);
 		});
-		console.log(this.configuration);
 		this.loadPreviousLocations();
 		this.loadPriorResponseData();
+	}
+
+	/**
+	 *
+	 */
+	public resetAddressQuery(): void {
+		this.loadAddresses();
 	}
 
 	public loadPreviousLocations(): void {
@@ -172,7 +177,7 @@ export class TravelDiaryService {
 	}
 
 	public get diaryEvents(): CalendarEvent[] {
-		return undefined;
+		return this._diaryEvents;
 	}
 
 	/**
@@ -193,6 +198,7 @@ export class TravelDiaryService {
 					purpose: event.purpose['label'],
 					address: event.address['stnumber'] + ' ' + event.address['staddress'] + ' ' + event.address['city'],
 					user: u,
+					mode: event.mode['label'],
 					model: event,
 					id: Date.now(),
 				},
@@ -205,9 +211,6 @@ export class TravelDiaryService {
 
 	// deletes the associated event
 	public deleteEvent(event: TimelineResponseData & { id: number }): void {
-		console.log('in delete');
-		console.log(event);
-		console.log(this);
 		for (let i = 0; i < this._diaryEvents.length; i++) {
 			let e = this._diaryEvents[i];
 			if (e.meta.model.id === event.id) {

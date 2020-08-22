@@ -154,8 +154,13 @@
 									{{ timeEvent.event.title }}
 								</div>
 							</div>
-							<div class="event-address">
-								<i class="fas fa-map-marked-alt"></i> {{ timeEvent.event.meta.address }}
+							<div class="mode-address-group">'
+								<div class="event-mode">
+									{{ timeEvent.event.meta.mode }}
+								</div>
+								<div class="event-address">
+									<i class="fas fa-map-marked-alt"></i> {{ timeEvent.event.meta.address }}
+								</div>
 							</div>
 						</div>
 					</ng-template>

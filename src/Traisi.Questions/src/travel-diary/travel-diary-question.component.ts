@@ -59,6 +59,10 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		return this._travelDiaryService.diaryEvents$;
 	}
 
+	public get events(): CalendarEvent[] {
+		return this._travelDiaryService.diaryEvents;
+	}
+
 	public get users(): any[] {
 		return this._travelDiaryService.respondents;
 	}
@@ -75,8 +79,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.newEvent(event);
 	}
 
-	public eventDeleted(event: TimelineResponseData & {id: number}): void {
-		this._travelDiaryService.deleteEvent(event );
+	public eventDeleted(event: TimelineResponseData & { id: number }): void {
+		this._travelDiaryService.deleteEvent(event);
 	}
 
 	public ngOnInit(): void {
@@ -85,7 +89,10 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
-		console.log(events);
+		// this.scheduleComponent.refreshSubscription();
+		if (this.scheduleComponent) {
+			// this.scheduleComponent.refresh.next();
+		}
 	};
 
 	public eventClicked({ event }: { event: CalendarEvent }): void {

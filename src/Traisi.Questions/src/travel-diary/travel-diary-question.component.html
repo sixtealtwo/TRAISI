@@ -1,5 +1,5 @@
 <div class="travel-diary-question" [style.height.px]="containerHeight"  *ngIf="isComponentLoaded | async">
-	<traisi-travel-dairy-day-view-scheduler [viewDate]="viewDate" [events]="events$ | async" [dayStartHour]="4" [dayEndHour]="24" 
+	<traisi-travel-dairy-day-view-scheduler [viewDate]="viewDate" [events]="events" [dayStartHour]="4" [dayEndHour]="24" [refresh]="events$"
 	[users]="users" #schedule (eventClicked)="eventClicked($event)">
 	</traisi-travel-dairy-day-view-scheduler>
 	<div class="add-event-overlay">

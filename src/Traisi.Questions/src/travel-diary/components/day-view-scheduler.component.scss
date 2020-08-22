@@ -32,7 +32,7 @@ mwl-calendar-event-title {
 }
 
 .cal-event-container {
-    width: calc(100% - 40px);
+	width: calc(100% - 40px);
 }
 
 .customt-event-title {
@@ -60,5 +60,9 @@ mwl-calendar-event-title {
 		// flex-grow: 1;
 		color: #333;
 		font-size: 24px;
+	}
+	.event-mode {
+		font-size: 18px;
+		color: #99a;
 	}
 }

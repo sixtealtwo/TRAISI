@@ -91,10 +91,13 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			timeA: new Date(),
 			timeB: new Date(),
 		};
+		if (this._mapComponent) {
+			this._mapComponent.resetInput();
+		}
+		this._travelDiaryService.resetAddressQuery(); 
 	}
 
 	public dialogSave(): void {
-		console.log(this.model);
 		this.hide();
 		if (this.dialogMode === DialogMode.New) {
 			this.newEventSaved.emit(this.model);
