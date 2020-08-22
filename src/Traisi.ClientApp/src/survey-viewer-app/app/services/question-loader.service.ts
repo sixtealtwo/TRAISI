@@ -15,7 +15,18 @@ import {
 	Inject,
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
-import { Observable, of, Operator, Subscriber, Observer, ReplaySubject, from, EMPTY, forkJoin } from 'rxjs';
+import {
+	Observable,
+	of,
+	Operator,
+	Subscriber,
+	Observer,
+	ReplaySubject,
+	from,
+	EMPTY,
+	forkJoin,
+	combineLatest,
+} from 'rxjs';
 import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
@@ -42,7 +53,7 @@ import * as traisiSdkModule from 'traisi-question-sdk';
 import * as angularPopper from 'angular-popper';
 import * as angularCalendar from 'angular-calendar';
 import * as adapterFactory from 'angular-calendar/date-adapters/date-fns';
-import { share, map, expand } from 'rxjs/operators';
+import { share, map, expand, flatMap, mergeMap, tap, switchMap } from 'rxjs/operators';
 import { find } from 'lodash';
 import * as rxjsOperators from 'rxjs/operators';
 import { UpgradeModule } from '@angular/upgrade/static';
@@ -150,28 +161,24 @@ export class QuestionLoaderService {
 					if (!(questionType in this._componentFactories)) {
 						this._componentFactories[questionType] = componentFactory;
 					}
+					console.log('returning here ');
 					return componentFactory;
 				})
 			);
 		} else {
-			return forkJoin({
-				clientCode: from(
-					SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))
-				),
-				serverConfig: this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(questionType),
-			}).pipe(
-				map((result: { clientCode: any; serverConfig: any }) => {
-					if (result.clientCode.default.name in this._moduleRefs) {
-						return this._moduleRefs[result.clientCode.name];
+			return forkJoin([
+				from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))),
+				this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(questionType),
+			]).pipe(
+				map(([module, config]: any) => {
+					if (module.default.name in this._moduleRefs) {
+						return this._moduleRefs[module.default.name];
 					}
-					console.log(result);
-					this._questionConfigurationService.setQuestionServerConfiguratioByType(
-						questionType,
-						result.serverConfig
-					);
-					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(result.clientCode.default);
+					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 					const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
-					this._moduleRefs[<string>result.clientCode.default.name] = moduleRef;
+					this._moduleRefs[<string>module.default.name] = moduleRef;
+
+					this._questionConfigurationService.setQuestionServerConfiguratioByType(questionType, config);
 					return moduleRef;
 				}),
 				map((moduleRef: any) => {
@@ -191,12 +198,12 @@ export class QuestionLoaderService {
 						let provider = componentFactory['ngModule']._providers[key];
 						if (provider !== undefined && provider.hasOwnProperty('dependency')) {
 							hasDependency = true;
+							console.log('has dependency');
 							return this.getQuestionComponentFactory(provider.name);
 						}
 					}
 					return of(componentFactory);
-				}),
-				share()
+				})
 			);
 		}
 	}

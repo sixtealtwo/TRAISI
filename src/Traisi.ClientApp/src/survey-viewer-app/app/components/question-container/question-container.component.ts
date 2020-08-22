@@ -227,7 +227,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 			],
 			parent: this._injector,
 		});
-		console.log(injector);
 		return injector;
 	}
 
