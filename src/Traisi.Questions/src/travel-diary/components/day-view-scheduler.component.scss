@@ -27,6 +27,15 @@ mwl-calendar-event-title {
 	left: 10px;
 }
 
+.cal-hour .cal-time {
+	font-size: 12px;
+	background: white;
+}
+
+.cal-time-label-column .cal-hour-segment {
+	border: none !important;
+}
+
 .cal-time-label-column .cal-hour-segment {
 	border: none;
 }
@@ -36,13 +45,16 @@ mwl-calendar-event-title {
 }
 
 .customt-event-title {
+	.event-title-group {
+		margin-bottom: 30px;
+	}
 	i {
 		color: #de4c4c;
 	}
 	margin: 16px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: center;
 	.event-purpose {
 		text-transform: uppercase;
 		// flex-grow: 1;

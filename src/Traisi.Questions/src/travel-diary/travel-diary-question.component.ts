@@ -25,10 +25,11 @@ import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-d
 import { User, DayViewSchedulerComponent } from './components/day-view-scheduler.component';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { colors, DialogMode } from './models/consts';
+import { TravelDiaryEditor } from './services/travel-diary-editor.service';
 @Component({
 	selector: 'traisi-travel-diary-question',
 	template: '' + templateString,
-	providers: [TravelDiaryService],
+	providers: [TravelDiaryService,TravelDiaryEditor],
 	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
 	styles: ['' + styleString],

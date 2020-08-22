@@ -46,6 +46,7 @@
 		"ngx-mask": "^9.1.2",
 		"nouislider": "^14.5.0",
 		"reflect-metadata": "^0.1.13",
+		"rxjs": "^6.6.2",
 		"save-dev": "0.0.1-security",
 		"select2": "^4.0.13",
 		"text-mask-addons": "^3.8.0",
@@ -109,7 +110,6 @@
 		"webpackbar": "^4.0.0"
 	},
 	"peerDependencies": {
-		"jquery": "^3.5.1",
-		"rxjs": "^6.6.2"
+		"jquery": "^3.5.1"
 	}
 }

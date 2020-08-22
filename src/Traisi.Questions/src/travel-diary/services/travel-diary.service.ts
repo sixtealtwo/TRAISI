@@ -24,6 +24,7 @@ import { colors } from '../models/consts';
 import { url } from 'inspector';
 import { get } from 'http';
 import { NumberQuestionConfiguration } from 'general/viewer/number-question/number-question.configuration';
+import { TravelDiaryEditor } from './travel-diary-editor.service';
 
 @Injectable()
 export class TravelDiaryService {
@@ -57,6 +58,7 @@ export class TravelDiaryService {
 
 	public constructor(
 		private _http: HttpClient,
+		private _edtior: TravelDiaryEditor,
 		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyRespondentService,
 		@Inject(TraisiValues.SurveyResponseService) private _responseService: SurveyResponseService,
 		@Inject(TraisiValues.SurveyId) private _surveyId: number,
@@ -89,16 +91,17 @@ export class TravelDiaryService {
 				});
 			}
 			this.users.next(this.respondents);
+			this.loadPriorResponseData();
 			this.isLoaded.next(true);
 		});
 		this.loadPreviousLocations();
-		this.loadPriorResponseData();
 	}
 
 	/**
 	 *
 	 */
 	public resetAddressQuery(): void {
+		this.addressInput$.next('');
 		this.loadAddresses();
 	}
 
@@ -112,9 +115,10 @@ export class TravelDiaryService {
 	}
 
 	/**
-	 *
+	 * Loads prior response data for questions for initializing timeline
 	 */
 	private loadPriorResponseData(): void {
+		console.log('in  load prior response data');
 		let questionIds: SurveyViewQuestion[] = [];
 		if (this.configuration.homeAllDay) {
 			questionIds.push(
@@ -135,9 +139,11 @@ export class TravelDiaryService {
 				)
 			);
 		}
-		this._responseService.loadSavedResponsesForRespondents(questionIds, this._respondents).subscribe((res) => {
-			console.log(res);
-		});
+		this._responseService.loadSavedResponsesForRespondents(questionIds, this._respondents).subscribe((res) => {});
+
+		//for debug
+		let events = this._edtior.createDefaultTravelDiaryforRespondent(this.users.value[0], true, false, false);
+		this.addEvents(events);
 	}
 
 	public loadAddresses(): void {
@@ -192,7 +198,7 @@ export class TravelDiaryService {
 				title: event.name,
 				start: event.timeA,
 				end: event.timeB,
-				draggable: true,
+				draggable: false,
 				resizable: { afterEnd: true },
 				meta: {
 					purpose: event.purpose['label'],
@@ -207,6 +213,11 @@ export class TravelDiaryService {
 		}
 		this.diaryEvents$.next(events);
 		this._diaryEvents = events;
+	}
+
+	public addEvents(events: CalendarEvent[]): void {
+		this._diaryEvents = this._diaryEvents.concat(events);
+		this.diaryEvents$.next(this._diaryEvents);
 	}
 
 	// deletes the associated event
