@@ -104,7 +104,8 @@
         "SurveyViewerLogicRuleViewModel",
         "SurveyViewerLogicRulesViewModel",
         "SurveyLogicOperator",
-        "SurveyLogicCondition"
+        "SurveyLogicCondition",
+        "SurveyResponseViewModel"
       ],
       "excludedParameterNames": [
         "AuditableEntity"

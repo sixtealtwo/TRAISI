@@ -177,9 +177,15 @@ namespace Traisi.Data.Repositories
             return result;
         }
 
-        public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, List<SurveyRespondent> users)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionIds"></param>
+        /// <param name="users"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, List<int> users)
         {
-            var r1 = await this._entities.Where(s => users.Any(x => x.Id == s.Respondent.Id) &&
+            var r1 = await this._entities.Where(s => users.AsEnumerable().Contains(s.Respondent.Id) &&
          questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
              .Include(v => v.ResponseValues)
              .Include(v => v.QuestionPart)

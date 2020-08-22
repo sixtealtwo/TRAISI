@@ -9,9 +9,15 @@ import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditi
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { ValidationState } from 'app/services/survey-viewer-api-client.service';
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
-import { SurveyRespondent, TraisiValues, SurveyViewPage, SurveyViewSection, SurveyViewQuestion } from 'traisi-question-sdk';
+import {
+	SurveyRespondent,
+	TraisiValues,
+	SurveyViewPage,
+	SurveyViewSection,
+	SurveyViewQuestion,
+} from 'traisi-question-sdk';
 import { ViewTransformer } from './view-transformer.service';
-import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
+import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk';
 
 /**
  *
@@ -63,7 +69,7 @@ export class SurveyNavigator {
 		private _conditionalEvaluator: ConditionalEvaluator,
 		@Inject(TraisiValues.SurveyRespondentService)
 		private _respondentService: SurveyViewerRespondentService,
-		private _viewTransformer: ViewTransformer 
+		private _viewTransformer: ViewTransformer
 	) {
 		this.navigationStateChanged = new Subject<NavigationState>();
 		let initialState: NavigationState = {
@@ -215,7 +221,8 @@ export class SurveyNavigator {
 	 */
 	public _getRespondentForIdx(idx: number): SurveyRespondent {
 		if (idx >= 0 && idx < this._state.viewerState.groupMembers.length) {
-			return this._state.viewerState.groupMembers[this._currentState.activeRespondentIndex ?? 0];
+			// console.log('in here ');
+			return this._state.viewerState.groupMembers[idx ?? 0];
 		} else {
 			// return the primary respondent
 			return this._state.viewerState.groupMembers[0];
@@ -401,6 +408,7 @@ export class SurveyNavigator {
 					navigationState.activeSectionId = questionInstances[0]?.model.parentSection?.id;
 					navigationState.activeSection = questionInstances[0]?.model.parentSection;
 					navigationState.activeRespondent = this._getRespondentForIdx(navigationState.activeRespondentIndex);
+
 					for (let question of questionInstances) {
 						let instanceId = this.getQuestionInstanceId(
 							question.model,

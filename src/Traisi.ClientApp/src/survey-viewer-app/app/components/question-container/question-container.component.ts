@@ -198,6 +198,15 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	private createInjector(): Injector {
 		this.createServerConfigProviders();
+
+		let questionProviders: StaticProvider[] = [];
+		for (let question of Object.keys(this._viewerStateService.viewerState.questionMap)) {
+			let model: SurveyViewQuestion = this._viewerStateService.viewerState.questionMap[question];
+			questionProviders.push({
+				provide: `question.${model.name}`,
+				useValue: this._viewerStateService.viewerState.questionMap[question],
+			});
+		}
 		let injector: Injector = Injector.create({
 			providers: [
 				{
@@ -214,9 +223,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					useValue: this._respondentService.primaryRespondent,
 				},
 				this.createServerConfigProviders(),
+				questionProviders,
 			],
 			parent: this._injector,
 		});
+		console.log(injector);
 		return injector;
 	}
 

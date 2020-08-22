@@ -639,7 +639,7 @@ namespace Traisi.Services
         public async Task<List<SurveyResponse>>
         ListSurveyResponsesForQuestionsMultipleRespondentsAsync(
             List<int> questionIds,
-            List<SurveyRespondent> respondents
+            List<int> respondents
         )
         {
             var responses =

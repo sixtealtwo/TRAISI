@@ -69,9 +69,16 @@ export {
 export { SurveyRespondent as SurveyRespondentViewModel } from './survey-respondent.model'
 
 export { TraisiValues } from './constants'
-
+export { SurveyViewerValidationStateViewModel } from './survey-validation.model'
 export { SurveyViewQuestion } from './survey-view-question.model'
 export { SurveyViewPage } from './survey-view-page.model'
 export { SurveyViewSection } from './survey-view-section.model'
-
-export { SurveyLogicCondition, SurveyLogicOperator, SurveyLogicRule, SurveyLogicRules, SurveyViewerLogicRuleViewModel, SurveyViewerLogicRulesViewModel } from './survey-logic.model'
+export { SurveyResponseViewModel, ResponseModel } from './models'
+export {
+  SurveyLogicCondition,
+  SurveyLogicOperator,
+  SurveyLogicRule,
+  SurveyLogicRules,
+  SurveyViewerLogicRuleViewModel,
+  SurveyViewerLogicRulesViewModel,
+} from './survey-logic.model'

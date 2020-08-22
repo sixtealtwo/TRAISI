@@ -7,6 +7,7 @@ import {
 } from './survey-question'
 import { SurveyViewQuestion } from './survey-view-question.model'
 import { SurveyViewerValidationStateViewModel } from './survey-validation.model'
+import { ResponseModel } from './models'
 export abstract class SurveyResponseService {
   id: number
   abstract listSurveyResponsesOfType(
@@ -23,5 +24,6 @@ export abstract class SurveyResponseService {
   abstract loadSavedResponsesForRespondents(
     questions: Array<SurveyViewQuestion>,
     respondents: Array<SurveyRespondent>,
-  ): Observable<{ [respondentId: number]: Array<ResponseData<ResponseTypes>> }>
+  ): Observable<ResponseModel[]>
+
 }

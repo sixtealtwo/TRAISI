@@ -183,14 +183,13 @@ namespace Traisi.Controllers.SurveyViewer
         {
             var rCollectopm = respondentIds.ToList();
             var respondents = await this._unitOfWork.SurveyRespondents.FindAsync(x => respondentIds.Any(y => y == x.Id));
-            if (respondents == null)
+            if (respondents == null || respondents.Count == 0 || respondents.Count != respondentIds.Length)
             {
                 return new NotFoundObjectResult(new List<SurveyResponseViewModel>());
             }
-            var responses = await this._resonseService.ListSurveyResponsesForQuestionsMultipleRespondentsAsync(new List<int>(questionIds), respondents);
-            return new OkResult();
-            
-            //return new OkObjectResult(_mapper.Map<List<SurveyResponseViewModel>>(responses));
+            var responses = await this._resonseService.ListSurveyResponsesForQuestionsMultipleRespondentsAsync(new List<int>(questionIds), new List<int>(respondentIds));
+
+            return new OkObjectResult(_mapper.Map<List<SurveyResponseViewModel>>(responses));
         }
 
         [HttpGet]
@@ -244,7 +243,7 @@ namespace Traisi.Controllers.SurveyViewer
         {
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             await this._resonseService.RemoveAllResponses(surveyId, respondentId, user);
-            
+
             return new OkResult();
         }
 

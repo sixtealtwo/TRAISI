@@ -66,7 +66,7 @@ namespace Traisi.Data.Repositories.Interfaces
         /// <param name="questionIds"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, List<SurveyRespondent> users);
+        Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, List<int> users);
 
         /// <summary>
         /// 

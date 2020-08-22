@@ -1,4 +1,11 @@
+type option = {
+	label: string;
+	value: string;
+};
 export interface TravelDiaryConfiguration {
-	purposes: string[];
-	modes: string[];
+	purpose: string[];
+	mode: string[];
+	homeAllDay: option;
+	homeDeparture: option;
+	returnHome: option;
 }

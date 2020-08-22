@@ -5,6 +5,7 @@ import {
 	ResponseData,
 	ResponseTypes,
 	SurveyRespondentService,
+	SurveyResponseViewModel,
 	SurveyResponseService,
 	SurveyViewQuestion,
 	TraisiValues,
@@ -12,12 +13,11 @@ import {
 import { Observable, EMPTY } from 'rxjs';
 import {
 	SurveyResponseClient,
-	SurveyResponseViewModel,
 	QuestionResponseType,
 } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';
 import { tap } from 'rxjs/operators';
-import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
+import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk';
 
 @Injectable({
 	providedIn: 'root',
@@ -28,9 +28,8 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 
 	public constructor(
 		private _responseClient: SurveyResponseClient,
-		private _session: SurveyViewerSession
-	) // @Inject(TraisiValues.SurveyId) private _surveyId: number
-	{
+		private _session: SurveyViewerSession // @Inject(TraisiValues.SurveyId) private _surveyId: number
+	) {
 		super();
 	}
 
@@ -283,7 +282,7 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 	public loadSavedResponsesForRespondents(
 		questions: Array<SurveyViewQuestion>,
 		respondents: Array<SurveyRespondent>
-	): Observable<{ [respondentId: number]: Array<ResponseData<ResponseTypes>> }> {
+	): Observable<SurveyResponseViewModel[] > {
 		let queryIds = [];
 		for (let question of questions) {
 			for (let respondent of respondents) {
@@ -296,12 +295,21 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 			// return empty, data already exists for these respondents
 			return EMPTY;
 		}
-		let respondentIds = respondents.map((r) => r.id);
 		return new Observable((obs) => {
 			this._responseClient
-				.listSurveyResponsesForQuestionsForMultipleRespondents(this._session.surveyId, queryIds, respondentIds)
-				.subscribe((result) => {
-					console.log(result);
+				.listSurveyResponsesForQuestionsForMultipleRespondents(this._session.surveyId, queryIds, respondents.map((r) => r.id))
+				.subscribe({
+					next: (responses) => {
+						console.log(responses);
+						// store each response
+						for (let response of responses) {
+							this._storeResponse(response.questionId, response.respondent, response.responseValues);
+						}
+						obs.next(responses);
+					},
+					complete: () => {
+						obs.complete();
+					},
 				});
 		});
 	}

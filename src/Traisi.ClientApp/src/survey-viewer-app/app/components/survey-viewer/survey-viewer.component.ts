@@ -19,7 +19,13 @@ import { sortBy } from 'lodash';
 import { flatMap, share } from 'rxjs/operators';
 import { SurveyUser } from 'shared/models/survey-user.model';
 import { Utilities } from 'shared/services/utilities';
-import { ResponseValidationState, SurveyRespondent, TraisiValues, SurveyViewPage, SurveyViewQuestion } from 'traisi-question-sdk';
+import {
+	ResponseValidationState,
+	SurveyRespondent,
+	TraisiValues,
+	SurveyViewPage,
+	SurveyViewQuestion,
+} from 'traisi-question-sdk';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyViewerTheme } from '../../models/survey-viewer-theme.model';
@@ -495,7 +501,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			complete: () => {
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
-				// console.log('navigation completed');
 			},
 		});
 	}

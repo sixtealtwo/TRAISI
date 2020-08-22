@@ -263,7 +263,7 @@ namespace Traisi.Models.Mapping
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine (e);
+                        Console.WriteLine(e);
                     }
                 })
                 .AfterMap((s, svm, opt) =>
@@ -335,6 +335,28 @@ namespace Traisi.Models.Mapping
                                                 a.Value;
                                         }
                                         break;
+                                    case ConfigurationValueType.Response:
+                                        try
+                                        {
+                                            svm
+                                                .Configuration[ResponseValueResolver
+                                                    .NamesContractResolver
+                                                    .GetResolvedPropertyName(a
+                                                        .Name)
+                                                    .Replace(" ", "")] =
+                                                JToken.Parse(a.Value);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            svm
+                                                .Configuration[ResponseValueResolver
+                                                    .NamesContractResolver
+                                                    .GetResolvedPropertyName(a
+                                                        .Name)
+                                                    .Replace(" ", "")] =
+                                                a.Value;
+                                        }
+                                        break;
                                     default:
                                         svm
                                             .Configuration[ResponseValueResolver
@@ -364,7 +386,7 @@ namespace Traisi.Models.Mapping
                     }
                     catch (Exception)
                     {
-                        
+
                     }
                 });
 
@@ -382,7 +404,7 @@ namespace Traisi.Models.Mapping
                     try
                     {
                         svm.ErrorMessages =
-                            new List<string>(new []
+                            new List<string>(new[]
                                 {
                                     s
                                         .Messages[opt.Items["Language"] as
@@ -392,7 +414,7 @@ namespace Traisi.Models.Mapping
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine (e);
+                        Console.WriteLine(e);
                     }
                 });
             CreateMap

@@ -12,7 +12,7 @@ import { Observable, throwError as _observableThrow, of as _observableOf } from 
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { SurveyLogicCondition, SurveyLogicOperator, SurveyViewerLogicRulesViewModel } from 'traisi-question-sdk';
-import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
+import { SurveyViewerValidationStateViewModel,SurveyResponseViewModel  } from 'traisi-question-sdk';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -1710,12 +1710,7 @@ export enum ValidationState {
     Touched = 3,
 }
 
-export interface SurveyResponseViewModel {
-    questionId?: number;
-    responseValues?: { [key: string]: any; }[] | undefined;
-    configuration?: { [key: string]: any; } | undefined;
-    respondent?: SurveyRespondentViewModel | undefined;
-}
+
 
 export enum QuestionResponseType {
     String = 0,

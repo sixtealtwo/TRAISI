@@ -218,7 +218,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 		this._map.on('load', () => {
 			setTimeout(() => {
-				console.log(this); 
 				this._map.resize();
 			});
 		});

@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, Injector } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { Subject, BehaviorSubject, Observable, concat, of } from 'rxjs';
 import { TravelDiaryConfiguration } from '../models/travel-diary-configuration.model';
@@ -13,17 +13,27 @@ import {
 	ResponseTypes,
 	TraisiValues,
 	LocationResponseData,
+	SurveyViewQuestion,
+	SurveyViewerLogicRuleViewModel,
 } from 'traisi-question-sdk';
 import { User } from '../components/day-view-scheduler.component';
 import { Console } from 'console';
 import { TravelDiaryEditDialogComponent } from '../components/travel-diary-edit-dialog.component';
 import { colors } from '../models/consts';
+import { url } from 'inspector';
+import { get } from 'http';
 
 @Injectable()
 export class TravelDiaryService {
 	public diaryEvents$: BehaviorSubject<CalendarEvent>;
 
-	public configuration: TravelDiaryConfiguration = { purposes: [], modes: [] };
+	public configuration: TravelDiaryConfiguration = {
+		purpose: [],
+		mode: [],
+		homeAllDay: undefined,
+		homeDeparture: undefined,
+		returnHome: undefined,
+	};
 
 	public addresses$: Observable<string[]>;
 
@@ -48,7 +58,8 @@ export class TravelDiaryService {
 		@Inject(TraisiValues.SurveyId) private _surveyId: number,
 		@Inject(TraisiValues.Configuration) private _configuration: any,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
-		@Inject(TraisiValues.Household) private _respondents: SurveyRespondent[]
+		@Inject(TraisiValues.Household) private _respondents: SurveyRespondent[],
+		private _injector: Injector
 	) {
 		console.log(this);
 	}
@@ -60,9 +71,9 @@ export class TravelDiaryService {
 	 * @param {*} configuration
 	 */
 	public initialize(): void {
-		console.log(this._configuration);
-		this.configuration.purposes = this._configuration.purpose ?? [];
-		this.configuration.modes = this._configuration.mode ?? [];
+		this.configuration = Object.assign({}, this._configuration);
+		this.configuration.purpose = this._configuration.purpose ?? [];
+		this.configuration.mode = this._configuration.mode ?? [];
 		this.loadAddresses();
 
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
@@ -76,9 +87,9 @@ export class TravelDiaryService {
 			this.users.next(this.respondents);
 			this.isLoaded.next(true);
 		});
-		this.loadPreviousLocations();
-
 		console.log(this.configuration);
+		this.loadPreviousLocations();
+		this.loadPriorResponseData();
 	}
 
 	public loadPreviousLocations(): void {
@@ -86,8 +97,37 @@ export class TravelDiaryService {
 			.listSurveyResponsesOfType(this._surveyId, QuestionResponseType.Location)
 			.subscribe((x) => {
 				let rValues = x.responseValues;
-				console.log(x[0]);
+				// console.log(x[0]);
 			});
+	}
+
+	/**
+	 *
+	 */
+	private loadPriorResponseData(): void {
+		let questionIds: SurveyViewQuestion[] = [];
+		if (this.configuration.homeAllDay) {
+			questionIds.push(
+				<SurveyViewQuestion>this._injector.get('question.' + this.configuration.homeAllDay[0].label)
+			);
+		}
+		if (this.configuration.homeDeparture) {
+			questionIds.push(
+				<SurveyViewQuestion>(
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.homeDeparture[0].label))
+				)
+			);
+		}
+		if (this.configuration.returnHome) {
+			questionIds.push(
+				<SurveyViewQuestion>(
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.returnHome[0].label))
+				)
+			);
+		}
+		this._responseService.loadSavedResponsesForRespondents(questionIds, this._respondents).subscribe((res) => {
+			console.log(res);
+		});
 	}
 
 	public loadAddresses(): void {
