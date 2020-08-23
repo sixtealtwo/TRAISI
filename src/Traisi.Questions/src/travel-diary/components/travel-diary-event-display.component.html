@@ -15,8 +15,11 @@
 		</div>
 	</div>
 	<div class="mode-address-group">
-		'
 		<div class="event-mode">
+			<div *ngIf="!timeEvent.event.meta.mode && !timeEvent.event.meta.homeAllDay" class="no-mode-message">
+				This auto generated event has no travel mode assigned, please click the event and choose
+				a travel mode you used to reach the destination.
+			</div>
 			{{ timeEvent.event.meta.mode }}
 		</div>
 		<div class="event-address"><i class="fas fa-map-marked-alt"></i> {{ timeEvent.event.meta.address }}</div>
