@@ -2,13 +2,45 @@
 	<ul class="progress-inner" *ngIf="state.activePage">
 		<li
 			class="progress__item progress-page"
-			[ngClass]="{ 'progress__item--active': state.activePage?.id === page.id, 'visited': viewerState.pageStates[page.id].isVisited,'not-visited': !viewerState.pageStates[page.id].isVisited  }"
+			[ngClass]="{
+				'progress__item--active': state.activePage?.id === page.id,
+				visited: viewerState.pageStates[page.id].isVisited,
+				'not-visited': !viewerState.pageStates[page.id].isVisited
+			}"
 			(click)="navigateToPage(page)"
 			*ngFor="let page of viewerStateService.viewerState.surveyPages; let i = index"
 		>
 			<i class="{{ page.icon }} page-icon"></i>
 			<p class="progress__title">{{ page.label }}</p>
-			<p class="progress__info" [ngClass]="{'section--active': state.activeSection?.id === section.id }" *ngFor="let section of page.sections">{{ section.label }}</p>
+
+			<ng-container *ngFor="let section of page.sections">
+				<p class="progress__info" [ngClass]="{ 'section--active': state.activeSection?.id === section.id }">
+					{{ section.label }}
+				</p>
+				<ng-container *ngIf="state.activeSection?.id === section.id">
+					<p class="progress__question" *ngFor="let question of state.activeQuestionInstances">
+						<span class="validation-status">
+							<i
+								*ngIf="
+									question.validationState?.clientValidationState === validationStates.VALID &&
+									question.validationState?.isValid
+								"
+								class="far fa-check-square"
+							></i>
+							<i
+								*ngIf="
+									!(
+										question.validationState?.clientValidationState === validationStates.VALID &&
+										question.validationState?.isValid
+									)
+								"
+								class="far fa-square"
+							></i>
+						</span>
+						{{ question.model.name }}
+					</p>
+				</ng-container>
+			</ng-container>
 		</li>
 
 		<!--

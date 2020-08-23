@@ -4,7 +4,7 @@ import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-n
 import { NavigationState } from 'app/models/navigation-state.model';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
-import { SurveyViewPage, SurveyViewSection } from 'traisi-question-sdk';
+import { SurveyViewPage, SurveyViewSection, ResponseValidationState } from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-survey-progress',
@@ -13,6 +13,7 @@ import { SurveyViewPage, SurveyViewSection } from 'traisi-question-sdk';
 })
 export class SurveyProgressComponent implements OnInit {
 	public pages: SurveyViewPage[];
+	public validationStates: typeof ResponseValidationState = ResponseValidationState;
 	public constructor(public viewerStateService: SurveyViewerStateService, public navigator: SurveyNavigator) {}
 	public ngOnInit(): void {}
 

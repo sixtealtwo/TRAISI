@@ -29,7 +29,7 @@ $FONT_COLOR: #333;
 }
 
 p {
-	font-size: 13px;
+	font-size: 14px;
 	margin: 0 0 11px;
 }
 
@@ -75,6 +75,21 @@ header {
 	display: block;
 	height: auto;
 	list-style-type: none;
+}
+
+.progress__question {
+	color: #878c9c;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	font-weight: 500;
+	font-size: 14px;
+	.validation-status {
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		font-size: 16px;
+		margin-right: 5px;
+	}
 }
 
 .progress__item {
@@ -146,7 +161,7 @@ header {
 }
 
 .progress__info {
-	font-size: 13px;
+	font-size: 14px;
 	margin-bottom: 5px;
 	margin-top: 5px;
 	color: #333;
@@ -155,5 +170,5 @@ header {
 	}
 }
 .progress__info.section--active {
-	color: #16359a !important;
+	color: #4f6b8e !important;
 }
