@@ -50,6 +50,11 @@
 		"id": "transit-cycle-ride"
 	},
 	{
+        "label": "Transit (school bus)",
+        "icon": "fal fa-bus-school",
+        "identifier": "transit-schoolbus"
+    },
+	{
 		"label": "Cycling (bikeshare)",
 		"icon": "fas fa-bikingi",
 		"id": "cycling-bikeshare"

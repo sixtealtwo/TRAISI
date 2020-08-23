@@ -18,6 +18,14 @@ namespace Traisi.Data.Models.Surveys
 
         public SurveyAccessRecord SurveyAccessRecord { get; set; }
 
+        /// <summary>
+        /// if a response is excluded, it is not visible to response queries relevent
+        /// to survey session. They will be kept for analysis. A response is excluded when
+        /// it was originally responded to, but hidden from later changes in the survey.
+        /// </summary>
+        /// <value></value>
+        public bool Excluded { get; set; }
+
         public SurveyResponse()
         {
             this.ResponseValues = new List<ResponseValue>();

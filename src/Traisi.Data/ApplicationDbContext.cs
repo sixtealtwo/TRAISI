@@ -175,7 +175,7 @@ namespace Traisi.Data
 
             builder.Entity<SurveyResponse>().HasMany(s => s.ResponseValues).WithOne(v => v.SurveyResponse).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyResponse>().ToTable("SurveyResponses").HasOne(p => p.QuestionPart).WithMany().OnDelete(DeleteBehavior.Cascade);
-
+            builder.Entity<SurveyResponse>().Property(x => x.Excluded).HasDefaultValue(false);
             builder.Entity<SurveyRespondent>().ToTable("SurveyRespondents")
                 .HasDiscriminator<int>("RespondentType")
                 .HasValue<PrimaryRespondent>(0)

@@ -259,9 +259,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}, 0);
 	}
 
-	public saveConfiguration(): void {
-		console.log('in save configuration');
-		console.log(this); 
+	public saveConfiguration(): void { 
 		this.configurationValues = [];
 		this.childrenComponents.forEach((compRef) => {
 			let config = new QuestionConfigurationValue(
@@ -413,7 +411,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	private loadPastConditionals() {
-		console.log(this.questionBeingEdited.id);
 		this.builderService
 			.getQuestionPartConditionals(this.surveyId, this.questionBeingEdited.id)
 			.subscribe((conditionals) => {
@@ -539,7 +536,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			}
 		});
 
-		console.log(this._editorData.surveyStructure);
 		for (let page of this._editorData.surveyStructure.pages) {
 			this.processSourceConditionalsPage(page, 0);
 		}
@@ -733,7 +729,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	 * Called when the configuration dialog is shown and input properties set
 	 */
 	public configurationShown(): void {
-		console.log(this.questionBeingEdited.id);
 		this.conditionalSource = this._builder.getQuestionLogic(
 			this._editorData.surveyId,
 			this.questionBeingEdited.id,

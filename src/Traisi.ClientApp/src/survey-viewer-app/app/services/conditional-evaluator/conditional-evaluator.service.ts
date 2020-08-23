@@ -45,7 +45,7 @@ export class ConditionalEvaluator {
 			case SurveyLogicOperator.contains:
 				return this.evaluateContains(sourceData as StringResponseData[], value);
 			case SurveyLogicOperator.noneOf:
-				return !this.evaluateContains(sourceData as StringResponseData[], value);
+				return !this.evaluateIsAnyOf(sourceData, value);
 			case SurveyLogicOperator.equals:
 				return this.evaluateEquals(sourceData as NumberResponseData[], value);
 			case SurveyLogicOperator.lessThan:
@@ -255,6 +255,7 @@ export class ConditionalEvaluator {
 				this._responseService.loadSavedResponses(sourceQuestions, respondent).subscribe({
 					complete: () => {
 						let evalTrue: boolean = this.evaluate(question.conditionals[0] as any, respondent);
+						console.log(question.name + ' will hide:' + !evalTrue);
 						observer.next({
 							shouldHide: !evalTrue,
 							question: question,
