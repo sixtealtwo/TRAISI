@@ -9,3 +9,17 @@ body {
     background: #e2e6ef;
 }
 
+button.btn.btn-primary {
+	border-radius: 7px;
+	border-bottom: solid 4px #172a69;
+}
+
+button.btn.btn-primary:active {
+	border-radius: 7px;
+	border-bottom: solid 2px #172a69;
+}
+
+button.btn.btn-secondary {
+	border-bottom: solid 4px #808182;
+	border-radius: 7px;
+}

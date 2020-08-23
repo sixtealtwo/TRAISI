@@ -66,6 +66,18 @@ namespace Traisi.Sdk.Questions
         SurveyBuilderValueType = QuestionBuilderType.MultiSelect)]
         public int[] HomeAllDayIds = new int[] { };
 
+        [QuestionConfiguration(ConfigurationValueType.Response,
+        DisplayName = "Work Outside",
+        Description = "Which question indicates the respondent left home for a work type activity.",
+        SurveyBuilderValueType = QuestionBuilderType.MultiSelect)]
+        public int[] WorkOutsideIds = new int[] { };
+
+        [QuestionConfiguration(ConfigurationValueType.Response,
+        DisplayName = "School Outside",
+        Description = "Which question indicates the respondent left home for a school type activity.",
+        SurveyBuilderValueType = QuestionBuilderType.MultiSelect)]
+        public int[] SchoolOutsideIds = new int[] { };
+
     }
 
 }

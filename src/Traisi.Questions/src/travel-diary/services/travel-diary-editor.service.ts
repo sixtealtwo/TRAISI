@@ -26,7 +26,7 @@ export class TravelDiaryEditor {
 
 		if (homeAllDay) {
 			events.push({
-				title: 'Home All Day',
+				title: '在家當宅男',
 				draggable: false,
 				resizable: {
 					beforeStart: false,

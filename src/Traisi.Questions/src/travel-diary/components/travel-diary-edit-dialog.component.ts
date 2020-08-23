@@ -214,10 +214,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.model.longitude = response['longitude'];
 	}
 
-
 	public ngAfterViewInit(): void {
 		this.eventForm.valueChanges.subscribe((x) => {
-
+			console.log(this.eventForm);
 		});
 	}
 	public ngOnInit(): void {}
