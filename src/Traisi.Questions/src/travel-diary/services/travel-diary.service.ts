@@ -130,8 +130,8 @@ export class TravelDiaryService {
 		let returnHomeId = 0;
 		let madeWorkTripId = 0;
 		let workLocationId = 0;
-		let madeSchoolTrips = 0;
-		let schoolLocation = 0;
+		let madeSchoolTripId = 0;
+		let schoolLocationId = 0;
 		if (this.configuration.homeAllDay) {
 			let homeAllDayQuestionModel = <SurveyViewQuestion>(
 				this._injector.get('question.' + this.configuration.homeAllDay[0].label)
@@ -177,6 +177,30 @@ export class TravelDiaryService {
 				);
 			}
 		}
+		if (this.configuration.schoolOutside) {
+			if (this.configuration.workOutside.length > 1) {
+				let schoolModel1 = <SurveyViewQuestion>(
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[0].label))
+				);
+				let schoolModel2 = <SurveyViewQuestion>(
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[1].label))
+				);
+
+				if (schoolModel1.questionType === 'location') {
+					schoolLocationId = schoolModel1.questionId;
+					madeSchoolTripId = schoolModel2.questionId;
+				} else {
+					workLocationId = schoolModel2.questionId;
+					madeWorkTripId = schoolModel1.questionId;
+				}
+				questionIds.push(schoolModel1);
+				questionIds.push(schoolModel2);
+			} else {
+				console.warn(
+					'Unable to initialize diary for respondent, not enough information exists in configuration.'
+				);
+			}
+		}
 		this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
 			this._initializeSmartFill(
 				res,
@@ -185,8 +209,8 @@ export class TravelDiaryService {
 				returnHomeId,
 				madeWorkTripId,
 				workLocationId,
-				0,
-				0
+				madeSchoolTripId,
+				schoolLocationId
 			);
 		});
 	}
@@ -232,7 +256,7 @@ export class TravelDiaryService {
 				schoolDeparture, // school dept,
 				true, // returned h ome
 				workLocation, // work loc,
-				schoolLocationId //school loc
+				schoolLocation //school loc
 			);
 			this.addEvents(events);
 		}
