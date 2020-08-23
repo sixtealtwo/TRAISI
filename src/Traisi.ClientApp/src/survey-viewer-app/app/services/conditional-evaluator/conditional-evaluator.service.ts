@@ -255,7 +255,6 @@ export class ConditionalEvaluator {
 				this._responseService.loadSavedResponses(sourceQuestions, respondent).subscribe({
 					complete: () => {
 						let evalTrue: boolean = this.evaluate(question.conditionals[0] as any, respondent);
-						console.log(question.name + ' will hide:' + !evalTrue);
 						observer.next({
 							shouldHide: !evalTrue,
 							question: question,
@@ -266,4 +265,4 @@ export class ConditionalEvaluator {
 			}
 		});
 	}
-}
+} 
