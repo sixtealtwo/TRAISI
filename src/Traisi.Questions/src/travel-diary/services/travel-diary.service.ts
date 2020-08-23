@@ -25,6 +25,7 @@ import { url } from 'inspector';
 import { get } from 'http';
 import { NumberQuestionConfiguration } from 'general/viewer/number-question/number-question.configuration';
 import { TravelDiaryEditor } from './travel-diary-editor.service';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 @Injectable()
 export class TravelDiaryService {
@@ -36,6 +37,8 @@ export class TravelDiaryService {
 		homeAllDay: undefined,
 		homeDeparture: undefined,
 		returnHome: undefined,
+		workOutside: undefined,
+		schoolOutside: undefined,
 	};
 
 	public addresses$: Observable<string[]>;
@@ -125,6 +128,10 @@ export class TravelDiaryService {
 		let homeAllDayId = 0;
 		let homeDepartureId = 0;
 		let returnHomeId = 0;
+		let madeWorkTripId = 0;
+		let workLocationId = 0;
+		let madeSchoolTrips = 0;
+		let schoolLocation = 0;
 		if (this.configuration.homeAllDay) {
 			let homeAllDayQuestionModel = <SurveyViewQuestion>(
 				this._injector.get('question.' + this.configuration.homeAllDay[0].label)
@@ -146,8 +153,41 @@ export class TravelDiaryService {
 			questionIds.push(homeReturnModel);
 			returnHomeId = homeReturnModel.questionId;
 		}
+		if (this.configuration.workOutside) {
+			if (this.configuration.workOutside.length > 1) {
+				let workOutsideModel1 = <SurveyViewQuestion>(
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[0].label))
+				);
+				let workOutsideModel2 = <SurveyViewQuestion>(
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[1].label))
+				);
+
+				if (workOutsideModel1.questionType === 'location') {
+					workLocationId = workOutsideModel1.questionId;
+					madeWorkTripId = workOutsideModel2.questionId;
+				} else {
+					workLocationId = workOutsideModel2.questionId;
+					madeWorkTripId = workOutsideModel1.questionId;
+				}
+				questionIds.push(workOutsideModel1);
+				questionIds.push(workOutsideModel2);
+			} else {
+				console.warn(
+					'Unable to initialize diary for respondent, not enough information exists in configuration.'
+				);
+			}
+		}
 		this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
-			this._initializeSmartFill(res, homeAllDayId, homeDepartureId, returnHomeId);
+			this._initializeSmartFill(
+				res,
+				homeAllDayId,
+				homeDepartureId,
+				returnHomeId,
+				madeWorkTripId,
+				workLocationId,
+				0,
+				0
+			);
 		});
 	}
 
@@ -162,17 +202,37 @@ export class TravelDiaryService {
 		res: SurveyResponseViewModel[],
 		homeAllDayId: number,
 		homeDepartureId: number,
-		returnHomeId: number
+		returnHomeId: number,
+		workDepartureId: number,
+		workLocationId: number,
+		schoolDepartureId: number,
+		schoolLocationId: number
 	): void {
 		for (let r of this.respondents) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
 			// responses belonging to a specific user
+			const isHomeAllDay =
+				responseMatches.find((x) => x.questionId === homeAllDayId)?.responseValues[0].code?.toUpperCase() ===
+				'YES';
+			const workDeparture =
+				responseMatches.find((x) => x.questionId === workDepartureId)?.responseValues[0].code?.toUpperCase() ===
+				'YES';
+			const schoolDeparture =
+				responseMatches
+					.find((x) => x.questionId === schoolDepartureId)
+					?.responseValues[0].code?.toUpperCase() === 'YES';
+
+			const workLocation = responseMatches.find((x) => x.questionId === workLocationId)?.responseValues[0];
+			const schoolLocation = responseMatches.find((x) => x.questionId === schoolLocationId)?.responseValues[0];
+
 			let events = this._edtior.createDefaultTravelDiaryforRespondent(
 				this.userMap[r.id],
-				responseMatches.find((x) => x.questionId === homeAllDayId).responseValues[0].code?.toUpperCase() ===
-					'YES',
-				false,
-				false
+				isHomeAllDay,
+				workDeparture,
+				schoolDeparture, // school dept,
+				true, // returned h ome
+				workLocation, // work loc,
+				schoolLocationId //school loc
 			);
 			this.addEvents(events);
 		}

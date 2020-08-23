@@ -51,6 +51,15 @@ namespace Traisi.Data.Repositories.Interfaces
         /// <param name="user"></param>
         /// <returns></returns>
         Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId, SurveyRespondent user, int repeat);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <param name="user"></param>
+        /// <param name="repeat"></param>
+        /// <returns></returns>
+        Task<List<SurveyResponse>> GetMostRecentResponseNoValuesForQuestionByRespondentAsync(Survey survey, int[] questionIds, SurveyRespondent user);
 
         /// <summary>
         /// 

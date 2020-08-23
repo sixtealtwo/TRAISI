@@ -12,6 +12,7 @@ using Traisi.Sdk.Interfaces;
 using Traisi.Sdk.Enums;
 using Traisi.ViewModels.SurveyViewer;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Traisi.Services
 {
@@ -194,8 +195,21 @@ namespace Traisi.Services
 
                 if (compareResponse != null && compareResponse.ResponseValues.Count > 0 && response.ResponseValues.Count > 0)
                 {
-                    JObject compareObj = JObject.Parse((compareResponse.ResponseValues[0] as LocationResponse).Address);
-                    JObject compareObj2 = JObject.Parse((response.ResponseValues[0] as LocationResponse).Address);
+                    if (compareResponse.ResponseValues.Count < 1 || response.ResponseValues.Count < 1)
+                    {
+                        return false;
+                    }
+                    JObject compareObj = null;
+                    JObject compareObj2 = null;
+                    try
+                    {
+                        compareObj = JObject.Parse((compareResponse.ResponseValues[0] as LocationResponse).Address);
+                        compareObj2 = JObject.Parse((response.ResponseValues[0] as LocationResponse).Address);
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
                     var addr = compareObj.Value<string>("staddress");
                     if (compareObj.Value<string>("staddress") == compareObj2.Value<string>("staddress") && compareObj.Value<string>("stnumber") == compareObj2.Value<string>("stnumber") &&
                     compareObj.Value<string>("postal") == compareObj2.Value<string>("postal"))
@@ -203,7 +217,6 @@ namespace Traisi.Services
                     {
                         return true;
                     }
-
                 }
             }
             return false;

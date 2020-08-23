@@ -317,6 +317,73 @@
         }
       }
     },
+    "/api/SurveyResponse/surveys/{surveyId}/questions/respondents/{respondentId}/exclude/{shouldExclude}": {
+      "put": {
+        "tags": [
+          "SurveyResponse"
+        ],
+        "operationId": "SurveyResponse_ExcludeResponses",
+        "parameters": [
+          {
+            "name": "surveyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "respondentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "shouldExclude",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "questionIds",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/SurveyResponse/surveys/{surveyId}/responses/types/{responseType}": {
       "get": {
         "tags": [

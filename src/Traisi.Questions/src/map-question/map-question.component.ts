@@ -122,9 +122,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		super();
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
 		this._configuration.AccessToken = _accessToken;
-
 		this.accessToken = _accessToken;
-		console.log(_configuration);
 	}
 
 	/**
@@ -147,7 +145,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.accessToken = this._configuration.AccessToken;
 		if (this._configuration.purpose) {
 			try {
-				console.log(this._configuration);
 				this._configuration.purpose = JSON.parse(this._configuration.purpose);
 				this.purpose = this._configuration.purpose;
 			} catch {}

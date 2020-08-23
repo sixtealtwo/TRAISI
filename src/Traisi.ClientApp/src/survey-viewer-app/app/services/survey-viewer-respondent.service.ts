@@ -24,7 +24,6 @@ export class SurveyViewerRespondentService {
 
 	public constructor(
 		private _respondentClient: SurveyRespondentClient,
-		private _session: SurveyViewerSession,
 		private _state: SurveyViewerStateService
 	) {}
 

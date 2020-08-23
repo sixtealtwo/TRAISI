@@ -2,9 +2,8 @@
 
 import { Injectable } from '@angular/core';
 import { CalendarEvent } from 'calendar-utils';
-import { SurveyResponseViewModel } from 'traisi-question-sdk';
+import { SurveyResponseViewModel, LocationResponseData } from 'traisi-question-sdk';
 import { SurveyRespondentUser } from 'travel-diary/models/consts';
-
 
 // events based on user input
 @Injectable()
@@ -19,33 +18,111 @@ export class TravelDiaryEditor {
 	public createDefaultTravelDiaryforRespondent(
 		user: SurveyRespondentUser,
 		homeAllDay: boolean,
-		homeDeparture: boolean,
-		returnedHome: boolean
+		workDeparture: boolean,
+		schoolDeparture: boolean,
+		returnedHome: boolean,
+		workLocation?: any,
+		schoolLoation?: any
 	): CalendarEvent[] {
 		let events: CalendarEvent[] = [];
-
 		if (homeAllDay) {
-			events.push({
-				title: '在家當宅男',
-				draggable: false,
-				resizable: {
-					beforeStart: false,
-					afterEnd: false,
-				},
-				meta: {
-					purpose: 'home',
-					homeAllDay: true,
-					address: '1234 Memory Lane',
-					user: user,
-					mode: null,
-					model: {},
-					id: Date.now(),
-				},
-				start: new Date(new Date().setHours(0, 0, 0, 0)),
-				end: new Date(new Date().setHours(23, 59, 0, 0)),
-			});
+			events = events.concat(this.createHomeAllDayEvent(user));
+		}
+		if (workDeparture) {
+			events = events.concat(this.createHomeWorkHomeEvent(user, workLocation));
+		}
+		if (schoolDeparture) {
+			events = events.concat(this.createHomeSchoolHomeEvent(user, schoolLoation));
 		}
 
 		return events;
+	}
+
+	private createHomeWorkHomeEvent(user: SurveyRespondentUser, workLocation: LocationResponseData): CalendarEvent[] {
+		console.log('creating home work home');
+
+		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
+		let workEvent = this.createBaseEvent(user, 'Work (Not Home)', 'work');
+		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
+		homeEvent.end = new Date(new Date().setHours(9, 0, 0, 0));
+		workEvent.start = new Date(new Date().setHours(9, 1, 0, 0));
+		workEvent.end = new Date(new Date().setHours(17, 0, 0, 0));
+
+		returnHomeEvent.start = new Date(new Date().setHours(17, 1, 0, 0));
+		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
+
+		return [homeEvent, workEvent, returnHomeEvent];
+	}
+
+	private createHomeSchoolHomeEvent(user: SurveyRespondentUser, schoolLocation: LocationResponseData): CalendarEvent[] {
+		console.log('creating home work home');
+
+		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
+		let workEvent = this.createBaseEvent(user, 'School (Not Home)', 'school');
+		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
+		homeEvent.end = new Date(new Date().setHours(9, 0, 0, 0));
+		workEvent.start = new Date(new Date().setHours(9, 1, 0, 0));
+		workEvent.end = new Date(new Date().setHours(17, 0, 0, 0));
+
+		returnHomeEvent.start = new Date(new Date().setHours(17, 1, 0, 0));
+		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
+
+		return [homeEvent, workEvent, returnHomeEvent];
+	}
+
+	/**
+	 * Creates an at home all day event
+	 * @param user
+	 */
+	private createHomeAllDayEvent(user: SurveyRespondentUser): CalendarEvent[] {
+		let events: CalendarEvent[] = [];
+		events.push({
+			title: 'Home All Day',
+			draggable: false,
+			resizable: {
+				beforeStart: false,
+				afterEnd: false,
+			},
+			meta: {
+				purpose: 'home',
+				homeAllDay: true,
+				address: '1234 Memory Lane',
+				user: user,
+				mode: null,
+				model: {},
+				id: Date.now(),
+			},
+			start: new Date(new Date().setHours(0, 0, 0, 0)),
+			end: new Date(new Date().setHours(23, 59, 0, 0)),
+		});
+		return events;
+	}
+
+	/**
+	 * 
+	 * @param user 
+	 * @param title 
+	 * @param purpose 
+	 */
+	private createBaseEvent(user: SurveyRespondentUser, title: string, purpose: string): CalendarEvent {
+		return {
+			title: title,
+			draggable: false,
+			resizable: {
+				beforeStart: false,
+				afterEnd: false,
+			},
+			meta: {
+				purpose: purpose,
+				homeAllDay: false,
+				address: undefined,
+				user: user,
+				mode: null,
+				model: {},
+				id: Date.now(),
+			},
+			start: new Date(new Date().setHours(0, 0, 0, 0)),
+			end: new Date(new Date().setHours(23, 59, 0, 0)),
+		};
 	}
 }

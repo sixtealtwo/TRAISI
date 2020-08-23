@@ -18,6 +18,7 @@ import {
 } from 'traisi-question-sdk';
 import { ViewTransformer } from './view-transformer.service';
 import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk';
+import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
 
 /**
  *
@@ -67,13 +68,14 @@ export class SurveyNavigator {
 	public constructor(
 		private _state: SurveyViewerStateService,
 		private _conditionalEvaluator: ConditionalEvaluator,
-		@Inject(TraisiValues.SurveyRespondentService)
-		private _respondentService: SurveyViewerRespondentService,
+		@Inject(TraisiValues.SurveyResponseService)
+		private _responseService: SurveyViewerResponseService,
 		private _viewTransformer: ViewTransformer
 	) {
 		this.navigationStateChanged = new Subject<NavigationState>();
 		let initialState: NavigationState = {
 			activeQuestionInstances: [],
+			hiddenQuestions: [],
 			isLoaded: false,
 			activeQuestionIndex: 0,
 			isNextEnabled: false,
@@ -93,6 +95,7 @@ export class SurveyNavigator {
 	 */
 	public initialize(state?: NavigationState): Observable<NavigationState> {
 		this.navigationState$.subscribe((v) => this._navigationStateChanged(v));
+		this.navigationState$.subscribe(this._excludeHiddenResponses);
 		if (state) {
 			if (state.activeRespondentIndex > this._state.viewerState.groupMembers.length) {
 				state.activeRespondentIndex = 0;
@@ -123,6 +126,29 @@ export class SurveyNavigator {
 	private _navigationStateChanged(state: NavigationState): void {
 		this._state.updateStates(state);
 	}
+
+	/**
+	 * Called at the end of a navigation iteration to exclude hidden content.
+	 * @param state
+	 */
+	private _excludeHiddenResponses = (state: NavigationState) => { 
+		if (state.hiddenQuestions && state.hiddenQuestions.length > 0) {
+			this._responseService.excludeResponses(state.hiddenQuestions, state.activeRespondent).subscribe({
+				next: () => {},
+				complete: () => {},
+			});
+			this._responseService
+				.excludeResponses(
+					state.activeQuestionInstances.map((q) => q.model),
+					state.activeRespondent,
+					false
+				)
+				.subscribe({
+					next: () => {},
+					complete: () => {},
+				});
+		}
+	};
 
 	/**
 	 *
@@ -200,6 +226,7 @@ export class SurveyNavigator {
 				isNextEnabled: true,
 				activeValidationStates: [],
 				isPreviousEnabled: true,
+				hiddenQuestions: [],
 			};
 
 			this._initState(navigationState).subscribe((r) => {
@@ -258,6 +285,7 @@ export class SurveyNavigator {
 				isNextEnabled: true,
 				activeValidationStates: [],
 				isPreviousEnabled: true,
+				hiddenQuestions: [],
 			};
 
 			this._initState(navigationState).subscribe((r) => {
@@ -309,6 +337,7 @@ export class SurveyNavigator {
 				isNextEnabled: true,
 				activeValidationStates: [],
 				isPreviousEnabled: true,
+				hiddenQuestions: [],
 			};
 			this._initState(navigationState).subscribe((r) => {
 				this.navigationState$.next(r);
@@ -397,6 +426,7 @@ export class SurveyNavigator {
 		return new Observable((obs: Observer<NavigationState>) => {
 			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
 				navigationState.activeQuestionInstances = [];
+				// navigationState.hiddenQuestions = [];
 				if (questionInstances.length > 0) {
 					if (navigationState.activeRespondentIndex > this._state.viewerState.groupMembers.length - 1) {
 						navigationState.activeRespondentIndex = 0;
@@ -479,6 +509,10 @@ export class SurveyNavigator {
 							result.question.isHidden = result.shouldHide;
 
 							if (result.shouldHide) {
+								if (!navigationState.hiddenQuestions) {
+									navigationState.hiddenQuestions = [];
+								}
+								navigationState.hiddenQuestions.push(result.question);
 								continue;
 							} else {
 								result.question.inSectionIndex = order++;
@@ -617,6 +651,7 @@ export class SurveyNavigator {
 			activeSection: baseState.activeSection,
 			activeSectionIndex: baseState.activeSectionIndex,
 			activeSectionId: baseState.activeSectionId,
+			hiddenQuestions: [],
 		};
 	}
 

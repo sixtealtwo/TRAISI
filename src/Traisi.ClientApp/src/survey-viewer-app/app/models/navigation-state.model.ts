@@ -1,6 +1,6 @@
 import { QuestionInstance } from './question-instance.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
-import { SurveyRespondent, SurveyViewPage, SurveyViewSection } from 'traisi-question-sdk';
+import { SurveyRespondent, SurveyViewPage, SurveyViewSection, SurveyViewQuestion } from 'traisi-question-sdk';
 import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
 
 
@@ -19,4 +19,5 @@ export interface NavigationState {
 	isLoaded: boolean;
 	isNextEnabled: boolean;
 	isPreviousEnabled: boolean;
+	hiddenQuestions?: Array<SurveyViewQuestion>;
 }

@@ -86,6 +86,32 @@ namespace Traisi.Services
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="questionpart"></param>
+        /// <param name="respondent"></param>
+        /// <returns></returns>
+        public async Task ExcludeResponse(Survey survey, int[] questionIds, SurveyRespondent respondent, bool exclude = true)
+        {
+            var surveyResponses =
+                await this
+                    ._unitOfWork
+                    .SurveyResponses
+                    .GetMostRecentResponseNoValuesForQuestionByRespondentAsync(survey, questionIds, (SurveyRespondent)respondent);
+            if (surveyResponses != null)
+            {
+                foreach (var response in surveyResponses)
+                {
+                    response.Excluded = exclude;
+                }
+            }
+            await this._unitOfWork.SaveChangesAsync();
+            return;
+
+        }
+
+        /// <summary>
         ///
         /// </summary>
         /// <param name="survey"></param>
@@ -134,7 +160,7 @@ namespace Traisi.Services
                     .SurveyResponses
                     .GetMostRecentResponseForQuestionByRespondentAsync(question
                         .Id,
-                    (SurveyRespondent) respondent,
+                    (SurveyRespondent)respondent,
                     repeat);
 
             if (
@@ -152,6 +178,7 @@ namespace Traisi.Services
                     surveyResponse =
                         new SurveyResponse()
                         {
+
                             QuestionPart = question,
                             Respondent = respondent,
                             SurveyAccessRecord =
@@ -190,7 +217,8 @@ namespace Traisi.Services
                         };
                 }
             }
-
+            // unset excluded flag
+            surveyResponse.Excluded = false;
             List<SurveyValidationError> errorList =
                 new List<SurveyValidationError>();
             switch (type.ResponseType)
@@ -212,7 +240,7 @@ namespace Traisi.Services
                     responseData.First().ToObject<DateTimeResponse>());
                     break;
                 case QuestionResponseType.Json:
-                    SaveJsonResponse (surveyResponse, responseData);
+                    SaveJsonResponse(surveyResponse, responseData);
                     break;
                 case QuestionResponseType.Location:
                     SaveLocationResponse(survey,
@@ -238,7 +266,7 @@ namespace Traisi.Services
                         ._validation
                         .ListSurveyLogicErrorsForResponse(surveyResponse,
                         respondent);
-                errorList.AddRange (errors);
+                errorList.AddRange(errors);
                 if (errorList.Count == 0 || force)
                 {
                     this._unitOfWork.SurveyResponses.Update(surveyResponse);
@@ -288,7 +316,7 @@ namespace Traisi.Services
                 ._unitOfWork
                 .SurveyResponses
                 .GetMostRecentResponseForQuestionByRespondentAsync(question.Id,
-                (SurveyRespondent) respondent,
+                (SurveyRespondent)respondent,
                 repeat);
         }
 
@@ -484,7 +512,7 @@ namespace Traisi.Services
                     });
             }
             response.ResponseValues.Clear();
-            response.ResponseValues.AddRange (values);
+            response.ResponseValues.AddRange(values);
             return;
         }
 
@@ -698,7 +726,7 @@ namespace Traisi.Services
                     .DeleteAllResponsesForUser(member, surveyId);
                 if (member.Id != respondent.Id)
                 {
-                    toDelete.Add (member);
+                    toDelete.Add(member);
                 }
             }
             await this._unitOfWork.SaveChangesAsync();

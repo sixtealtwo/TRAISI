@@ -8,4 +8,6 @@ export interface TravelDiaryConfiguration {
 	homeAllDay: option;
 	homeDeparture: option;
 	returnHome: option;
+	workOutside: option[],
+	schoolOutside: option[],
 }

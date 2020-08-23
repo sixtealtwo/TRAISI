@@ -22,6 +22,7 @@ namespace Traisi.Data.Models.Questions
 
         [JsonIgnore]
         public int Id { get; set; }
+        
 
         public string QuestionType { get; set; }
 

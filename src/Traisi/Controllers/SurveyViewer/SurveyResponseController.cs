@@ -55,7 +55,6 @@ namespace Traisi.Controllers.SurveyViewer
         public async Task<ActionResult<SurveyViewerValidationStateViewModel>> SaveResponse(int surveyId, int questionId,
             int respondentId, int repeat, [FromBody] JArray content, [FromHeader] string language, [FromQuery] bool force = false)
         {
-
             var respondent = await _unitOfWork.SurveyRespondents.GetSurveyRespondentAsync(respondentId);
             var question = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionId);
             if (respondent == null || question == null || question.Survey.Id != surveyId)
@@ -70,6 +69,25 @@ namespace Traisi.Controllers.SurveyViewer
             });
             return new OkObjectResult(mappedState);
         }
+
+        [Produces(typeof(OkResult))]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        [HttpPut]
+        [Route("surveys/{surveyId}/questions/respondents/{respondentId}/exclude/{shouldExclude}", Name = "Exclude_Responses")]
+        public async Task<ActionResult<SurveyViewerValidationStateViewModel>> ExcludeResponses(int surveyId,int respondentId, bool shouldExclude, [FromQuery] int[] questionIds
+            )
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey == null)
+            {
+                return new NotFoundResult();
+            }
+            var respondent = await _unitOfWork.SurveyRespondents.GetSurveyRespondentAsync(respondentId);
+            await this._resonseService.ExcludeResponse(survey, questionIds, respondent,shouldExclude);
+            return new OkResult();
+        }
+
+
         /// <summary>
         /// 
         /// /// </summary>
@@ -82,9 +100,7 @@ namespace Traisi.Controllers.SurveyViewer
         [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}", Name = "SavedResponse")]
         public async Task<ActionResult<SurveyResponseViewModel>> GetResponse(int surveyId, int questionId, int respondentId, int repeat)
         {
-
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
-
             SurveyResponse response = await this._resonseService.GetRespondentMostRecentResponseForQuestion(surveyId, questionId, respondentId, repeat, user);
 
             if (response == null)

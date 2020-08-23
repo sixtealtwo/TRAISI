@@ -23,6 +23,16 @@ namespace Traisi.Services.Interfaces
         Task<SurveyResponseValidationState> SaveResponse(Survey survey, QuestionPart questionpart, SurveyRespondent respondent, JArray responseData, int repeat, bool force = false);
 
         /// <summary>
+        /// Marks a specific response as excluded. The data is still stored, but will no longer return in response queries. Responses will be excluded when they are 
+        /// hidden by conditionals.
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="questionpart"></param>
+        /// <param name="respondent"></param>
+        /// <returns></returns>
+        Task ExcludeResponse(Survey survey, int [] questionIds , SurveyRespondent respondent, bool exclude);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="surveyId"></param>

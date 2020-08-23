@@ -215,9 +215,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public ngAfterViewInit(): void {
-		this.eventForm.valueChanges.subscribe((x) => {
-			console.log(this.eventForm);
-		});
+
 	}
 	public ngOnInit(): void {}
 }

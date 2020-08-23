@@ -145,7 +145,7 @@ namespace Traisi.Data.Repositories
             }
             else if (user is PrimaryRespondent primaryRespondent)
             {
-                return await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
+                return await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat )
                    .Include(v => v.ResponseValues)
                    .Include(v => v.Respondent).ThenInclude(v => ((PrimaryRespondent)v).SurveyAccessRecords)
                    .Include(v => v.Respondent).ThenInclude(v => v.SurveyRespondentGroup).ThenInclude(v => v.GroupPrimaryRespondent)
@@ -157,6 +157,36 @@ namespace Traisi.Data.Repositories
                 return null;
             }
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> GetMostRecentResponseNoValuesForQuestionByRespondentAsync(Survey survey, int[] questionIds, SurveyRespondent user)
+        {
+            if (user is SubRespondent subRespondent)
+            {
+                var result = await this._entities.Where(s => s.Respondent == user && questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
+                    ///.Include(v => v.Respondent).ThenInclude(v => ((SubRespondent)v).PrimaryRespondent).ThenInclude(s => s.SurveyAccessRecords)
+                    ///.Include(v => v.Respondent).ThenInclude(v => v.SurveyRespondentGroup).ThenInclude(v => v.GroupPrimaryRespondent) 
+                    .Include(v => v.SurveyAccessRecord).OrderByDescending(s => s.UpdatedDate).ToListAsync();
+                return result;
+            }
+            else if (user is PrimaryRespondent primaryRespondent)
+            {
+                return await this._entities.Where(s => s.Respondent == user && questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
+                   ///.Include(v => v.Respondent).ThenInclude(v => ((PrimaryRespondent)v).SurveyAccessRecords)
+                   //.Include(v => v.Respondent).ThenInclude(v => v.SurveyRespondentGroup).ThenInclude(v => v.GroupPrimaryRespondent)
+                   .Include(v => v.SurveyAccessRecord).OrderByDescending(s => s.UpdatedDate).ToListAsync();
+
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -185,14 +215,12 @@ namespace Traisi.Data.Repositories
         /// <returns></returns>
         public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, List<int> users)
         {
-            var r1 = await this._entities.Where(s => users.AsEnumerable().Contains(s.Respondent.Id) &&
+            var r1 = await this._entities.Where(s => users.AsEnumerable().Contains(s.Respondent.Id) && s.Excluded == false  &&
          questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
              .Include(v => v.ResponseValues)
              .Include(v => v.QuestionPart)
              .Include(v => v.SurveyAccessRecord).ToListAsync();
-
-
-            var result = r1.GroupBy(x => new { x.Respondent.Id }, (key, g) => g.OrderByDescending(e => e.SurveyAccessRecord.AccessDateTime).FirstOrDefault()).ToList();
+            var result = r1.GroupBy(x => new { RespondentId = x.Respondent.Id, QuestionId = x.QuestionPart.Id }, (key, g) => g.OrderByDescending(e => e.SurveyAccessRecord.AccessDateTime).FirstOrDefault()).ToList();
             // result.ForEach(r => r.QuestionPart = null);
             return result;
         }
@@ -206,7 +234,7 @@ namespace Traisi.Data.Repositories
         public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsByNameAsync(List<string> questionNames, SurveyRespondent user)
         {
 
-            var result = await this._entities.Where(s => s.Respondent == user && questionNames.Contains(s.QuestionPart.Name))
+            var result = await this._entities.Where(s => s.Respondent == user && s.Excluded == false && questionNames.Contains(s.QuestionPart.Name))
                 .Include(v => v.ResponseValues).Include(v => v.QuestionPart).OrderBy(s => questionNames.IndexOf(s.QuestionPart.Name)).ThenByDescending(s => s.UpdatedDate).ToListAsync();
             //.ToAsyncEnumerable ().OrderBy (s => questionNames.IndexOf (s.QuestionPart.Name)).ThenByDescending (s => s.UpdatedDate).ToList ();
 
@@ -223,7 +251,7 @@ namespace Traisi.Data.Repositories
         public async Task<List<SurveyResponse>> ListMostRecentSurveyResponsesForQuestionsByNameAsync(List<string> questionNames, SurveyRespondent user)
         {
 
-            var result = await this._entities.Where(s => s.Respondent == user && questionNames.Contains(s.QuestionPart.Name)).OrderByDescending(s => s.UpdatedDate)
+            var result = await this._entities.Where(s => s.Respondent == user && s.Excluded == false && questionNames.Contains(s.QuestionPart.Name)).OrderByDescending(s => s.UpdatedDate)
                 .Include(v => v.ResponseValues).Include(v => v.QuestionPart).
             GroupBy(s => s.QuestionPart).
             Select(
@@ -259,7 +287,7 @@ namespace Traisi.Data.Repositories
         /// <returns></returns>
         public async Task<List<int>> ListQuestionIdsForCompletedResponses(int surveyId, SurveyRespondent respondent)
         {
-            return await this._entities.Where(r => r.Respondent.Id == respondent.Id
+            return await this._entities.Where(r => r.Respondent.Id == respondent.Id  && r.Excluded == false 
             && r.QuestionPart.SurveyId == surveyId).Select(r => r.QuestionPart.Id).ToListAsync();
         }
     }

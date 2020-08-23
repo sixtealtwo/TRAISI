@@ -46,7 +46,7 @@
 						<ng-container
 							*ngFor="let question of state.activeQuestionInstances; trackBy: trackById.bind(this); let i = index"
 						>
-							<div class="traisi-question-container-outer">
+							<div class="traisi-question-container-outer" >
 								<div
 									class="valid-state-container"
 									*ngIf="
@@ -71,10 +71,13 @@
 									[attr.data-questionid]="question.model.questionId"
 									[attr.data-question-name]="question.model.name"
 									[attr.data-multiview]="state.isMultiView"
+									[attr.data-name]="'#question'+question.model.questionId"
+									[id]="'#question'+question.model.questionId" 
 									[surveyViewQuestion]="question.model"
 									[surveyId]="surveyId"
 									[repeatNumber]="0"
 									[sectionRepeatNumber]="0"
+									
 									[questionSectionElement]="questionSectionElement"
 									#questions
 								>

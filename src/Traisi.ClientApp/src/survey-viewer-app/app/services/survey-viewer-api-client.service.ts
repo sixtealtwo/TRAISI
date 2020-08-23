@@ -11,8 +11,7 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { SurveyLogicCondition, SurveyLogicOperator, SurveyViewerLogicRulesViewModel } from 'traisi-question-sdk';
-import { SurveyViewerValidationStateViewModel,SurveyResponseViewModel  } from 'traisi-question-sdk';
+import { SurveyViewerValidationStateViewModel, SurveyResponseViewModel, SurveyLogicCondition, SurveyLogicOperator, SurveyViewerLogicRulesViewModel } from 'traisi-question-sdk';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -414,6 +413,63 @@ export class SurveyResponseClient {
             }));
         }
         return _observableOf<SurveyResponseViewModel>(<any>null);
+    }
+
+    excludeResponses(surveyId: number, respondentId: number, shouldExclude: boolean, questionIds: number[] | null | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/SurveyResponse/surveys/{surveyId}/questions/respondents/{respondentId}/exclude/{shouldExclude}?";
+        if (surveyId === undefined || surveyId === null)
+            throw new Error("The parameter 'surveyId' must be defined.");
+        url_ = url_.replace("{surveyId}", encodeURIComponent("" + surveyId));
+        if (respondentId === undefined || respondentId === null)
+            throw new Error("The parameter 'respondentId' must be defined.");
+        url_ = url_.replace("{respondentId}", encodeURIComponent("" + respondentId));
+        if (shouldExclude === undefined || shouldExclude === null)
+            throw new Error("The parameter 'shouldExclude' must be defined.");
+        url_ = url_.replace("{shouldExclude}", encodeURIComponent("" + shouldExclude));
+        if (questionIds !== undefined && questionIds !== null)
+            questionIds && questionIds.forEach(item => { url_ += "questionIds=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processExcludeResponses(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processExcludeResponses(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processExcludeResponses(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
     }
 
     listResponsesOfType(surveyId: number, responseType: QuestionResponseType): Observable<SurveyResponseViewModel[]> {
@@ -1709,8 +1765,6 @@ export enum ValidationState {
     Untouched = 2,
     Touched = 3,
 }
-
-
 
 export enum QuestionResponseType {
     String = 0,
