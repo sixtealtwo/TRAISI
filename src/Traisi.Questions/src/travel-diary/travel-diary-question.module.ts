@@ -16,6 +16,7 @@ import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-d
 import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DayViewSchedulerComponent } from './components/day-view-scheduler.component';
+import { TravelDiaryEventDisplayComponent } from './components/travel-diary-event-display.component';
 
 export const calendarProps = {
 	provide: DateAdapter,
@@ -24,8 +25,18 @@ export const calendarProps = {
 export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarProps);
 
 @NgModule({
-	declarations: [TravelDiaryQuestionComponent, TravelDiaryEditDialogComponent, DayViewSchedulerComponent],
-	entryComponents: [TravelDiaryQuestionComponent, TravelDiaryEditDialogComponent, DayViewSchedulerComponent],
+	declarations: [
+		TravelDiaryQuestionComponent,
+		TravelDiaryEditDialogComponent,
+		DayViewSchedulerComponent,
+		TravelDiaryEventDisplayComponent,
+	],
+	entryComponents: [
+		TravelDiaryQuestionComponent,
+		TravelDiaryEditDialogComponent,
+		DayViewSchedulerComponent,
+		TravelDiaryEventDisplayComponent,
+	],
 	providers: [
 		{
 			provide: 'widgets',
@@ -44,6 +55,11 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 					name: 'traisi-travel-dairy-day-view-scheduler',
 					id: 'travel-diary-scheduler',
 					component: DayViewSchedulerComponent,
+				},
+				{
+					name: 'traisi-travel-dairy-event-display',
+					id: 'travel-diary-event-display',
+					component: TravelDiaryEventDisplayComponent,
 				},
 			],
 			multi: true,

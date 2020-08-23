@@ -16,11 +16,11 @@ import {
 	SurveyViewQuestion,
 	SurveyViewerLogicRuleViewModel,
 	TimelineResponseData,
+	SurveyResponseViewModel,
 } from 'traisi-question-sdk';
-import { User } from '../components/day-view-scheduler.component';
 import { Console } from 'console';
 import { TravelDiaryEditDialogComponent } from '../components/travel-diary-edit-dialog.component';
-import { colors } from '../models/consts';
+import { colors, SurveyRespondentUser } from '../models/consts';
 import { url } from 'inspector';
 import { get } from 'http';
 import { NumberQuestionConfiguration } from 'general/viewer/number-question/number-question.configuration';
@@ -48,13 +48,15 @@ export class TravelDiaryService {
 
 	public isLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-	public users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+	public users: BehaviorSubject<SurveyRespondentUser[]> = new BehaviorSubject<SurveyRespondentUser[]>([]);
 
 	public surveyId: number;
 
 	public responseData: { [userId: number]: ResponseTypes.Location };
 
 	private _diaryEvents: CalendarEvent[] = [];
+
+	public userMap: { [id: number]: SurveyRespondentUser } = {};
 
 	public constructor(
 		private _http: HttpClient,
@@ -64,7 +66,6 @@ export class TravelDiaryService {
 		@Inject(TraisiValues.SurveyId) private _surveyId: number,
 		@Inject(TraisiValues.Configuration) private _configuration: any,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
-		@Inject(TraisiValues.Household) private _respondents: SurveyRespondent[],
 		private _injector: Injector
 	) {
 		this.diaryEvents$ = new BehaviorSubject<CalendarEvent[]>([]);
@@ -84,11 +85,13 @@ export class TravelDiaryService {
 
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
 			for (let x of respondents) {
-				this.respondents.push({
+				let respondentUser = {
 					id: x.id,
 					name: x.name,
 					color: colors.blue,
-				});
+				};
+				this.respondents.push(respondentUser);
+				this.userMap[respondentUser.id] = respondentUser;
 			}
 			this.users.next(this.respondents);
 			this.loadPriorResponseData();
@@ -118,32 +121,61 @@ export class TravelDiaryService {
 	 * Loads prior response data for questions for initializing timeline
 	 */
 	private loadPriorResponseData(): void {
-		console.log('in  load prior response data');
 		let questionIds: SurveyViewQuestion[] = [];
+		let homeAllDayId = 0;
+		let homeDepartureId = 0;
+		let returnHomeId = 0;
 		if (this.configuration.homeAllDay) {
-			questionIds.push(
-				<SurveyViewQuestion>this._injector.get('question.' + this.configuration.homeAllDay[0].label)
+			let homeAllDayQuestionModel = <SurveyViewQuestion>(
+				this._injector.get('question.' + this.configuration.homeAllDay[0].label)
 			);
+			homeAllDayId = homeAllDayQuestionModel.questionId;
+			questionIds.push(homeAllDayQuestionModel);
 		}
 		if (this.configuration.homeDeparture) {
-			questionIds.push(
-				<SurveyViewQuestion>(
-					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.homeDeparture[0].label))
-				)
+			let homeDepartureModel = <SurveyViewQuestion>(
+				(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.homeDeparture[0].label))
 			);
+			questionIds.push(homeDepartureModel);
+			homeDepartureId = homeDepartureModel.questionId;
 		}
 		if (this.configuration.returnHome) {
-			questionIds.push(
-				<SurveyViewQuestion>(
-					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.returnHome[0].label))
-				)
+			let homeReturnModel = <SurveyViewQuestion>(
+				(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.returnHome[0].label))
 			);
+			questionIds.push(homeReturnModel);
+			returnHomeId = homeReturnModel.questionId;
 		}
-		this._responseService.loadSavedResponsesForRespondents(questionIds, this._respondents).subscribe((res) => {});
+		this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
+			this._initializeSmartFill(res, homeAllDayId, homeDepartureId, returnHomeId);
+		});
+	}
 
-		//for debug
-		let events = this._edtior.createDefaultTravelDiaryforRespondent(this.users.value[0], true, false, false);
-		this.addEvents(events);
+	/**
+	 * Initializes the smart fill feature, will pass the appropriate information to diary editor to add appropriate events.
+	 * @param res
+	 * @param homeAllDayId
+	 * @param homeDepartureId
+	 * @param returnHomeId
+	 */
+	private _initializeSmartFill(
+		res: SurveyResponseViewModel[],
+		homeAllDayId: number,
+		homeDepartureId: number,
+		returnHomeId: number
+	): void {
+		for (let r of this.respondents) {
+			let responseMatches = res.filter((x) => x.respondent.id === r.id);
+			// responses belonging to a specific user
+			let events = this._edtior.createDefaultTravelDiaryforRespondent(
+				this.userMap[r.id],
+				responseMatches.find((x) => x.questionId === homeAllDayId).responseValues[0].code?.toUpperCase() ===
+					'YES',
+				false,
+				false
+			);
+			this.addEvents(events);
+		}
 	}
 
 	public loadAddresses(): void {
@@ -191,7 +223,7 @@ export class TravelDiaryService {
 	 *
 	 * @param {LocationResponseData} event
 	 */
-	public newEvent(event: TimelineResponseData & { users: User[] }): void {
+	public newEvent(event: TimelineResponseData & { users: SurveyRespondentUser[] }): void {
 		let events: CalendarEvent[] = this._diaryEvents;
 		for (let u of event.users) {
 			events.push({

@@ -178,7 +178,7 @@ namespace Traisi.Data.Repositories
         }
 
         /// <summary>
-        /// 
+        /// Returns a list of latest responses by the passed question part id, for all associated respondents.
         /// </summary>
         /// <param name="questionIds"></param>
         /// <param name="users"></param>
@@ -190,7 +190,9 @@ namespace Traisi.Data.Repositories
              .Include(v => v.ResponseValues)
              .Include(v => v.QuestionPart)
              .Include(v => v.SurveyAccessRecord).ToListAsync();
-            var result = r1.GroupBy(x => x.QuestionPart.Id, (key, g) => g.OrderByDescending(e => e.SurveyAccessRecord.AccessDateTime).FirstOrDefault()).ToList();
+
+
+            var result = r1.GroupBy(x => new { x.Respondent.Id }, (key, g) => g.OrderByDescending(e => e.SurveyAccessRecord.AccessDateTime).FirstOrDefault()).ToList();
             // result.ForEach(r => r.QuestionPart = null);
             return result;
         }

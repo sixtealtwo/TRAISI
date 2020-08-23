@@ -3,7 +3,8 @@
 import { Injectable } from '@angular/core';
 import { CalendarEvent } from 'calendar-utils';
 import { SurveyResponseViewModel } from 'traisi-question-sdk';
-import { User } from 'travel-diary/components/day-view-scheduler.component';
+import { SurveyRespondentUser } from 'travel-diary/models/consts';
+
 
 // events based on user input
 @Injectable()
@@ -16,14 +17,13 @@ export class TravelDiaryEditor {
 	 * @param respondent
 	 */
 	public createDefaultTravelDiaryforRespondent(
-		user: User,
+		user: SurveyRespondentUser,
 		homeAllDay: boolean,
 		homeDeparture: boolean,
 		returnedHome: boolean
 	): CalendarEvent[] {
 		let events: CalendarEvent[] = [];
 
-		console.log('in creating default event'); 
 		if (homeAllDay) {
 			events.push({
 				title: 'Home All Day',
@@ -34,6 +34,7 @@ export class TravelDiaryEditor {
 				},
 				meta: {
 					purpose: 'home',
+					homeAllDay: true,
 					address: '1234 Memory Lane',
 					user: user,
 					mode: null,
@@ -41,7 +42,7 @@ export class TravelDiaryEditor {
 					id: Date.now(),
 				},
 				start: new Date(new Date().setHours(0, 0, 0, 0)),
-				end: new Date(new Date().setHours(23, 0, 0, 0)),
+				end: new Date(new Date().setHours(23, 59, 0, 0)),
 			});
 		}
 

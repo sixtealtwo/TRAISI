@@ -3,3 +3,15 @@
 :host {
     
 }
+
+form :not(.ng-pristine).ng-invalid {
+    border: solid 1px red;
+}
+
+btn.disabled {
+    cursor: default;
+}
+
+.delete-container {
+    flex-grow: 1;
+}

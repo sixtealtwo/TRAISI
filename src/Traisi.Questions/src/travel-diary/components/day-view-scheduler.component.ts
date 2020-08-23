@@ -24,19 +24,18 @@ import {
 import { DragEndEvent, DragMoveEvent } from 'angular-draggable-droppable';
 import templateString from './day-view-scheduler.component.html';
 import styleString from './day-view-scheduler.component.scss';
+import { SurveyRespondentEdit } from 'general/viewer/household-question/models/survey-respondent-edit.model';
+import { SurveyRespondent } from 'traisi-question-sdk';
+import { SurveyRespondentUser } from 'travel-diary/models/consts';
 
-export interface User {
-	id: number;
-	name: string;
-	color: EventColor;
-}
+
 
 interface DayViewScheduler extends WeekView {
-	users: User[];
+	users: SurveyRespondentUser[];
 }
 
 interface GetWeekViewArgsWithUsers extends GetWeekViewArgs {
-	users: User[];
+	users: SurveyRespondentUser[];
 }
 
 @Injectable()
@@ -82,7 +81,7 @@ export class DayViewSchedulerCalendarUtils extends CalendarUtils {
 	providers: [DayViewSchedulerCalendarUtils],
 })
 export class DayViewSchedulerComponent extends CalendarWeekViewComponent implements OnChanges {
-	@Input() users: User[] = [];
+	@Input() users: SurveyRespondentUser[] = [];
 
 	@Output() userChanged = new EventEmitter();
 
@@ -101,7 +100,7 @@ export class DayViewSchedulerComponent extends CalendarWeekViewComponent impleme
 		super(cdr, utils, locale, dateAdapter);
 	}
 
-	trackByUserId = (index: number, row: User) => row.id;
+	trackByUserId = (index: number, row: SurveyRespondentUser) => row.id;
 
 	public ngOnChanges(changes: SimpleChanges): void {
 		super.ngOnChanges(changes);

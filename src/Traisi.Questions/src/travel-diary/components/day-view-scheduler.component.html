@@ -145,24 +145,10 @@
 						}"
 					></div>
 					<ng-template #customTitleTemplate>
-						<div class="customt-event-title">
-							<div class="event-title-group">
-								<div class="event-purpose">
-									{{ timeEvent.event.meta.purpose }}
-								</div>
-								<div class="event-name">
-									{{ timeEvent.event.title }}
-								</div>
-							</div>
-							<div class="mode-address-group">'
-								<div class="event-mode">
-									{{ timeEvent.event.meta.mode }}
-								</div>
-								<div class="event-address">
-									<i class="fas fa-map-marked-alt"></i> {{ timeEvent.event.meta.address }}
-								</div>
-							</div>
-						</div>
+
+						<traisi-travel-diary-event-display [timeEvent]="timeEvent"
+						></traisi-travel-diary-event-display>
+		
 					</ng-template>
 					<ng-template #customCellTemplate>
 						hello there

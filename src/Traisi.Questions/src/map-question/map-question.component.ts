@@ -147,6 +147,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.accessToken = this._configuration.AccessToken;
 		if (this._configuration.purpose) {
 			try {
+				console.log(this._configuration);
 				this._configuration.purpose = JSON.parse(this._configuration.purpose);
 				this.purpose = this._configuration.purpose;
 			} catch {}

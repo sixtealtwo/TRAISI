@@ -100,6 +100,7 @@ header {
 		width: $PROGRESS_COUNTER_WIDTH;
 		height: $PROGRESS_COUNTER_WIDTH;
 		// border-radius: 50%;
+		border-radius: 4px;
 		border-color: #a08d8d;
 		background: #fff;
 		color: #333;
@@ -107,7 +108,7 @@ header {
 		font-size: 13px;
 		line-height: 2rem;
 		text-align: center;
-		border: 1px solid #fff;
+		border: 1px solid #b5b5b5;
 	}
 	//Hide border for Last Step
 	&:last-child {

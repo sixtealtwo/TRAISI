@@ -27,18 +27,17 @@ export class DropdownListComponent implements OnInit {
 	 * @param last
 	 */
 	public processPriorValue(last: string): void {
-
 		if (last) {
-			let model = JSON.parse(last);
-			this.selectedFull = model;
-			this.selected = model.id;
+			try {
+				let model = JSON.parse(last);
+				this.selectedFull = model;
+				this.selected = model.id
+			} catch {}
 		}
 	}
 
 	public onChanged(event): void {
-
 		this.selectedFull = event;
-
 	}
 	getValue() {
 		if (this.selected === null) {

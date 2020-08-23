@@ -27,8 +27,8 @@ import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-c
 import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 import { TravelDiaryConfiguration } from '../models/travel-diary-configuration.model';
 import { Subject, BehaviorSubject, Observable, concat, of } from 'rxjs';
-import { User } from './day-view-scheduler.component';
-import { DialogMode } from 'travel-diary/models/consts';
+import { DialogMode, SurveyRespondentUser, TimelineLineResponseDisplayData } from 'travel-diary/models/consts';
+import { NgForm } from '@angular/forms';
 @Component({
 	selector: 'traisi-travel-diary-edit-dialog',
 	template: '' + templateString,
@@ -37,13 +37,21 @@ import { DialogMode } from 'travel-diary/models/consts';
 	styles: ['' + styleString],
 })
 export class TravelDiaryEditDialogComponent implements AfterViewInit {
-	@Output() public newEventSaved: EventEmitter<TimelineResponseData | { users: User[] }> = new EventEmitter();
-	@Output() public eventSaved: EventEmitter<TimelineResponseData | { users: User[] }> = new EventEmitter();
-	@Output() public eventDeleted: EventEmitter<TimelineResponseData | { users: User[] }> = new EventEmitter();
+	@Output() public newEventSaved: EventEmitter<
+		TimelineResponseData | { users: SurveyRespondentUser[] }
+	> = new EventEmitter();
+	@Output() public eventSaved: EventEmitter<
+		TimelineResponseData | { users: SurveyRespondentUser[] }
+	> = new EventEmitter();
+	@Output() public eventDeleted: EventEmitter<
+		TimelineResponseData | { users: SurveyRespondentUser[] }
+	> = new EventEmitter();
 
 	public modalRef: BsModalRef;
 
 	private _mapComponent: any;
+
+	@ViewChild('eventForm') eventForm: NgForm;
 
 	@ViewChild('newEntryModal', { static: true })
 	public modal: ModalDirective;
@@ -53,7 +61,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public searchInFocus: boolean = false;
 
-	public model: TimelineResponseData | { users: User[]; id: number };
+	public model: TimelineLineResponseDisplayData;
 
 	public dialogMode: DialogMode;
 
@@ -90,11 +98,16 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			purpose: undefined,
 			timeA: new Date(),
 			timeB: new Date(),
+			users: [],
 		};
 		if (this._mapComponent) {
 			this._mapComponent.resetInput();
 		}
-		this._travelDiaryService.resetAddressQuery(); 
+		this._travelDiaryService.resetAddressQuery();
+	}
+
+	public eventInputChanges($event): void {
+		console.log(this.eventInputChanges);
 	}
 
 	public dialogSave(): void {
@@ -125,8 +138,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	 * Show a new model
 	 *
 	 */
-	public show(mode: DialogMode, model?: TimelineResponseData): void {
+	public show(mode: DialogMode, model?: TimelineLineResponseDisplayData): void {
 		this.dialogMode = mode;
+		this.eventForm.resetForm();
 		if (mode == DialogMode.New) {
 			this.resetModel();
 		} else {
@@ -200,6 +214,11 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.model.longitude = response['longitude'];
 	}
 
-	public ngAfterViewInit(): void {}
+
+	public ngAfterViewInit(): void {
+		this.eventForm.valueChanges.subscribe((x) => {
+
+		});
+	}
 	public ngOnInit(): void {}
 }

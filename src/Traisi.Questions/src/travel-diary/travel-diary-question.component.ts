@@ -22,9 +22,9 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { TravelDiaryService } from './services/travel-diary.service';
 import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-calendar';
 import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-dialog.component';
-import { User, DayViewSchedulerComponent } from './components/day-view-scheduler.component';
+import {  DayViewSchedulerComponent } from './components/day-view-scheduler.component';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { colors, DialogMode } from './models/consts';
+import { colors, DialogMode, TimelineLineResponseDisplayData } from './models/consts';
 import { TravelDiaryEditor } from './services/travel-diary-editor.service';
 @Component({
 	selector: 'traisi-travel-diary-question',
@@ -76,11 +76,11 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this.entryDialog.showEdit(event);
 	}
 
-	public newEntrySaved(event: TimelineResponseData & { users: User[] }) {
+	public newEntrySaved(event: TimelineLineResponseDisplayData) {
 		this._travelDiaryService.newEvent(event);
 	}
 
-	public eventDeleted(event: TimelineResponseData & { id: number }): void {
+	public eventDeleted(event: TimelineLineResponseDisplayData): void {
 		this._travelDiaryService.deleteEvent(event);
 	}
 
