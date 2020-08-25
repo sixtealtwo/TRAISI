@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { CalendarEvent } from 'calendar-utils';
 import { SurveyResponseViewModel, LocationResponseData } from 'traisi-question-sdk';
-import { SurveyRespondentUser } from 'travel-diary/models/consts';
+import { SurveyRespondentUser, TimelineLineResponseDisplayData } from 'travel-diary/models/consts';
 
 // events based on user input
 @Injectable()
@@ -69,6 +69,22 @@ export class TravelDiaryEditor {
 
 		return [homeEvent, workEvent, returnHomeEvent];
 	}
+
+	/**
+	 * Inserts this event into the passed list of events. It assumes the event users have already
+	 * beeen split.
+	 * 
+	 * The source events are modified in place.
+	 * @param eventData 
+	 */
+	public insertEvent(events:  CalendarEvent[], newEvent: CalendarEvent ): void {
+		
+		// loop through the respondents
+		console.log(' inserting an event ');
+
+	}
+
+	
 
 	/**
 	 * Creates an at home all day event

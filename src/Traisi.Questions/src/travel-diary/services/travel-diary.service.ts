@@ -310,7 +310,7 @@ export class TravelDiaryService {
 	public newEvent(event: TimelineResponseData & { users: SurveyRespondentUser[] }): void {
 		let events: CalendarEvent[] = this._diaryEvents;
 		for (let u of event.users) {
-			events.push({
+			let newEvent = {
 				title: event.name,
 				start: event.timeA,
 				end: event.timeB,
@@ -325,12 +325,18 @@ export class TravelDiaryService {
 					id: Date.now(),
 				},
 				color: colors.blue,
-			});
+			};
+			this._edtior.insertEvent(this._diaryEvents,newEvent);
 		}
 		this.diaryEvents$.next(events);
 		this._diaryEvents = events;
 	}
 
+	/**
+	 * Adds a set of events to the existing diary events. No logic or other manipulation is done.
+	 * This is run usually in the pregeneration of events.
+	 * @param events 
+	 */
 	public addEvents(events: CalendarEvent[]): void {
 		this._diaryEvents = this._diaryEvents.concat(events);
 		this.diaryEvents$.next(this._diaryEvents);
