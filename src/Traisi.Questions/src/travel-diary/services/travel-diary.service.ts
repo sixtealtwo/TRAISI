@@ -201,6 +201,7 @@ export class TravelDiaryService {
 				);
 			}
 		}
+		console.log(questionIds); 
 		this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
 			this._initializeSmartFill(
 				res,
@@ -326,7 +327,7 @@ export class TravelDiaryService {
 				},
 				color: colors.blue,
 			};
-			this._edtior.insertEvent(this._diaryEvents,newEvent);
+			this._edtior.insertEvent(this._diaryEvents, newEvent);
 		}
 		this.diaryEvents$.next(events);
 		this._diaryEvents = events;
@@ -335,7 +336,7 @@ export class TravelDiaryService {
 	/**
 	 * Adds a set of events to the existing diary events. No logic or other manipulation is done.
 	 * This is run usually in the pregeneration of events.
-	 * @param events 
+	 * @param events
 	 */
 	public addEvents(events: CalendarEvent[]): void {
 		this._diaryEvents = this._diaryEvents.concat(events);

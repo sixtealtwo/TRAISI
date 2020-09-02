@@ -72,12 +72,14 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this.entryDialog.show(DialogMode.New);
 	}
 
-	public editEvent(event): void {
-		this.entryDialog.showEdit(event);
+	public newEntrySaved(event: TimelineLineResponseDisplayData) {
+		console.log('new event saved'); 
+		this._travelDiaryService.newEvent(event);
 	}
 
-	public newEntrySaved(event: TimelineLineResponseDisplayData) {
-		this._travelDiaryService.newEvent(event);
+	public eventSaved(event: TimelineLineResponseDisplayData) {
+		console.log('event saved');
+		console.log(event);
 	}
 
 	public eventDeleted(event: TimelineLineResponseDisplayData): void {
@@ -90,6 +92,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
+		console.log(events);
 		// this.scheduleComponent.refreshSubscription();
 		if (this.scheduleComponent) {
 			// this.scheduleComponent.refresh.next();
@@ -97,6 +100,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	};
 
 	public eventClicked({ event }: { event: CalendarEvent }): void {
+		console.log(event); 
 		this.entryDialog.show(DialogMode.Edit, event.meta.model);
 	}
 

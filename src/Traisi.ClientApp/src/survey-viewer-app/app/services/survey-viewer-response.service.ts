@@ -62,7 +62,11 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 	 * @param questionIds
 	 * @param respondent
 	 */
-	public excludeResponses(questionIds: SurveyViewQuestion[], respondent: SurveyRespondent, shouldExclude: boolean = true): Observable<any> {
+	public excludeResponses(
+		questionIds: SurveyViewQuestion[],
+		respondent: SurveyRespondent,
+		shouldExclude: boolean = true
+	): Observable<any> {
 		return this._responseClient.excludeResponses(
 			this._session.surveyId,
 			respondent.id,
@@ -296,9 +300,13 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 		respondents: Array<SurveyRespondent>
 	): Observable<SurveyResponseViewModel[]> {
 		let queryIds = [];
+		let stored = [];
 		for (let question of questions) {
 			for (let respondent of respondents) {
 				if (!this.hasStoredResponse(question, respondent)) {
+					queryIds.push(question.questionId);
+				} else {
+					// same as above temporary
 					queryIds.push(question.questionId);
 				}
 			}

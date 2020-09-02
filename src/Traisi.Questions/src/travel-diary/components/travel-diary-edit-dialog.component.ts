@@ -88,18 +88,25 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	private resetModel(): void {
-		this.model = {
-			id: Date.now(),
-			address: undefined,
-			latitude: 0,
-			longitude: 0,
-			name: undefined,
-			order: 0,
-			purpose: undefined,
-			timeA: new Date(),
-			timeB: new Date(),
-			users: [],
-		};
+		if (!this.model) {
+			this.model = {
+				id: Date.now(),
+				address: undefined,
+				latitude: 0,
+				longitude: 0,
+				name: undefined,
+				order: 0,
+				purpose: undefined,
+				timeA: new Date(),
+				timeB: new Date(),
+				users: [],
+			};
+		}
+
+		if (this.eventForm) {
+			this.eventForm.resetForm();
+		}
+
 		if (this._mapComponent) {
 			this._mapComponent.resetInput();
 		}
@@ -123,11 +130,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.modal.hide();
 	}
 
-	public showEdit(model: TimelineResponseData): void {
-		Object.assign({}, this.model);
-		this.modal.show();
-	}
-
 	public delete(): void {
 		this.eventDeleted.emit(this.model);
 		this.modal.hide();
@@ -140,11 +142,14 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	 */
 	public show(mode: DialogMode, model?: TimelineLineResponseDisplayData): void {
 		this.dialogMode = mode;
-		this.eventForm.resetForm();
-		if (mode == DialogMode.New) {
+		if (mode === DialogMode.New) {
 			this.resetModel();
+			this.eventForm.resetForm();
 		} else {
-			this.model = model;
+			// this.eventForm.form.markAllAsTouched();
+			// this.eventForm.form.updateValueAndValidity(); 
+			this.model = Object.assign({}, model);
+
 		}
 
 		this.modal.show();
@@ -214,8 +219,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.model.longitude = response['longitude'];
 	}
 
-	public ngAfterViewInit(): void {
-
-	}
+	public ngAfterViewInit(): void {}
 	public ngOnInit(): void {}
 }

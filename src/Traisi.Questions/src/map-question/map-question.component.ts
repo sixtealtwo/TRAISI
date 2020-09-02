@@ -214,7 +214,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		el.style.width = '64px';
 		el.style.height = '64px';
 		let iconStr = this.getMarkerIcon(<any>this._configuration.purpose);
-		console.log(iconStr);
 		el.innerHTML = `<i class="${iconStr}"></i>`;
 		this._marker = new mapboxgl.Marker(el, {
 			anchor: 'bottom',
@@ -379,7 +378,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public loadConfiguration(mapConfig: any): void {
 		// this.accessToken = mapConfig.AccessToken;
-		console.log(mapConfig);
 	}
 
 	public resetInput(): void {

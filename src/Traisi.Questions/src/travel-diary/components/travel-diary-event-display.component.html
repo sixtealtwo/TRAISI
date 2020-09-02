@@ -22,6 +22,14 @@
 			</div>
 			{{ timeEvent.event.meta.mode }}
 		</div>
-		<div class="event-address"><i class="fas fa-map-marked-alt"></i> {{ timeEvent.event.meta.address }}</div>
+		<div class="event-address"><i class="fas fa-map-marked-alt"></i> 
+			<div *ngIf="timeEvent.event.meta.address">
+				{{ timeEvent.event.meta.address }}
+			</div>
+			<div *ngIf="!timeEvent.event.meta.address">
+				Please choose a location.
+			</div>
+		
+		</div>
 	</div>
 </div>

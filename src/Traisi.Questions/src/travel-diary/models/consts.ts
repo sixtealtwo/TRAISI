@@ -1,5 +1,5 @@
-import { SurveyRespondent, TimelineResponseData } from "traisi-question-sdk";
-import { EventColor } from "calendar-utils";
+import { SurveyRespondent, TimelineResponseData } from 'traisi-question-sdk';
+import { EventColor, CalendarEvent } from 'calendar-utils';
 
 export const colors: any = {
 	red: {
@@ -27,4 +27,7 @@ export type SurveyRespondentUser = SurveyRespondent & {
 	color: EventColor;
 };
 
+
 export type TimelineLineResponseDisplayData = TimelineResponseData & { users: SurveyRespondentUser[]; id: number };
+
+export type TravelDiaryEvent = CalendarEvent & { meta: { model: TimelineLineResponseDisplayData; [x: string]: any } };
