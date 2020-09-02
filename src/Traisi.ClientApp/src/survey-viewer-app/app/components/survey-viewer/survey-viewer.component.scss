@@ -1,5 +1,4 @@
-// @import 'src/shared/assets/scss/helpers';
-@import '../../../../shared/assets/scss/traisi-import.scss';
+@import "traisi-import"; 
 
 traisi-survey-header-display {
 	position: relative;
@@ -13,6 +12,7 @@ traisi-survey-header-display {
 	width: 0px;
 	max-width: 0px;
 }
+
 
 .sidebar-sticky {
 	.survey-title {
@@ -34,10 +34,12 @@ traisi-survey-header-display {
 .menu-row:hover {
 	color: white;
 }
-
-main {
-	background-color: #e2e6ef;
+@include media-breakpoint-up(lg) {
+	main.container {
+		background-color: #e2e6ef;
+	}
 }
+
 .questions-outer-container {
 	.valid-state-container {
 		position: absolute;
@@ -54,7 +56,13 @@ main {
 	padding-right: 0px;
 }
 
-.traisi-question-container-outer {
+@include media-breakpoint-down(md) {
+	.traisi-question-container-outer {
+		margin-left: 0px;
+	}
+} 
+
+.traisi-question-container-outer { 
 	background-color: white;
 	padding: 20px;
 	padding-top: 25px;
@@ -321,12 +329,6 @@ main {
 	}
 }
 
-@media #{$md-down} {
-	#question-viewer-nav {
-		padding-bottom: 5px;
-	}
-}
-
 .household-tabs {
 	@include media-breakpoint-up(md) {
 		margin-right: 45px !important;
@@ -337,4 +339,5 @@ main {
 	cursor: initial;
 }
 
-@import 'survey-viewer-component.sm.scss';
+@import 'survey-viewer.component.sm.scss';
+@import 'survey-viewer.component.md.scss';

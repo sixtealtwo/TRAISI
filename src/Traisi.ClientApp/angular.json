@@ -76,6 +76,7 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 ".",
+                "src/shared/assets/scss",
                 "./node_modules"
               ]
             }
@@ -269,6 +270,7 @@
               "includePaths": [
                 ".",
                 "..",
+                "src/shared/assets/scss",
                 "./node_modules"
               ]
             }
