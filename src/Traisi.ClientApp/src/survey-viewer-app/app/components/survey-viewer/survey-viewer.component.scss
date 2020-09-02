@@ -9,12 +9,29 @@ traisi-survey-header-display {
 	font-weight: bold;
 }
 
+.toggled {
+	width: 0px;
+	max-width: 0px;
+}
+
 .sidebar-sticky {
 	.survey-title {
 		font-size: 18px;
 		font-weight: bold;
 		color: #a1aed8;
 	}
+}
+
+.menu-row {
+	float: left;
+	font-size: 18px;
+	top: 30px;
+	position: relative;
+	cursor: pointer;
+}
+
+.menu-row:hover {
+	color: blue;
 }
 
 main {
@@ -48,7 +65,7 @@ main {
 	width: 100%;
 	margin-right: 30px;
 	margin-left: 30px;
-	
+
 	display: flex;
 	flex-direction: column;
 }
@@ -56,9 +73,6 @@ main {
 .single-question .traisi-question-container-outer {
 	overflow: hidden;
 }
-
-
-
 
 .sidebar {
 	padding: 60px 0px 0;

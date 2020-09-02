@@ -73,6 +73,58 @@ interface SpecialPageDataInput {
 	providers: [SurveyViewerProviders],
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
+
+	public get viewerState(): SurveyViewerState {
+		return this._viewerStateService.viewerState;
+	}
+
+	public set viewerState(viewerState: SurveyViewerState) {
+		this._viewerStateService.viewerState = viewerState;
+	}
+
+	public get userShortcode(): string {
+		return this._authService.currentSurveyUser.shortcode;
+	}
+
+	/**
+	 * Gets whether is admin
+	 */
+	public get isAdmin(): boolean {
+		if (this.currentUser === undefined) {
+			return false;
+		} else {
+			return this.currentUser !== undefined && this.currentUser.roles.includes('super administrator');
+		}
+	}
+
+	/**
+	 *Creates an instance of SurveyViewerComponent.
+	 * @param {SurveyViewerService} surveyViewerService
+	 * @param {SurveyResponderService} _surveyResponderService
+	 * @param {SurveyViewerStateService} _viewerStateService
+	 * @param {SurveyViewerNavigationService} _navigationService
+	 * @param {SurveyViewerSession} _sessionService
+	 * @param {ActivatedRoute} route
+	 * @param {Router} _router
+	 * @param {Title} _titleService
+	 * @param {ElementRef} elementRef
+	 * @memberof SurveyViewerComponent
+	 */
+	constructor(
+		@Inject('SurveyViewerService')
+		private surveyViewerService: SurveyViewerService,
+		private _viewerStateService: SurveyViewerStateService,
+		public navigator: SurveyNavigator,
+		private _sessionService: SurveyViewerSession,
+		private _router: Router,
+		private _titleService: Title,
+		private elementRef: ElementRef,
+		private _authService: AuthService,
+		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyViewerRespondentService,
+		@Inject(LOCAL_STORAGE) private _storage: StorageService
+	) {
+		this.ref = this;
+	}
 	public surveyId: number;
 	public titleText: string;
 	public loadedComponents: boolean = false;
@@ -119,14 +171,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public validationStates: typeof ResponseValidationState = ResponseValidationState;
 
-	public get viewerState(): SurveyViewerState {
-		return this._viewerStateService.viewerState;
-	}
-
-	public set viewerState(viewerState: SurveyViewerState) {
-		this._viewerStateService.viewerState = viewerState;
-	}
-
 	public pageThemeInfo: any;
 	public viewerTheme: SurveyViewerTheme;
 
@@ -134,49 +178,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public viewDate: Date = new Date();
 	public currentUser: SurveyUser;
 
-	public get userShortcode(): string {
-		return this._authService.currentSurveyUser.shortcode;
-	}
-
-	/**
-	 * Gets whether is admin
-	 */
-	public get isAdmin(): boolean {
-		if (this.currentUser === undefined) {
-			return false;
-		} else {
-			return this.currentUser !== undefined && this.currentUser.roles.includes('super administrator');
-		}
-	}
-
-	/**
-	 *Creates an instance of SurveyViewerComponent.
-	 * @param {SurveyViewerService} surveyViewerService
-	 * @param {SurveyResponderService} _surveyResponderService
-	 * @param {SurveyViewerStateService} _viewerStateService
-	 * @param {SurveyViewerNavigationService} _navigationService
-	 * @param {SurveyViewerSession} _sessionService
-	 * @param {ActivatedRoute} route
-	 * @param {Router} _router
-	 * @param {Title} _titleService
-	 * @param {ElementRef} elementRef
-	 * @memberof SurveyViewerComponent
-	 */
-	constructor(
-		@Inject('SurveyViewerService')
-		private surveyViewerService: SurveyViewerService,
-		private _viewerStateService: SurveyViewerStateService,
-		public navigator: SurveyNavigator,
-		private _sessionService: SurveyViewerSession,
-		private _router: Router,
-		private _titleService: Title,
-		private elementRef: ElementRef,
-		private _authService: AuthService,
-		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyViewerRespondentService,
-		@Inject(LOCAL_STORAGE) private _storage: StorageService
-	) {
-		this.ref = this;
-	}
+	public menuToggled: boolean = false;
 
 	/**
 	 * Initialization
@@ -240,6 +242,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			});
 
 		this.isShowComplete = false;
+	}
+
+	public toggleMenu(): void {
+		this.menuToggled = !this.menuToggled;
 	}
 
 	/**

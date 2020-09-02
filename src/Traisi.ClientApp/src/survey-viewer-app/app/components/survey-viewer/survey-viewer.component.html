@@ -8,20 +8,23 @@
 </header>
 <div class="container-fluid">
 	<div class="row">
-		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar" [class.toggled]="menuToggled">
 			<div class="sidebar-sticky">
 				<div class="survey-title text-center">
 					{{ session.surveyTitle }}
 				</div>
-				<traisi-survey-progress></traisi-survey-progress>
+				<traisi-survey-progress ></traisi-survey-progress>
 				<div class="shortcode-container text-center" *ngIf="!isAdmin">
 					{{ userShortcode }}
 				</div>
 			</div>
 		</nav>
 		<!-- Begin page content -->
-		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 container" #surveyBodyContainer>
-			<div *ngIf="navigator.navigationState$ | async as state; else loading" class="questions-outer-container">
+		<main role="main" class="ml-sm-auto container" [ngClass]="{'col-lg-10': !menuToggled, 'col-md-10': !menuToggled,'col-lg-12': menuToggled, 'col-md-12': menuToggled}" #surveyBodyContainer>
+			<div class="menu-row">
+				<i class="fas fa-bars" (click)="menuToggled=!menuToggled"></i>
+			</div>
+			<div *ngIf="navigator.navigationState$ | async as state; else loading" class="questions-outer-container" >
 				<div class="content-header">
 					<span class="page-header survey-section-header">{{ state.activePage?.label }}</span>
 					<span class="section-header survey-section-header" *ngIf="state.activeSectionId >= 0">
