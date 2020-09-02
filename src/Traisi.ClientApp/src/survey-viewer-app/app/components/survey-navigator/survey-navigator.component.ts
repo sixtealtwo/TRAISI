@@ -6,6 +6,7 @@ import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { SurveyViewerStateService } from 'app/services/survey-viewer-state.service';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
+import { Router } from '@angular/router';
 @Component({
 	encapsulation: ViewEncapsulation.None,
 	selector: 'traisi-survey-navigator',
@@ -18,9 +19,16 @@ export class SurveyNavigatorComponent implements OnInit {
 		return this._viewerStateService.viewerState;
 	}
 
-	public constructor(public navigator: SurveyNavigator, private _viewerStateService: SurveyViewerStateService) {}
+	public constructor(
+		public navigator: SurveyNavigator,
+		private _viewerStateService: SurveyViewerStateService,
+		private _router: Router
+	) {}
 
-	public ngOnInit(): void {
+	public ngOnInit(): void {}
+
+	public navigateCompleteSurvey(): void {
+		// this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
 	public navigateNext(): void {

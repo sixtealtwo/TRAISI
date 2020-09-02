@@ -1,11 +1,9 @@
 <div
 	id="question-viewer-nav"
 	class="text-center viewer-nav"
-	[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
 >
 	<div class="row justify-content-center btn-group align-center">
 		<button
-			[ngClass]="navButtonClass"
 			(click)="navigatePrevious()"
 			[disabled]="!(navigator.previousEnabled$ | async)"
 			class="btn btn-secondary pl-4 pr-4 survey-nav-button"
@@ -17,7 +15,6 @@
 
 		<button
 			*ngIf="!viewerState.isNavComplete && !viewerState.isNavFinished"
-			[ngClass]="navButtonClass"
 			(click)="navigateNext()"
 			[disabled]="!(navigator.nextEnabled$ | async)"
 			class="btn btn-primary pl-4 pr-4 survey-nav-button"
@@ -32,7 +29,6 @@
 		</button>
 		<button
 			*ngIf="viewerState.isNavFinished"
-			[ngClass]="navButtonClass"
 			[disabled]="!viewerState.isNavComplete"
 			(click)="navigateCompleteSurvey()"
 			class="btn btn-primary pl-4 pr-4 survey-nav-button"
