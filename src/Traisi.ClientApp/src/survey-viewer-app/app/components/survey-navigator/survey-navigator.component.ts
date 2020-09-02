@@ -4,6 +4,8 @@ import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyErrorComponent } from '../survey-error/survey-error.component';
 import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
+import { SurveyViewerStateService } from 'app/services/survey-viewer-state.service';
+import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
 @Component({
 	encapsulation: ViewEncapsulation.None,
 	selector: 'traisi-survey-navigator',
@@ -12,9 +14,13 @@ import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-n
 	entryComponents: [SurveyErrorComponent, SurveyStartPageComponent],
 })
 export class SurveyNavigatorComponent implements OnInit {
-	public constructor(public navigator: SurveyNavigator) {}
+	public get viewerState(): SurveyViewerState {
+		return this._viewerStateService.viewerState;
+	}
+
+	public constructor(public navigator: SurveyNavigator, private _viewerStateService: SurveyViewerStateService) {}
+
 	public ngOnInit(): void {
-		throw new Error('Method not implemented.');
 	}
 
 	public navigateNext(): void {

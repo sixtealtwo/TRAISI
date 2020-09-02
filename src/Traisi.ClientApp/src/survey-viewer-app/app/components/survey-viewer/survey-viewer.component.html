@@ -121,7 +121,7 @@
 					</div>
 				</div>
 
-				<div
+				<!-- <div
 					id="question-viewer-nav"
 					class="text-center viewer-nav"
 					[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
@@ -167,7 +167,7 @@
 							</div>
 						</button>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<ng-template #loading>
 				Loading
@@ -178,6 +178,7 @@
 </div>
 <footer class="footer">
 	<div class="container">
+		<traisi-survey-navigator></traisi-survey-navigator>
 		<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs">
 		</ndc-dynamic>
 

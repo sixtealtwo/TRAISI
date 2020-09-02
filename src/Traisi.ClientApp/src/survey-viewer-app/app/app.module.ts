@@ -77,6 +77,7 @@ import {
 	CalendarUtils,
 } from 'angular-calendar';
 import { SurveyViewerProviders } from './providers/survey-viewer.providers';
+import { SurveyNavigatorComponent } from './components/survey-navigator/survey-navigator.component';
 export const calendarProps = {
 	provide: DateAdapter,
 	useFactory: adapterFactory,
@@ -113,6 +114,7 @@ export const STORAGE_TOKEN = new InjectionToken<StorageService>('STORAGE_TOKEN')
 		SurveyShortcodePageComponent,
 		Footer1Component,
 		SurveyProgressComponent,
+		SurveyNavigatorComponent
 	],
 	imports: [
 		BrowserModule,
