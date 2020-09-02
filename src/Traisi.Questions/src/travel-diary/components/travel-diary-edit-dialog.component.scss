@@ -1,7 +1,5 @@
 @import '~@ng-select/ng-select/themes/default.theme.css';
 @import '~flatpickr/dist/flatpickr.css';
-:host {
-}
 
 form :not(.ng-pristine).ng-invalid {
 	border: solid 1px red;

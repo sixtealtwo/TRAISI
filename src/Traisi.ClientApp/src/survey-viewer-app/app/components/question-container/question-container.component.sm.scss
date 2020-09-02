@@ -1,0 +1,9 @@
+@import "traisi-import";
+
+@include media-breakpoint-down(sm) {
+
+
+	.question-header-text {
+		font-size: 16px;
+	}
+}

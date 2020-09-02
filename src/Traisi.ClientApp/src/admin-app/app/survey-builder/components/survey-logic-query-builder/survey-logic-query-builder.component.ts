@@ -294,7 +294,21 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy, OnCh
 					value: question.questionPart.id + '.value',
 					questionId: -1,
 				};
-			} else {
+			} 
+			else if (
+				responseType == QuestionResponseType.Timeline
+			) {
+				this.initQuestionOptionsQuery(questionList, String(question.questionPart.id));
+				this.config.fields[question.questionPart.id + '.value'] = {
+					entity: entityTypeMap[1].value,
+					name: question.questionPart.name,
+					type: 'timeline',
+					operators: ['any of', 'all of', 'none of'],
+					value: question.questionPart.id + '.value',
+					questionId: -1,
+				};
+			}
+			else {
 				this.config.fields[question.questionPart.id + '.value'] = {
 					entity: entityTypeMap[1].value,
 					name: question.questionPart.name,

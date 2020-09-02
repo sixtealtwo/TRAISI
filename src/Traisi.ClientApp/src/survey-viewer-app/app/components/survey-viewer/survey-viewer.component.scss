@@ -56,11 +56,7 @@ traisi-survey-header-display {
 	padding-right: 0px;
 }
 
-@include media-breakpoint-down(md) {
-	.traisi-question-container-outer {
-		margin-left: 0px;
-	}
-} 
+
 
 .traisi-question-container-outer { 
 	background-color: white;
