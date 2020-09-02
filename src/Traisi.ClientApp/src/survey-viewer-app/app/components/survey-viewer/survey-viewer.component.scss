@@ -23,15 +23,16 @@ traisi-survey-header-display {
 }
 
 .menu-row {
-	float: left;
+	margin-right: 10px;
+	color: white;
+	opacity: 0.5;
 	font-size: 18px;
-	top: 30px;
 	position: relative;
 	cursor: pointer;
 }
 
 .menu-row:hover {
-	color: blue;
+	color: white;
 }
 
 main {
@@ -129,12 +130,12 @@ main {
 }
 
 .content-header .respondent-header {
-	color: blue;
-	font-weight: bold;
+	color: #6d6b92;
+	font-weight: normal;
 }
 
 .content-header {
-	margin-bottom: 20px;
+	color: white;
 }
 
 .related-question-link {
@@ -148,7 +149,7 @@ main {
 	padding: 8px;
 	font-size: 20px;
 	text-align: center;
-	font-weight: bold;
+	font-weight: normal;
 }
 
 .questions-container {
