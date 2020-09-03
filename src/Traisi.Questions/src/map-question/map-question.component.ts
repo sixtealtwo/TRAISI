@@ -115,6 +115,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	constructor(
 		private mapEndpointService: MapEndpointService,
 		private _configurationService: QuestionConfigurationService,
+		private _element: ElementRef,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
 		@Inject(TraisiValues.Configuration) private _configuration: MapQuestionConfiguration,
 		@Inject('location.accesstoken') private _accessToken: string
@@ -273,7 +274,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		} else {
 			addrObj = address;
 		}
-		let element: HTMLInputElement = document.querySelector('.mapboxgl-ctrl-geocoder--input');
+		
+		let element: HTMLInputElement = this._element.nativeElement.querySelector('.mapboxgl-ctrl-geocoder--input'); 
 		if (element) {
 			element.value = `${addrObj['stnumber']} ${addrObj['staddress']}, ${addrObj['city']} ${addrObj['postal']}`;
 		}
