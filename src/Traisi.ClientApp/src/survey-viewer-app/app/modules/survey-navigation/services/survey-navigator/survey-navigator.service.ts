@@ -4,7 +4,7 @@ import { Subject, Observable, Observer, BehaviorSubject, EMPTY, forkJoin } from 
 import { NavigationState } from '../../../../models/navigation-state.model';
 import { QuestionInstance } from 'app/models/question-instance.model';
 import { findIndex, every } from 'lodash';
-import { expand, share, tap, flatMap, map, count, takeWhile, take } from 'rxjs/operators';
+import { expand, share, tap, flatMap, map, count, takeWhile, take, shareReplay } from 'rxjs/operators';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { ValidationState } from 'app/services/survey-viewer-api-client.service';
@@ -131,7 +131,7 @@ export class SurveyNavigator {
 	 * Called at the end of a navigation iteration to exclude hidden content.
 	 * @param state
 	 */
-	private _excludeHiddenResponses = (state: NavigationState) => { 
+	private _excludeHiddenResponses = (state: NavigationState) => {
 		if (state.hiddenQuestions && state.hiddenQuestions.length > 0) {
 			this._responseService.excludeResponses(state.hiddenQuestions, state.activeRespondent).subscribe({
 				next: () => {},
@@ -354,6 +354,7 @@ export class SurveyNavigator {
 	private _incrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = Object.assign({}, currentState);
 
+		console.log('in increment');
 		// get active question
 		if (
 			!currentState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
@@ -377,8 +378,11 @@ export class SurveyNavigator {
 		} else {
 			return this._initState(newState).pipe(
 				expand((state) => {
+					console.log(state.activeQuestionInstances.length);
 					return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(newState) : EMPTY;
-				})
+				}),
+				tap((x) => {}),
+				shareReplay(1)
 			);
 		}
 	}
@@ -414,7 +418,9 @@ export class SurveyNavigator {
 		return this._initState(newState).pipe(
 			expand((state) => {
 				return state.activeQuestionInstances.length === 0 ? this._decrementNavigation(currentState) : EMPTY;
-			})
+			}),
+			tap((x) => {}),
+			shareReplay(1)
 		);
 	}
 
