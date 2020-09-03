@@ -20,7 +20,7 @@ import {
 } from 'traisi-question-sdk';
 import { Console } from 'console';
 import { TravelDiaryEditDialogComponent } from '../components/travel-diary-edit-dialog.component';
-import { colors, SurveyRespondentUser } from '../models/consts';
+import { colors, SurveyRespondentUser, TimelineLineResponseDisplayData, TravelDiaryEvent } from '../models/consts';
 import { url } from 'inspector';
 import { get } from 'http';
 import { NumberQuestionConfiguration } from 'general/viewer/number-question/number-question.configuration';
@@ -57,7 +57,7 @@ export class TravelDiaryService {
 
 	public responseData: { [userId: number]: ResponseTypes.Location };
 
-	private _diaryEvents: CalendarEvent[] = [];
+	private _diaryEvents: TravelDiaryEvent[] = [];
 
 	public userMap: { [id: number]: SurveyRespondentUser } = {};
 
@@ -71,7 +71,7 @@ export class TravelDiaryService {
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
 		private _injector: Injector
 	) {
-		this.diaryEvents$ = new BehaviorSubject<CalendarEvent[]>([]);
+		this.diaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
 	}
 
 	/**
@@ -101,6 +101,17 @@ export class TravelDiaryService {
 			this.isLoaded.next(true);
 		});
 		this.loadPreviousLocations();
+	}
+
+	/**
+	 *
+	 * @param respondent
+	 */
+	private _removeRespondent(respondent: SurveyRespondentUser) {
+		let idx = this.respondents.findIndex((x) => x.id === respondent.id);
+		if (idx >= 0) {
+			this.respondents.splice(idx, 1);
+		}
 	}
 
 	/**
@@ -201,7 +212,7 @@ export class TravelDiaryService {
 				);
 			}
 		}
-		console.log(questionIds); 
+		console.log(questionIds);
 		this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
 			this._initializeSmartFill(
 				res,
@@ -233,6 +244,7 @@ export class TravelDiaryService {
 		schoolDepartureId: number,
 		schoolLocationId: number
 	): void {
+		let toRemove = [];
 		for (let r of this.respondents) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
 			// responses belonging to a specific user
@@ -250,6 +262,10 @@ export class TravelDiaryService {
 			const workLocation = responseMatches.find((x) => x.questionId === workLocationId)?.responseValues[0];
 			const schoolLocation = responseMatches.find((x) => x.questionId === schoolLocationId)?.responseValues[0];
 
+			if (responseMatches.length === 0) {
+				toRemove.push(r);
+				break;
+			}
 			let events = this._edtior.createDefaultTravelDiaryforRespondent(
 				this.userMap[r.id],
 				isHomeAllDay,
@@ -259,10 +275,18 @@ export class TravelDiaryService {
 				workLocation, // work loc,
 				schoolLocation //school loc
 			);
+			console.log('made events');
+			console.log(events);
 			this.addEvents(events);
+		}
+		for (let r of toRemove) {
+			this._removeRespondent(r);
 		}
 	}
 
+	/**
+	 * Loads addresses
+	 */
 	public loadAddresses(): void {
 		this.addresses$ = <any>concat(
 			of(['']), // default items
@@ -308,29 +332,20 @@ export class TravelDiaryService {
 	 *
 	 * @param {LocationResponseData} event
 	 */
-	public newEvent(event: TimelineResponseData & { users: SurveyRespondentUser[] }): void {
-		let events: CalendarEvent[] = this._diaryEvents;
-		for (let u of event.users) {
-			let newEvent = {
-				title: event.name,
-				start: event.timeA,
-				end: event.timeB,
-				draggable: false,
-				resizable: { afterEnd: true },
-				meta: {
-					purpose: event.purpose['label'],
-					address: event.address['stnumber'] + ' ' + event.address['staddress'] + ' ' + event.address['city'],
-					user: u,
-					mode: event.mode['label'],
-					model: event,
-					id: Date.now(),
-				},
-				color: colors.blue,
-			};
-			this._edtior.insertEvent(this._diaryEvents, newEvent);
-		}
-		this.diaryEvents$.next(events);
-		this._diaryEvents = events;
+	public newEvent(event: TimelineLineResponseDisplayData): void {
+		this._edtior.insertEvent(this._diaryEvents, event);
+		this.diaryEvents$.next(this._diaryEvents);
+	}
+
+	/**
+	 *
+	 * @param event
+	 */
+	public updateEvent(event: TimelineLineResponseDisplayData): void {
+		console.log('updating event');
+		console.log(event);
+		this._edtior.updateEvent(event, this._diaryEvents);
+		this.diaryEvents$.next(this._diaryEvents); 
 	}
 
 	/**
@@ -338,13 +353,13 @@ export class TravelDiaryService {
 	 * This is run usually in the pregeneration of events.
 	 * @param events
 	 */
-	public addEvents(events: CalendarEvent[]): void {
+	public addEvents(events: TravelDiaryEvent[]): void {
 		this._diaryEvents = this._diaryEvents.concat(events);
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 
 	// deletes the associated event
-	public deleteEvent(event: TimelineResponseData & { id: number }): void {
+	public deleteEvent(event: TravelDiaryEvent): void {
 		for (let i = 0; i < this._diaryEvents.length; i++) {
 			let e = this._diaryEvents[i];
 			if (e.meta.model.id === event.id) {

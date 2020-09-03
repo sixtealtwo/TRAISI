@@ -73,13 +73,11 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public newEntrySaved(event: TimelineLineResponseDisplayData) {
-		console.log('new event saved'); 
 		this._travelDiaryService.newEvent(event);
 	}
 
 	public eventSaved(event: TimelineLineResponseDisplayData) {
-		console.log('event saved');
-		console.log(event);
+		this._travelDiaryService.updateEvent(event);
 	}
 
 	public eventDeleted(event: TimelineLineResponseDisplayData): void {

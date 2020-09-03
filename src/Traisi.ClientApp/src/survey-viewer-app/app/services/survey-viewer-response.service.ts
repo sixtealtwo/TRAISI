@@ -315,6 +315,7 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 			// return empty, data already exists for these respondents
 			return EMPTY;
 		}
+		console.log(queryIds); 
 		return new Observable((obs) => {
 			this._responseClient
 				.listSurveyResponsesForQuestionsForMultipleRespondents(
@@ -325,6 +326,7 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 				.subscribe({
 					next: (responses) => {
 						// store each response
+						console.log(responses);
 						for (let response of responses) {
 							this._storeResponse(response.questionId, response.respondent, response.responseValues);
 						}

@@ -2,19 +2,27 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title pull-left">New Event</h4>
+				<h4 class="modal-title pull-left" *ngIf="dialogMode === dialogModeNew">New Event</h4>
+				<h4 class="modal-title pull-left" *ngIf="dialogMode === dialogModeEdit">Edit Event</h4>
 				<button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<form #eventForm="ngForm"  validate>
+				<form #eventForm="ngForm" validate>
 					<div class="form-group row">
 						<label for="name" class="col-md-2 col-form-label-lg">Name</label>
 						<div class="col-md-10">
-							<input class="form-control" type="text" 
-							[(ngModel)]="model.name" name="name" minlength="4"
-							id="name" placeholder="Enter a name" required>
+							<input
+								class="form-control"
+								type="text"
+								[(ngModel)]="model.name"
+								name="name"
+								minlength="4"
+								id="name"
+								placeholder="Enter a name"
+								required
+							/>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -93,14 +101,14 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="timeb" class="col-sm-2 col-form-label">Time B</label>
+						<label for="timeb" class="col-sm-2 col-form-label">Departure Time</label>
 						<div class="col-sm-10">
 							<input
 								id="timeB"
 								type="text"
 								class="form-control"
 								name="timeB"
-								mwlFlatpickr 
+								mwlFlatpickr
 								[(ngModel)]="model.timeB"
 								[noCalendar]="true"
 								[enableTime]="true"
@@ -136,14 +144,25 @@
 			</div>
 			<div class="modal-footer">
 				<span class="delete-container">
-				<button *ngIf="dialogMode === dialogModeEdit" type="button" class="btn btn-danger" (click)="delete()">
-					Delete
-				</button>
-			</span>
+					<button
+						*ngIf="dialogMode === dialogModeEdit"
+						type="button"
+						class="btn btn-danger"
+						(click)="delete()"
+					>
+						Delete
+					</button>
+				</span>
 				<button type="button" class="btn btn-default" (click)="hide()">
 					Cancel
 				</button>
-				<button type="button" [class.disabled]="!eventForm.valid" class="btn btn-primary" [disabled]="!eventForm.valid" (click)="dialogSave()">
+				<button
+					type="button"
+					[class.disabled]="!eventForm.valid"
+					class="btn btn-primary"
+					[disabled]="!eventForm.valid"
+					(click)="dialogSave()"
+				>
 					Save
 				</button>
 			</div>

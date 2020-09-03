@@ -215,7 +215,7 @@ namespace Traisi.Data.Repositories
         /// <returns></returns>
         public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, List<int> users)
         {
-            var r1 = await this._entities.Where(s => users.AsEnumerable().Contains(s.Respondent.Id) && s.Excluded == false  &&
+            var r1 = await this._entities.Where(s => users.AsEnumerable().Contains(s.Respondent.Id)  &&
          questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
              .Include(v => v.ResponseValues)
              .Include(v => v.QuestionPart)

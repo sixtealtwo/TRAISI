@@ -21,7 +21,7 @@
 </header>
 <div class="container-fluid">
 	<div class="row">
-		<nav class="col-md-2 d-none d-md-block bg-light sidebar" [class.toggled]="menuToggled">
+		<nav class="bg-light sidebar" [class.toggled]="menuToggled">
 			<div class="sidebar-sticky">
 				<div class="survey-title text-center">
 					{{ session.surveyTitle }}
@@ -36,12 +36,7 @@
 		<main
 			role="main"
 			class="ml-sm-auto container survey-container"
-			[ngClass]="{
-				'col-lg-10': !menuToggled,
-				'col-md-10': !menuToggled,
-				'col-lg-12': menuToggled,
-				'col-md-12': menuToggled
-			}"
+			[class.menuToggled]="!menuToggled"
 			#surveyBodyContainer
 		>
 			<div *ngIf="navigator.navigationState$ | async as state; else loading" class="questions-outer-container">

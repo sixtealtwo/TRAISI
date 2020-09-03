@@ -27,7 +27,21 @@ export type SurveyRespondentUser = SurveyRespondent & {
 	color: EventColor;
 };
 
-
-export type TimelineLineResponseDisplayData = TimelineResponseData & { users: SurveyRespondentUser[]; id: number };
+export type TimelineLineResponseDisplayData = TimelineResponseData & {
+	users: SurveyRespondentUser[];
+	id: number;
+	displayId: number;
+	isValid: boolean;
+};
 
 export type TravelDiaryEvent = CalendarEvent & { meta: { model: TimelineLineResponseDisplayData; [x: string]: any } };
+
+export interface TravelDiaryViewTimeEvent {
+	event: TravelDiaryEvent;
+	height: number;
+	width: number;
+	top: number;
+	left: number;
+	startsBeforeDay: boolean;
+	endsAfterDay: boolean;
+}

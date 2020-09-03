@@ -3,7 +3,12 @@
 import { Injectable } from '@angular/core';
 import { CalendarEvent } from 'calendar-utils';
 import { SurveyResponseViewModel, LocationResponseData } from 'traisi-question-sdk';
-import { SurveyRespondentUser, TimelineLineResponseDisplayData, TravelDiaryEvent } from 'travel-diary/models/consts';
+import {
+	SurveyRespondentUser,
+	TimelineLineResponseDisplayData,
+	TravelDiaryEvent,
+	colors,
+} from 'travel-diary/models/consts';
 
 // events based on user input
 @Injectable()
@@ -25,6 +30,7 @@ export class TravelDiaryEditor {
 		schoolLoation?: any
 	): CalendarEvent[] {
 		let events: CalendarEvent[] = [];
+		console.log('in create event');
 		if (homeAllDay) {
 			events = events.concat(this.createHomeAllDayEvent(user));
 		}
@@ -38,7 +44,10 @@ export class TravelDiaryEditor {
 		return events;
 	}
 
-	private createHomeWorkHomeEvent(user: SurveyRespondentUser, workLocation: LocationResponseData): TravelDiaryEvent[] { 
+	private createHomeWorkHomeEvent(
+		user: SurveyRespondentUser,
+		workLocation: LocationResponseData
+	): TravelDiaryEvent[] {
 		console.log('creating home work home');
 
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
@@ -49,7 +58,7 @@ export class TravelDiaryEditor {
 		workEvent.end = new Date(new Date().setHours(17, 0, 0, 0));
 
 		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
-		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0)); 
+		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
 
 		returnHomeEvent.start = new Date(new Date().setHours(17, 1, 0, 0));
 		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
@@ -71,7 +80,7 @@ export class TravelDiaryEditor {
 		workEvent.end = new Date(new Date().setHours(17, 0, 0, 0));
 
 		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
-		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0)); 
+		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
 
 		returnHomeEvent.start = new Date(new Date().setHours(17, 1, 0, 0));
 		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
@@ -86,18 +95,71 @@ export class TravelDiaryEditor {
 	 * The source events are modified in place.
 	 * @param eventData
 	 */
-	public insertEvent(events: CalendarEvent[], newEvent: CalendarEvent): void {
-		// loop through the respondents
+	public insertEvent(events: CalendarEvent[], event: TimelineLineResponseDisplayData): void {
+		let displayId = Date.now();
+		for (let u of event.users) {
+			let newEvent = {
+				id: displayId,
+				title: event.name,
+				start: event.timeA,
+				end: event.timeB,
+				draggable: false,
+				resizable: { afterEnd: true },
+				meta: {
+					purpose: event.purpose['label'],
+					address: event.address['stnumber'] + ' ' + event.address['staddress'] + ' ' + event.address['city'],
+					user: u,
+					mode: event.mode['label'],
+					model: event,
+					id: Date.now(),
+				},
+				color: colors.blue,
+			};
+			newEvent.meta.model.displayId = displayId;
+			newEvent.meta.model.isValid = true;
+		}
 		console.log(' inserting an event ');
 	}
+
+	private _hasHomeStartEvent(events: TravelDiaryEvent[]): boolean {
+		return true;
+	}
+
+	private _hasHomeEndEvent(events: TravelDiaryEvent[]): boolean {
+		return true;
+	}
+
+	/**
+	 * Updates the schedule with the updated data for an event that already exists
+	 * @param update
+	 * @param events
+	 */
+	public updateEvent(update: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]) {
+		// find the event
+		let evt = events.find((x) => x.id === update.displayId);
+		if (evt) {
+			Object.assign(evt.meta.model, update);
+		}
+		console.log(evt);
+	}
+
+	/**
+	 * Appends a new event to the list of events
+	 * @param newEvent
+	 * @param events
+	 * @param param2
+	 */
+	public appendEvent(newEvent: TravelDiaryEvent, events: TravelDiaryEvent[]): void {}
 
 	/**
 	 * Creates an at home all day event
 	 * @param user
 	 */
 	private createHomeAllDayEvent(user: SurveyRespondentUser): TravelDiaryEvent[] {
+		let displayId = Date.now();
 		let events: TravelDiaryEvent[] = [];
 		events.push({
+			id: displayId,
 			title: 'Home All Day',
 			draggable: false,
 			resizable: {
@@ -120,7 +182,9 @@ export class TravelDiaryEditor {
 					name: 'Home All Day',
 					order: 0,
 					users: [user],
-					id: null,
+					id: undefined,
+					displayId: displayId,
+					isValid: true,
 				},
 				id: Date.now(),
 			},
@@ -137,8 +201,9 @@ export class TravelDiaryEditor {
 	 * @param purpose
 	 */
 	private createBaseEvent(user: SurveyRespondentUser, title: string, purpose: string): TravelDiaryEvent {
-		console.log('in create base event'); 
+		let displayId = Date.now();
 		return {
+			id: displayId,
 			title: title,
 			draggable: false,
 			resizable: {
@@ -162,6 +227,8 @@ export class TravelDiaryEditor {
 					order: 0,
 					users: [user],
 					id: undefined,
+					displayId: displayId,
+					isValid: false,
 				},
 				id: Date.now(),
 			},
