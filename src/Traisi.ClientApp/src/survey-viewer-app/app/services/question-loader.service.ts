@@ -161,7 +161,6 @@ export class QuestionLoaderService {
 					if (!(questionType in this._componentFactories)) {
 						this._componentFactories[questionType] = componentFactory;
 					}
-					console.log('returning here ');
 					return componentFactory;
 				})
 			);
@@ -277,7 +276,7 @@ export class QuestionLoaderService {
 		return new Observable((o) => {
 			forkJoin([
 				this.getQuestionComponentFactory(question.questionType),
-				this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(question.questionType),
+				this.getQuestionConfiguration(question),
 			]).subscribe({
 				next: ([componentFactory, configuration]) => {
 					this._questionConfigurationService.setQuestionServerConfiguration(question, configuration);
@@ -299,6 +298,19 @@ export class QuestionLoaderService {
 	 * @param question
 	 */
 	public getQuestionConfiguration(question: SurveyViewQuestion): Observable<any> {
-		return this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(question.questionType);
+		return new Observable((o) => {
+			if (this._questionConfigurationService.hasQuestionServerConfiguration(question.questionType)) {
+				o.next(this._questionConfigurationService.getQuestionServerConfiguration(question.questionType));
+				o.complete();
+			} else {
+				this._questionLoaderEndpointService
+					.getQuestionConfigurationEndpoint(question.questionType)
+					.subscribe((x) => {
+						this._questionConfigurationService.setQuestionServerConfiguration(question, x);
+						o.next(x);
+						o.complete();
+					});
+			}
+		});
 	}
 }
