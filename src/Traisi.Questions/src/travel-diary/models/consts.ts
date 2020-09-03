@@ -36,12 +36,3 @@ export type TimelineLineResponseDisplayData = TimelineResponseData & {
 
 export type TravelDiaryEvent = CalendarEvent & { meta: { model: TimelineLineResponseDisplayData; [x: string]: any } };
 
-export type TravelDiaryViewTimeEvent = {
-	event: TravelDiaryEvent;
-	height: number;
-	width: number;
-	top: number;
-	left: number;
-	startsBeforeDay: boolean;
-	endsAfterDay: boolean;
-} 

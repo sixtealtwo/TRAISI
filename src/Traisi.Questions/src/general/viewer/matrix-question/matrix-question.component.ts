@@ -41,10 +41,9 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 		response: ResponseData<ResponseTypes.Json>[] | 'none'
 	) => {
 		if (response !== 'none') {
-			console.log(response);
 			let model = JSON.parse(response[0]['value']);
-			console.log(model);
 			this.model = model[0];
+			this.validationState.emit(ResponseValidationState.VALID);
 		}
 	};
 
@@ -71,6 +70,6 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 	}
 
 	public traisiOnInit(): void {
-		this.validationState.emit(ResponseValidationState.VALID);
+		// this.validationState.emit(ResponseValidationState.VALID);
 	}
 }

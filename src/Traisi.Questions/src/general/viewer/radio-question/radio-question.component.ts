@@ -65,7 +65,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 			if (this.customResponseOptions.has(optionResponse.code)) {
 				this.customResponseValue = optionResponse.value;
 			}
-			this.validationState.emit(ResponseValidationState.VALID);
+			this.validationState.emit(ResponseValidationState.VALID); 
 		}
 
 		this.isLoaded.next(true);
