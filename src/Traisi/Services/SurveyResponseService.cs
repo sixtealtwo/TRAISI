@@ -275,9 +275,9 @@ namespace Traisi.Services
                 if (errorList.Count == 0 || force)
                 {
                     this._unitOfWork.SurveyResponses.Update(surveyResponse);
-                    await this._unitOfWork.SaveChangesAsync();
-                }
 
+                }
+                await this._unitOfWork.SaveChangesAsync();
                 return new SurveyResponseValidationState()
                 {
                     IsValid = errorList.Count == 0 || force ? true : false,
@@ -512,6 +512,7 @@ namespace Traisi.Services
                         Order = responseValue.Order,
                         TimeA = responseValue.TimeA,
                         TimeB = responseValue.TimeB,
+                        Mode = responseValue.Mode,
                         Location =
                             new Point(responseValue.Longitude,
                                 responseValue.Latitude)

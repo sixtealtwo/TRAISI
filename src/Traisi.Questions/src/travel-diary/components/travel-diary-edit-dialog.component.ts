@@ -147,10 +147,14 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.dialogMode = mode;
 		if (mode === DialogMode.New) {
 			this.resetModel();
-			this.eventForm.resetForm();
+
+			this.eventForm.form.markAsPristine();
+			this.eventForm.form.markAsUntouched();
+			this.eventForm.form.reset();
+			this.eventForm.reset();
 		} else {
-			// this.eventForm.form.markAllAsTouched();
-			// this.eventForm.form.updateValueAndValidity();
+			this.eventForm.form.markAllAsTouched();
+			this.eventForm.form.updateValueAndValidity();
 			this.model = Object.assign({}, model);
 		}
 

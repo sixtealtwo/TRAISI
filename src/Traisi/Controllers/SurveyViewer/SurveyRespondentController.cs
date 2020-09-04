@@ -108,7 +108,7 @@ namespace Traisi.Controllers.SurveyViewer
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             await this._respondentGroupService.AddRespondent(group, model);
             // await this._unitOfWork.SaveChangesAsync();
-            return new CreatedResult("",model.Id);
+            return new CreatedResult("", model.Id);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Traisi.Controllers.SurveyViewer
         /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
-       // [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        // [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups")]
         public async Task<IActionResult> UpdateSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
         {
@@ -153,9 +153,7 @@ namespace Traisi.Controllers.SurveyViewer
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             await this._respondentGroupService.RemoveRespondent(group, respondent);
-
             await this._unitOfWork.SaveChangesAsync();
-
             return new OkResult();
         }
 
@@ -175,7 +173,5 @@ namespace Traisi.Controllers.SurveyViewer
             var members = _mapper.Map<List<SurveyRespondentViewModel>>(group.GroupMembers);
             return new OkObjectResult(members);
         }
-
-
     }
 }

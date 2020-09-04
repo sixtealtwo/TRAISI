@@ -81,6 +81,7 @@ namespace Traisi.Sdk.Questions
                     if(bool.TryParse(x.Value, out var isHomeLocation)) {
                         if(isHomeLocation) {
                             respondent.HomeLocation = (responseValues.First() as ILocationResponse).Location;
+                            respondent.HomeAddress = (responseValues.First() as ILocationResponse).Address;
                             break;
                         }
                     }

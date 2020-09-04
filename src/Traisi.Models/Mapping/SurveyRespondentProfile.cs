@@ -55,7 +55,8 @@ namespace Traisi.Models.Mapping
                     Order = locationResponse.Order.GetValueOrDefault(),
                     Purpose = locationResponse.Purpose,
                     TimeA = locationResponse.TimeA,
-                    TimeB = locationResponse.TimeB
+                    TimeB = locationResponse.TimeB,
+                    Mode = locationResponse.Mode
 
                 });
             }

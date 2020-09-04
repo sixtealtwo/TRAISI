@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetTopologySuite.Geometries;
 using Traisi.Sdk.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 
 namespace Traisi.Data.Models.Surveys
 {
@@ -21,6 +22,9 @@ namespace Traisi.Data.Models.Surveys
 
         [Column(TypeName = "jsonb")]
         public Address HomeAddress { get; set; }
+
+        [Column(TypeName = "jsonb")]
+        public JsonDocument Meta  { get; set; }
 
     }
 }

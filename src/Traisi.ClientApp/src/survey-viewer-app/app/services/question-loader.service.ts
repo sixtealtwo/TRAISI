@@ -197,7 +197,6 @@ export class QuestionLoaderService {
 						let provider = componentFactory['ngModule']._providers[key];
 						if (provider !== undefined && provider.hasOwnProperty('dependency')) {
 							hasDependency = true;
-							console.log('has dependency');
 							return this.getQuestionComponentFactory(provider.name);
 						}
 					}

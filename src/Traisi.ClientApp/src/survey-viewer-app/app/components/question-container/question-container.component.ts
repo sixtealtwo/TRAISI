@@ -222,6 +222,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					provide: TraisiValues.Respondent,
 					useValue: this._respondentService.primaryRespondent,
 				},
+				{
+					provide: TraisiValues.SurveyQuestion,
+					useValue: this.question,
+				},
 				this.createServerConfigProviders(),
 				questionProviders,
 			],

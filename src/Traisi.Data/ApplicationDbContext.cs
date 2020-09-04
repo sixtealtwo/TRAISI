@@ -186,6 +186,8 @@ namespace Traisi.Data
             builder.Entity<SubRespondent>().Property(m => m.HomeLocation).IsRequired(false);
             builder.Entity<PrimaryRespondent>().Property(m => m.HomeAddress).IsRequired(false);
             builder.Entity<SubRespondent>().Property(m => m.HomeAddress).IsRequired(false);
+            builder.Entity<PrimaryRespondent>().Property(m => m.Meta).IsRequired(false);
+            builder.Entity<SubRespondent>().Property(m => m.Meta).IsRequired(false);
             builder.Entity<SubRespondent>().HasOne(o => o.PrimaryRespondent).WithMany();
 
             builder.Entity<SurveyRespondentGroup>().ToTable("SurveyRespondentGroups")

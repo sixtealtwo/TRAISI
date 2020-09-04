@@ -22,14 +22,14 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { TravelDiaryService } from './services/travel-diary.service';
 import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-calendar';
 import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-dialog.component';
-import {  DayViewSchedulerComponent } from './components/day-view-scheduler.component';
+import { DayViewSchedulerComponent } from './components/day-view-scheduler.component';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { colors, DialogMode, TimelineLineResponseDisplayData } from './models/consts';
 import { TravelDiaryEditor } from './services/travel-diary-editor.service';
 @Component({
 	selector: 'traisi-travel-diary-question',
 	template: '' + templateString,
-	providers: [TravelDiaryService,TravelDiaryEditor],
+	providers: [TravelDiaryService, TravelDiaryEditor],
 	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
 	styles: ['' + styleString],
@@ -90,15 +90,27 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
-		console.log(events);
 		// this.scheduleComponent.refreshSubscription();
 		if (this.scheduleComponent) {
 			// this.scheduleComponent.refresh.next();
 		}
+		if (this._travelDiaryService.isTravelDiaryValid) {
+			this.saveTravelDiary();
+		}
 	};
 
+	public saveTravelDiary(): void {
+		if (this._travelDiaryService.isLoaded.value) {
+			for (let r of this._travelDiaryService.respondents) {
+				this.responseWithRespondent.emit({
+					respondent: r,
+					response: this._travelDiaryService.getTimelineResponseDataForRespondent(r),
+				});
+			}
+		}
+	}
+
 	public eventClicked({ event }: { event: CalendarEvent }): void {
-		console.log(event); 
 		this.entryDialog.show(DialogMode.Edit, event.meta.model);
 	}
 

@@ -1,6 +1,6 @@
 import { Injectable, Inject, Injector } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
-import { Subject, BehaviorSubject, Observable, concat, of } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, concat, of, forkJoin } from 'rxjs';
 import { TravelDiaryConfiguration } from '../models/travel-diary-configuration.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
@@ -29,7 +29,7 @@ import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 @Injectable()
 export class TravelDiaryService {
-	public diaryEvents$: BehaviorSubject<CalendarEvent[]>;
+	public diaryEvents$: BehaviorSubject<TravelDiaryEvent[]>;
 
 	public configuration: TravelDiaryConfiguration = {
 		purpose: [],
@@ -69,6 +69,7 @@ export class TravelDiaryService {
 		@Inject(TraisiValues.SurveyId) private _surveyId: number,
 		@Inject(TraisiValues.Configuration) private _configuration: any,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
+		@Inject(TraisiValues.SurveyQuestion) private _question: SurveyViewQuestion,
 		private _injector: Injector
 	) {
 		this.diaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
@@ -85,22 +86,48 @@ export class TravelDiaryService {
 		this.configuration.purpose = this._configuration.purpose ?? [];
 		this.configuration.mode = this._configuration.mode ?? [];
 		this.loadAddresses();
-
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
+			let primaryHomeAddress: any = {};
+			if (respondents.length > 0) {
+				primaryHomeAddress = respondents[0].homeAddress;
+			}
 			for (let x of respondents) {
 				let respondentUser = {
 					id: x.id,
 					name: x.name,
 					color: colors.blue,
+					homeAddress: primaryHomeAddress,
 				};
 				this.respondents.push(respondentUser);
 				this.userMap[respondentUser.id] = respondentUser;
 			}
+			this.loadSavedResponses().subscribe({
+				next: (v: SurveyResponseViewModel[]) => {
+					for (let result of v) {
+						this._edtior.createDiaryFromResponseData(
+							this.userMap[result.respondent.id],
+							result.responseValues as TimelineResponseData[],
+							this._diaryEvents
+						);
+					}
+					this._edtior.reAlignTimeBoundaries(this.respondents, this._diaryEvents);
+					if (this._diaryEvents.length === 0) {
+						this.loadPriorResponseData();
+					} else {
+						this.diaryEvents$.next(this._diaryEvents);
+					}
+					this.isLoaded.next(true);
+				},
+				complete: () => console.log('complete'),
+			});
 			this.users.next(this.respondents);
-			this.loadPriorResponseData();
-			this.isLoaded.next(true);
 		});
+
 		this.loadPreviousLocations();
+	}
+
+	private loadSavedResponses(): Observable<any> {
+		return this._responseService.loadSavedResponsesForRespondents([this._question], this.respondents);
 	}
 
 	/**
@@ -112,6 +139,10 @@ export class TravelDiaryService {
 		if (idx >= 0) {
 			this.respondents.splice(idx, 1);
 		}
+	}
+
+	public get isTravelDiaryValid(): boolean {
+		return this._diaryEvents.length > 0 && !this._diaryEvents.some((x) => x.meta.model.isValid === false);
 	}
 
 	/**
@@ -191,10 +222,10 @@ export class TravelDiaryService {
 		if (this.configuration.schoolOutside) {
 			if (this.configuration.workOutside.length > 1) {
 				let schoolModel1 = <SurveyViewQuestion>(
-					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[0].label))
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.schoolOutside[0].label))
 				);
 				let schoolModel2 = <SurveyViewQuestion>(
-					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[1].label))
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.schoolOutside[1].label))
 				);
 
 				if (schoolModel1.questionType === 'location') {
@@ -212,7 +243,6 @@ export class TravelDiaryService {
 				);
 			}
 		}
-		console.log(questionIds);
 		this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
 			this._initializeSmartFill(
 				res,
@@ -259,6 +289,13 @@ export class TravelDiaryService {
 					.find((x) => x.questionId === schoolDepartureId)
 					?.responseValues[0].code?.toUpperCase() === 'YES';
 
+			const homeDeparture =
+				responseMatches.find((x) => x.questionId === homeDepartureId)?.responseValues[0].code?.toUpperCase() ===
+				'YES';
+
+			const homeReturn =
+				responseMatches.find((x) => x.questionId === returnHomeId)?.responseValues[0].code?.toUpperCase() ===
+				'YES';
 			const workLocation = responseMatches.find((x) => x.questionId === workLocationId)?.responseValues[0];
 			const schoolLocation = responseMatches.find((x) => x.questionId === schoolLocationId)?.responseValues[0];
 
@@ -271,12 +308,10 @@ export class TravelDiaryService {
 				isHomeAllDay,
 				workDeparture,
 				schoolDeparture, // school dept,
-				true, // returned h ome
+				homeReturn, // returned h ome
 				workLocation, // work loc,
 				schoolLocation //school loc
 			);
-			console.log('made events');
-			console.log(events);
 			this.addEvents(events);
 		}
 		for (let r of toRemove) {
@@ -323,8 +358,23 @@ export class TravelDiaryService {
 		return this._http.get(url, options);
 	}
 
-	public get diaryEvents(): CalendarEvent[] {
+	public get diaryEvents(): TravelDiaryEvent[] {
 		return this._diaryEvents;
+	}
+
+	/**
+	 * Converts the timeline events and model data into timeline response data that can be saved
+	 * @param respondent
+	 */
+	public getTimelineResponseDataForRespondent(respondent: SurveyRespondent): TimelineResponseData[] {
+		let events = this._diaryEvents.filter((x) => x.meta.user.id === respondent.id);
+		let timelineData = [];
+		for (let event of events) {
+			timelineData.push(event.meta.model);
+		}
+		console.log(' generated timeline data: ');
+		console.log(timelineData);
+		return timelineData;
 	}
 
 	/**
@@ -342,10 +392,10 @@ export class TravelDiaryService {
 	 * @param event
 	 */
 	public updateEvent(event: TimelineLineResponseDisplayData): void {
-		console.log('updating event');
-		console.log(event);
+		this._diaryEvents = this._diaryEvents.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
 		this._edtior.updateEvent(event, this._diaryEvents);
-		this.diaryEvents$.next(this._diaryEvents); 
+		this.diaryEvents$.next(this._diaryEvents);
+		console.log(this._diaryEvents);
 	}
 
 	/**
@@ -359,13 +409,11 @@ export class TravelDiaryService {
 	}
 
 	// deletes the associated event
-	public deleteEvent(event: TravelDiaryEvent): void {
+	public deleteEvent(event: TimelineLineResponseDisplayData): void {
 		for (let i = 0; i < this._diaryEvents.length; i++) {
 			let e = this._diaryEvents[i];
 			if (e.meta.model.id === event.id) {
-				console.log('deleted ');
 				this._diaryEvents.splice(i, 1);
-				console.log('event removed');
 				break;
 			}
 		}

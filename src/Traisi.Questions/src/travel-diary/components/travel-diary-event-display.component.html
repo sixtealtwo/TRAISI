@@ -4,7 +4,8 @@
 			{{ timeEvent.event.meta.model.purpose }}
 		</div>
 		<div class="event-name">
-			<span *ngIf="!timeEvent.event.meta.model.isValid" class="invalid-icon"><i class="fas fa-exclamation-triangle"></i></span
+			<span *ngIf="!timeEvent.event.meta.model.isValid" class="invalid-icon"
+				><i class="fas fa-exclamation-triangle"></i></span
 			>{{ timeEvent.event.title }}
 		</div>
 	</div>
@@ -26,11 +27,15 @@
 		<div class="event-address">
 			<i class="fas fa-map-marked-alt"></i>
 			<span *ngIf="timeEvent.event.meta.model?.address">
-				{{ timeEvent.event.meta.model.address }}
+				{{ addressDisplay }}
 			</span>
 			<span *ngIf="!timeEvent.event.meta.model?.address">
 				Please choose a location.
 			</span>
+		</div>
+		<div class="event-time" *ngIf="!isFirstEvent">
+			<i class="fas fa-clock"></i>
+			{{ timeEvent.event.meta.model?.timeA | date: 'shortTime' }}
 		</div>
 	</div>
 </div>

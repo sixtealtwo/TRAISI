@@ -353,8 +353,6 @@ export class SurveyNavigator {
 	 */
 	private _incrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = Object.assign({}, currentState);
-
-		console.log('in increment');
 		// get active question
 		if (
 			!currentState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
@@ -378,7 +376,6 @@ export class SurveyNavigator {
 		} else {
 			return this._initState(newState).pipe(
 				expand((state) => {
-					console.log(state.activeQuestionInstances.length);
 					return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(newState) : EMPTY;
 				}),
 				tap((x) => {}),
