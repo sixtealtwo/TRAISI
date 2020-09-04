@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { ViewTransformation } from '../../view-transformers/view-transformation';
 import { NavigationState } from 'app/models/navigation-state.model';
+import { RepeatTransformer } from '../../view-transformers/repeat-transformer';
+import { QuestionInstance } from 'app/models/question-instance.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -8,7 +10,9 @@ import { NavigationState } from 'app/models/navigation-state.model';
 export class ViewTransformer {
 	private _viewTransformations: ViewTransformation[] = [];
 
-	public constructor() {}
+	public constructor(private _injector: Injector) {
+		this.registerViewTransformation(_injector.get(RepeatTransformer));
+	}
 
 	/**
 	 *
@@ -33,11 +37,14 @@ export class ViewTransformer {
 	 *
 	 * @param state
 	 */
-	public applyViewTransformations(state: NavigationState): NavigationState {
+	public applyViewTransformations(state: NavigationState, instances: QuestionInstance[]): QuestionInstance[] {
 		let newState: NavigationState;
+		console.log('in apply');
+		console.log(this._viewTransformations); 
 		for (let t of this._viewTransformations) {
-			newState = t.transformNavigationState(state);
+			console.log(t);
+			instances = t.transformNavigationState(state, instances);
 		}
-		return newState;
+		return instances;
 	}
 }

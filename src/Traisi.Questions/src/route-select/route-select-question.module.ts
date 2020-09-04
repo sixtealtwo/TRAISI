@@ -27,6 +27,7 @@ import { RouteSelectQuestionComponent } from './route-select-question.component'
 					component: RouteSelectQuestionComponent,
 				},
 			],
+			multi: true,
 		},
 	],
 	imports: [],
@@ -36,7 +37,7 @@ export default class RouteSelectQuestionModule {
 	static forRoot(): ModuleWithProviders<RouteSelectQuestionModule> {
 		return {
 			ngModule: RouteSelectQuestionModule,
-			providers: [],
+			providers: [RouteSelectQuestionComponent],
 		};
 	}
 }

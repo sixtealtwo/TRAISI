@@ -59,7 +59,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Number
 	 * @memberof TextQuestionComponent
 	 */
 	public onResponseSaved(): void {
-		this.validationState.emit(ResponseValidationState.VALID);
+		// this.validationState.emit(ResponseValidationState.VALID);
 	}
 
 	/**
@@ -141,7 +141,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Number
 			let decimalResponse = <NumberResponseData>response[0];
 			this.model = '' + decimalResponse.value;
 			this._numberModel = Number(this.model.replace(/[^0-9\.]+/g, ''));
-			// this.validationState.emit(ResponseValidationState.VALID);
+			this.validationState.emit(ResponseValidationState.VALID);
 		}
 
 		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe((value) => {
@@ -158,7 +158,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Number
 						};
 						this.response.emit([data]);
 					} else {
-						// this.validationState.emit(ResponseValidationState.INVALID);
+						this.validationState.emit(ResponseValidationState.INVALID);
 					}
 				}
 			}

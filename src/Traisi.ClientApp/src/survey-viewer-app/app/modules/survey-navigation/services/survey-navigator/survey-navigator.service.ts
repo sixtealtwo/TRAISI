@@ -428,6 +428,7 @@ export class SurveyNavigator {
 	private _initState(navigationState: NavigationState): Observable<NavigationState> {
 		return new Observable((obs: Observer<NavigationState>) => {
 			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
+				console.log('here'); 
 				navigationState.activeQuestionInstances = [];
 				// navigationState.hiddenQuestions = [];
 				if (questionInstances.length > 0) {
@@ -499,6 +500,7 @@ export class SurveyNavigator {
 			for (let question of questions) {
 				evals.push(this._conditionalEvaluator.shouldHide(question, navigationState.activeRespondent));
 			}
+
 			return new Observable((obs) => {
 				forkJoin(evals).subscribe(
 					(
@@ -553,10 +555,15 @@ export class SurveyNavigator {
 										},
 									},
 								};
-
+								console.log('in here ');
 								questionInstances.push(questionInstance);
 							}
 						}
+						console.log('before apply');
+						questionInstances = this._viewTransformer.applyViewTransformations(
+							navigationState,
+							questionInstances
+						);
 						obs.next(questionInstances);
 						obs.complete();
 					}

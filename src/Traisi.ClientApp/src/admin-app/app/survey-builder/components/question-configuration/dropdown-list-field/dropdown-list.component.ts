@@ -17,7 +17,6 @@ export class DropdownListComponent implements OnInit {
 
 	public ngOnInit() {
 		let optionData = JSON.parse(this.questionConfiguration.resourceData)?.options;
-
 		if (optionData instanceof Array) {
 			optionData.forEach((element) => {
 				this.options.push(element);
@@ -30,11 +29,12 @@ export class DropdownListComponent implements OnInit {
 	 * @param last
 	 */
 	public processPriorValue(last: string): void {
+		console.log(last);
 		if (last) {
 			try {
-				let model = JSON.parse(last);
+				let model = last;
 				this.selectedFull = model;
-				this.selected = model.id;
+				this.selected = model;
 			} catch {}
 		}
 	}
