@@ -20,4 +20,6 @@ export interface QuestionInstance {
 	component: any;
 
 	questionInstanceState: QuestionInstanceState;
+
+	repeat: number;
 }

@@ -33,12 +33,7 @@
 			</div>
 		</nav>
 		<!-- Begin page content -->
-		<main
-			role="main"
-			class="ml-sm-auto survey-container"
-			[class.menuToggled]="!menuToggled"
-			#surveyBodyContainer
-		>
+		<main role="main" class="ml-sm-auto survey-container" [class.menuToggled]="!menuToggled" #surveyBodyContainer>
 			<div *ngIf="navigator.navigationState$ | async as state; else loading" class="questions-outer-container">
 				<div class="questions-container flex-grow-1" #questionsContainer>
 					<div
@@ -82,7 +77,7 @@
 									[id]="'#question' + question.model.questionId"
 									[surveyViewQuestion]="question.model"
 									[surveyId]="surveyId"
-									[repeatNumber]="0"
+									[repeatNumber]="question.repeat"
 									[sectionRepeatNumber]="0"
 									[questionSectionElement]="questionSectionElement"
 									#questions

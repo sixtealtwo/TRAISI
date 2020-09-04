@@ -39,10 +39,7 @@ export class ViewTransformer {
 	 */
 	public applyViewTransformations(state: NavigationState, instances: QuestionInstance[]): QuestionInstance[] {
 		let newState: NavigationState;
-		console.log('in apply');
-		console.log(this._viewTransformations); 
 		for (let t of this._viewTransformations) {
-			console.log(t);
 			instances = t.transformNavigationState(state, instances);
 		}
 		return instances;

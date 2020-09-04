@@ -428,7 +428,7 @@ export class SurveyNavigator {
 	private _initState(navigationState: NavigationState): Observable<NavigationState> {
 		return new Observable((obs: Observer<NavigationState>) => {
 			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
-				console.log('here'); 
+				console.log('here');
 				navigationState.activeQuestionInstances = [];
 				// navigationState.hiddenQuestions = [];
 				if (questionInstances.length > 0) {
@@ -542,6 +542,7 @@ export class SurveyNavigator {
 									index: navigationState.activeQuestionIndex,
 									model: result.question,
 									component: null,
+									repeat: 0,
 									questionInstanceState: null,
 									validationState: {
 										isValid: false,
@@ -555,15 +556,13 @@ export class SurveyNavigator {
 										},
 									},
 								};
-								console.log('in here ');
 								questionInstances.push(questionInstance);
 							}
 						}
-						console.log('before apply');
-						questionInstances = this._viewTransformer.applyViewTransformations(
-							navigationState,
-							questionInstances
-						);
+						//questionInstances = this._viewTransformer.applyViewTransformations(
+						//	navigationState,
+						//	questionInstances
+						// );
 						obs.next(questionInstances);
 						obs.complete();
 					}

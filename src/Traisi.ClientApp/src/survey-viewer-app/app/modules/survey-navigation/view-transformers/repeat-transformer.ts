@@ -30,6 +30,7 @@ export class RepeatTransformer extends ViewTransformation {
 				id: this.getQuestionInstanceId(question.model, 1, state.activeRespondent),
 				model: question.model,
 				questionInstanceState: null,
+				repeat: 1,
 				validationState: {
 					isValid: false,
 					questionValidationState: {
@@ -44,8 +45,10 @@ export class RepeatTransformer extends ViewTransformation {
 				index: state.activeQuestionIndex,
 			};
 			console.log('added clone');
-			// clones.push(clone);
+			clones.push(clone);
 		}
+		console.log(clones);
+		console.log(questionInstances.concat(clones));
 		return questionInstances.concat(clones);
 	}
 
