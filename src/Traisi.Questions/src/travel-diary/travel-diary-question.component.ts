@@ -4,6 +4,7 @@ import {
 	OnVisibilityChanged,
 	LocationResponseData,
 	TimelineResponseData,
+	ResponseValidationState,
 } from 'traisi-question-sdk';
 import {
 	Component,
@@ -91,11 +92,11 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
 		// this.scheduleComponent.refreshSubscription();
-		if (this.scheduleComponent) {
-			// this.scheduleComponent.refresh.next();
-		}
 		if (this._travelDiaryService.isTravelDiaryValid) {
 			this.saveTravelDiary();
+		}
+		if (this._travelDiaryService.isLoaded.value) {
+			this.validationState.emit(ResponseValidationState.VALID);
 		}
 	};
 

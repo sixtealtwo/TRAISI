@@ -18,7 +18,7 @@ export class QuestionInstanceState {
 	private _questionModel: SurveyViewQuestion;
 	private _questionInstance: SurveyQuestion<ResponseTypes>;
 	private _respondent: SurveyRespondent;
-
+	private _repeatIndex: number = 0;
 	public get questionInstance(): SurveyQuestion<ResponseTypes> {
 		return this._questionInstance;
 	}
@@ -46,6 +46,7 @@ export class QuestionInstanceState {
 		questionInstance: SurveyQuestion<ResponseTypes>,
 		repeatIndex: number = 0
 	): void {
+		this._repeatIndex = repeatIndex;
 		this._respondent = respondent;
 		this._questionInstance = questionInstance;
 		this._questionModel = questionModel;
@@ -78,12 +79,14 @@ export class QuestionInstanceState {
 	}
 
 	private loadSavedResponse(): void {
-		this._responseService.loadSavedResponse(this._questionModel, this._respondent, 0).subscribe((response) => {
-			this._questionInstance.savedResponse.next(
-				response === undefined || response === null ? 'none' : response.responseValues
-			);
-			this._questionInstance.traisiOnLoaded();
-		});
+		this._responseService
+			.loadSavedResponse(this._questionModel, this._respondent, this._repeatIndex)
+			.subscribe((response) => {
+				this._questionInstance.savedResponse.next(
+					response === undefined || response === null ? 'none' : response.responseValues
+				);
+				this._questionInstance.traisiOnLoaded();
+			});
 	}
 
 	/**
@@ -122,7 +125,7 @@ export class QuestionInstanceState {
 	 * @param result
 	 */
 	private onResponseSaved = (result: SurveyViewerValidationStateViewModel): void => {
-		console.log('response saved'); 
+		console.log('response saved');
 		if (result.isValid) {
 			result.clientValidationState = ResponseValidationState.VALID;
 		} else {

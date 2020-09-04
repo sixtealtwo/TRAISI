@@ -87,6 +87,7 @@ export class TravelDiaryService {
 		this.configuration.mode = this._configuration.mode ?? [];
 		this.loadAddresses();
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
+
 			let primaryHomeAddress: any = {};
 			if (respondents.length > 0) {
 				primaryHomeAddress = respondents[0].homeAddress;
@@ -113,10 +114,12 @@ export class TravelDiaryService {
 					this._edtior.reAlignTimeBoundaries(this.respondents, this._diaryEvents);
 					if (this._diaryEvents.length === 0) {
 						this.loadPriorResponseData();
+						this.isLoaded.next(true);
 					} else {
+						this.isLoaded.next(true);
 						this.diaryEvents$.next(this._diaryEvents);
 					}
-					this.isLoaded.next(true);
+					
 				},
 				complete: () => console.log('complete'),
 			});
@@ -220,7 +223,7 @@ export class TravelDiaryService {
 			}
 		}
 		if (this.configuration.schoolOutside) {
-			if (this.configuration.workOutside.length > 1) {
+			if (this.configuration.schoolOutside.length > 1) {
 				let schoolModel1 = <SurveyViewQuestion>(
 					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.schoolOutside[0].label))
 				);
@@ -232,8 +235,8 @@ export class TravelDiaryService {
 					schoolLocationId = schoolModel1.questionId;
 					madeSchoolTripId = schoolModel2.questionId;
 				} else {
-					workLocationId = schoolModel2.questionId;
-					madeWorkTripId = schoolModel1.questionId;
+					schoolLocationId = schoolModel2.questionId;
+					madeSchoolTripId = schoolModel1.questionId;
 				}
 				questionIds.push(schoolModel1);
 				questionIds.push(schoolModel2);
@@ -277,6 +280,8 @@ export class TravelDiaryService {
 		let toRemove = [];
 		for (let r of this.respondents) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
+			console.log(workDepartureId);
+			console.log(responseMatches);
 			// responses belonging to a specific user
 			const isHomeAllDay =
 				responseMatches.find((x) => x.questionId === homeAllDayId)?.responseValues[0].code?.toUpperCase() ===

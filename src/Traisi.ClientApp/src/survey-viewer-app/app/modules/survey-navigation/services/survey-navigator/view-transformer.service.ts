@@ -3,6 +3,7 @@ import { ViewTransformation } from '../../view-transformers/view-transformation'
 import { NavigationState } from 'app/models/navigation-state.model';
 import { RepeatTransformer } from '../../view-transformers/repeat-transformer';
 import { QuestionInstance } from 'app/models/question-instance.model';
+import { Observable, concat } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -37,11 +38,13 @@ export class ViewTransformer {
 	 *
 	 * @param state
 	 */
-	public applyViewTransformations(state: NavigationState, instances: QuestionInstance[]): QuestionInstance[] {
+	public applyViewTransformations(
+		state: NavigationState,
+		instances: QuestionInstance[]
+	): Observable<QuestionInstance[]> {
 		let newState: NavigationState;
-		for (let t of this._viewTransformations) {
-			instances = t.transformNavigationState(state, instances);
-		}
-		return instances;
+		let transforms = [];
+
+		return this._viewTransformations[0].transformNavigationState(state, instances);
 	}
 }

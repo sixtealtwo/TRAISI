@@ -32,6 +32,7 @@ export class TravelDiaryEditor {
 		schoolLoation?: any
 	): TravelDiaryEvent[] {
 		let events: TravelDiaryEvent[] = [];
+		console.log(workDeparture);
 		if (homeAllDay) {
 			events = events.concat(this.createHomeAllDayEvent(user));
 			return events;
@@ -172,12 +173,12 @@ export class TravelDiaryEditor {
 			event.meta.model.timeA = new Date(response.timeA);
 			event.meta.model.users = [respondent];
 			event.meta.model.isValid = true;
+			event.meta.model.displayId = this.generateId();
 			events.push(event);
 			if (responses.length === 1 && responses[0].purpose.toLowerCase() === 'home') {
 				event.meta.homeAllDay = true;
 			}
 		}
-
 	}
 
 	/**
@@ -187,10 +188,15 @@ export class TravelDiaryEditor {
 	 */
 	public updateEvent(update: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]) {
 		// find the event
-		let evt = events.find((x) => x.id === update.displayId);
+
+		let evt = events.find((x) => x.meta.model.displayId === update.displayId);
 		if (evt) {
-			evt.meta.model = Object.assign(evt.meta.model, update);
+			let newModel = Object.assign(evt.meta.model, update);
+
+			evt.meta.model = newModel;
 			evt.meta.model.isValid = true;
+		} else {
+
 		}
 		this.reAlignTimeBoundaries(update.users, events);
 	}

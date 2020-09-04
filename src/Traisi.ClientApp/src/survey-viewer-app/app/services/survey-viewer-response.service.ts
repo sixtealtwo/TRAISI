@@ -253,6 +253,7 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 				})
 			);
 	}
+
 	/**
 	 * Preloads / retrieves a set of responses in bulk and stores them for later access.
 	 * @param questionIds A list of question IDs to load responses for.

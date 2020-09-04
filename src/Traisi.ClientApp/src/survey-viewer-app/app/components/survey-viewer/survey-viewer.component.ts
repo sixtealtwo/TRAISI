@@ -73,7 +73,6 @@ interface SpecialPageDataInput {
 	providers: [SurveyViewerProviders],
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
-
 	public get viewerState(): SurveyViewerState {
 		return this._viewerStateService.viewerState;
 	}
@@ -474,6 +473,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			console.log('no previous data, using base initialized');
 			this.navigator.initialize().subscribe();
 		}
+		console.log(this._viewerStateService);
 	}
 
 	public trackById(index: number, item: QuestionInstance): string {

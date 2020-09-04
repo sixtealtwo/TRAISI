@@ -226,6 +226,14 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					provide: TraisiValues.SurveyQuestion,
 					useValue: this.question,
 				},
+				{
+					provide: TraisiValues.RepeatSource,
+					useValue: this.questionInstance.repeatSource,
+				},
+				{
+					provide: TraisiValues.RepeatValue,
+					useValue: this.questionInstance.repeatValue,
+				},
 				this.createServerConfigProviders(),
 				questionProviders,
 			],
@@ -265,11 +273,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				this._instanceState.initialize(this.respondent, this.surveyViewQuestion, componentRef.instance);
 
-				surveyQuestionInstance.autoAdvance.subscribe((result: number) => {
-					setTimeout(() => {
-						this.autoAdvance();
-					}, result);
-				});
 				this._navigator.navigationState$.getValue().activeQuestionInstances[
 					this.activeQuestionIndex
 				].component = surveyQuestionInstance;

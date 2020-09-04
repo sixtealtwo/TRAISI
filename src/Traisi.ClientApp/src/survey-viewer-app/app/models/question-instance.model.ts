@@ -2,7 +2,6 @@ import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
 import { SurveyViewQuestion } from 'traisi-question-sdk';
 
-
 /**
  * Represents a question isntance that is displayable.
  * @export
@@ -22,4 +21,11 @@ export interface QuestionInstance {
 	questionInstanceState: QuestionInstanceState;
 
 	repeat: number;
+
+	// the specific value that is fed into repeat, ie, an index, or ordered 
+	// response
+	repeatValue?: any;
+
+	// the entire repeat source (question response)
+	repeatSource?: any;
 }

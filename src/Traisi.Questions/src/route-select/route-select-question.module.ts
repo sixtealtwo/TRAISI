@@ -13,11 +13,13 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule } from '@angular/forms';
 import { RouteSelectQuestionComponent } from './route-select-question.component';
+import { GeoServiceClient } from './geoservice-api-client.service';
 
 @NgModule({
 	declarations: [RouteSelectQuestionComponent],
 	entryComponents: [RouteSelectQuestionComponent],
 	providers: [
+		GeoServiceClient,
 		{
 			provide: 'widgets',
 			useValue: [

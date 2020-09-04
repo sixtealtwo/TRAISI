@@ -510,6 +510,7 @@ export class SurveyNavigator {
 						}>
 					) => {
 						let order = 0;
+						console.log(results);
 						for (let result of results) {
 							result.question.isHidden = result.shouldHide;
 
@@ -559,12 +560,12 @@ export class SurveyNavigator {
 								questionInstances.push(questionInstance);
 							}
 						}
-						//questionInstances = this._viewTransformer.applyViewTransformations(
-						//	navigationState,
-						//	questionInstances
-						// );
-						obs.next(questionInstances);
-						obs.complete();
+						this._viewTransformer
+							.applyViewTransformations(navigationState, questionInstances)
+							.subscribe((instances: QuestionInstance[]) => {
+								obs.next(instances);
+								obs.complete();
+							});
 					}
 				);
 			});

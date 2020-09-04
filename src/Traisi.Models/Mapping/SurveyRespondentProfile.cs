@@ -153,6 +153,7 @@ namespace Traisi.Models.Mapping
             List<Dictionary<string, object>> responseValues = new List<Dictionary<string, object>>();
             foreach (var response in source.ResponseValues)
             {
+
                 var obj = response.GetType()
                             .GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(f =>
                             {
@@ -160,7 +161,13 @@ namespace Traisi.Models.Mapping
                             })
                           .ToDictionary<PropertyInfo, string, object>(prop => NamesContractResolver.GetResolvedPropertyName(prop.Name), prop => prop.GetValue(response, null));
 
+                if (response is TimelineResponse res)
+                {
+                    obj["latitude"] = res.Location.Coordinate.X;
+                    obj["longitude"] = res.Location.Coordinate.Y;
+                }
                 responseValues.Add(obj);
+
             }
 
             return responseValues;

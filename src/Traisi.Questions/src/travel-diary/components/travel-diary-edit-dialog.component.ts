@@ -121,6 +121,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public dialogSave(): void {
+		console.log(this.model);
 		this.hide();
 		if (this.dialogMode === DialogMode.New) {
 			this.newEventSaved.emit(this.model);
@@ -223,6 +224,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.model.address = response['address'];
 		this.model.latitude = response['latitude'];
 		this.model.longitude = response['longitude'];
+		console.log(this.model);
 	}
 
 	public ngAfterViewInit(): void {}

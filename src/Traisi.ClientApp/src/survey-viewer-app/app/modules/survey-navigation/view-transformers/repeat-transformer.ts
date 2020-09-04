@@ -6,12 +6,18 @@ import { ViewTransformer } from '../services/survey-navigator/view-transformer.s
 import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
 import { QuestionInstance } from 'app/models/question-instance.model';
 import { ValidationState } from 'app/services/survey-viewer-api-client.service';
+import { Observable } from 'rxjs';
+import { SurveyViewerStateService } from 'app/services/survey-viewer-state.service';
+
+const transit_modes = ['transit-all-way', 'transit-park-ride', 'transit-kiss-ride', 'transit-cycle-ride'];
+
 @Injectable({
 	providedIn: 'root',
 })
 export class RepeatTransformer extends ViewTransformation {
 	public constructor(
-		@Inject(TraisiValues.SurveyResponseService) private _responseService: SurveyViewerResponseService
+		@Inject(TraisiValues.SurveyResponseService) private _responseService: SurveyViewerResponseService,
+		private _state: SurveyViewerStateService
 	) {
 		super();
 	}
@@ -20,17 +26,69 @@ export class RepeatTransformer extends ViewTransformation {
 	 * as the result of conditional logic evaluation.
 	 * @param state
 	 */
-	public transformNavigationState(state: NavigationState, questionInstances: QuestionInstance[]): QuestionInstance[] {
+	public transformNavigationState(
+		state: NavigationState,
+		questionInstances: QuestionInstance[]
+	): Observable<QuestionInstance[]> {
 		// loop through the active question instances and duplicate them
-		console.log('in transform');
+
 		let clones = [];
+		let toLoad = [];
 		for (let question of questionInstances) {
+			if (question.model.repeatSource > 0) {
+				toLoad.push(this._state.viewerState.questionMap[question.model.repeatSource]);
+			}
+		}
+		return new Observable((obs) => {
+			this._responseService.loadSavedResponses(toLoad, state.activeRespondent).subscribe({
+				complete: () => {
+					for (let question of questionInstances) {
+						if (question.model.repeatSource === 0) {
+							clones.push(question);
+							continue;
+						}
+						let response = this._responseService.getStoredResponse(
+							this._state.viewerState.questionMap[question.model.repeatSource],
+							state.activeRespondent
+						);
+
+						// count how many needed
+						let cloneCount: number = 0;
+						let responses = [];
+						for (let r of response) {
+							if (transit_modes.includes(r['mode'])) {
+								cloneCount++;
+								responses.push(r);
+							}
+						}
+
+						clones = clones.concat(this.createClones(cloneCount, question, state, responses, response));
+					}
+					let result = clones;
+					obs.next(result);
+					obs.complete();
+				},
+			});
+		});
+	}
+
+	private createClones(
+		count: number,
+		question: QuestionInstance,
+		state: NavigationState,
+		responses: any[],
+		fullResponses: any[]
+	): QuestionInstance[] {
+		let clones = [];
+		for (let i = 0; i < count; i++) {
 			let clone: QuestionInstance = {
 				component: undefined,
-				id: this.getQuestionInstanceId(question.model, 1, state.activeRespondent),
+				id: this.getQuestionInstanceId(question.model, i, state.activeRespondent),
 				model: question.model,
 				questionInstanceState: null,
-				repeat: 1,
+				repeat: i,
+				repeatValue: responses[i],
+				repeatSource: fullResponses,
 				validationState: {
 					isValid: false,
 					questionValidationState: {
@@ -44,12 +102,9 @@ export class RepeatTransformer extends ViewTransformation {
 				},
 				index: state.activeQuestionIndex,
 			};
-			console.log('added clone');
 			clones.push(clone);
 		}
-		console.log(clones);
-		console.log(questionInstances.concat(clones));
-		return questionInstances.concat(clones);
+		return clones;
 	}
 
 	private getQuestionInstanceId(
