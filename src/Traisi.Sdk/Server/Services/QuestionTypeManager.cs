@@ -79,8 +79,9 @@ namespace Traisi.Sdk.Services
             if (typeDefinition.Type is QuestionHook)
             {
                 typeDefinition.Hook = typeDefinition.Type as QuestionHook;
-                Console.WriteLine("Has hook");
+
             }
+            Console.WriteLine(typeDefinition.Type);
             var configurations = ReadQuestionConfigurationData(questionType, sourceAssembly);
             typeDefinition.QuestionConfigurations = configurations;
             var parameterOptions = ReadQuestionOptionData(questionType, sourceAssembly);

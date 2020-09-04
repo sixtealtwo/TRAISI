@@ -353,6 +353,9 @@ namespace Traisi.Services
                 case QuestionResponseType.String:
                     return new List<IResponseType>()
                     { response[0].ToObject<StringResponse>() };
+                   case QuestionResponseType.Number:
+                    return new List<IResponseType>()
+                    { response[0].ToObject<NumberResponse>() };
                 case QuestionResponseType.Location:
                     return new List<IResponseType>()
                     { response[0].ToObject<LocationResponse>() };

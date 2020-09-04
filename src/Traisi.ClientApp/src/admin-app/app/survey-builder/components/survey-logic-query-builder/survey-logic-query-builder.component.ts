@@ -130,8 +130,6 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy, OnCh
 		let value = $event.map((i) => i.code);
 		rule.value = value;
 		this.modelChanged$.next(this.queryModels[index]);
-		
-		
 	}
 
 	public onFieldValueChanged($event: SurveyLogicField, rule: Rule) {
@@ -294,10 +292,7 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy, OnCh
 					value: question.questionPart.id + '.value',
 					questionId: -1,
 				};
-			} 
-			else if (
-				responseType == QuestionResponseType.Timeline
-			) {
+			} else if (responseType == QuestionResponseType.Timeline) {
 				this.initQuestionOptionsQuery(questionList, String(question.questionPart.id));
 				this.config.fields[question.questionPart.id + '.value'] = {
 					entity: entityTypeMap[1].value,
@@ -307,8 +302,7 @@ export class SurveyLogicQueryBuilderComponent implements OnInit, OnDestroy, OnCh
 					value: question.questionPart.id + '.value',
 					questionId: -1,
 				};
-			}
-			else {
+			} else {
 				this.config.fields[question.questionPart.id + '.value'] = {
 					entity: entityTypeMap[1].value,
 					name: question.questionPart.name,

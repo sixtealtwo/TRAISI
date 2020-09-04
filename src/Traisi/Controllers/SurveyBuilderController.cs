@@ -319,7 +319,8 @@ namespace Traisi.Controllers
                     {
                         var questionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(updatedQPartView.Id);
                         this._surveyBuilderService.UpdateQuestionPartName(surveyId, questionPartView.QuestionPart, updatedQPartView.QuestionPart?.Name);
-                        this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.repeatSourceQuestionName, updatedQPartView.Icon);
+                        this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.repeatSourceQuestionName, 
+                        updatedQPartView.repeatSourceQuestionId, updatedQPartView.Icon);
                         this._surveyBuilderService.SetQuestionPartViewLabel(questionPartView, updatedQPartView.Label.Value, updatedQPartView.Label.Language);
                         this._surveyBuilderService.SetQuestionPartViewDescriptionLabel(questionPartView, updatedQPartView.DescriptionLabel.Value, updatedQPartView.Label.Language);
                         questionPartView.IsMultiView = updatedQPartView.IsMultiView;
@@ -327,7 +328,8 @@ namespace Traisi.Controllers
                         if (updatedQPartView.CATIDependent != null)
                         {
                             var catiConnectedQPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(updatedQPartView.CATIDependent.Id);
-                            this._surveyBuilderService.UpdateQuestionPartViewOptions(catiConnectedQPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.repeatSourceQuestionName, updatedQPartView.Icon);
+                            this._surveyBuilderService.UpdateQuestionPartViewOptions(catiConnectedQPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, 
+                            updatedQPartView.repeatSourceQuestionName,updatedQPartView.repeatSourceQuestionId, updatedQPartView.Icon);
                             this._surveyBuilderService.SetQuestionPartViewLabel(catiConnectedQPartView, updatedQPartView.CATIDependent.Label.Value, updatedQPartView.Label.Language);
                         }
 

@@ -49,6 +49,7 @@
 		"rxjs": "^6.6.2",
 		"save-dev": "0.0.1-security",
 		"select2": "^4.0.13",
+		"text-mask": "0.0.2",
 		"text-mask-addons": "^3.8.0",
 		"webpack-visualizer-plugin": "^0.1.11"
 	},

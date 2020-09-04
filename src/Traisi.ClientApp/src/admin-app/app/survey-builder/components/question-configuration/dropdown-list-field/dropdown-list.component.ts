@@ -16,10 +16,13 @@ export class DropdownListComponent implements OnInit {
 	public constructor(private alertService: AlertService) {}
 
 	public ngOnInit() {
-		let optionData = JSON.parse(this.questionConfiguration.resourceData);
-		optionData.forEach((element) => {
-			this.options.push(element);
-		});
+		let optionData = JSON.parse(this.questionConfiguration.resourceData)?.options;
+
+		if (optionData instanceof Array) {
+			optionData.forEach((element) => {
+				this.options.push(element);
+			});
+		}
 	}
 
 	/**
@@ -31,7 +34,7 @@ export class DropdownListComponent implements OnInit {
 			try {
 				let model = JSON.parse(last);
 				this.selectedFull = model;
-				this.selected = model.id
+				this.selected = model.id;
 			} catch {}
 		}
 	}
