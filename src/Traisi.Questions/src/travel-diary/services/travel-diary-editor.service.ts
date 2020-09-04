@@ -28,48 +28,67 @@ export class TravelDiaryEditor {
 		returnedHome: boolean,
 		workLocation?: any,
 		schoolLoation?: any
-	): CalendarEvent[] {
-		let events: CalendarEvent[] = [];
+	): TravelDiaryEvent[] {
+		let events: TravelDiaryEvent[] = [];
 		console.log('in create event');
 		if (homeAllDay) {
 			events = events.concat(this.createHomeAllDayEvent(user));
+			return events;
+		} else if (workDeparture || schoolDeparture) {
+			let homeEvent = this.createHomeStartEvent(user);
+			events.push(homeEvent);
 		}
+
+		if (returnedHome) {
+			let homeEndEvent = this.createHomeEndEvent(user);
+			events.push(homeEndEvent);
+		}
+
 		if (workDeparture) {
-			events = events.concat(this.createHomeWorkHomeEvent(user, workLocation));
+			let workEvent = this.createHomeWorkHomeEvent(user, workLocation, returnedHome);
+			events.push(workEvent);
 		}
 		if (schoolDeparture) {
-			events = events.concat(this.createHomeSchoolHomeEvent(user, schoolLoation));
+			let schoolEvent = this.createHomeSchoolHomeEvent(user, schoolLoation, returnedHome);
+			events.push(schoolEvent);
 		}
 
 		return events;
 	}
 
-	private createHomeWorkHomeEvent(
-		user: SurveyRespondentUser,
-		workLocation: LocationResponseData
-	): TravelDiaryEvent[] {
-		console.log('creating home work home');
-
+	private createHomeStartEvent(user: SurveyRespondentUser): TravelDiaryEvent {
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
-		let workEvent = this.createBaseEvent(user, 'Work (Not Home)', 'work');
-		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
 		homeEvent.end = new Date(new Date().setHours(9, 0, 0, 0));
-		workEvent.start = new Date(new Date().setHours(9, 1, 0, 0));
-		workEvent.end = new Date(new Date().setHours(17, 0, 0, 0));
+		homeEvent.meta.model.isValid = true;
+		return homeEvent;
+	}
 
-		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
-		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
-
+	private createHomeEndEvent(user: SurveyRespondentUser): TravelDiaryEvent {
+		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
 		returnHomeEvent.start = new Date(new Date().setHours(17, 1, 0, 0));
 		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
+		returnHomeEvent.meta.model.isValid = false;
+		return returnHomeEvent;
+	}
 
-		return [homeEvent, workEvent, returnHomeEvent];
+	private createHomeWorkHomeEvent(
+		user: SurveyRespondentUser,
+		workLocation: LocationResponseData,
+		returnedHome: boolean
+	): TravelDiaryEvent {
+		let workEvent = this.createBaseEvent(user, 'Work (Not Home)', 'work');
+		workEvent.start = new Date(new Date().setHours(9, 1, 0, 0));
+		workEvent.end = new Date(new Date().setHours(17, 0, 0, 0));
+		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
+		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
+		return workEvent;
 	}
 
 	private createHomeSchoolHomeEvent(
 		user: SurveyRespondentUser,
-		schoolLocation: LocationResponseData
-	): TravelDiaryEvent[] {
+		schoolLocation: LocationResponseData,
+		returnedHome: boolean
+	): TravelDiaryEvent {
 		console.log('creating home work home');
 
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
@@ -85,7 +104,7 @@ export class TravelDiaryEditor {
 		returnHomeEvent.start = new Date(new Date().setHours(17, 1, 0, 0));
 		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
 
-		return [homeEvent, workEvent, returnHomeEvent];
+		return workEvent;
 	}
 
 	/**

@@ -89,8 +89,11 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	private resetModel(): void {
 		if (!this.model) {
+			let id = Date.now();
 			this.model = {
-				id: Date.now(),
+				id: undefined,
+				displayId: id,
+				isValid: false,
 				address: undefined,
 				latitude: 0,
 				longitude: 0,
@@ -114,7 +117,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public eventInputChanges($event): void {
-		console.log(this.eventInputChanges);
+		// console.log(this.eventInputChanges);
 	}
 
 	public dialogSave(): void {
@@ -147,9 +150,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.resetForm();
 		} else {
 			// this.eventForm.form.markAllAsTouched();
-			// this.eventForm.form.updateValueAndValidity(); 
+			// this.eventForm.form.updateValueAndValidity();
 			this.model = Object.assign({}, model);
-
 		}
 
 		this.modal.show();

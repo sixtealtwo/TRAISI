@@ -208,20 +208,20 @@ namespace Traisi.Services
                     {
                         return false;
                     }
-                    JObject compareObj = null;
-                    JObject compareObj2 = null;
+                    Address compareObj = null;
+                    Address compareObj2 = null;
                     try
                     {
-                        compareObj = JObject.Parse((compareResponse.ResponseValues[0] as LocationResponse).Address);
-                        compareObj2 = JObject.Parse((response.ResponseValues[0] as LocationResponse).Address);
+                        compareObj = (compareResponse.ResponseValues[0] as LocationResponse).Address;
+                        compareObj2 = ((response.ResponseValues[0] as LocationResponse).Address);
                     }
                     catch (Exception e)
                     {
                         return false;
                     }
-                    var addr = compareObj.Value<string>("staddress");
-                    if (compareObj.Value<string>("staddress") == compareObj2.Value<string>("staddress") && compareObj.Value<string>("stnumber") == compareObj2.Value<string>("stnumber") &&
-                    compareObj.Value<string>("postal") == compareObj2.Value<string>("postal"))
+                    var addr = compareObj.StreetAddress;
+                    if (compareObj.StreetAddress == compareObj2.StreetAddress && compareObj.StreetNumber == compareObj2.StreetNumber &&
+                    compareObj.PostalCode == compareObj2.PostalCode)
 
                     {
                         return true;

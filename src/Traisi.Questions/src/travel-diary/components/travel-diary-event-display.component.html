@@ -4,7 +4,8 @@
 			{{ timeEvent.event.meta.model.purpose }}
 		</div>
 		<div class="event-name">
-			{{ timeEvent.event.title }}
+			<span *ngIf="!timeEvent.event.meta.model.isValid" class="invalid-icon"><i class="fas fa-exclamation-triangle"></i></span
+			>{{ timeEvent.event.title }}
 		</div>
 	</div>
 	<div class="event-message-group">
@@ -17,19 +18,19 @@
 	<div class="mode-address-group">
 		<div class="event-mode">
 			<div *ngIf="!timeEvent.event.meta.model.mode && !timeEvent.event.meta.homeAllDay" class="no-mode-message">
-				This auto generated event has no travel mode assigned, please click the event and choose
-				a travel mode you used to reach the destination.
+				This auto generated event has no travel mode assigned, please click the event and choose a travel mode
+				you used to reach the destination.
 			</div>
 			{{ timeEvent.event.meta.model.mode?.label }}
 		</div>
-		<div class="event-address"><i class="fas fa-map-marked-alt"></i> 
-			<div *ngIf="timeEvent.event.meta.model?.address">
+		<div class="event-address">
+			<i class="fas fa-map-marked-alt"></i>
+			<span *ngIf="timeEvent.event.meta.model?.address">
 				{{ timeEvent.event.meta.model.address }}
-			</div>
-			<div *ngIf="!timeEvent.event.meta.model?.address">
+			</span>
+			<span *ngIf="!timeEvent.event.meta.model?.address">
 				Please choose a location.
-			</div>
-		
+			</span>
 		</div>
 	</div>
 </div>

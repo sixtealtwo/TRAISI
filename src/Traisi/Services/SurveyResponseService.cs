@@ -135,6 +135,7 @@ namespace Traisi.Services
                     ._questionTypeManager
                     .QuestionTypeDefinitions[question.QuestionType];
 
+
             if (type.ResponseValidator != null)
             {
                 var responseDataUnwrapped =
@@ -267,11 +268,16 @@ namespace Traisi.Services
                         .ListSurveyLogicErrorsForResponse(surveyResponse,
                         respondent);
                 errorList.AddRange(errors);
+                if (type.Hook != null)
+                {
+                    type.Hook.Execute(respondent, surveyResponse.ResponseValues.Cast<IResponseType>(), surveyResponse.QuestionPart.QuestionConfigurations.Cast<IQuestionConfiguration>());
+                }
                 if (errorList.Count == 0 || force)
                 {
                     this._unitOfWork.SurveyResponses.Update(surveyResponse);
                     await this._unitOfWork.SaveChangesAsync();
                 }
+
                 return new SurveyResponseValidationState()
                 {
                     IsValid = errorList.Count == 0 || force ? true : false,
@@ -500,7 +506,7 @@ namespace Traisi.Services
                 values
                     .Add(new TimelineResponse()
                     {
-                        Address = responseValue.Address.ToString(),
+                        Address = responseValue.Address,
                         Name = responseValue.Name,
                         Purpose = responseValue.Purpose,
                         Order = responseValue.Order,
@@ -552,8 +558,7 @@ namespace Traisi.Services
             }
             (response.ResponseValues[0] as LocationResponse).Location =
                 new Point(responseData.Longitude, responseData.Latitude);
-            (response.ResponseValues[0] as LocationResponse).Address =
-                responseData.Address.ToString();
+            (response.ResponseValues[0] as LocationResponse).Address = responseData.Address;
             return;
         }
 

@@ -20,7 +20,7 @@
 <div class="form-group form-group-adjust row">
 	
 	<div class="col-md-9 custom-control custom-checkbox">
-		<input type="checkbox" class="custom-control-input" id="{{ 'config-check-' + id }}" />
+		<input type="checkbox" class="custom-control-input" id="{{ 'config-check-' + id }}"[(ngModel)]="switchValue" />
 		<label class="custom-control-label" for="{{ 'config-check-' + id }}">{{ questionConfiguration.name }}</label>
 		<small id="{{ 'config-description-' + id }}" class="form-text text-muted">
 			{{ questionConfiguration.description }}

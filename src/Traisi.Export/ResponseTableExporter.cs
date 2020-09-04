@@ -19,6 +19,7 @@ using Traisi.Sdk.Enums;
 using Traisi.Data.Models.ResponseTypes;
 using Traisi.Data.Models.Questions;
 using Traisi.Sdk.Services;
+using Traisi.Sdk.Interfaces;
 
 namespace TRAISI.Export
 {

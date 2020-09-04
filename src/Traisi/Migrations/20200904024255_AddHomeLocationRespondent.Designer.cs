@@ -2,18 +2,19 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Traisi.Data;
-using Traisi.Sdk.Interfaces;
 
 namespace Traisi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200904024255_AddHomeLocationRespondent")]
+    partial class AddHomeLocationRespondent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1249,9 +1250,6 @@ namespace Traisi.Migrations
                     b.Property<bool>("HasConsent")
                         .HasColumnType("boolean");
 
-                    b.Property<Address>("HomeAddress")
-                        .HasColumnType("jsonb");
-
                     b.Property<Point>("HomeLocation")
                         .HasColumnType("geometry");
 
@@ -1423,7 +1421,7 @@ namespace Traisi.Migrations
                 {
                     b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
-                    b.Property<Address>("Address")
+                    b.Property<string>("Address")
                         .HasColumnType("jsonb");
 
                     b.Property<Point>("Location")

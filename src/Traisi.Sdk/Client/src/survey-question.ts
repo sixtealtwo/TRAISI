@@ -4,6 +4,7 @@ import { QuestionConfiguration } from './question-configuration'
 import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs'
 import { QuestionOption } from './question-option'
 import { SurveyRespondent } from './survey-respondent.model'
+import { Address } from './models'
 
 /**
  * Base abstract class for Survey Questions available to TRAISI
@@ -73,9 +74,9 @@ export abstract class SurveyQuestion<
 
   public displayClass: string = ''
 
-  public isFillVertical: boolean = false;
+  public isFillVertical: boolean = false
 
-  public preferredHeight: number = undefined;
+  public preferredHeight: number = undefined
 
   public respondent: SurveyRespondent
 
@@ -221,14 +222,14 @@ export interface LocationResponseData
   extends ResponseData<ResponseTypes.Location> {
   latitude: number
   longitude: number
-  address: string
+  address: Address
 }
 
 export interface TimelineResponseData
   extends ResponseData<ResponseTypes.Timeline> {
   latitude: number
   longitude: number
-  address: string
+  address: Address
   timeA: Date
   timeB: Date
   name: string

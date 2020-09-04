@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using Traisi.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using NetTopologySuite.Geometries;
+using Traisi.Sdk.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Traisi.Data.Models.Surveys
 {
-
-
     public abstract class SurveyRespondent : ISurveyRespondent
     {
         public int Id { get; set; }
@@ -16,7 +17,10 @@ namespace Traisi.Data.Models.Surveys
 
         public bool HasConsent { get; set; }
         public SurveyRespondentGroup SurveyRespondentGroup { get; set; }
+        public Point HomeLocation { get; set; }
 
+        [Column(TypeName = "jsonb")]
+        public Address HomeAddress { get; set; }
 
     }
 }

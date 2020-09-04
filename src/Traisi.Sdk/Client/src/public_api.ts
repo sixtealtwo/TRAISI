@@ -73,7 +73,7 @@ export { SurveyViewerValidationStateViewModel } from './survey-validation.model'
 export { SurveyViewQuestion } from './survey-view-question.model'
 export { SurveyViewPage } from './survey-view-page.model'
 export { SurveyViewSection } from './survey-view-section.model'
-export { SurveyResponseViewModel, ResponseModel } from './models'
+export { SurveyResponseViewModel, ResponseModel, Address } from './models' 
 export {
   SurveyLogicCondition,
   SurveyLogicOperator,
