@@ -605,6 +605,8 @@ export class SurveyNavigator {
 				break;
 			}
 		}
+		console.log(allValid);
+		console.log(state.activeQuestionInstances);
 		return allValid;
 	}
 
@@ -625,7 +627,13 @@ export class SurveyNavigator {
 		result: SurveyViewerValidationStateViewModel
 	): void {
 		let match = this._currentState.activeQuestionInstances.find(
-			(i) => i.id === this.getQuestionInstanceId(instanceState.guestionModel, 0, instanceState.respondent)
+			(i) =>
+				i.id ===
+				this.getQuestionInstanceId(
+					instanceState.guestionModel,
+					instanceState.repeatNumber,
+					instanceState.respondent
+				)
 		);
 		if (match) {
 			match.validationState = result;

@@ -271,7 +271,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this.question.configuration
 				);
 
-				this._instanceState.initialize(this.respondent, this.surveyViewQuestion, componentRef.instance);
+				this._instanceState.initialize(
+					this.respondent,
+					this.surveyViewQuestion,
+					componentRef.instance,
+					this.questionInstance.repeat
+				);
 
 				this._navigator.navigationState$.getValue().activeQuestionInstances[
 					this.activeQuestionIndex

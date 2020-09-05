@@ -31,6 +31,10 @@ export class QuestionInstanceState {
 		return this._respondent;
 	}
 
+	public get repeatNumber(): number {
+		return this._repeatIndex;
+	}
+
 	public validationState$: BehaviorSubject<SurveyViewerValidationStateViewModel>;
 	public constructor(private _responseService: SurveyViewerResponseService, private _navigator: SurveyNavigator) {}
 
@@ -96,8 +100,14 @@ export class QuestionInstanceState {
 	private onSaveResponse = (response: ResponseData<ResponseTypes>[] | ResponseData<ResponseTypes>[]): void => {
 		// submit the response, convert it to single element
 		// array if not done so
+		console.log(this._repeatIndex);
 		this._responseService
-			.saveResponse(this._questionModel, this._respondent, 0, Array.isArray(response) ? response : [response])
+			.saveResponse(
+				this._questionModel,
+				this._respondent,
+				this._repeatIndex,
+				Array.isArray(response) ? response : [response]
+			)
 			.subscribe(this.onResponseSaved);
 	};
 
@@ -110,11 +120,12 @@ export class QuestionInstanceState {
 		respondent: SurveyRespondent;
 		response: ResponseData<ResponseTypes>[];
 	}): void => {
+		console.log(this._repeatIndex);
 		this._responseService
 			.saveResponse(
 				this._questionModel,
 				response.respondent,
-				0,
+				this._repeatIndex,
 				Array.isArray(response.response) ? response.response : [response.response]
 			)
 			.subscribe(this.onResponseSaved);
@@ -125,7 +136,6 @@ export class QuestionInstanceState {
 	 * @param result
 	 */
 	private onResponseSaved = (result: SurveyViewerValidationStateViewModel): void => {
-		console.log('response saved');
 		if (result.isValid) {
 			result.clientValidationState = ResponseValidationState.VALID;
 		} else {
