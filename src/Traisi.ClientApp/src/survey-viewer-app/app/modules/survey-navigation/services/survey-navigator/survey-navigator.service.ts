@@ -428,7 +428,6 @@ export class SurveyNavigator {
 	private _initState(navigationState: NavigationState): Observable<NavigationState> {
 		return new Observable((obs: Observer<NavigationState>) => {
 			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
-				console.log('here');
 				navigationState.activeQuestionInstances = [];
 				// navigationState.hiddenQuestions = [];
 				if (questionInstances.length > 0) {
@@ -446,7 +445,7 @@ export class SurveyNavigator {
 					for (let question of questionInstances) {
 						let instanceId = this.getQuestionInstanceId(
 							question.model,
-							0,
+							question.repeat,
 							navigationState.activeRespondent
 						);
 						let prevIdx = findIndex(
@@ -510,7 +509,6 @@ export class SurveyNavigator {
 						}>
 					) => {
 						let order = 0;
-						console.log(results);
 						for (let result of results) {
 							result.question.isHidden = result.shouldHide;
 

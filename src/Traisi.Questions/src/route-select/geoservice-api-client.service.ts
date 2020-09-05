@@ -130,7 +130,7 @@ export class GeoServiceClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    routePlanner(arrivalLat: number, arrivalLng: number, departureLat: number, departureLng: number, date: Date, mode: string | null, transitModes: string | null | undefined, accessibiliy: string | null | undefined): Observable<FileResponse> {
+    routePlanner(arrivalLat: number, arrivalLng: number, departureLat: number, departureLng: number, date: Date, mode: string | null, isBackTrip: boolean, transitModes: string | null | undefined, accessibiliy: string | null | undefined): Observable<any> {
         let url_ = this.baseUrl + "/api/GeoService/routeplanner?";
         if (arrivalLat === undefined || arrivalLat === null)
             throw new Error("The parameter 'arrivalLat' must be defined and cannot be null.");
@@ -156,6 +156,10 @@ export class GeoServiceClient {
             throw new Error("The parameter 'mode' must be defined.");
         else if(mode !== null)
             url_ += "mode=" + encodeURIComponent("" + mode) + "&";
+        if (isBackTrip === undefined || isBackTrip === null)
+            throw new Error("The parameter 'isBackTrip' must be defined and cannot be null.");
+        else
+            url_ += "IsBackTrip=" + encodeURIComponent("" + isBackTrip) + "&";
         if (transitModes !== undefined && transitModes !== null)
             url_ += "transitModes=" + encodeURIComponent("" + transitModes) + "&";
         if (accessibiliy !== undefined && accessibiliy !== null)
@@ -166,7 +170,7 @@ export class GeoServiceClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -177,31 +181,32 @@ export class GeoServiceClient {
                 try {
                     return this.processRoutePlanner(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<any>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<any>><any>_observableThrow(response_);
         }));
     }
 
-    protected processRoutePlanner(response: HttpResponseBase): Observable<FileResponse> {
+    protected processRoutePlanner(response: HttpResponseBase): Observable<any> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <any>JSON.parse(_responseText, this.jsonParseReviver);
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<any>(<any>null);
     }
 }
 

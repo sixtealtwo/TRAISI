@@ -6,6 +6,7 @@ using AutoMapper;
 using Geocoding;
 using Geocoding.Google;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -75,10 +76,11 @@ namespace Traisi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("routeplanner")]
+        [ProducesResponseType(typeof(JObject), StatusCodes.Status200OK)]
         public async Task<IActionResult> RoutePlanner([FromQuery] double arrivalLat,
         [FromQuery] double arrivalLng, [FromQuery] double departureLat, [FromQuery] double departureLng,
          [FromQuery] DateTime date,
-        [FromQuery] string mode, [FromQuery] string transitModes = "", [FromQuery] string accessibiliy = "")
+        [FromQuery] string mode, [FromQuery] bool IsBackTrip, [FromQuery] string transitModes = "", [FromQuery] string accessibiliy = "")
         {
 
 
@@ -91,7 +93,8 @@ namespace Traisi.Controllers
             request.AddParameter("ArrivalLatitude", arrivalLat);
             request.AddParameter("ArrivalLongitude", arrivalLng);
             request.AddParameter("TripModes", mode);
-            request.AddParameter("Date", date);
+            request.AddParameter("IsBackTrip", IsBackTrip ? 1 : 0);
+            request.AddParameter("Date", date.ToString("yyyy-MM-dd_HH-mm"));
 
             if (!string.IsNullOrEmpty(transitModes) && transitModes.Trim().Length > 0)
             {
@@ -105,7 +108,7 @@ namespace Traisi.Controllers
             var response = await _triplinx.ExecuteAsync(request);
 
 
-            return new OkObjectResult(response.Content);
+            return new OkObjectResult(JObject.Parse(response.Content));
         }
 
     }

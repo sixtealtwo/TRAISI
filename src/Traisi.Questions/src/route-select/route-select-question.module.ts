@@ -14,10 +14,11 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule } from '@angular/forms';
 import { RouteSelectQuestionComponent } from './route-select-question.component';
 import { GeoServiceClient } from './geoservice-api-client.service';
-
+import { RouteDisplayComponent } from './components/route-display.component';
+import { BrowserModule } from '@angular/platform-browser';
 @NgModule({
-	declarations: [RouteSelectQuestionComponent],
-	entryComponents: [RouteSelectQuestionComponent],
+	declarations: [RouteSelectQuestionComponent, RouteDisplayComponent],
+	entryComponents: [RouteSelectQuestionComponent, RouteDisplayComponent],
 	providers: [
 		GeoServiceClient,
 		{
@@ -28,11 +29,16 @@ import { GeoServiceClient } from './geoservice-api-client.service';
 					id: 'route-select',
 					component: RouteSelectQuestionComponent,
 				},
+				{
+					name: 'traisi-route-display',
+					id: 'route-display',
+					component: RouteDisplayComponent,
+				},
 			],
 			multi: true,
 		},
 	],
-	imports: [],
+	imports: [CommonModule, FormsModule],
 	exports: [],
 })
 export default class RouteSelectQuestionModule {

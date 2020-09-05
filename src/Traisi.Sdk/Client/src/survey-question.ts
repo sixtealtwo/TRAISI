@@ -218,6 +218,10 @@ export interface DateResponseData extends ResponseData<ResponseTypes.Date> {
   value: Date
 }
 
+export interface JsonResponseData extends ResponseData<ResponseTypes.Json> {
+  value: any
+}
+
 export interface LocationResponseData
   extends ResponseData<ResponseTypes.Location> {
   latitude: number

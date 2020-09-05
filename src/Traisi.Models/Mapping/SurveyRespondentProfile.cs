@@ -163,8 +163,8 @@ namespace Traisi.Models.Mapping
 
                 if (response is TimelineResponse res)
                 {
-                    obj["latitude"] = res.Location.Coordinate.X;
-                    obj["longitude"] = res.Location.Coordinate.Y;
+                    obj["latitude"] = res.Location.Coordinate.Y;
+                    obj["longitude"] = res.Location.Coordinate.X;
                 }
                 responseValues.Add(obj);
 

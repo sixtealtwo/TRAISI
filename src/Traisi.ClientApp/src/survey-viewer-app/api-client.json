@@ -167,6 +167,15 @@
             "x-position": 6
           },
           {
+            "name": "IsBackTrip",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 7
+          },
+          {
             "name": "transitModes",
             "in": "query",
             "schema": {
@@ -174,7 +183,7 @@
               "default": "",
               "nullable": true
             },
-            "x-position": 7
+            "x-position": 8
           },
           {
             "name": "accessibiliy",
@@ -184,18 +193,15 @@
               "default": "",
               "nullable": true
             },
-            "x-position": 8
+            "x-position": 9
           }
         ],
         "responses": {
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
+              "application/json": {
+                "schema": {}
               }
             }
           }
