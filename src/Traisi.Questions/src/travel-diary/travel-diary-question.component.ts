@@ -91,7 +91,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
-		// this.scheduleComponent.refreshSubscription();
 		if (this._travelDiaryService.isTravelDiaryValid) {
 			this.saveTravelDiary();
 		}

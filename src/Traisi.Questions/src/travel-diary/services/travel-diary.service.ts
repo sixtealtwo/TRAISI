@@ -411,11 +411,14 @@ export class TravelDiaryService {
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 
-	// deletes the associated event
+	/**
+	 * 
+	 * @param event 
+	 */
 	public deleteEvent(event: TimelineLineResponseDisplayData): void {
 		for (let i = 0; i < this._diaryEvents.length; i++) {
 			let e = this._diaryEvents[i];
-			if (e.meta.model.id === event.id) {
+			if (e.meta.model.displayId === event.displayId) {
 				this._diaryEvents.splice(i, 1);
 				break;
 			}
