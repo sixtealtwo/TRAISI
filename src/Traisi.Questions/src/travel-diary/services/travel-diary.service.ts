@@ -87,7 +87,6 @@ export class TravelDiaryService {
 		this.configuration.mode = this._configuration.mode ?? [];
 		this.loadAddresses();
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
-
 			let primaryHomeAddress: any = {};
 			if (respondents.length > 0) {
 				primaryHomeAddress = respondents[0].homeAddress;
@@ -119,7 +118,6 @@ export class TravelDiaryService {
 						this.isLoaded.next(true);
 						this.diaryEvents$.next(this._diaryEvents);
 					}
-					
 				},
 				complete: () => console.log('complete'),
 			});

@@ -145,10 +145,12 @@
 						}"
 					></div>
 					<ng-template #customTitleTemplate>
-
-						<traisi-travel-diary-event-display [timeEvent]="timeEvent"
-						></traisi-travel-diary-event-display>
-		
+						<div [class.invalid-event]="!timeEvent.event.meta.model.isValid">
+							<traisi-travel-diary-event-display
+								[timeEvent]="timeEvent"
+								[class.invalid-event]="!timeEvent.event.meta.model.isValid"
+							></traisi-travel-diary-event-display>
+						</div>
 					</ng-template>
 					<ng-template #customCellTemplate>
 						hello there

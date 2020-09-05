@@ -39,7 +39,10 @@ export class TravelDiaryEventDisplayComponent implements OnInit {
 	}
 
 	public ngOnInit(): void {
-		if (this.timeEvent.event.meta.homeAllDay) {
+		console.log()
+		if (!this.timeEvent.event.meta.isValid) {
+			this.class = '';
+		} else if (this.timeEvent.event.meta.homeAllDay) {
 			this.class = 'event-home-all-day';
 		}
 	}

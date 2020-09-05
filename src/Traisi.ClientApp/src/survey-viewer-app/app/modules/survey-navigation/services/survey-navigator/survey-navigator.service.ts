@@ -605,8 +605,6 @@ export class SurveyNavigator {
 				break;
 			}
 		}
-		console.log(allValid);
-		console.log(state.activeQuestionInstances);
 		return allValid;
 	}
 

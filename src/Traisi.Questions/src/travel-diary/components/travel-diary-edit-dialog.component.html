@@ -11,8 +11,8 @@
 			<div class="modal-body">
 				<form #eventForm="ngForm" validate>
 					<div class="form-group row">
-						<label for="name" class="col-md-2 col-form-label-lg">Name</label>
-						<div class="col-md-10">
+						<div class="col-12">
+							<label for="name" class="col-form-label">Name</label>
 							<input
 								class="form-control"
 								type="text"
@@ -26,13 +26,12 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="purpose" class="col-md-2 col-form-label-lg">Purpose</label>
-						<div class="col-md-10">
+						<div class="col-12">
+							<label for="purpose" class="col-form-label">Purpose</label>
 							<ng-select
 								appearance="outline"
 								#purposeSelect
 								[(ngModel)]="model.purpose"
-								
 								[items]="purposes"
 								name="purpose"
 								[selectOnTab]="true"
@@ -42,14 +41,14 @@
 								placeholder="Select Purpose"
 								required
 							>
-							<!---->
-							<!---->
+								<!---->
+								<!---->
 							</ng-select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="mode" class="col-md-2 col-form-label-lg">Mode</label>
-						<div class="col-md-10">
+						<div class="col-12">
+							<label for="mode" class="col-form-label">Mode</label>
 							<ng-select
 								appearance="outline"
 								#purposeSelect
@@ -68,8 +67,8 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="members" class="col-md-2 col-form-label-lg">Members</label>
-						<div class="col-md-10">
+						<div class="col-12">
+							<label for="members" class="col-form-label">Members</label>
 							<ng-select
 								appearance="outline"
 								#memberSelect
@@ -86,27 +85,14 @@
 							</ng-select>
 						</div>
 					</div>
-					<!--<div class="form-group row">
-						<label for="timeA" class="col-sm-2 col-form-label">Time A</label>
-						<div class="col-sm-10">
-							<input
-								class="form-control"
-								id="timeA"
-								type="text"
-								name="timeA"
-								mwlFlatpickr
-								[(ngModel)]="model.timeA"
-								[noCalendar]="true"
-								[enableTime]="true"
-								dateFormat="H:i"
-								[convertModelValue]="true"
-								required
-							/>
+					<div class="form-group row return-confirm">
+						<div class="col-12">
+							<div class="confirm-label col-form-label">Did you return to the previous event?</div>
 						</div>
-					</div>-->
+					</div>
 					<div class="form-group row">
-						<label for="timeA" class="col-sm-2 col-form-label">Departure Time</label>
-						<div class="col-sm-10">
+						<div class="col-12">
+							<label for="timeA" class="col-form-label">Departure Time</label>
 							<input
 								id="timeA"
 								type="text"
@@ -123,9 +109,30 @@
 						</div>
 					</div>
 
+					<div class="custom-control custom-radio custom-control-inline">
+						<input
+							type="radio"
+							id="customRadioInline1"
+							name="customRadioInline1"
+							class="custom-control-input"
+						/>
+						<label class="custom-control-label" for="customRadioInline1">Toggle this custom radio</label>
+					</div>
+					<div class="custom-control custom-radio custom-control-inline">
+						<input
+							type="radio"
+							id="customRadioInline2"
+							name="customRadioInline1"
+							class="custom-control-input"
+						/>
+						<label class="custom-control-label" for="customRadioInline2"
+							>Or toggle this other custom radio</label
+						>
+					</div>
+
 					<div class="form-group row">
-						<label for="location" class="col-sm-2 col-form-label">Location</label>
-						<div class="col-sm-10">
+						<div class="col-12">
+							<label for="location" class="col-form-label">Location</label>
 							<ng-select
 								name="location"
 								[items]="addresses | async"
@@ -136,7 +143,6 @@
 								[typeahead]="addressInput"
 								(focus)="searchFocus()"
 								minlength="10"
-
 								placeholder="Search for location"
 								(change)="locationChanged($event)"
 								required
