@@ -32,16 +32,18 @@
 								appearance="outline"
 								#purposeSelect
 								[(ngModel)]="model.purpose"
-								(change)="model.purpose = $event.value"
+								
 								[items]="purposes"
 								name="purpose"
 								[selectOnTab]="true"
 								labelForId="purpose"
 								bindLabel="label"
-								bindValue="label"
+								bindValue="id"
 								placeholder="Select Purpose"
 								required
 							>
+							<!---->
+							<!---->
 							</ng-select>
 						</div>
 					</div>

@@ -123,6 +123,7 @@ export class TravelDiaryEditor {
 	 */
 	public insertEvent(events: TravelDiaryEvent[], event: TimelineLineResponseDisplayData): TravelDiaryEvent[] {
 		let displayId = this.generateId();
+		console.log(event); 
 		for (let u of event.users) {
 			let newEvent = {
 				id: displayId,
@@ -196,7 +197,6 @@ export class TravelDiaryEditor {
 			evt.meta.model = newModel;
 			evt.meta.model.isValid = true;
 		} else {
-
 		}
 		this.reAlignTimeBoundaries(update.users, events);
 	}
