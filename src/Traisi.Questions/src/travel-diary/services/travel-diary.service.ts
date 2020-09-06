@@ -130,7 +130,6 @@ export class TravelDiaryService {
 		});
 
 		this.loadPreviousLocations();
-		console.log(this);
 	}
 
 	/**

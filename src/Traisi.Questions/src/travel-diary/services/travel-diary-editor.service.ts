@@ -123,7 +123,6 @@ export class TravelDiaryEditor {
 	 */
 	public insertEvent(events: TravelDiaryEvent[], event: TimelineLineResponseDisplayData): TravelDiaryEvent[] {
 		let displayId = this.generateId();
-		console.log(event); 
 		for (let u of event.users) {
 			let newEvent = {
 				id: displayId,
@@ -193,7 +192,6 @@ export class TravelDiaryEditor {
 		let evt = events.find((x) => x.meta.model.displayId === update.displayId);
 		if (evt) {
 			let newModel = Object.assign(evt.meta.model, update);
-
 			evt.meta.model = newModel;
 			evt.meta.model.isValid = true;
 		} else {
@@ -210,10 +208,12 @@ export class TravelDiaryEditor {
 		for (let user of users) {
 			let events = allEvents.filter((x) => x.meta.user.id === user.id);
 			for (let i = 0; i < events.length - 1; i++) {
+				events[i].meta.model.order = i;
 				events[i].start = events[i].meta.model.timeA;
 				events[i].end = events[i + 1].meta.model.timeA;
 			}
 			if (events.length > 2) {
+				events[events.length - 1].meta.model.order = events.length - 1;
 				events[events.length - 1].start = events[events.length - 1].meta.model.timeA;
 			}
 		}
@@ -334,6 +334,13 @@ export class TravelDiaryEditor {
 		let idx = events.findIndex(x => x.meta.model.displayId === event.displayId);
 		if(idx >= 0 ) {
 			events.splice(idx, 1);
+		}
+	}
+
+	public updateIndices(user: SurveyRespondentUser, events: TravelDiaryEvent[]): void {
+		let userEvents = events.filter((x) => x.meta.user.id === user.id);
+		for(let i = 0; i < userEvents.length; i++){
+			userEvents[i].meta.model.order = i;
 		}
 	}
 }

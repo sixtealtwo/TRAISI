@@ -19,7 +19,10 @@
 	</div>
 	<div class="mode-address-group">
 		<div class="event-mode">
-			<div *ngIf="!timeEvent.event.meta.model.mode && !timeEvent.event.meta.homeAllDay" class="no-mode-message">
+			<div
+				*ngIf="!timeEvent.event.meta.model.mode && !timeEvent.event.meta.homeAllDay && model.order > 0"
+				class="no-mode-message"
+			>
 				This auto generated event has no travel mode assigned, please click the event and choose a travel mode
 				you used to reach the destination.
 			</div>
