@@ -81,19 +81,29 @@ header {
 	height: auto;
 	list-style-type: none;
 }
-
+.progress__question:hover {
+	background-color: #f3f0ea;
+}
 .progress__question {
 	color: #878c9c;
 	margin-bottom: 5px;
 	margin-top: 5px;
 	font-weight: 500;
 	font-size: 14px;
+	margin-left: 15px;
 	.validation-status {
 		display: inline-block;
 		width: 16px;
 		height: 16px;
 		font-size: 16px;
-		margin-right: 5px;
+		margin-right: 0px;
+		
+	}
+	.validation-status.valid {
+		color: #00c1fb;
+	}
+	.validation-status.ivalid {
+		color: #777;
 	}
 }
 

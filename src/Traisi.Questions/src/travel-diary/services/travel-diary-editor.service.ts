@@ -312,4 +312,26 @@ export class TravelDiaryEditor {
 			end: new Date(new Date().setHours(23, 59, 0, 0)),
 		};
 	}
+
+	/**
+	 * 
+	 * @param event 
+	 * @param events 
+	 */
+	public findTravelDiaryEvent(event: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): TravelDiaryEvent {
+		let match = events.find(x => x.meta.model.displayId === event.displayId)
+		return match;
+	}
+
+	/**
+	 * Deletes the event from the list of travel diary events
+	 * @param event 
+	 * @param events 
+	 */
+	public deleteEvent(event: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): void {
+		let idx = events.findIndex(x => x.meta.model.displayId === event.displayId);
+		if(idx >= 0 ) {
+			events.splice(idx, 1);
+		}
+	}
 }

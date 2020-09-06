@@ -1,10 +1,40 @@
-<div class="travel-diary-question" [style.height.px]="containerHeight"  *ngIf="isComponentLoaded | async">
-	<traisi-travel-dairy-day-view-scheduler [viewDate]="viewDate" [events]="events" [dayStartHour]="4" [dayEndHour]="24" [refresh]="events$"
-	[users]="users" #schedule (eventClicked)="eventClicked($event)">
-	</traisi-travel-dairy-day-view-scheduler>
-	<div class="add-event-overlay">
-		<button type="button" class="btn btn-primary" (click)="newEvent()">+ New Event</button>
+<div class="add-event-overlay">
+	<div class="btn-group" dropdown container="body" placement="top right" [dropup]="isDropup">
+		<button type="button" class="btn btn-primary" (click)="newEvent()">New Event</button>
+		<button
+			id="button-split"
+			type="button"
+			dropdownToggle
+			class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+			aria-controls="dropdown-split"
+		>
+			<span class="caret"></span>
+			<span class="sr-only">Split button</span>
+		</button>
+		<ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-split">
+			<li role="menuitem"><a [routerLink]="" class="dropdown-item" (click)="resetEvents()">Reset travel diary</a></li>
+			<li role="menuitem"><a [routerLink]="" class="dropdown-item" (click)="clearEvents()">Clear all events</a></li>
+		</ul>
 	</div>
 </div>
 
-<traisi-travel-diary-edit-dialog (eventDeleted)="eventDeleted($event)" (newEventSaved)="newEntrySaved($event)" (eventSaved)="eventSaved($event)" #entryDialog></traisi-travel-diary-edit-dialog>
+<div class="travel-diary-question" [style.height.px]="containerHeight" *ngIf="isComponentLoaded | async">
+	<traisi-travel-dairy-day-view-scheduler
+		[viewDate]="viewDate"
+		[events]="events"
+		[dayStartHour]="4"
+		[dayEndHour]="24"
+		[refresh]="events$"
+		[users]="users"
+		#schedule
+		(eventClicked)="eventClicked($event)"
+	>
+	</traisi-travel-dairy-day-view-scheduler>
+</div>
+
+<traisi-travel-diary-edit-dialog
+	(eventDeleted)="eventDeleted($event)"
+	(newEventSaved)="newEntrySaved($event)"
+	(eventSaved)="eventSaved($event)"
+	#entryDialog
+></traisi-travel-diary-edit-dialog>

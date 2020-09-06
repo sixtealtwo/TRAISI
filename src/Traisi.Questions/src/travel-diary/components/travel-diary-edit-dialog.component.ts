@@ -25,7 +25,7 @@ import styleString from './travel-diary-edit-dialog.component.scss';
 import { TravelDiaryService } from '../services/travel-diary.service';
 import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-calendar';
 import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
-import { TravelDiaryConfiguration } from '../models/travel-diary-configuration.model';
+import { TravelDiaryConfiguration, TravelMode, Purpose } from '../models/travel-diary-configuration.model';
 import { Subject, BehaviorSubject, Observable, concat, of } from 'rxjs';
 import { DialogMode, SurveyRespondentUser, TimelineLineResponseDisplayData } from 'travel-diary/models/consts';
 import { NgForm } from '@angular/forms';
@@ -121,7 +121,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public dialogSave(): void {
-		console.log(this.model);
 		this.hide();
 		if (this.dialogMode === DialogMode.New) {
 			this.newEventSaved.emit(this.model);
@@ -197,7 +196,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		return this._travelDiaryService.users;
 	}
 
-	public get purposes(): string[] {
+	public get purposes(): Purpose[] {
 		return this._travelDiaryService.configuration.purpose;
 	}
 
@@ -205,7 +204,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		return this._travelDiaryService.addresses$;
 	}
 
-	public get modes(): string[] {
+	public get modes(): TravelMode[] {
 		return this._travelDiaryService.configuration.mode;
 	}
 

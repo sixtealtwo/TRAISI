@@ -18,12 +18,7 @@
 
 .travel-diary-question {
 	overflow-y: auto;
-	.add-event-overlay {
-		position: absolute;
-		bottom: 60px;
-		right: 50px;
-		z-index: 10;
-	}
+
 	margin-bottom: 20px;
 
 	.mapboxgl-ctrl-geocoder {
@@ -32,5 +27,40 @@
 
 	.cal-hour-segment {
 		border: none;
+	}
+}
+.add-event-overlay {
+	position: absolute;
+	bottom: 10px;
+	/* top: 0px; */
+	right: calc(50% - 80px);
+	z-index: 10;
+	width: 160px;
+}
+
+ul.dropdown-menu {
+	margin: 0px;
+	padding: 0px;
+	padding-top: 5px;
+	padding-bottom: 0px;
+	border-radius: 5px;
+	box-shadow: 0px 0px black;
+	border: solid 1px #DDD;
+	background-color: white;
+	li {
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 5px;
+		padding-bottom: 10px;
+		list-style: none;
+		color: #333;
+		a {
+			display: block;
+			color: #333;
+			text-decoration: none;
+		}
+	}
+	li:hover {
+		background-color: #e6e6e6;
 	}
 }

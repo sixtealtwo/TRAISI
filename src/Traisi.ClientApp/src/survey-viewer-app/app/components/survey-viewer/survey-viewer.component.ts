@@ -116,6 +116,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		public navigator: SurveyNavigator,
 		private _sessionService: SurveyViewerSession,
 		private _router: Router,
+		private _route: ActivatedRoute,
 		private _titleService: Title,
 		private elementRef: ElementRef,
 		private _authService: AuthService,
@@ -234,14 +235,24 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				share()
 			)
 			.subscribe((pages: SurveyViewPage[]) => {
-				pages.forEach((page) => {
-					// this.headerDisplay.completedPages.push(false);
-				});
 				this.loadQuestions(pages);
 			});
 
 		this.isShowComplete = false;
+		this._route.fragment.subscribe((f) => {
+			const element = document.querySelector('#question' + f);
+			if (element) {
+				let container = this.questionContainers.find((x) => x.question.questionId.toString() === f);
+				element.scrollIntoView();
+				element.classList.add('highlighted');
+				setTimeout(() => {
+					element.classList.remove('highlighted');
+				}, 3000);
+			}
+		});
 	}
+
+	public highlightQuestion(): void {}
 
 	public toggleMenu(): void {
 		this.menuToggled = !this.menuToggled;
@@ -473,7 +484,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			console.log('no previous data, using base initialized');
 			this.navigator.initialize().subscribe();
 		}
-		console.log(this._viewerStateService);
 	}
 
 	public trackById(index: number, item: QuestionInstance): string {

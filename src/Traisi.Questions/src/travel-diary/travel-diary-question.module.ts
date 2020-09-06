@@ -1,6 +1,7 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { TravelDiaryQuestionComponent } from './travel-diary-question.component';
 import {
 	CalendarModule,
@@ -17,7 +18,8 @@ import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DayViewSchedulerComponent } from './components/day-view-scheduler.component';
 import { TravelDiaryEventDisplayComponent } from './components/travel-diary-event-display.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 export const calendarProps = {
 	provide: DateAdapter,
 	useFactory: adapterFactory,
@@ -73,6 +75,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 		},
 	],
 	imports: [
+		RouterModule,
 		CommonModule,
 		FormsModule,
 		HttpClientModule,
@@ -82,6 +85,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 		CalendarCommonModule.forRoot(calendarProps),
 		CalendarDayModule,
 		NgSelectModule,
+		BsDropdownModule.forRoot(),
 	],
 	exports: [CalendarDayModule, CalendarModule, CalendarCommonModule],
 })

@@ -85,6 +85,12 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.deleteEvent(event);
 	}
 
+	public resetEvents(): void {}
+
+	public clearEvents(): void {
+		this._travelDiaryService.clearTravelDiary();
+	}
+
 	public ngOnInit(): void {
 		this._travelDiaryService.initialize();
 		this._travelDiaryService.diaryEvents$.subscribe(this.eventsUpdated);

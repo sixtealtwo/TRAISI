@@ -1,7 +1,7 @@
 import { Injectable, Inject, Injector } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { Subject, BehaviorSubject, Observable, concat, of, forkJoin } from 'rxjs';
-import { TravelDiaryConfiguration } from '../models/travel-diary-configuration.model';
+import { TravelDiaryConfiguration, TravelMode } from '../models/travel-diary-configuration.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
 import { formatRelative } from 'date-fns';
@@ -61,6 +61,10 @@ export class TravelDiaryService {
 
 	public userMap: { [id: number]: SurveyRespondentUser } = {};
 
+	public modeMap: { [id: string]: TravelMode } = {};
+
+	public purposeMap: { [id: string]: TravelMode } = {};
+
 	public constructor(
 		private _http: HttpClient,
 		private _edtior: TravelDiaryEditor,
@@ -85,6 +89,7 @@ export class TravelDiaryService {
 		this.configuration = Object.assign({}, this._configuration);
 		this.configuration.purpose = this._configuration.purpose ?? [];
 		this.configuration.mode = this._configuration.mode ?? [];
+		this._initializeConfigurationMaps();
 		this.loadAddresses();
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
 			let primaryHomeAddress: any = {};
@@ -127,6 +132,18 @@ export class TravelDiaryService {
 		this.loadPreviousLocations();
 	}
 
+	/**
+	 *
+	 */
+	private _initializeConfigurationMaps(): void {
+		for (let mode of this.configuration.mode) {
+			this.modeMap[mode.id] = mode;
+		}
+		for (let purpose of this.configuration.purpose) {
+			this.purposeMap[purpose.id] = purpose;
+		}
+	}
+
 	private loadSavedResponses(): Observable<any> {
 		return this._responseService.loadSavedResponsesForRespondents([this._question], this.respondents);
 	}
@@ -144,6 +161,16 @@ export class TravelDiaryService {
 
 	public get isTravelDiaryValid(): boolean {
 		return this._diaryEvents.length > 0 && !this._diaryEvents.some((x) => x.meta.model.isValid === false);
+	}
+
+	/**
+	 * Resets the travel diary to use the prior and piped information.
+	 */
+	public resetTravelDiary(): void {}
+
+	public clearTravelDiary(): void {
+		this._diaryEvents = [];
+		this.diaryEvents$.next(this._diaryEvents);
 	}
 
 	/**
@@ -412,18 +439,11 @@ export class TravelDiaryService {
 	}
 
 	/**
-	 * 
-	 * @param event 
+	 *
+	 * @param event
 	 */
 	public deleteEvent(event: TimelineLineResponseDisplayData): void {
-		for (let i = 0; i < this._diaryEvents.length; i++) {
-			let e = this._diaryEvents[i];
-			if (e.meta.model.displayId === event.displayId) {
-				this._diaryEvents.splice(i, 1);
-				break;
-			}
-		}
-		this._diaryEvents = this._diaryEvents;
+		this._edtior.deleteEvent(event, this._diaryEvents);
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 }

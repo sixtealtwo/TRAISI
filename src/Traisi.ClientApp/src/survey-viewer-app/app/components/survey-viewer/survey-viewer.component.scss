@@ -3,6 +3,11 @@
 traisi-survey-header-display {
 	position: relative;
 }
+
+.highlighted {
+	border: solid 3px #ff8100 !important;
+}
+
 .shortcode-container {
 	color: #092b9e;
 	font-weight: bold;
@@ -101,7 +106,9 @@ nav.sidebar {
 }
 
 .traisi-question-container-outer {
+	box-sizing: content-box;
 	background-color: white;
+	border: solid 3px transparent;
 	padding: 20px;
 	padding-top: 25px;
 	border-radius: 5px;
