@@ -124,6 +124,7 @@ module.exports = {
 		/^@angular\/core/,
 		/^@angular\/upgrade/,
 		/^@angular\/forms/,
+		/^@angular\/router/,
 		/^@angular\/platform-browser/,
 		/^ngx-bootstrap/,
 		/^@fortawesome/,

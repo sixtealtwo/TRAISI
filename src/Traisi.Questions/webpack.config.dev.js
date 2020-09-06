@@ -121,6 +121,7 @@ module.exports = {
 		/^@angular\/core/,
 		/^@angular\/upgrade/,
 		/^@angular\/upgrade/,
+		/^@angular\/router/,
 		/^@angular\/forms/,
 		/^@angular\/platform-browser/,
 		/^@angular/,
