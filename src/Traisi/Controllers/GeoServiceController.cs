@@ -80,7 +80,9 @@ namespace Traisi.Controllers
         public async Task<IActionResult> RoutePlanner([FromQuery] double arrivalLat,
         [FromQuery] double arrivalLng, [FromQuery] double departureLat, [FromQuery] double departureLng,
          [FromQuery] DateTime date,
-        [FromQuery] string mode, [FromQuery] bool IsBackTrip, [FromQuery] string transitModes = "", [FromQuery] string accessibiliy = "")
+        [FromQuery] string mode, [FromQuery] bool IsBackTrip, [FromQuery] string transitModes = "", [FromQuery] string accessibiliy = "",
+        [FromQuery] int maxCarDistance = 0,
+        [FromQuery] int maxBikeDistance = 0)
         {
 
 
@@ -95,6 +97,8 @@ namespace Traisi.Controllers
             request.AddParameter("TripModes", mode);
             request.AddParameter("IsBackTrip", IsBackTrip ? 1 : 0);
             request.AddParameter("Date", date.ToString("yyyy-MM-dd_HH-mm"));
+            request.AddParameter("MaxCarDistance", maxCarDistance);
+            request.AddParameter("maxBikeDistance", maxBikeDistance);
 
             if (!string.IsNullOrEmpty(transitModes) && transitModes.Trim().Length > 0)
             {

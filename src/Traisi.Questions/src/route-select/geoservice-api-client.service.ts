@@ -130,7 +130,7 @@ export class GeoServiceClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    routePlanner(arrivalLat: number, arrivalLng: number, departureLat: number, departureLng: number, date: Date, mode: string | null, isBackTrip: boolean, transitModes: string | null | undefined, accessibiliy: string | null | undefined): Observable<any> {
+    routePlanner(arrivalLat: number, arrivalLng: number, departureLat: number, departureLng: number, date: Date, mode: string | null, isBackTrip: boolean, transitModes: string | null | undefined, accessibiliy: string | null | undefined, maxCarDistance: number | undefined, maxBikeDistance: number | undefined): Observable<any> {
         let url_ = this.baseUrl + "/api/GeoService/routeplanner?";
         if (arrivalLat === undefined || arrivalLat === null)
             throw new Error("The parameter 'arrivalLat' must be defined and cannot be null.");
@@ -164,6 +164,14 @@ export class GeoServiceClient {
             url_ += "transitModes=" + encodeURIComponent("" + transitModes) + "&";
         if (accessibiliy !== undefined && accessibiliy !== null)
             url_ += "accessibiliy=" + encodeURIComponent("" + accessibiliy) + "&";
+        if (maxCarDistance === null)
+            throw new Error("The parameter 'maxCarDistance' cannot be null.");
+        else if (maxCarDistance !== undefined)
+            url_ += "maxCarDistance=" + encodeURIComponent("" + maxCarDistance) + "&";
+        if (maxBikeDistance === null)
+            throw new Error("The parameter 'maxBikeDistance' cannot be null.");
+        else if (maxBikeDistance !== undefined)
+            url_ += "maxBikeDistance=" + encodeURIComponent("" + maxBikeDistance) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

@@ -44,7 +44,7 @@
       "createWebHostBuilderMethod": null,
       "startupType": null,
       "allowNullableBodyParameters": true,
-      "output": "../../../Traisi.ClientApp/src/survey-viewer-app/api-client.json",
+      "output": "geoservice-api-client.json",
       "outputType": "OpenApi3",
       "newLineBehavior": "Auto",
       "assemblyPaths": [
