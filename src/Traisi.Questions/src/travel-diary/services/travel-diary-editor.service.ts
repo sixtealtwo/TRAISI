@@ -251,6 +251,7 @@ export class TravelDiaryEditor {
 				model: {
 					address: user.homeAddress,
 					purpose: 'home',
+					mode: undefined,
 					timeA: new Date(new Date().setHours(0, 0, 0, 0)),
 					timeB: new Date(new Date().setHours(23, 59, 0, 0)),
 					latitude: undefined,
@@ -299,6 +300,7 @@ export class TravelDiaryEditor {
 					timeB: undefined,
 					latitude: undefined,
 					longitude: undefined,
+					mode: undefined,
 					name: title,
 					order: 0,
 					users: [user],

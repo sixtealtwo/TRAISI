@@ -130,6 +130,7 @@ export class TravelDiaryService {
 		});
 
 		this.loadPreviousLocations();
+		console.log(this);
 	}
 
 	/**
@@ -166,7 +167,10 @@ export class TravelDiaryService {
 	/**
 	 * Resets the travel diary to use the prior and piped information.
 	 */
-	public resetTravelDiary(): void {}
+	public resetTravelDiary(): void {
+		this._diaryEvents = [];
+		this.loadPriorResponseData();
+	}
 
 	public clearTravelDiary(): void {
 		this._diaryEvents = [];

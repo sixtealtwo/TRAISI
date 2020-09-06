@@ -1,4 +1,3 @@
-
 .invalid-event traisi-travel-diary-event-display {
 	border-color: #de4c4c;
 }
@@ -82,4 +81,8 @@ mwl-calendar-event-title {
 		font-size: 18px;
 		color: #99a;
 	}
+}
+
+.cal-event.invalid-event {
+	border: dashed 4px #ff8b13 !important;
 }

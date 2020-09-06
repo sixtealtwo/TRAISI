@@ -85,7 +85,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.deleteEvent(event);
 	}
 
-	public resetEvents(): void {}
+	public resetEvents(): void {
+		this._travelDiaryService.resetTravelDiary();
+	}
 
 	public clearEvents(): void {
 		this._travelDiaryService.clearTravelDiary();
@@ -102,6 +104,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		}
 		if (this._travelDiaryService.isLoaded.value) {
 			this.validationState.emit(ResponseValidationState.VALID);
+		} else {
+			this.validationState.emit(ResponseValidationState.INVALID);
 		}
 	};
 

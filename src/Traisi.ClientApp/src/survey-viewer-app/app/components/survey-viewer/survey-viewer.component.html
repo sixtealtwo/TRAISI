@@ -74,7 +74,6 @@
 									[attr.data-question-name]="question.model.name"
 									[attr.data-multiview]="state.isMultiView"
 									[attr.data-name]="'#question' + question.model.questionId"
-									
 									[surveyViewQuestion]="question.model"
 									[surveyId]="surveyId"
 									[repeatNumber]="question.repeat"
@@ -110,7 +109,7 @@
 														?.relatedQuestions
 												"
 											>
-												<a class="related-question-link" (click)="navigateToQuestion(id)">
+												<a class="related-question-link" [routerLink]="" fragment="{{id}}">
 													{{ getQuestionModel(id).name }}
 												</a>
 											</div>

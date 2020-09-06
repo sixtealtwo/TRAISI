@@ -242,11 +242,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._route.fragment.subscribe((f) => {
 			const element = document.querySelector('#question' + f);
 			if (element) {
-				let container = this.questionContainers.find((x) => x.question.questionId.toString() === f);
 				element.scrollIntoView();
 				element.classList.add('highlighted');
 				setTimeout(() => {
 					element.classList.remove('highlighted');
+					this._router.navigate([]);
 				}, 3000);
 			}
 		});
@@ -573,7 +573,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param questionPartId
 	 */
 	public navigateToQuestion(questionPartId: number): void {
-		this.navigator.navigateToQuestion(questionPartId).subscribe();
+		// this.navigator.navigateToQuestion(questionPartId).subscribe();
 	}
 
 	private retrieveHouseholdTag(): string {

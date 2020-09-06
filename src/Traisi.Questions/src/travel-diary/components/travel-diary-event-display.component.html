@@ -1,11 +1,12 @@
 <div class="customt-event-title event-display-container">
 	<div class="event-title-group">
 		<div class="event-purpose">
+			<span *ngIf="model.purpose"> <i class="{{ purpose.icon }}"></i> </span>
+
 			{{ model.purpose }}
 		</div>
 		<div class="event-name">
-			<span *ngIf="!model.isValid" class="invalid-icon"
-				><i class="fas fa-exclamation-triangle"></i></span
+			<span *ngIf="!model.isValid" class="invalid-icon"><i class="fas fa-exclamation-triangle"></i></span
 			>{{ timeEvent.event.title }}
 		</div>
 	</div>
@@ -22,7 +23,9 @@
 				This auto generated event has no travel mode assigned, please click the event and choose a travel mode
 				you used to reach the destination.
 			</div>
-			<i class="{{mode.icon}}"></i>{{ mode.label }}
+			<div *ngIf="timeEvent.event.meta.model.mode && !timeEvent.event.meta.homeAllDay">
+				<i class="{{ mode.icon }}"></i>{{ mode.label }}
+			</div>
 		</div>
 		<div class="event-address">
 			<i class="fas fa-map-marked-alt"></i>

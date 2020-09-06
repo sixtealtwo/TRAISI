@@ -6,7 +6,7 @@ import { TravelDiaryEvent, TimelineLineResponseDisplayData } from 'travel-diary/
 import { TravelDiaryViewTimeEvent } from 'travel-diary/models/travel-diary-view-time-event.model';
 import { Address } from 'traisi-question-sdk';
 import { TravelDiaryService } from 'travel-diary/services/travel-diary.service';
-import { TravelMode } from 'travel-diary/models/travel-diary-configuration.model';
+import { TravelMode, Purpose } from 'travel-diary/models/travel-diary-configuration.model';
 @Component({
 	// tslint:disable-line max-classes-per-file
 	selector: 'traisi-travel-diary-event-display',
@@ -44,8 +44,11 @@ export class TravelDiaryEventDisplayComponent implements OnInit {
 		return this._travelDiaryService.modeMap[this.model.mode];
 	}
 
+	public get purpose(): Purpose {
+		return this._travelDiaryService.purposeMap[this.model.purpose];
+	}
+
 	public constructor(private _travelDiaryService: TravelDiaryService) {
-		console.log(this._travelDiaryService.configuration);
 	}
 
 	public ngOnInit(): void {
