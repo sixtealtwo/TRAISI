@@ -101,23 +101,22 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	private resetModel(): void {
 		this.isInsertedDepartureTime = false;
 		this.insertedIntoEvent = null;
-		if (!this.model) {
-			let id = Date.now();
-			this.model = {
-				id: undefined,
-				displayId: id,
-				isValid: false,
-				address: undefined,
-				latitude: 0,
-				longitude: 0,
-				name: undefined,
-				order: 0,
-				purpose: undefined,
-				timeA: new Date(),
-				timeB: new Date(),
-				users: [],
-			};
-		}
+
+		let id = Date.now();
+		this.model = {
+			id: undefined,
+			displayId: id,
+			isValid: false,
+			address: undefined,
+			latitude: 0,
+			longitude: 0,
+			name: undefined,
+			order: 1,
+			purpose: undefined,
+			timeA: new Date(),
+			timeB: new Date(),
+			users: [],
+		};
 
 		if (this.eventForm) {
 			this.eventForm.resetForm();
@@ -133,21 +132,40 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		// console.log(this.eventInputChanges);
 	}
 
-	public onDepartureTimeChange($event: Date): void {
-		this.isInsertedDepartureTime = this._editorService.isDeparterTimeOverlapping(
+	public onMembersChanged($event: any) {
+		let insertedEvent = this._editorService.getOverlappingDeparture(
 			this.model,
 			this._travelDiaryService.diaryEvents$.value
 		);
+		console.log(insertedEvent);
+		if (insertedEvent) {
+			this.insertedIntoEvent = insertedEvent;
+			this.isInsertedDepartureTime = true;
+		} else {
+			this.insertedIntoEvent = undefined;
+			this.isInsertedDepartureTime = false;
+		}
 	}
 
-	public onReturnTimeChange($event: Date): void {
+	public onDepartureTimeChange($event: Date): void {
+		let insertedEvent = this._editorService.getOverlappingDeparture(
+			this.model,
+			this._travelDiaryService.diaryEvents$.value
+		);
 		console.log(this.model);
+		console.log(insertedEvent);
+		if (insertedEvent) {
+			this.insertedIntoEvent = insertedEvent;
+			this.isInsertedDepartureTime = true;
+		} else {
+			this.insertedIntoEvent = undefined;
+			this.isInsertedDepartureTime = false;
+		}
 	}
 
-	public onInsertionConform($event: any): void {
-		console.log($event);
-		console.log(this.model);
-	}
+	public onReturnTimeChange($event: Date): void {}
+
+	public onInsertionConfirm($event: any): void {}
 
 	public dialogSave(): void {
 		this.hide();
@@ -157,7 +175,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventSaved.emit(this.model);
 		}
 	}
-	
 
 	public hide(): void {
 		this.modal.hide();
@@ -177,7 +194,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.dialogMode = mode;
 		if (mode === DialogMode.New) {
 			this.resetModel();
-
 			this.eventForm.form.markAsPristine();
 			this.eventForm.form.markAsUntouched();
 			this.eventForm.form.reset();

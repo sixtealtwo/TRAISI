@@ -74,6 +74,7 @@
 								#memberSelect
 								[items]="users | async"
 								name="members"
+								(change)="onMembersChanged($event)"
 								[(ngModel)]="model.users"
 								[multiple]="true"
 								bindLabel="name"
@@ -101,7 +102,7 @@
 									class="form-control"
 									name="timeA"
 									mwlFlatpickr
-									(change)="onDepartureTimeChange($event)"
+									(ngModelChange)="onDepartureTimeChange($event)"
 									[(ngModel)]="model.timeA"
 									[noCalendar]="true"
 									[enableTime]="true"
@@ -113,18 +114,27 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group row return-confirm" *ngIf="isInsertedDepartureTime">
+					<div
+						class="form-group row return-confirm"
+						*ngIf="isInsertedDepartureTime && dialogMode !== dialogModeEdit"
+					>
 						<div class="col-12">
-							<div class="confirm-label col-form-label">Did you return to the previous event?</div>
+							<div class="confirm-label col-form-label" *ngIf="!isInsertedDepartureTime">
+								Did you return to the previous event ?
+							</div>
+							<div class="confirm-label col-form-label" *ngIf="isInsertedDepartureTime">
+								Did you return to the previous event [{{ insertedIntoEvent?.meta.model.name }}] ?
+							</div>
 							<div class="custom-control custom-radio custom-control-inline">
 								<input
 									type="radio"
 									id="insertRadioYes"
 									name="insertRadio"
 									[value]="true"
-									(change)="onInsertionConform($event)"
-									[(ngModel)]="isInserted"
+									(change)="onInsertionConfirm($event)"
+									[(ngModel)]="model.isInserted"
 									class="custom-control-input"
+									required
 								/>
 								<label class="custom-control-label" for="insertRadioYes">Yes</label>
 							</div>
@@ -134,9 +144,10 @@
 									id="insertRadioNo"
 									name="insertRadio"
 									[value]="false"
-									(change)="onInsertionConform($event)"
-									[(ngModel)]="isInserted"
+									(change)="onInsertionConfirm($event)"
+									[(ngModel)]="model.isInserted"
 									class="custom-control-input"
+									required
 								/>
 								<label class="custom-control-label" for="insertRadioNo">No</label>
 							</div>

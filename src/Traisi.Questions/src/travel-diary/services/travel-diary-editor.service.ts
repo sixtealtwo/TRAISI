@@ -134,27 +134,77 @@ export class TravelDiaryEditor {
 	 */
 	public insertEvent(events: TravelDiaryEvent[], event: TimelineLineResponseDisplayData): TravelDiaryEvent[] {
 		let displayId = this.generateId();
+		event.displayId = displayId;
 		for (let u of event.users) {
-			let newEvent = {
-				id: displayId,
-				title: event.name,
-				start: event.timeA,
-				// end: event.timeB,
-				draggable: false,
-				resizable: { afterEnd: true },
-				meta: {
-					purpose: event.purpose['label'],
-					address: event.address,
-					user: u,
-					mode: event.mode['label'],
-					model: event,
-					id: Date.now(),
-				},
-				color: colors.blue,
-			};
-			newEvent.meta.model.displayId = displayId;
-			newEvent.meta.model.isValid = true;
-			events.push(newEvent);
+			if (!event.isInserted) {
+				let newEvent = {
+					id: displayId,
+					title: event.name,
+					start: event.timeA,
+					// end: event.timeB,
+					draggable: false,
+					resizable: { afterEnd: true },
+					meta: {
+						purpose: event.purpose['label'],
+						address: event.address,
+						user: u,
+						mode: event.mode['label'],
+						model: event,
+						id: displayId,
+					},
+					color: colors.blue,
+				};
+				newEvent.meta.model.displayId = displayId;
+				newEvent.meta.model.isValid = true;
+				events.push(newEvent);
+			} else {
+				// need to insert this event, but then find overalpping event
+				let overlap = this.getOverlappingDeparture(event, events);
+				if (overlap) {
+					// set the overlap END to the start of this event
+					overlap.end = event.timeA;
+					// create a new event that
+					let insertedEvent = {
+						id: displayId,
+						title: event.name,
+						start: event.timeA,
+						end: event.insertedEndTime,
+						draggable: false,
+						resizable: { afterEnd: true },
+						meta: {
+							purpose: event.purpose['label'],
+							address: event.address,
+							user: u,
+							mode: event.mode['label'],
+							model: event,
+							id: displayId,
+						},
+						color: colors.blue,
+					};
+					displayId = this.generateId();
+					let returnEvent = {
+						id: displayId,
+						title: overlap.title,
+						start: event.insertedEndTime,
+						end: overlap.end,
+						draggable: false,
+						resizable: { afterEnd: true },
+						meta: {
+							purpose: overlap.meta.purpose,
+							address: overlap.meta.address,
+							user: overlap.meta.user,
+							mode: overlap.meta.mode,
+							model: Object.assign({}, overlap.meta.model),
+							id: displayId,
+						},
+						color: colors.blue,
+					};
+					returnEvent.meta.model.displayId = displayId;
+					returnEvent.meta.model.timeA = event.insertedEndTime;
+					returnEvent.meta.model.isValid = true;
+					console.log('inserted events');
+				}
+			}
 		}
 		events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
 		this.reAlignTimeBoundaries(event.users, events);
@@ -174,15 +224,23 @@ export class TravelDiaryEditor {
 	 * @param model
 	 * @param events
 	 */
-	public isDeparterTimeOverlapping(model: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): boolean {
+	public getOverlappingDeparture(
+		model: TimelineLineResponseDisplayData,
+		events: TravelDiaryEvent[]
+	): TravelDiaryEvent {
+		if (!model.users) {
+			return undefined;
+		}
 		for (let respondent of model.users) {
 			// get users for event
 			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
-
-			for (let event of userEvents) {
+			for (let i = 1; i < userEvents.length; i++) {
+				if (userEvents[i].start < model.timeA && userEvents[i].end > model.timeA) {
+					return userEvents[i];
+				}
 			}
 		}
-		return true;
+		return undefined;
 	}
 
 	/**
@@ -362,6 +420,7 @@ export class TravelDiaryEditor {
 		if (idx >= 0) {
 			events.splice(idx, 1);
 		}
+		this.reAlignTimeBoundaries(event.users, events);
 	}
 
 	public updateIndices(user: SurveyRespondentUser, events: TravelDiaryEvent[]): void {
