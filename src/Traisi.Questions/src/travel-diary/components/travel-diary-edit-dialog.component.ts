@@ -27,8 +27,14 @@ import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-c
 import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 import { TravelDiaryConfiguration, TravelMode, Purpose } from '../models/travel-diary-configuration.model';
 import { Subject, BehaviorSubject, Observable, concat, of } from 'rxjs';
-import { DialogMode, SurveyRespondentUser, TimelineLineResponseDisplayData } from 'travel-diary/models/consts';
+import {
+	DialogMode,
+	SurveyRespondentUser,
+	TimelineLineResponseDisplayData,
+	TravelDiaryEvent,
+} from 'travel-diary/models/consts';
 import { NgForm } from '@angular/forms';
+import { TravelDiaryEditor } from 'travel-diary/services/travel-diary-editor.service';
 @Component({
 	selector: 'traisi-travel-diary-edit-dialog',
 	template: '' + templateString,
@@ -71,6 +77,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	private _isMapLoaded = false;
 
+	public isInsertedDepartureTime: boolean = false;
+
+	public insertedIntoEvent: TravelDiaryEvent;
+
 	/**
 	 *Creates an instance of TravelDiaryEditDialogComponent.
 	 * @param {BsModalService} _modalService
@@ -81,6 +91,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	public constructor(
 		private _modalService: BsModalService,
 		private _injector: Injector,
+		private _editorService: TravelDiaryEditor,
 		private _travelDiaryService: TravelDiaryService,
 		@Inject(TraisiValues.QuestionLoader) private _questionLoaderService
 	) {
@@ -88,6 +99,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	private resetModel(): void {
+		this.isInsertedDepartureTime = false;
+		this.insertedIntoEvent = null;
 		if (!this.model) {
 			let id = Date.now();
 			this.model = {
@@ -120,6 +133,22 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		// console.log(this.eventInputChanges);
 	}
 
+	public onDepartureTimeChange($event: Date): void {
+		this.isInsertedDepartureTime = this._editorService.isDeparterTimeOverlapping(
+			this.model,
+			this._travelDiaryService.diaryEvents$.value
+		);
+	}
+
+	public onReturnTimeChange($event: Date): void {
+		console.log(this.model);
+	}
+
+	public onInsertionConform($event: any): void {
+		console.log($event);
+		console.log(this.model);
+	}
+
 	public dialogSave(): void {
 		this.hide();
 		if (this.dialogMode === DialogMode.New) {
@@ -128,6 +157,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventSaved.emit(this.model);
 		}
 	}
+	
 
 	public hide(): void {
 		this.modal.hide();

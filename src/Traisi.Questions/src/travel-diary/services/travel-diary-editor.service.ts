@@ -36,7 +36,7 @@ export class TravelDiaryEditor {
 		if (homeAllDay) {
 			events = events.concat(this.createHomeAllDayEvent(user));
 			return events;
-		} else if (workDeparture || schoolDeparture) {
+		} else if (workDeparture || schoolDeparture || returnedHome) {
 			let homeEvent = this.createHomeStartEvent(user);
 			events.push(homeEvent);
 		}
@@ -55,7 +55,14 @@ export class TravelDiaryEditor {
 			events.push(schoolEvent);
 		}
 
+		this.resetOrders(events);
 		return events;
+	}
+
+	public resetOrders(event: TravelDiaryEvent[]): void {
+		for (let i = 0; i < event.length; i++) {
+			event[i].meta.model.order = i;
+		}
 	}
 
 	public generateId(): number {
@@ -68,6 +75,7 @@ export class TravelDiaryEditor {
 		homeEvent.end = new Date(new Date().setHours(9, 0, 0, 0));
 		homeEvent.meta.model.timeA = new Date(new Date().setHours(0, 0, 0, 0));
 		homeEvent.meta.model.isValid = true;
+		homeEvent.meta.model.order = 0;
 		homeEvent.meta.model.address = user.homeAddress ?? {};
 		return homeEvent;
 	}
@@ -78,6 +86,7 @@ export class TravelDiaryEditor {
 		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
 		returnHomeEvent.meta.model.timeA = new Date(new Date().setHours(17, 1, 0, 0));
 		returnHomeEvent.meta.model.isValid = false;
+		returnHomeEvent.meta.model.model = 2;
 		returnHomeEvent.meta.model.address = user.homeAddress ?? {};
 		return returnHomeEvent;
 	}
@@ -93,6 +102,7 @@ export class TravelDiaryEditor {
 		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
 		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
 		workEvent.meta.model.address = workLocation.address;
+		workEvent.meta.model.order = 1;
 		return workEvent;
 	}
 
@@ -110,6 +120,7 @@ export class TravelDiaryEditor {
 		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
 		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
 		workEvent.meta.model.address = schoolLocation.address;
+		workEvent.meta.model.order = 1;
 
 		return workEvent;
 	}
@@ -155,6 +166,22 @@ export class TravelDiaryEditor {
 	}
 
 	private _hasHomeEndEvent(events: TravelDiaryEvent[]): boolean {
+		return true;
+	}
+
+	/**
+	 *
+	 * @param model
+	 * @param events
+	 */
+	public isDeparterTimeOverlapping(model: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): boolean {
+		for (let respondent of model.users) {
+			// get users for event
+			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
+
+			for (let event of userEvents) {
+			}
+		}
 		return true;
 	}
 
@@ -316,30 +343,30 @@ export class TravelDiaryEditor {
 	}
 
 	/**
-	 * 
-	 * @param event 
-	 * @param events 
+	 *
+	 * @param event
+	 * @param events
 	 */
 	public findTravelDiaryEvent(event: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): TravelDiaryEvent {
-		let match = events.find(x => x.meta.model.displayId === event.displayId)
+		let match = events.find((x) => x.meta.model.displayId === event.displayId);
 		return match;
 	}
 
 	/**
 	 * Deletes the event from the list of travel diary events
-	 * @param event 
-	 * @param events 
+	 * @param event
+	 * @param events
 	 */
 	public deleteEvent(event: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): void {
-		let idx = events.findIndex(x => x.meta.model.displayId === event.displayId);
-		if(idx >= 0 ) {
+		let idx = events.findIndex((x) => x.meta.model.displayId === event.displayId);
+		if (idx >= 0) {
 			events.splice(idx, 1);
 		}
 	}
 
 	public updateIndices(user: SurveyRespondentUser, events: TravelDiaryEvent[]): void {
 		let userEvents = events.filter((x) => x.meta.user.id === user.id);
-		for(let i = 0; i < userEvents.length; i++){
+		for (let i = 0; i < userEvents.length; i++) {
 			userEvents[i].meta.model.order = i;
 		}
 	}

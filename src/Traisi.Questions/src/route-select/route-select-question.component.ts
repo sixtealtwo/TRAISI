@@ -92,7 +92,9 @@ export class RouteSelectQuestionComponent extends SurveyQuestion<ResponseTypes.J
 				'PT',
 				this._repeatValue.mode === 'transit-park-ride',
 				'',
-				''
+				'',
+				mode === 'Car' ? 20 : 0,
+				mode === 'Bike' ? 15 : 0
 			)
 			.subscribe((x) => {
 				this.route = (x as RootObject).Data[0].response;
