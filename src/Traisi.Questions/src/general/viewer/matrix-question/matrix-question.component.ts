@@ -64,7 +64,6 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 	}
 
 	public calculateDimensions(): void {
-		console.log('in calculate dimensions');
 		this.rowHeaderWidth = 10;
 		this.entryWidth = (100 - this.rowHeaderWidth) / this.columnLabels.length;
 	}
@@ -76,6 +75,7 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 	public changed(event, id): void {
 		if (this.form.valid) {
 			this.response.emit(this.model);
+			this.validationState.emit(ResponseValidationState.VALID);
 		}
 	}
 
