@@ -23,7 +23,6 @@ const transit_modes = ['transit-all-way', 'transit-park-ride', 'transit-kiss-rid
 	selector: 'traisi-route-select-question',
 	template: '' + templateString,
 	providers: [],
-	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
 	styles: ['' + styleString],
 })
