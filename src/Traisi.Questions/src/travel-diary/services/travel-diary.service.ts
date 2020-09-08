@@ -446,7 +446,7 @@ export class TravelDiaryService {
 	 * @param event
 	 */
 	public updateEvent(event: TimelineLineResponseDisplayData): void {
-		this._diaryEvents = this._diaryEvents.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
+		// this._diaryEvents = this._diaryEvents.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
 		this._edtior.updateEvent(event, this._diaryEvents);
 		this.diaryEvents$.next(this._diaryEvents);
 		console.log(this._diaryEvents);

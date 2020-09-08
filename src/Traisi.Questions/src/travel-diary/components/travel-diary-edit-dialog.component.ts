@@ -147,11 +147,12 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		);
 		if (this.dialogMode === DialogMode.Edit) {
 			let laterEvent = this._editorService.getLaterEvent(this.model, this._travelDiaryService.diaryEvents$.value);
+			
 			if (laterEvent) {
-				console.log(' is required');
-				console.log(laterEvent);
+				this.model.hasEndTime = true;
 				this.isRequiresEndTime = true;
 			} else {
+				this.model.hasEndTime = false;
 				this.isRequiresEndTime = false;
 			}
 		}

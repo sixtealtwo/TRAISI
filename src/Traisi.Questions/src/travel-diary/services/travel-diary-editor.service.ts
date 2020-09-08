@@ -306,34 +306,53 @@ export class TravelDiaryEditor {
 	 */
 	public updateEvent(update: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]) {
 		// find the event
-
 		let evt = events.find((x) => x.meta.model.displayId === update.displayId);
 		if (evt) {
 			let newModel = Object.assign(evt.meta.model, update);
 			evt.meta.model = newModel;
 			evt.meta.model.isValid = true;
+			evt.start = update.timeA;
+			if (update.hasEndTime) {
+				evt.end = update.insertedEndTime;
+			}
+			console.log('udated');
+			console.log(evt);
 		} else {
 		}
-		this.reAlignTimeBoundaries(update.users, events);
+		this.reAlignTimeBoundaries(update.users, events, update);
 	}
 
 	/**
 	 *
 	 * @param events
 	 */
-	public reAlignTimeBoundaries(users: SurveyRespondentUser[], allEvents: TravelDiaryEvent[]) {
+	public reAlignTimeBoundaries(
+		users: SurveyRespondentUser[],
+		allEvents: TravelDiaryEvent[],
+		updated: TimelineLineResponseDisplayData = null
+	) {
 		// realigns time boundaries using the location / timeline model as master
 		for (let user of users) {
 			let events = allEvents.filter((x) => x.meta.user.id === user.id);
+			events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
 			for (let i = 0; i < events.length - 1; i++) {
 				events[i].meta.model.order = i;
 				events[i].start = events[i].meta.model.timeA;
-				events[i].end = events[i + 1].meta.model.timeA;
+				if (events[i].meta.model.displayId === updated?.displayId && updated?.hasEndTime) {
+					events[i + 1].start = events[i].meta.model.insertedEndTime;
+					if (events[i].meta.model.insertedEndTime) {
+						events[i + 1].meta.model.timeA = events[i].meta.model.insertedEndTime;
+					}
+					events[i].end = events[i].meta.model.insertedEndTime;
+				} else {
+					events[i].end = events[i + 1].meta.model.timeA;
+				}
 			}
 			if (events.length > 1) {
 				events[events.length - 1].meta.model.order = events.length - 1;
 				events[events.length - 1].start = events[events.length - 1].meta.model.timeA;
 			}
+			console.log(events);
 		}
 	}
 

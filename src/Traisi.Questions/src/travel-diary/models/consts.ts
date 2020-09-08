@@ -33,6 +33,7 @@ export type TimelineLineResponseDisplayData = TimelineResponseData & {
 	displayId: number;
 	isValid: boolean;
 	isInserted?: boolean;
+	hasEndTime?: boolean;
 	insertedEndTime?: Date;
 	displayAddress: any;
 };

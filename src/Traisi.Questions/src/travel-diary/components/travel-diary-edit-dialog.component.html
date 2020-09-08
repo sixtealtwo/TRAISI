@@ -160,7 +160,8 @@
 					</div>
 					<div class="form-group row" *ngIf="model.isInserted || isRequiresEndTime">
 						<div class="col-12">
-							<label for="timeA" class="col-form-label">Return Time</label>
+							<label for="timeA" class="col-form-label" *ngIf="model.isInserted">Return Time</label>
+							<label for="timeA" class="col-form-label" *ngIf="isRequiresEndTime">Until What Time?</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="insertedEndTime"

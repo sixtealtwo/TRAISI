@@ -16,8 +16,8 @@
 						required
 						[value]="entry"
 						type="radio"
-						id="customRadio{{ row }}_{{ col }}"
-						name="{{ header }}"
+						id="{{questionId }}-customRadio{{ row }}_{{ col }}"
+						name="{{questionId }}-{{ header }}"
 						class="custom-control-input"
 						(change)="changed($event, row + '_' + col)"
 						[(ngModel)]="model[header]"
