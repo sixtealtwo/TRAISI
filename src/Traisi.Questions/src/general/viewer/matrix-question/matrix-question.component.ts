@@ -30,7 +30,9 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 	public rowLabels: string[] = [];
 	public columnLabels: string[] = [];
 
-	public ngOnInit(): void {}
+	public ngOnInit(): void {
+		this.savedResponse.subscribe(this.onSavedResponseData);
+	}
 
 	public model = {};
 
@@ -44,6 +46,8 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 		response: ResponseData<ResponseTypes.Json>[] | 'none'
 	) => {
 		if (response !== 'none') {
+			console.log('got response ');
+			console.log(response);
 			let model = JSON.parse(response[0]['value']);
 			this.model = model[0];
 			this.validationState.emit(ResponseValidationState.VALID);
@@ -59,7 +63,7 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 				this.columnLabels.push(i['label']);
 			}
 		}
-		this.savedResponse.subscribe(this.onSavedResponseData);
+		
 		this.calculateDimensions();
 	}
 
