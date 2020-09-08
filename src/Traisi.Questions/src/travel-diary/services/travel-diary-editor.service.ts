@@ -47,11 +47,11 @@ export class TravelDiaryEditor {
 		}
 
 		if (workDeparture) {
-			let workEvent = this.createHomeWorkHomeEvent(user, workLocation, returnedHome);
+			let workEvent = this.createHomeWorkHomeEvent(user, workLocation, returnedHome, schoolDeparture);
 			events.push(workEvent);
 		}
 		if (schoolDeparture) {
-			let schoolEvent = this.createHomeSchoolHomeEvent(user, schoolLoation, returnedHome);
+			let schoolEvent = this.createHomeSchoolHomeEvent(user, schoolLoation, returnedHome, workDeparture);
 			events.push(schoolEvent);
 		}
 
@@ -99,13 +99,14 @@ export class TravelDiaryEditor {
 	private createHomeWorkHomeEvent(
 		user: SurveyRespondentUser,
 		workLocation: LocationResponseData,
-		returnedHome: boolean
+		returnedHome: boolean,
+		hasSchoolTrip: boolean
 	): TravelDiaryEvent {
 		let workEvent = this.createBaseEvent(user, 'Work (Not Home)', 'work');
 		workEvent.start = new Date(new Date().setHours(9, 1, 0, 0));
-		workEvent.end = new Date(new Date().setHours(17, 0, 0, 0));
+		workEvent.end = new Date(new Date().setHours(hasSchoolTrip ? 12 : 17, 0, 0, 0));
 		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
-		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
+		workEvent.meta.model.timeB = new Date(new Date().setHours(hasSchoolTrip ? 12 : 17, 0, 0, 0));
 		workEvent.meta.model.address = workLocation.address;
 		workEvent.meta.model.latitude = workLocation.latitude;
 		workEvent.meta.model.longitude = workLocation.longitude;
@@ -116,15 +117,16 @@ export class TravelDiaryEditor {
 	private createHomeSchoolHomeEvent(
 		user: SurveyRespondentUser,
 		schoolLocation: LocationResponseData,
-		returnedHome: boolean
+		returnedHome: boolean,
+		hasWorkTrip: boolean
 	): TravelDiaryEvent {
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
 		let workEvent = this.createBaseEvent(user, 'School (Not Home)', 'school');
 		homeEvent.end = new Date(new Date().setHours(9, 0, 0, 0));
-		workEvent.start = new Date(new Date().setHours(9, 1, 0, 0));
+		workEvent.start = new Date(new Date().setHours(hasWorkTrip ? 12 : 9, 1, 0, 1));
 		workEvent.end = new Date(new Date().setHours(17, 0, 0, 0));
 
-		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
+		workEvent.meta.model.timeA = new Date(new Date().setHours(hasWorkTrip ? 12 : 9, 1, 0, 1));
 		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
 		workEvent.meta.model.address = schoolLocation.address;
 		workEvent.meta.model.latitude = schoolLocation.latitude;
@@ -255,9 +257,9 @@ export class TravelDiaryEditor {
 	}
 
 	/**
-	 * 
-	 * @param model 
-	 * @param events 
+	 *
+	 * @param model
+	 * @param events
 	 */
 	public getLaterEvent(model: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): TravelDiaryEvent {
 		if (!model.users) {
@@ -267,7 +269,7 @@ export class TravelDiaryEditor {
 			// get users for event
 			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
 			for (let i = 1; i < userEvents.length - 1; i++) {
-				if (userEvents[i].start >= model.timeA && model.displayId !== userEvents[i].meta.model.displayId ) {
+				if (userEvents[i].start >= model.timeA && model.displayId !== userEvents[i].meta.model.displayId) {
 					return userEvents[i];
 				}
 			}
