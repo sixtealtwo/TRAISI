@@ -114,9 +114,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		} else {
 			this.validationState.emit(ResponseValidationState.INVALID);
 		}
-		if (this.scheduleComponent) {
-			this.scheduleComponent.refresh.next();
-		}
+		//if (this.scheduleComponent) {
+		//	this.scheduleComponent.refresh.next();
+	//	}
 	};
 
 	public saveTravelDiary(): void {

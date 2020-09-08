@@ -134,9 +134,10 @@ export class TravelDiaryService {
 						this.loadPriorResponseData(respondentsToLoad).subscribe({
 							complete: () => {
 								this._diaryEvents = [].concat(this._diaryEvents);
+								this.isLoaded.next(true);
 								this.diaryEvents$.next(this._diaryEvents);
 								this.users.next(this.respondents);
-								this.isLoaded.next(true);
+								
 							},
 						});
 					} else {
