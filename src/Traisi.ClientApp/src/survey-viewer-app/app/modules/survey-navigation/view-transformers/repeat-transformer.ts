@@ -47,22 +47,28 @@ export class RepeatTransformer extends ViewTransformation {
 							clones.push(question);
 							continue;
 						}
-						let response = this._responseService.getStoredResponse(
-							this._state.viewerState.questionMap[question.model.repeatSource],
-							state.activeRespondent
-						);
-
-						// count how many needed
-						let cloneCount: number = 0;
-						let responses = [];
-						for (let r of response) {
-							if (transit_modes.includes(r['mode'])) {
-								cloneCount++;
-								responses.push(r);
+						if (
+							this._responseService.hasStoredResponse(
+								this._state.viewerState.questionMap[question.model.repeatSource],
+								state.activeRespondent
+							)
+						) {
+							let response = this._responseService.getStoredResponse(
+								this._state.viewerState.questionMap[question.model.repeatSource],
+								state.activeRespondent
+							);
+							// count how many needed
+							let cloneCount: number = 0;
+							let responses = [];
+							for (let r of response) {
+								if (transit_modes.includes(r['mode'])) {
+									cloneCount++;
+									responses.push(r);
+								}
 							}
-						}
 
-						clones = clones.concat(this.createClones(cloneCount, question, state, responses, response));
+							clones = clones.concat(this.createClones(cloneCount, question, state, responses, response));
+						}
 					}
 					let result = clones;
 					obs.next(result);
