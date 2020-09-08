@@ -16,3 +16,15 @@ btn.disabled {
 form .ng-invalid {
 	border: solid 1px red;
 }
+
+.invalid-feedback {
+	margin-top: 10px;
+    height: 30px;
+}
+
+.ng-invalid + .invalid-feedback {
+	display: block;
+}
+.ng-valid + .invalid-feedback {
+	display: none;
+}

@@ -164,7 +164,16 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		}
 	}
 
-	public onReturnTimeChange($event: Date): void {}
+	public onReturnTimeChange($event: Date): void {
+		if ($event < this.model.timeA) {
+			console.log('setting invalid');
+			this.eventForm.form.controls['insertedEndTime'].setErrors({ invalid: true });
+		} else {
+			console.log('setting valid');
+			this.eventForm.form.controls['insertedEndTime'].setErrors(null);
+		}
+		console.log(this.eventForm);
+	}
 
 	public onInsertionConfirm($event: any): void {}
 

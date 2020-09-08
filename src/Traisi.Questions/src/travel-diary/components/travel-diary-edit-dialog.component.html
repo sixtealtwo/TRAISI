@@ -9,7 +9,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form #eventForm="ngForm" validate>
+				<form #eventForm="ngForm" validate returnTime>
 					<div class="form-group row">
 						<div class="col-12">
 							<label for="name" class="col-form-label">Name</label>
@@ -167,8 +167,9 @@
 									type="text"
 									class="form-control"
 									name="insertedEndTime"
+									#insertedEndTime
 									mwlFlatpickr
-									(change)="onReturnTimeChange($event)"
+									(ngModelChange)="onReturnTimeChange($event)"
 									[(ngModel)]="model.insertedEndTime"
 									[noCalendar]="true"
 									[enableTime]="true"
@@ -177,6 +178,9 @@
 									[convertModelValue]="true"
 									required
 								/>
+								<div class="invalid-feedback">
+									Return time must be later than the original departure time.
+								</div>
 							</div>
 						</div>
 					</div>
@@ -201,7 +205,7 @@
 								required
 							>
 								<ng-template ng-label-tmp let-item="item">
-									{{ item.streetNumber }} {{ item.streetAddress }},  {{ item.city }}
+									{{ item.streetNumber }} {{ item.streetAddress }}, {{ item.city }}
 								</ng-template>
 							</ng-select>
 							<div [hidden]="!searchInFocus">

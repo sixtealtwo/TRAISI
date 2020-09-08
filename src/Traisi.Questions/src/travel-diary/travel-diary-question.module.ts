@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders, } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -20,6 +20,7 @@ import { DayViewSchedulerComponent } from './components/day-view-scheduler.compo
 import { TravelDiaryEventDisplayComponent } from './components/travel-diary-event-display.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
 export const calendarProps = {
 	provide: DateAdapter,
 	useFactory: adapterFactory,
@@ -32,6 +33,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 		TravelDiaryEditDialogComponent,
 		DayViewSchedulerComponent,
 		TravelDiaryEventDisplayComponent,
+		ReturnTimeValidatorDirective,
 	],
 	entryComponents: [
 		TravelDiaryQuestionComponent,
@@ -63,6 +65,11 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 					id: 'travel-diary-event-display',
 					component: TravelDiaryEventDisplayComponent,
 				},
+				{
+					name: 'returnTime',
+					id: 'travel-diary-returnTime',
+					component: ReturnTimeValidatorDirective,
+				},
 			],
 			multi: true,
 		},
@@ -73,6 +80,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 				name: 'location',
 			},
 		},
+		ReturnTimeValidatorDirective
 	],
 	imports: [
 		RouterModule,

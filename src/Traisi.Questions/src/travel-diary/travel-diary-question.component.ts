@@ -27,10 +27,11 @@ import { DayViewSchedulerComponent } from './components/day-view-scheduler.compo
 import { BehaviorSubject, Observable } from 'rxjs';
 import { colors, DialogMode, TimelineLineResponseDisplayData } from './models/consts';
 import { TravelDiaryEditor } from './services/travel-diary-editor.service';
+import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
 @Component({
 	selector: 'traisi-travel-diary-question',
 	template: '' + templateString,
-	providers: [TravelDiaryService, TravelDiaryEditor],
+	providers: [TravelDiaryService, TravelDiaryEditor, ReturnTimeValidatorDirective],
 	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
 	styles: ['' + styleString],
