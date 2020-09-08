@@ -22,18 +22,31 @@ namespace Traisi.Models.Mapping
                 .ForMember(s => s.QuestionId, r => r.MapFrom(r2 => r2.QuestionPart.Id));
 
             CreateMap<SurveyRespondentGroup, SurveyRespondentGroupViewModel>();
-            CreateMap<SurveyRespondent, SurveyRespondentViewModel>();
+            CreateMap<SurveyRespondent, SurveyRespondentViewModel>()
+            .AfterMap((s, svm, opt) =>
+                {
+                    if (s.HomeLocation != null)
+                    {
+                        svm.HomeLatitude = s.HomeLocation.Y;
+                        svm.HomeLongitude = s.HomeLocation.X;
+                    }
+                });
+
             CreateMap<SubRespondent, SurveyRespondentViewModel>();
             CreateMap<SurveyRespondentViewModel, SubRespondent>()
                 .ForMember(m => m.SurveyRespondentGroup, c => c.Ignore());
-            CreateMap<PrimaryRespondent, SurveyRespondentViewModel>();
+            CreateMap<PrimaryRespondent, SurveyRespondentViewModel>()
+                .ForMember(m => m.HomeLatitude, c => c.MapFrom(x => x.HomeLocation.Y))
+                .ForMember(m => m.HomeLongitude, c => c.MapFrom(x => x.HomeLocation.X));
             CreateMap<SurveyResponse, LocationResponseViewModel>().ForMember(
                 m => m.ResponseValues, r => r.MapFrom<LocationResponseValueResolver>()
-            ).ForMember(s => s.Configuration, r => r.MapFrom<SurveyResponseConfigurationValueResolver>());
+            ).ForMember(s => s.Configuration, r => r.MapFrom<SurveyResponseConfigurationValueResolver>())
+             .ForMember(s => s.QuestionId, r => r.MapFrom(r2 => r2.QuestionPart.Id));
 
             CreateMap<SurveyResponse, TimelineResponseViewModel>().ForMember(
                 m => m.ResponseValues, r => r.MapFrom<TimelineResponseValueResolver>()
-            ).ForMember(s => s.Configuration, r => r.MapFrom<SurveyResponseConfigurationValueResolver>());
+            ).ForMember(s => s.Configuration, r => r.MapFrom<SurveyResponseConfigurationValueResolver>())
+             .ForMember(s => s.QuestionId, r => r.MapFrom(r2 => r2.QuestionPart.Id));
         }
     }
 

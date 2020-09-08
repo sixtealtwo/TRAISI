@@ -93,8 +93,13 @@ export class TravelDiaryService {
 		this.loadAddresses();
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
 			let primaryHomeAddress: any = {};
+			let primaryHomeLat = 0;
+			let primaryHomeLng = 0;
+			console.log(respondents);
 			if (respondents.length > 0) {
 				primaryHomeAddress = respondents[0].homeAddress;
+				primaryHomeLat = respondents[0].homeLatitude;
+				primaryHomeLng = respondents[0].homeLongitude;
 			}
 			for (let x of respondents) {
 				let respondentUser = {
@@ -102,12 +107,16 @@ export class TravelDiaryService {
 					name: x.name,
 					color: colors.blue,
 					homeAddress: primaryHomeAddress,
+					homeLatitude: primaryHomeLat,
+					homeLongitude: primaryHomeLng,
 				};
 				this.respondents.push(respondentUser);
 				this.userMap[respondentUser.id] = respondentUser;
 			}
 			this.loadSavedResponses().subscribe({
 				next: (v: SurveyResponseViewModel[]) => {
+					console.log('got responses');
+					console.log(v);
 					for (let result of v) {
 						this._edtior.createDiaryFromResponseData(
 							this.userMap[result.respondent.id],
@@ -116,6 +125,8 @@ export class TravelDiaryService {
 						);
 					}
 					this._edtior.reAlignTimeBoundaries(this.respondents, this._diaryEvents);
+					console.log('after realign');
+					console.log(this._diaryEvents);
 					if (this._diaryEvents.length === 0) {
 						this.loadPriorResponseData();
 						this.isLoaded.next(true);
@@ -284,6 +295,7 @@ export class TravelDiaryService {
 			}
 		}
 		this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
+			console.log(res);
 			this._initializeSmartFill(
 				res,
 				homeAllDayId,
@@ -344,8 +356,6 @@ export class TravelDiaryService {
 				toRemove.push(r);
 				break;
 			}
-			console.log(workDeparture);
-			console.log(homeAllDayId);
 
 			let events = this._edtior.createDefaultTravelDiaryforRespondent(
 				this.userMap[r.id],
@@ -356,8 +366,6 @@ export class TravelDiaryService {
 				workLocation, // work loc,
 				schoolLocation //school loc
 			);
-			console.log('generated events');
-			console.log(events);
 			this.addEvents(events);
 		}
 		for (let r of toRemove) {

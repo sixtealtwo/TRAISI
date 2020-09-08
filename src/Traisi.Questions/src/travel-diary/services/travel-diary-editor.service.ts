@@ -77,6 +77,9 @@ export class TravelDiaryEditor {
 		homeEvent.meta.model.isValid = true;
 		homeEvent.meta.model.order = 0;
 		homeEvent.meta.model.address = user.homeAddress ?? {};
+		homeEvent.meta.model.latitude = user.homeLatitude;
+		homeEvent.meta.model.longitude = user.homeLongitude;
+		console.log(user);
 		return homeEvent;
 	}
 
@@ -88,6 +91,8 @@ export class TravelDiaryEditor {
 		returnHomeEvent.meta.model.isValid = false;
 		returnHomeEvent.meta.model.model = 2;
 		returnHomeEvent.meta.model.address = user.homeAddress ?? {};
+		returnHomeEvent.meta.model.latitude = user.homeLatitude;
+		returnHomeEvent.meta.model.longitude = user.homeLongitude;
 		return returnHomeEvent;
 	}
 
@@ -102,6 +107,8 @@ export class TravelDiaryEditor {
 		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
 		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
 		workEvent.meta.model.address = workLocation.address;
+		workEvent.meta.model.latitude = workLocation.latitude;
+		workEvent.meta.model.longitude = workLocation.longitude;
 		workEvent.meta.model.order = 1;
 		return workEvent;
 	}
@@ -120,6 +127,8 @@ export class TravelDiaryEditor {
 		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
 		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
 		workEvent.meta.model.address = schoolLocation.address;
+		workEvent.meta.model.latitude = schoolLocation.latitude;
+		workEvent.meta.model.longitude = schoolLocation.longitude;
 		workEvent.meta.model.order = 1;
 
 		return workEvent;
@@ -297,7 +306,7 @@ export class TravelDiaryEditor {
 				events[i].start = events[i].meta.model.timeA;
 				events[i].end = events[i + 1].meta.model.timeA;
 			}
-			if (events.length > 2) {
+			if (events.length > 1) {
 				events[events.length - 1].meta.model.order = events.length - 1;
 				events[events.length - 1].start = events[events.length - 1].meta.model.timeA;
 			}

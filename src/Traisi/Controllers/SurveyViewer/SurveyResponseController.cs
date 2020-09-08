@@ -74,7 +74,7 @@ namespace Traisi.Controllers.SurveyViewer
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [HttpPut]
         [Route("surveys/{surveyId}/questions/respondents/{respondentId}/exclude/{shouldExclude}", Name = "Exclude_Responses")]
-        public async Task<ActionResult<SurveyViewerValidationStateViewModel>> ExcludeResponses(int surveyId,int respondentId, bool shouldExclude, [FromQuery] int[] questionIds
+        public async Task<ActionResult<SurveyViewerValidationStateViewModel>> ExcludeResponses(int surveyId, int respondentId, bool shouldExclude, [FromQuery] int[] questionIds
             )
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
@@ -83,7 +83,7 @@ namespace Traisi.Controllers.SurveyViewer
                 return new NotFoundResult();
             }
             var respondent = await _unitOfWork.SurveyRespondents.GetSurveyRespondentAsync(respondentId);
-            await this._resonseService.ExcludeResponse(survey, questionIds, respondent,shouldExclude);
+            await this._resonseService.ExcludeResponse(survey, questionIds, respondent, shouldExclude);
             return new OkResult();
         }
 
@@ -204,8 +204,25 @@ namespace Traisi.Controllers.SurveyViewer
                 return new NotFoundObjectResult(new List<SurveyResponseViewModel>());
             }
             var responses = await this._resonseService.ListSurveyResponsesForQuestionsMultipleRespondentsAsync(new List<int>(questionIds), new List<int>(respondentIds));
+            var responseList = new List<SurveyResponseViewModel>();
+            foreach (var response in responses)
+            {
 
-            return new OkObjectResult(_mapper.Map<List<SurveyResponseViewModel>>(responses));
+                if (response.ResponseValues.Count > 0 && response.ResponseValues[0] is TimelineResponse)
+                {
+                    responseList.Add(_mapper.Map<TimelineResponseViewModel>(response));
+                }
+                else if (response.ResponseValues.Count > 0 && response.ResponseValues[0] is LocationResponse)
+                {
+                    responseList.Add(_mapper.Map<LocationResponseViewModel>(response));
+                }
+                else
+                {
+                    responseList.Add(_mapper.Map<SurveyResponseViewModel>(response));
+                }
+            }
+
+            return new OkObjectResult(responseList);
         }
 
         [HttpGet]

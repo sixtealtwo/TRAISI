@@ -11,5 +11,9 @@ namespace Traisi.ViewModels.SurveyViewer
         public string PhoneNumber { get; set; }
 
         public Address HomeAddress { get; set; }
+
+        public double HomeLatitude { get; set; }
+
+        public double HomeLongitude { get; set; }
     }
 }

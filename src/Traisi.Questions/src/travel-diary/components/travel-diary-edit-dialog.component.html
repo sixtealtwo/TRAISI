@@ -196,9 +196,13 @@
 								minlength="10"
 								placeholder="Search for location"
 								aria-describedby="inputGroupPrepend3"
+								[ngModel]="model.address"
 								(change)="locationChanged($event)"
 								required
 							>
+								<ng-template ng-label-tmp let-item="item">
+									{{ item.streetNumber }} {{ item.streetAddress }},  {{ item.city }}
+								</ng-template>
 							</ng-select>
 							<div [hidden]="!searchInFocus">
 								<ng-template #mapTemplate>

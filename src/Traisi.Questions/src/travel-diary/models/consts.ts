@@ -34,6 +34,7 @@ export type TimelineLineResponseDisplayData = TimelineResponseData & {
 	isValid: boolean;
 	isInserted?: boolean;
 	insertedEndTime?: Date;
+	displayAddress: any;
 };
 
 export type TravelDiaryEvent = CalendarEvent & { meta: { model: TimelineLineResponseDisplayData; [x: string]: any } };

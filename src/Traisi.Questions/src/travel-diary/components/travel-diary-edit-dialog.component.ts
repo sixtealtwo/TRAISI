@@ -208,6 +208,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		}
 
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;
+
+		
 		this.modal.show();
 		if (!this._isMapLoaded) {
 			let componentRef = null;
