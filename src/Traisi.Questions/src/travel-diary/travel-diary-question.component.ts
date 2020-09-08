@@ -99,10 +99,11 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
-		if (this._travelDiaryService.isTravelDiaryValid) {
+		let isValid = this._travelDiaryService.isTravelDiaryValid;
+		if (isValid) {
 			this.saveTravelDiary();
 		}
-		if (this._travelDiaryService.isLoaded.value) {
+		if (this._travelDiaryService.isLoaded.value && isValid) {
 			this.validationState.emit(ResponseValidationState.VALID);
 		} else {
 			this.validationState.emit(ResponseValidationState.INVALID);

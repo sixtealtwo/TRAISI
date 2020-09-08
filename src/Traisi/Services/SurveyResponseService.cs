@@ -98,7 +98,7 @@ namespace Traisi.Services
                 await this
                     ._unitOfWork
                     .SurveyResponses
-                    .GetMostRecentResponseNoValuesForQuestionByRespondentAsync(survey, questionIds, (SurveyRespondent)respondent);
+                    .ListSurveyResponsesForQuestionsAsync(questionIds.ToList(), (SurveyRespondent)respondent);
             if (surveyResponses != null)
             {
                 foreach (var response in surveyResponses)

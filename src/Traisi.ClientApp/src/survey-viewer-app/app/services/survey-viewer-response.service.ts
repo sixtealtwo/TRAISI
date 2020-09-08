@@ -319,6 +319,7 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 			// return empty, data already exists for these respondents
 			return EMPTY;
 		}
+		queryIds = [...new Set(queryIds)];
 		return new Observable((obs) => {
 			this._responseClient
 				.listSurveyResponsesForQuestionsForMultipleRespondents(

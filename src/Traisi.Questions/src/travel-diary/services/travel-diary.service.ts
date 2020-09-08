@@ -160,7 +160,13 @@ export class TravelDiaryService {
 	}
 
 	public get isTravelDiaryValid(): boolean {
-		return this._diaryEvents.length > 0 && !this._diaryEvents.some((x) => x.meta.model.isValid === false);
+		for (let r of this.respondents) {
+			let filter = this._diaryEvents.filter((x) => x.meta.user.id === r.id);
+			if (filter.length === 0) {
+				return false;
+			}
+		}
+		return !this._diaryEvents.some((x) => x.meta.model.isValid === false);
 	}
 
 	/**
@@ -205,6 +211,9 @@ export class TravelDiaryService {
 		let workLocationId = 0;
 		let madeSchoolTripId = 0;
 		let schoolLocationId = 0;
+
+		console.log('in load prior response');
+
 		if (this.configuration.homeAllDay) {
 			let homeAllDayQuestionModel = <SurveyViewQuestion>(
 				this._injector.get('question.' + this.configuration.homeAllDay[0].label)
@@ -308,8 +317,7 @@ export class TravelDiaryService {
 		let toRemove = [];
 		for (let r of this.respondents) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
-			console.log(workDepartureId);
-			console.log(responseMatches);
+
 			// responses belonging to a specific user
 			const isHomeAllDay =
 				responseMatches.find((x) => x.questionId === homeAllDayId)?.responseValues[0].code?.toUpperCase() ===
@@ -336,6 +344,9 @@ export class TravelDiaryService {
 				toRemove.push(r);
 				break;
 			}
+			console.log(workDeparture);
+			console.log(homeAllDayId);
+
 			let events = this._edtior.createDefaultTravelDiaryforRespondent(
 				this.userMap[r.id],
 				isHomeAllDay,
@@ -345,6 +356,8 @@ export class TravelDiaryService {
 				workLocation, // work loc,
 				schoolLocation //school loc
 			);
+			console.log('generated events');
+			console.log(events);
 			this.addEvents(events);
 		}
 		for (let r of toRemove) {

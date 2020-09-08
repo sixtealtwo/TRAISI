@@ -95,13 +95,14 @@ export class SurveyNavigator {
 	 */
 	public initialize(state?: NavigationState): Observable<NavigationState> {
 		this.navigationState$.subscribe((v) => this._navigationStateChanged(v));
-		this.navigationState$.subscribe(this._excludeHiddenResponses);
+
 		if (state) {
 			if (state.activeRespondentIndex > this._state.viewerState.groupMembers.length) {
 				state.activeRespondentIndex = 0;
 			}
 			state.isLoaded = true;
 			state.activeRespondent = this._state.viewerState.groupMembers[state.activeRespondentIndex];
+			this.navigationState$.subscribe(this._excludeHiddenResponses);
 			return this._initState(state).pipe(
 				tap((v) => {
 					if (state.activeQuestionIndex > 0) {
@@ -137,6 +138,15 @@ export class SurveyNavigator {
 				next: () => {},
 				complete: () => {},
 			});
+
+			console.log(state.hiddenQuestions);
+			console.log(state.activeRespondent);
+			let r = state.activeQuestionInstances.map((q) => q.model);
+			console.log('excluding ');
+			for (let q of r) {
+				console.log(q.questionId);
+			}
+			// console.log('excluding ' + state.activeQuestionInstances.map((q) => q.model));
 			this._responseService
 				.excludeResponses(
 					state.activeQuestionInstances.map((q) => q.model),
@@ -499,7 +509,7 @@ export class SurveyNavigator {
 			for (let question of questions) {
 				evals.push(this._conditionalEvaluator.shouldHide(question, navigationState.activeRespondent));
 			}
-
+			navigationState.hiddenQuestions = [];
 			return new Observable((obs) => {
 				forkJoin(evals).subscribe(
 					(

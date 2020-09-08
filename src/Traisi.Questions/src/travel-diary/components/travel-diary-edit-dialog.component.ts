@@ -81,6 +81,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public insertedIntoEvent: TravelDiaryEvent;
 
+	public isFirstEventInDay: boolean = false;
+
 	/**
 	 *Creates an instance of TravelDiaryEditDialogComponent.
 	 * @param {BsModalService} _modalService
@@ -192,6 +194,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	 */
 	public show(mode: DialogMode, model?: TimelineLineResponseDisplayData): void {
 		this.dialogMode = mode;
+
 		if (mode === DialogMode.New) {
 			this.resetModel();
 			this.eventForm.form.markAsPristine();
@@ -204,6 +207,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.model = Object.assign({}, model);
 		}
 
+		this.isFirstEventInDay = this.model.order > 0 ? false : true;
 		this.modal.show();
 		if (!this._isMapLoaded) {
 			let componentRef = null;
