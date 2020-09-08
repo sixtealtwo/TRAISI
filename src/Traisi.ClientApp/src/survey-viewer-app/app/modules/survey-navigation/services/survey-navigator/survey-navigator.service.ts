@@ -139,13 +139,7 @@ export class SurveyNavigator {
 				complete: () => {},
 			});
 
-			console.log(state.hiddenQuestions);
-			console.log(state.activeRespondent);
 			let r = state.activeQuestionInstances.map((q) => q.model);
-			console.log('excluding ');
-			for (let q of r) {
-				console.log(q.questionId);
-			}
 			// console.log('excluding ' + state.activeQuestionInstances.map((q) => q.model));
 			this._responseService
 				.excludeResponses(
