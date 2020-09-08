@@ -7,5 +7,10 @@
 			<input type="radio" name="{{ radioName }}" [value]="idx" [(ngModel)]="selectedIndex" (ngModelChange)="modelChanged($event)" />
 			<traisi-route-display [trip]="trip" class="route-display"></traisi-route-display>
 		</label>
+		<div class="detailed-button" (click)="showTripInfo(trip)">
+			<i class="far fa-info-square"></i>
+		</div>
 	</div>
+	<traisi-route-detail-dialog #routeDetailDialog></traisi-route-detail-dialog>
+	
 </div>

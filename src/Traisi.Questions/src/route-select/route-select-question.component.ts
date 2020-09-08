@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, Inject, OnInit, ViewChild } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -14,7 +14,8 @@ import {
 import templateString from './route-select-question.component.html';
 import styleString from './route-select-question.component.scss';
 import { GeoServiceClient } from './geoservice-api-client.service';
-import { RootObject, Response } from './models/trip-route.model';
+import { RootObject, Response, Trip } from './models/trip-route.model';
+import { RouteDetailDialogComponent } from './components/route-detail-dialog.component';
 
 const transit_modes = ['transit-all-way', 'transit-park-ride', 'transit-kiss-ride', 'transit-cycle-ride'];
 
@@ -48,6 +49,9 @@ export class RouteSelectQuestionComponent extends SurveyQuestion<ResponseTypes.J
 
 	public radioName: string;
 
+	@ViewChild('routeDetailDialog')
+	public routeDetailDialog: RouteDetailDialogComponent;
+
 	public modelChanged(event: number) {
 		this.response.next([
 			{
@@ -56,6 +60,10 @@ export class RouteSelectQuestionComponent extends SurveyQuestion<ResponseTypes.J
 			},
 		]);
 		this.validationState.emit(ResponseValidationState.VALID);
+	}
+
+	public showTripInfo(trip: Trip) {
+		this.routeDetailDialog.show(trip);
 	}
 
 	public ngOnInit(): void {

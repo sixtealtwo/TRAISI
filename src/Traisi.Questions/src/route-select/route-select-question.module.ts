@@ -16,9 +16,11 @@ import { RouteSelectQuestionComponent } from './route-select-question.component'
 import { GeoServiceClient } from './geoservice-api-client.service';
 import { RouteDisplayComponent } from './components/route-display.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouteDetailDialogComponent } from './components/route-detail-dialog.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
-	declarations: [RouteSelectQuestionComponent, RouteDisplayComponent],
-	entryComponents: [RouteSelectQuestionComponent, RouteDisplayComponent],
+	declarations: [RouteSelectQuestionComponent, RouteDisplayComponent, RouteDetailDialogComponent],
+	entryComponents: [RouteSelectQuestionComponent, RouteDisplayComponent, RouteDetailDialogComponent],
 	providers: [
 		GeoServiceClient,
 		{
@@ -34,11 +36,16 @@ import { BrowserModule } from '@angular/platform-browser';
 					id: 'route-display',
 					component: RouteDisplayComponent,
 				},
+				{
+					name: 'traisi-route-detail-dialog',
+					id: 'route-detail-dialog',
+					component: RouteDetailDialogComponent,
+				},
 			],
 			multi: true,
 		},
 	],
-	imports: [CommonModule, FormsModule],
+	imports: [CommonModule, FormsModule,ModalModule.forRoot()],
 	exports: [],
 })
 export default class RouteSelectQuestionModule {
