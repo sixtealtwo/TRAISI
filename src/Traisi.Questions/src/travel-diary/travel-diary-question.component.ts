@@ -25,7 +25,7 @@ import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-c
 import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-dialog.component';
 import { DayViewSchedulerComponent } from './components/day-view-scheduler.component';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { colors, DialogMode, TimelineLineResponseDisplayData } from './models/consts';
+import { colors, DialogMode, TimelineLineResponseDisplayData, SurveyRespondentUser } from './models/consts';
 import { TravelDiaryEditor } from './services/travel-diary-editor.service';
 import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
 @Component({
@@ -66,8 +66,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		return this._travelDiaryService.diaryEvents;
 	}
 
-	public get users(): any[] {
-		return this._travelDiaryService.respondents;
+	public get users(): Observable<any> {
+		return this._travelDiaryService.users;
 	}
 
 	public newEvent(): void {
@@ -97,7 +97,12 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public ngOnInit(): void {
 		this._travelDiaryService.initialize();
 		this._travelDiaryService.diaryEvents$.subscribe(this.eventsUpdated);
+		this._travelDiaryService.users.subscribe(this.usersUpdated);
 	}
+
+	public usersUpdated = (users: SurveyRespondentUser[]): void => {
+
+	};
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
 		let isValid = this._travelDiaryService.isTravelDiaryValid;
@@ -108,6 +113,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 			this.validationState.emit(ResponseValidationState.VALID);
 		} else {
 			this.validationState.emit(ResponseValidationState.INVALID);
+		}
+		if (this.scheduleComponent) {
+			this.scheduleComponent.refresh.next();
 		}
 	};
 

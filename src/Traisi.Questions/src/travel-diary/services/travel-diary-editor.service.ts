@@ -32,7 +32,6 @@ export class TravelDiaryEditor {
 		schoolLoation?: any
 	): TravelDiaryEvent[] {
 		let events: TravelDiaryEvent[] = [];
-		console.log(workDeparture);
 		if (homeAllDay) {
 			events = events.concat(this.createHomeAllDayEvent(user));
 			return events;
@@ -315,8 +314,6 @@ export class TravelDiaryEditor {
 			if (update.hasEndTime) {
 				evt.end = update.insertedEndTime;
 			}
-			console.log('udated');
-			console.log(evt);
 		} else {
 		}
 		this.reAlignTimeBoundaries(update.users, events, update);
@@ -352,7 +349,6 @@ export class TravelDiaryEditor {
 				events[events.length - 1].meta.model.order = events.length - 1;
 				events[events.length - 1].start = events[events.length - 1].meta.model.timeA;
 			}
-			console.log(events);
 		}
 	}
 

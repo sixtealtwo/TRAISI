@@ -333,7 +333,6 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 						for (let response of responses) {
 							this._storeResponse(response.questionId, response.respondent, response.responseValues);
 						}
-						console.log('in here ');
 						obs.next(responses);
 						obs.complete();
 					},

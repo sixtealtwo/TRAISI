@@ -25,7 +25,7 @@
 		[dayStartHour]="4"
 		[dayEndHour]="24"
 		[refresh]="events$"
-		[users]="users"
+		[users]="users | async"
 		#schedule
 		(eventClicked)="eventClicked($event)"
 	>

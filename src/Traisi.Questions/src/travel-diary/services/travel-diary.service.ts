@@ -77,6 +77,7 @@ export class TravelDiaryService {
 		private _injector: Injector
 	) {
 		this.diaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
+		this.isLoaded.next(false);
 	}
 
 	/**
@@ -95,7 +96,6 @@ export class TravelDiaryService {
 			let primaryHomeAddress: any = {};
 			let primaryHomeLat = 0;
 			let primaryHomeLng = 0;
-			console.log(respondents);
 			if (respondents.length > 0) {
 				primaryHomeAddress = respondents[0].homeAddress;
 				primaryHomeLat = respondents[0].homeLatitude;
@@ -115,8 +115,6 @@ export class TravelDiaryService {
 			}
 			this.loadSavedResponses().subscribe({
 				next: (v: SurveyResponseViewModel[]) => {
-					console.log('got responses');
-					console.log(v);
 					for (let result of v) {
 						this._edtior.createDiaryFromResponseData(
 							this.userMap[result.respondent.id],
@@ -125,11 +123,22 @@ export class TravelDiaryService {
 						);
 					}
 					this._edtior.reAlignTimeBoundaries(this.respondents, this._diaryEvents);
-					console.log('after realign');
-					console.log(this._diaryEvents);
-					if (this._diaryEvents.length === 0) {
-						this.loadPriorResponseData();
-						this.isLoaded.next(true);
+					// find respondents with 0 events
+					let respondentsToLoad = [];
+					for (let r of this.respondents) {
+						if (!this._diaryEvents.some((x) => x.meta.user.id === r.id)) {
+							respondentsToLoad.push(r);
+						}
+					}
+					if (respondentsToLoad.length > 0) {
+						this.loadPriorResponseData(respondentsToLoad).subscribe({
+							complete: () => {
+								this._diaryEvents = [].concat(this._diaryEvents);
+								this.diaryEvents$.next(this._diaryEvents);
+								this.users.next(this.respondents);
+								this.isLoaded.next(true);
+							},
+						});
 					} else {
 						this.isLoaded.next(true);
 						this.diaryEvents$.next(this._diaryEvents);
@@ -137,7 +146,7 @@ export class TravelDiaryService {
 				},
 				complete: () => console.log('complete'),
 			});
-			this.users.next(this.respondents);
+			// this.users.next(this.respondents);
 		});
 
 		this.loadPreviousLocations();
@@ -185,7 +194,7 @@ export class TravelDiaryService {
 	 */
 	public resetTravelDiary(): void {
 		this._diaryEvents = [];
-		this.loadPriorResponseData();
+		this.loadPriorResponseData(this.respondents).subscribe();
 	}
 
 	public clearTravelDiary(): void {
@@ -213,99 +222,103 @@ export class TravelDiaryService {
 	/**
 	 * Loads prior response data for questions for initializing timeline
 	 */
-	private loadPriorResponseData(): void {
-		let questionIds: SurveyViewQuestion[] = [];
-		let homeAllDayId = 0;
-		let homeDepartureId = 0;
-		let returnHomeId = 0;
-		let madeWorkTripId = 0;
-		let workLocationId = 0;
-		let madeSchoolTripId = 0;
-		let schoolLocationId = 0;
-
-		console.log('in load prior response');
-
-		if (this.configuration.homeAllDay) {
-			let homeAllDayQuestionModel = <SurveyViewQuestion>(
-				this._injector.get('question.' + this.configuration.homeAllDay[0].label)
-			);
-			homeAllDayId = homeAllDayQuestionModel.questionId;
-			questionIds.push(homeAllDayQuestionModel);
-		}
-		if (this.configuration.homeDeparture) {
-			let homeDepartureModel = <SurveyViewQuestion>(
-				(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.homeDeparture[0].label))
-			);
-			questionIds.push(homeDepartureModel);
-			homeDepartureId = homeDepartureModel.questionId;
-		}
-		if (this.configuration.returnHome) {
-			let homeReturnModel = <SurveyViewQuestion>(
-				(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.returnHome[0].label))
-			);
-			questionIds.push(homeReturnModel);
-			returnHomeId = homeReturnModel.questionId;
-		}
-		if (this.configuration.workOutside) {
-			if (this.configuration.workOutside.length > 1) {
-				let workOutsideModel1 = <SurveyViewQuestion>(
-					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[0].label))
+	private loadPriorResponseData(respondents: SurveyRespondentUser[]): Observable<void> {
+		return new Observable((obs) => {
+			let questionIds: SurveyViewQuestion[] = [];
+			let homeAllDayId = 0;
+			let homeDepartureId = 0;
+			let returnHomeId = 0;
+			let madeWorkTripId = 0;
+			let workLocationId = 0;
+			let madeSchoolTripId = 0;
+			let schoolLocationId = 0;
+			if (this.configuration.homeAllDay) {
+				let homeAllDayQuestionModel = <SurveyViewQuestion>(
+					this._injector.get('question.' + this.configuration.homeAllDay[0].label)
 				);
-				let workOutsideModel2 = <SurveyViewQuestion>(
-					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[1].label))
-				);
-
-				if (workOutsideModel1.questionType === 'location') {
-					workLocationId = workOutsideModel1.questionId;
-					madeWorkTripId = workOutsideModel2.questionId;
-				} else {
-					workLocationId = workOutsideModel2.questionId;
-					madeWorkTripId = workOutsideModel1.questionId;
-				}
-				questionIds.push(workOutsideModel1);
-				questionIds.push(workOutsideModel2);
-			} else {
-				console.warn(
-					'Unable to initialize diary for respondent, not enough information exists in configuration.'
-				);
+				homeAllDayId = homeAllDayQuestionModel.questionId;
+				questionIds.push(homeAllDayQuestionModel);
 			}
-		}
-		if (this.configuration.schoolOutside) {
-			if (this.configuration.schoolOutside.length > 1) {
-				let schoolModel1 = <SurveyViewQuestion>(
-					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.schoolOutside[0].label))
+			if (this.configuration.homeDeparture) {
+				let homeDepartureModel = <SurveyViewQuestion>(
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.homeDeparture[0].label))
 				);
-				let schoolModel2 = <SurveyViewQuestion>(
-					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.schoolOutside[1].label))
-				);
-
-				if (schoolModel1.questionType === 'location') {
-					schoolLocationId = schoolModel1.questionId;
-					madeSchoolTripId = schoolModel2.questionId;
-				} else {
-					schoolLocationId = schoolModel2.questionId;
-					madeSchoolTripId = schoolModel1.questionId;
-				}
-				questionIds.push(schoolModel1);
-				questionIds.push(schoolModel2);
-			} else {
-				console.warn(
-					'Unable to initialize diary for respondent, not enough information exists in configuration.'
-				);
+				questionIds.push(homeDepartureModel);
+				homeDepartureId = homeDepartureModel.questionId;
 			}
-		}
-		this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
-			console.log(res);
-			this._initializeSmartFill(
-				res,
-				homeAllDayId,
-				homeDepartureId,
-				returnHomeId,
-				madeWorkTripId,
-				workLocationId,
-				madeSchoolTripId,
-				schoolLocationId
-			);
+			if (this.configuration.returnHome) {
+				let homeReturnModel = <SurveyViewQuestion>(
+					(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.returnHome[0].label))
+				);
+				questionIds.push(homeReturnModel);
+				returnHomeId = homeReturnModel.questionId;
+			}
+			if (this.configuration.workOutside) {
+				if (this.configuration.workOutside.length > 1) {
+					let workOutsideModel1 = <SurveyViewQuestion>(
+						(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[0].label))
+					);
+					let workOutsideModel2 = <SurveyViewQuestion>(
+						(<SurveyViewQuestion>this._injector.get('question.' + this.configuration.workOutside[1].label))
+					);
+
+					if (workOutsideModel1.questionType === 'location') {
+						workLocationId = workOutsideModel1.questionId;
+						madeWorkTripId = workOutsideModel2.questionId;
+					} else {
+						workLocationId = workOutsideModel2.questionId;
+						madeWorkTripId = workOutsideModel1.questionId;
+					}
+					questionIds.push(workOutsideModel1);
+					questionIds.push(workOutsideModel2);
+				} else {
+					console.warn(
+						'Unable to initialize diary for respondent, not enough information exists in configuration.'
+					);
+				}
+			}
+			if (this.configuration.schoolOutside) {
+				if (this.configuration.schoolOutside.length > 1) {
+					let schoolModel1 = <SurveyViewQuestion>(
+						(<SurveyViewQuestion>(
+							this._injector.get('question.' + this.configuration.schoolOutside[0].label)
+						))
+					);
+					let schoolModel2 = <SurveyViewQuestion>(
+						(<SurveyViewQuestion>(
+							this._injector.get('question.' + this.configuration.schoolOutside[1].label)
+						))
+					);
+
+					if (schoolModel1.questionType === 'location') {
+						schoolLocationId = schoolModel1.questionId;
+						madeSchoolTripId = schoolModel2.questionId;
+					} else {
+						schoolLocationId = schoolModel2.questionId;
+						madeSchoolTripId = schoolModel1.questionId;
+					}
+					questionIds.push(schoolModel1);
+					questionIds.push(schoolModel2);
+				} else {
+					console.warn(
+						'Unable to initialize diary for respondent, not enough information exists in configuration.'
+					);
+				}
+			}
+			this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
+				this._initializeSmartFill(
+					respondents,
+					res,
+					homeAllDayId,
+					homeDepartureId,
+					returnHomeId,
+					madeWorkTripId,
+					workLocationId,
+					madeSchoolTripId,
+					schoolLocationId
+				);
+				obs.complete();
+			});
 		});
 	}
 
@@ -317,6 +330,7 @@ export class TravelDiaryService {
 	 * @param returnHomeId
 	 */
 	private _initializeSmartFill(
+		respondents: SurveyRespondentUser[],
 		res: SurveyResponseViewModel[],
 		homeAllDayId: number,
 		homeDepartureId: number,
@@ -327,7 +341,7 @@ export class TravelDiaryService {
 		schoolLocationId: number
 	): void {
 		let toRemove = [];
-		for (let r of this.respondents) {
+		for (let r of respondents) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
 
 			// responses belonging to a specific user
@@ -371,6 +385,7 @@ export class TravelDiaryService {
 		for (let r of toRemove) {
 			this._removeRespondent(r);
 		}
+		this.respondents = this.respondents;
 	}
 
 	/**
