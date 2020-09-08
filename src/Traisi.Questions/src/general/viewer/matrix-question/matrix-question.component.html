@@ -22,7 +22,7 @@
 						(change)="changed($event, row + '_' + col)"
 						[(ngModel)]="model[header]"
 					/>
-					<label class="custom-control-label" for="customRadio{{ row }}_{{ col }}"></label>
+					<label class="custom-control-label" for="{{questionId }}-customRadio{{ row }}_{{ col }}"></label>
 				</span>
 			</div>
 		</div>

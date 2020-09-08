@@ -105,7 +105,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	private resetModel(): void {
 		this.isInsertedDepartureTime = false;
 		this.insertedIntoEvent = null;
-
+		this.isRequiresEndTime = false;
 		let id = Date.now();
 		this.model = {
 			id: undefined,
