@@ -255,6 +255,26 @@ export class TravelDiaryEditor {
 	}
 
 	/**
+	 * 
+	 * @param model 
+	 * @param events 
+	 */
+	public getLaterEvent(model: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): TravelDiaryEvent {
+		if (!model.users) {
+			return undefined;
+		}
+		for (let respondent of model.users) {
+			// get users for event
+			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
+			for (let i = 1; i < userEvents.length - 1; i++) {
+				if (userEvents[i].start >= model.timeA && model.displayId !== userEvents[i].meta.model.displayId ) {
+					return userEvents[i];
+				}
+			}
+		}
+	}
+
+	/**
 	 *
 	 * @param responses
 	 */
@@ -358,6 +378,7 @@ export class TravelDiaryEditor {
 					id: undefined,
 					displayId: displayId,
 					isValid: true,
+					displayAddress: null,
 				},
 				id: Date.now(),
 			},

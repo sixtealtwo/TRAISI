@@ -7,4 +7,6 @@ export interface SurveyRespondent {
   email?: string
   phoneNumber?: string
   homeAddress?: Address
+  homeLatitude?: number
+  homeLongitude?: number
 }

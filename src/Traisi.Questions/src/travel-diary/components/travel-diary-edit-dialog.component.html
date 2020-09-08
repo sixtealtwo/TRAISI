@@ -112,6 +112,11 @@
 									required
 								/>
 							</div>
+							<div class="info-feedback"></div>
+							<alert type="info" *ngIf="dialogMode === dialogModeEdit && !model.mode">
+								<strong>Note</strong> You can update the default departure time if it does not match
+								your daily schedule.
+							</alert>
 						</div>
 					</div>
 					<div
@@ -153,7 +158,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group row" *ngIf="model.isInserted">
+					<div class="form-group row" *ngIf="model.isInserted || isRequiresEndTime">
 						<div class="col-12">
 							<label for="timeA" class="col-form-label">Return Time</label>
 							<div class="input-group">
@@ -178,9 +183,9 @@
 									[convertModelValue]="true"
 									required
 								/>
-								<div class="invalid-feedback">
-									Return time must be later than the original departure time.
-								</div>
+							</div>
+							<div class="invalid-feedback">
+								Return time must be later than the original departure time.
 							</div>
 						</div>
 					</div>

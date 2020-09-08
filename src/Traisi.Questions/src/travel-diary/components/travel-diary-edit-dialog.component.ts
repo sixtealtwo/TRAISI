@@ -79,6 +79,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public isInsertedDepartureTime: boolean = false;
 
+	public isRequiresEndTime: boolean = false;
+
 	public insertedIntoEvent: TravelDiaryEvent;
 
 	public isFirstEventInDay: boolean = false;
@@ -135,11 +137,24 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public onMembersChanged($event: any) {
+		this.checkTimeOverlaps();
+	}
+
+	public checkTimeOverlaps(): void {
 		let insertedEvent = this._editorService.getOverlappingDeparture(
 			this.model,
 			this._travelDiaryService.diaryEvents$.value
 		);
-		console.log(insertedEvent);
+		if (this.dialogMode === DialogMode.Edit) {
+			let laterEvent = this._editorService.getLaterEvent(this.model, this._travelDiaryService.diaryEvents$.value);
+			if (laterEvent) {
+				console.log(' is required');
+				console.log(laterEvent);
+				this.isRequiresEndTime = true;
+			} else {
+				this.isRequiresEndTime = false;
+			}
+		}
 		if (insertedEvent) {
 			this.insertedIntoEvent = insertedEvent;
 			this.isInsertedDepartureTime = true;
@@ -151,25 +166,13 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public onDepartureTimeChange($event: Date): void {
 		this.model.timeA = $event;
-		let insertedEvent = this._editorService.getOverlappingDeparture(
-			this.model,
-			this._travelDiaryService.diaryEvents$.value
-		);
-		if (insertedEvent) {
-			this.insertedIntoEvent = insertedEvent;
-			this.isInsertedDepartureTime = true;
-		} else {
-			this.insertedIntoEvent = undefined;
-			this.isInsertedDepartureTime = false;
-		}
+		this.checkTimeOverlaps();
 	}
 
 	public onReturnTimeChange($event: Date): void {
 		if ($event < this.model.timeA) {
-			console.log('setting invalid');
 			this.eventForm.form.controls['insertedEndTime'].setErrors({ invalid: true });
 		} else {
-			console.log('setting valid');
 			this.eventForm.form.controls['insertedEndTime'].setErrors(null);
 		}
 		console.log(this.eventForm);

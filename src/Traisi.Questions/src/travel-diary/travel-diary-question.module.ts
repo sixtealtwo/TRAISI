@@ -20,6 +20,7 @@ import { DayViewSchedulerComponent } from './components/day-view-scheduler.compo
 import { TravelDiaryEventDisplayComponent } from './components/travel-diary-event-display.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
 export const calendarProps = {
 	provide: DateAdapter,
@@ -93,6 +94,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 		CalendarCommonModule.forRoot(calendarProps),
 		CalendarDayModule,
 		NgSelectModule,
+		AlertModule.forRoot(),
 		BsDropdownModule.forRoot(),
 	],
 	exports: [CalendarDayModule, CalendarModule, CalendarCommonModule],
