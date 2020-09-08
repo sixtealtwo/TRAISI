@@ -9,14 +9,15 @@
 			</div>
 			<div class="modal-body">
 				<ul class="site-list">
-					<li *ngFor="let section of trip?.sections.Section">
+					<div *ngFor="let section of trip?.sections.Section">
 						<div *ngIf="section.PTRide">
-							{{ section.PTRide.Direction.Name }}
+							<div class="direction">{{ section.PTRide.Direction.Name }}</div>
+							<div>{{ section.PTRide.Arrival.StopPlace.Name }}</div>
 						</div>
 						<div *ngIf="section.Leg">
 							{{ section.Leg.Arrival.Site.Name }}
 						</div>
-					</li>
+					</div>
 				</ul>
 			</div>
 			<div class="modal-footer">

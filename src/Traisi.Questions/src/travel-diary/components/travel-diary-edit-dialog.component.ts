@@ -150,12 +150,11 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public onDepartureTimeChange($event: Date): void {
+		this.model.timeA = $event;
 		let insertedEvent = this._editorService.getOverlappingDeparture(
 			this.model,
 			this._travelDiaryService.diaryEvents$.value
 		);
-		console.log(this.model);
-		console.log(insertedEvent);
 		if (insertedEvent) {
 			this.insertedIntoEvent = insertedEvent;
 			this.isInsertedDepartureTime = true;
