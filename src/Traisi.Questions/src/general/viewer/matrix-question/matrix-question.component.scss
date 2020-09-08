@@ -18,11 +18,21 @@
 .matrix-entry {
 	width: 150px;
 	text-align: center;
+	min-height: 50px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	.custom-control-label {
+		top: -10px;
+	}
 }
 
 .matrix-header {
 	width: 150px;
 	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
 }
 
 .matrix-space {
