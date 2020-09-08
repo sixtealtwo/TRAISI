@@ -64,3 +64,13 @@ ul.dropdown-menu {
 		background-color: #e6e6e6;
 	}
 }
+
+
+
+
+@media (max-width: 575.98px) { 
+	.cal-event {
+		writing-mode: vertical-rl;
+		text-orientation: mixed;
+	}
+}
