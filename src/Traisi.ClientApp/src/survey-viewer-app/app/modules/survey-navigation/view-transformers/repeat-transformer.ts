@@ -47,16 +47,18 @@ export class RepeatTransformer extends ViewTransformation {
 							clones.push(question);
 							continue;
 						}
+						let response;
 						if (
 							this._responseService.hasStoredResponse(
 								this._state.viewerState.questionMap[question.model.repeatSource],
 								state.activeRespondent
 							)
 						) {
-							let response = this._responseService.getStoredResponse(
+							response = this._responseService.getStoredResponse(
 								this._state.viewerState.questionMap[question.model.repeatSource],
 								state.activeRespondent
 							);
+
 							// count how many needed
 							let cloneCount: number = 0;
 							let responses = [];
@@ -71,6 +73,7 @@ export class RepeatTransformer extends ViewTransformation {
 						}
 					}
 					let result = clones;
+					console.log(result.length);
 					obs.next(result);
 					obs.complete();
 				},

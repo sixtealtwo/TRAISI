@@ -32,7 +32,11 @@ export class SurveyNavigatorComponent implements OnInit {
 	}
 
 	public navigateNext(): void {
-		this.navigator.navigateNext().subscribe((state) => {});
+		let obs = this.navigator.navigateNext().subscribe({
+			complete: () => {
+				console.log('complete');
+			},
+		});
 	}
 
 	public navigatePrevious(): void {

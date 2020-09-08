@@ -525,14 +525,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Navigates next
 	 */
 	public navigateNext(): void {
-		this.viewerState.isNavProcessing = true;
-		this.navigator.navigateNext().subscribe({
-			next: (v) => {},
-			complete: () => {
-				this.questionsContainerElement.nativeElement.scrollTop = 0;
-				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
-			},
-		});
+
 	}
 
 	/**

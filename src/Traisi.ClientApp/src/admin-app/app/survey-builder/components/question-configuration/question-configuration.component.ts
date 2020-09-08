@@ -232,7 +232,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public repeatSourceChanged(event: QuestionPartView): void {
 		console.log(event);
-		this.questionBeingEdited.repeatSourceQuestionName = event.questionPart.name + '~' + event.questionPart.id;
+		if (event) {
+			this.questionBeingEdited.repeatSourceQuestionName = event.questionPart.name + '~' + event.questionPart.id;
+		} else {
+			this.questionBeingEdited.repeatSourceQuestionName = null;
+		}
 	}
 
 	public parameterComponents(): Array<any> {
