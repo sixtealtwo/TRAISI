@@ -37,6 +37,9 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 	@ViewChild('matrixForm')
 	public form: NgForm;
 
+	public entryWidth: number = 0;
+	public rowHeaderWidth: number = 0;
+
 	private onSavedResponseData: (response: ResponseData<ResponseTypes.Json>[] | 'none') => void = (
 		response: ResponseData<ResponseTypes.Json>[] | 'none'
 	) => {
@@ -57,6 +60,13 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> 
 			}
 		}
 		this.savedResponse.subscribe(this.onSavedResponseData);
+		this.calculateDimensions();
+	}
+
+	public calculateDimensions(): void {
+		this.rowHeaderWidth = 10;
+
+		this.entryWidth = (100 - this.rowHeaderWidth) / this.columnLabels.length;
 	}
 
 	/**
