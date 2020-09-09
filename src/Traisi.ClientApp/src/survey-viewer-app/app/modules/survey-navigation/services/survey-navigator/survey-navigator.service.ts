@@ -95,7 +95,6 @@ export class SurveyNavigator {
 	 */
 	public initialize(state?: NavigationState): Observable<NavigationState> {
 		this.navigationState$.subscribe((v) => this._navigationStateChanged(v));
-
 		if (state) {
 			if (state.activeRespondentIndex > this._state.viewerState.groupMembers.length) {
 				state.activeRespondentIndex = 0;
@@ -103,6 +102,7 @@ export class SurveyNavigator {
 			state.isLoaded = true;
 			state.activeRespondent = this._state.viewerState.groupMembers[state.activeRespondentIndex];
 			this.navigationState$.subscribe(this._excludeHiddenResponses);
+
 			return this._initState(state).pipe(
 				tap((v) => {
 					if (state.activeQuestionIndex > 0) {
@@ -168,10 +168,12 @@ export class SurveyNavigator {
 	 */
 	public navigateNext(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
-		let nav = this._incrementNavigation(this._newState()).pipe(shareReplay(1));
+		let nav = this._incrementNavigation(this._newState()).pipe(
+			takeWhile((x) => x.activeQuestionInstances.length === 0, true),
+			shareReplay(1)
+		);
 		this.nextEnabled$.next(false);
 		let result = nav.subscribe((state) => {
-			console.log('got a new state');
 
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
@@ -185,7 +187,10 @@ export class SurveyNavigator {
 	 */
 	public navigatePrevious(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
-		let prev = this._decrementNavigation(this._newState());
+		let prev = this._decrementNavigation(this._newState()).pipe(
+			takeWhile((x) => x.activeQuestionInstances.length === 0, true),
+			shareReplay(1));
+
 		prev.subscribe((state) => {
 			this.navigationState$.next(state);
 			if (state.activeQuestionIndex === 0) {
@@ -241,7 +246,7 @@ export class SurveyNavigator {
 			});
 
 			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
-				navigationState.activeQuestionInstances = questionInstances;
+				navigationState.activeQuestionInstances = questionInstances.activeInstances;
 				this.validationChanged();
 			});
 		});
@@ -300,7 +305,7 @@ export class SurveyNavigator {
 			});
 
 			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
-				navigationState.activeQuestionInstances = questionInstances;
+				navigationState.activeQuestionInstances = questionInstances.activeInstances;
 				this.validationChanged();
 			});
 		});
@@ -380,12 +385,10 @@ export class SurveyNavigator {
 			return EMPTY;
 		} else {
 			return this._initState(newState).pipe(
-				shareReplay(1),
 				expand((state) => {
-					return state.activeQuestionInstances.length === 0
-						? this._incrementNavigation(newState).pipe(shareReplay(1))
-						: EMPTY;
-				})
+					return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(newState) : EMPTY;
+				}),
+				shareReplay(1)
 			);
 		}
 	}
@@ -433,10 +436,10 @@ export class SurveyNavigator {
 	private _initState(navigationState: NavigationState): Observable<NavigationState> {
 		return new Observable((obs: Observer<NavigationState>) => {
 			this._initQuestionInstancesForState(navigationState)
-				.pipe(shareReplay(1))
-				.subscribe((questionInstances) => {
+				.subscribe((v) => {
 					navigationState.activeQuestionInstances = [];
 					// navigationState.hiddenQuestions = [];
+					let questionInstances = v.activeInstances;
 					if (questionInstances.length > 0) {
 						if (navigationState.activeRespondentIndex > this._state.viewerState.groupMembers.length - 1) {
 							navigationState.activeRespondentIndex = 0;
@@ -483,7 +486,10 @@ export class SurveyNavigator {
 							}
 						}
 					}
-					console.log(navigationState.activeQuestionInstances);
+					else {
+						navigationState.activeSection = v.baseQuestions[0]?.parentSection;
+						navigationState.activeSectionId = v.baseQuestions[0]?.parentSection?.id;
+					}
 					obs.next(navigationState);
 					obs.complete();
 				});
@@ -495,11 +501,12 @@ export class SurveyNavigator {
 	 * @param navigationState
 	 * @param evaluateConditions
 	 */
-	private _initQuestionInstancesForState(navigationState: NavigationState): Observable<QuestionInstance[]> {
+	private _initQuestionInstancesForState(navigationState: NavigationState):
+	Observable<{activeInstances: QuestionInstance[], baseQuestions: SurveyViewQuestion[]}> {
 		let questions: SurveyViewQuestion[] = [];
 		questions = questions.concat(this._state.viewerState.questionBlocks[navigationState.activeQuestionIndex]);
 		if (navigationState.activeQuestionIndex >= this._state.viewerState.questionBlocks.length) {
-			return Observable.of([]);
+			return Observable.of({activeInstances: [], baseQuestions: questions});
 		} else {
 			let questionInstances = [];
 			let evals = [];
@@ -573,7 +580,7 @@ export class SurveyNavigator {
 							.applyViewTransformations(navigationState, questionInstances)
 							.pipe(shareReplay(1))
 							.subscribe((instances: QuestionInstance[]) => {
-								obs.next(instances);
+								obs.next({activeInstances: instances, baseQuestions: questions});
 								obs.complete();
 							});
 					}

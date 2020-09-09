@@ -100,7 +100,6 @@ export class QuestionInstanceState {
 	private onSaveResponse = (response: ResponseData<ResponseTypes>[] | ResponseData<ResponseTypes>[]): void => {
 		// submit the response, convert it to single element
 		// array if not done so
-		console.log(this._repeatIndex);
 		this._responseService
 			.saveResponse(
 				this._questionModel,
@@ -120,7 +119,6 @@ export class QuestionInstanceState {
 		respondent: SurveyRespondent;
 		response: ResponseData<ResponseTypes>[];
 	}): void => {
-		console.log(this._repeatIndex);
 		this._responseService
 			.saveResponse(
 				this._questionModel,

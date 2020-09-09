@@ -73,7 +73,6 @@ export class RepeatTransformer extends ViewTransformation {
 						}
 					}
 					let result = clones;
-					console.log(result.length);
 					obs.next(result);
 					obs.complete();
 				},
