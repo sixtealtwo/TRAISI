@@ -362,7 +362,8 @@ export class SurveyNavigator {
 	 * @param currentState
 	 */
 	private _incrementNavigation(currentState: NavigationState): Observable<NavigationState> {
-		const newState: NavigationState = Object.assign({}, currentState);
+		const newState: NavigationState = currentState;
+		console.log('in increment');
 		// get active question
 		if (
 			!currentState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
@@ -387,8 +388,7 @@ export class SurveyNavigator {
 			return this._initState(newState).pipe(
 				expand((state) => {
 					return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(newState) : EMPTY;
-				}),
-				shareReplay(1)
+				})
 			);
 		}
 	}
@@ -406,7 +406,7 @@ export class SurveyNavigator {
 	 * @param currentState
 	 */
 	private _decrementNavigation(currentState: NavigationState): Observable<NavigationState> {
-		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
+		const newState: NavigationState = currentState;
 
 		if (newState.activeQuestionInstances[0]?.component?.canNavigateInternalPrevious()) {
 			newState.activeQuestionInstances[0].component.navigateInternalPrevious();
@@ -423,9 +423,8 @@ export class SurveyNavigator {
 		}
 		return this._initState(newState).pipe(
 			expand((state) => {
-				return state.activeQuestionInstances.length === 0 ? this._decrementNavigation(currentState) : EMPTY;
-			}),
-			shareReplay(1)
+				return state.activeQuestionInstances.length === 0 ? this._decrementNavigation(newState) : EMPTY;
+			})
 		);
 	}
 
@@ -578,7 +577,6 @@ export class SurveyNavigator {
 						navigationState.activeQuestionInstances = [];
 						this._viewTransformer
 							.applyViewTransformations(navigationState, questionInstances)
-							.pipe(shareReplay(1))
 							.subscribe((instances: QuestionInstance[]) => {
 								obs.next({activeInstances: instances, baseQuestions: questions});
 								obs.complete();
