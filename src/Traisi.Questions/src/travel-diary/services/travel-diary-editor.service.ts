@@ -211,7 +211,7 @@ export class TravelDiaryEditor {
 					};
 					returnEvent.meta.model.displayId = displayId;
 					returnEvent.meta.model.timeA = event.insertedEndTime;
-					returnEvent.meta.model.isValid = true;
+					returnEvent.meta.model.isValid = overlap.meta.model.isValid;
 					insertedEvent.meta.model.isValid = true;
 					events.push(insertedEvent);
 					events.push(returnEvent);

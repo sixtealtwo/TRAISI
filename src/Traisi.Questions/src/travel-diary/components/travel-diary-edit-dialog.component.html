@@ -113,7 +113,7 @@
 								/>
 							</div>
 							<div class="info-feedback"></div>
-							<alert type="info" *ngIf="dialogMode === dialogModeEdit && !model.mode">
+							<alert type="info" *ngIf="dialogMode === dialogModeEdit && !model.isValid">
 								<strong>Note</strong> You can update the default departure time if it does not match
 								your daily schedule.
 							</alert>
