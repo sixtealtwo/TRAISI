@@ -391,7 +391,7 @@ namespace Traisi.Services
         /// <returns></returns>
         public async Task<List<QuestionPartView>> GetSurveyViewPages(int surveyId, SurveyViewType viewType)
         {
-            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
+            var survey = await this._unitOfWork.Surveys.GetSurveyViewerFullAsync(surveyId, viewType);
             if (survey != null)
             {
                 List<QuestionPartView> pages = survey.SurveyViews.Find(x =>
