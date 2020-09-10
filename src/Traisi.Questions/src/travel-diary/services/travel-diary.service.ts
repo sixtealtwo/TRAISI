@@ -137,7 +137,6 @@ export class TravelDiaryService {
 								this.isLoaded.next(true);
 								this.diaryEvents$.next(this._diaryEvents);
 								this.users.next(this.respondents);
-								
 							},
 						});
 					} else {
@@ -186,8 +185,23 @@ export class TravelDiaryService {
 			if (filter.length === 0) {
 				return false;
 			}
+			if (!this._validateNoOverlappingEvents(filter)) {
+				return false;
+			}
 		}
 		return !this._diaryEvents.some((x) => x.meta.model.isValid === false);
+	}
+
+	/**
+	 * Determines if there are any overlapping events for a specific user.
+	 * @param userEvents
+	 */
+	private _validateNoOverlappingEvents(userEvents: TravelDiaryEvent[]): boolean {
+		for (let i = 0; i < userEvents.length - 1; i++) {
+			if (userEvents[i].end >= userEvents[i + 1].start) {
+				return false;
+			}
+		}
 	}
 
 	/**

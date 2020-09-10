@@ -46,6 +46,7 @@ import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { NavigationState } from 'app/models/navigation-state.model';
 import { AuthService } from 'shared/services/auth.service';
 import { SurveyViewerProviders } from 'app/providers/survey-viewer.providers';
+
 interface SpecialPageDataInput {
 	pageHTML: string;
 	pageThemeInfo: string;
