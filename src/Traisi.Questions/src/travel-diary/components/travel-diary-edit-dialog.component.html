@@ -12,7 +12,7 @@
 				<form #eventForm="ngForm" validate returnTime>
 					<div class="form-group row">
 						<div class="col-12">
-							<label for="name" class="col-form-label">Name</label>
+							<label for="name" class="col-form-label">Title of the event</label>
 							<input
 								class="form-control"
 								type="text"
@@ -20,14 +20,14 @@
 								name="name"
 								minlength="4"
 								id="name"
-								placeholder="Enter a name"
+								placeholder="Enter a title to describe the event"
 								required
 							/>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-12">
-							<label for="purpose" class="col-form-label">Purpose</label>
+							<label for="purpose" class="col-form-label">Purpose of the event</label>
 							<ng-select
 								appearance="outline"
 								#purposeSelect
@@ -48,7 +48,7 @@
 					</div>
 					<div class="form-group row" *ngIf="!isFirstEventInDay">
 						<div class="col-12">
-							<label for="mode" class="col-form-label">Travel Mode</label>
+							<label for="mode" class="col-form-label">Travel mode to the event location</label>
 							<ng-select
 								appearance="outline"
 								#purposeSelect
@@ -68,7 +68,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-12">
-							<label for="members" class="col-form-label">Members</label>
+							<label for="members" class="col-form-label">Family members who attended this event</label>
 							<ng-select
 								appearance="outline"
 								#memberSelect
@@ -89,7 +89,7 @@
 
 					<div class="form-group row" *ngIf="!isFirstEventInDay">
 						<div class="col-12">
-							<label for="timeA" class="col-form-label">Departure Time</label>
+							<label for="timeA" class="col-form-label">Departure time to the event</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroupPrepend2"
@@ -192,7 +192,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-12">
-							<label for="location" class="col-form-label">Location</label>
+							<label for="location" class="col-form-label">Event location</label>
 
 							<ng-select
 								name="location"
