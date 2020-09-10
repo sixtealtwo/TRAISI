@@ -303,6 +303,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			},
 		};
 		this._storage.set(`surveyState:${this.surveyId}`, saveState);
+		this.questionsContainerElement.nativeElement.scrollTop = 0;
+		this.questionsContainerElement.nativeElement.scrollTo(0, 0);
 	}
 
 	/**
@@ -458,7 +460,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				// create questionBlocks
 				this._viewerStateService.initialize().subscribe();
 				this.initializeNavigator();
-				console.log(this.viewerState);
 
 				this.navigator.navigationState$.subscribe(this.navigationStateChanged.bind(this));
 			});
@@ -506,27 +507,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public surveyCompleted = () => {
 		this._router.navigate([this.session.surveyCode, 'thankyou']);
 	};
-
-	/**
-	 * Navigates previous
-	 */
-	public navigatePrevious(): void {
-		this.viewerState.isNavProcessing = true;
-		// this._navigationService.navigatePrevious();
-
-		this.navigator.navigatePrevious().subscribe({
-			next: (v) => {},
-			complete: () => {
-				this.questionsContainerElement.nativeElement.scrollTop = 0;
-				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
-			},
-		});
-	}
-
-	/**
-	 * Navigates next
-	 */
-	public navigateNext(): void {}
 
 	/**
 	 *

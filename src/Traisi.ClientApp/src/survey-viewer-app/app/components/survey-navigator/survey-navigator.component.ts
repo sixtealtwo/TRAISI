@@ -7,6 +7,7 @@ import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-n
 import { SurveyViewerStateService } from 'app/services/survey-viewer-state.service';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
 import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 @Component({
 	encapsulation: ViewEncapsulation.None,
 	selector: 'traisi-survey-navigator',
@@ -22,7 +23,8 @@ export class SurveyNavigatorComponent implements OnInit {
 	public constructor(
 		public navigator: SurveyNavigator,
 		private _viewerStateService: SurveyViewerStateService,
-		private _router: Router
+		private _router: Router,
+		@Inject(DOCUMENT) private _document
 	) {}
 
 	public ngOnInit(): void {}
@@ -34,7 +36,7 @@ export class SurveyNavigatorComponent implements OnInit {
 	public navigateNext(): void {
 		let obs = this.navigator.navigateNext().subscribe({
 			complete: () => {
-				console.log('complete');
+				
 			},
 		});
 	}
