@@ -44,19 +44,26 @@ namespace Traisi.Controllers
         private readonly IFileDownloader _fileDownloader;
         private readonly IOptions<RequestLocalizationOptions> _localizationOptions;
 
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Constructor the controller.
+        /// 
         /// </summary>
-        /// <param name="unitOfWork">Unit of work service.</param>
-        /// <param name="questionTypeManager">Question type manager service.</param>
+        /// <param name="unitOfWork"></param>
+        /// <param name="fileDownloaderService"></param>
+        /// <param name="authorizationService"></param>
+        /// <param name="accountManager"></param>
+        /// <param name="questionTypeManager"></param>
+        /// <param name="surveyBuilderService"></param>
+        /// <param name="localizationOptions"></param>
+        /// <param name="mapper"></param>
+        /// <param name="hostingEnvironment"></param>
         public SurveyBuilderController(IUnitOfWork unitOfWork, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager,
             IQuestionTypeManager questionTypeManager, ISurveyBuilderService surveyBuilderService,
              IOptions<RequestLocalizationOptions> localizationOptions,
-             IMapper mapper, IHostingEnvironment hostingEnvironment)
+             IMapper mapper, IWebHostEnvironment hostingEnvironment)
         {
             this._unitOfWork = unitOfWork;
             this._authorizationService = authorizationService;

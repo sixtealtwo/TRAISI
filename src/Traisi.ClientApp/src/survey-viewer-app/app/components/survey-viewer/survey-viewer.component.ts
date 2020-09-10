@@ -457,6 +457,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				// create questionBlocks
 				this._viewerStateService.initialize().subscribe();
 				this.initializeNavigator();
+				console.log(this.viewerState);
 
 				this.navigator.navigationState$.subscribe(this.navigationStateChanged.bind(this));
 			});
@@ -524,9 +525,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	/**
 	 * Navigates next
 	 */
-	public navigateNext(): void {
-
-	}
+	public navigateNext(): void {}
 
 	/**
 	 *
