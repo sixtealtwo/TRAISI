@@ -170,7 +170,7 @@ export class SurveyNavigator {
 		this._previousState = this.navigationState$.value;
 		let nav = this._incrementNavigation(this._newState()).pipe(
 			expand((x) =>
-				x.activeQuestionInstances.length === 0 ? this._incrementNavigation(this._newState()) : EMPTY
+				x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY
 			),
 			shareReplay(1)
 		);
@@ -190,7 +190,7 @@ export class SurveyNavigator {
 		this._previousState = this.navigationState$.value;
 		let prev = this._decrementNavigation(this._newState()).pipe(
 			expand((x) =>
-				x.activeQuestionInstances.length === 0 ? this._decrementNavigation(this._newState()) : EMPTY
+				x.activeQuestionInstances.length === 0 ? this._decrementNavigation(x) : EMPTY
 			),
 			shareReplay(1)
 		);
