@@ -86,6 +86,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		return this._authService.currentSurveyUser.shortcode;
 	}
 
+	private previousState: NavigationState;
+
 	/**
 	 * Gets whether is admin
 	 */
@@ -303,8 +305,17 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			},
 		};
 		this._storage.set(`surveyState:${this.surveyId}`, saveState);
-		this.questionsContainerElement.nativeElement.scrollTop = 0;
-		this.questionsContainerElement.nativeElement.scrollTo(0, 0);
+
+		if (this.previousState) {
+			if (
+				this.previousState.activeRespondentIndex !== v.activeRespondentIndex ||
+				this.previousState.activeQuestionIndex !== v.activeQuestionIndex
+			) {
+				this.questionsContainerElement.nativeElement.scrollTop = 0;
+				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
+			}
+		}
+		this.previousState = v;
 	}
 
 	/**
@@ -460,7 +471,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				// create questionBlocks
 				this._viewerStateService.initialize().subscribe();
 				this.initializeNavigator();
-
+				console.log(this.viewerState);
 				this.navigator.navigationState$.subscribe(this.navigationStateChanged.bind(this));
 			});
 	}

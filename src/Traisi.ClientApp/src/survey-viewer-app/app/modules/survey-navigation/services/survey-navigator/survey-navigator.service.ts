@@ -169,12 +169,13 @@ export class SurveyNavigator {
 	public navigateNext(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
 		let nav = this._incrementNavigation(this._newState()).pipe(
-			takeWhile((x) => x.activeQuestionInstances.length === 0, true),
+			expand((x) =>
+				x.activeQuestionInstances.length === 0 ? this._incrementNavigation(this._newState()) : EMPTY
+			),
 			shareReplay(1)
 		);
 		this.nextEnabled$.next(false);
 		let result = nav.subscribe((state) => {
-
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
 			this._checkValidation(state);
@@ -188,8 +189,11 @@ export class SurveyNavigator {
 	public navigatePrevious(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
 		let prev = this._decrementNavigation(this._newState()).pipe(
-			takeWhile((x) => x.activeQuestionInstances.length === 0, true),
-			shareReplay(1));
+			expand((x) =>
+				x.activeQuestionInstances.length === 0 ? this._decrementNavigation(this._newState()) : EMPTY
+			),
+			shareReplay(1)
+		);
 
 		prev.subscribe((state) => {
 			this.navigationState$.next(state);
@@ -363,7 +367,6 @@ export class SurveyNavigator {
 	 */
 	private _incrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = currentState;
-		console.log('in increment');
 		// get active question
 		if (
 			!currentState.activeQuestionInstances[0]?.component?.navigateInternalNext() &&
@@ -385,11 +388,7 @@ export class SurveyNavigator {
 			this._surveyCompleted$.complete();
 			return EMPTY;
 		} else {
-			return this._initState(newState).pipe(
-				expand((state) => {
-					return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(newState) : EMPTY;
-				})
-			);
+			return this._initState(newState);
 		}
 	}
 
@@ -421,11 +420,7 @@ export class SurveyNavigator {
 			newState.activeQuestionIndex -= 1;
 			newState.activeRespondent = this._state.viewerState.groupMembers[newState.activeRespondentIndex];
 		}
-		return this._initState(newState).pipe(
-			expand((state) => {
-				return state.activeQuestionInstances.length === 0 ? this._decrementNavigation(newState) : EMPTY;
-			})
-		);
+		return this._initState(newState);
 	}
 
 	/**
@@ -434,64 +429,60 @@ export class SurveyNavigator {
 	 */
 	private _initState(navigationState: NavigationState): Observable<NavigationState> {
 		return new Observable((obs: Observer<NavigationState>) => {
-			this._initQuestionInstancesForState(navigationState)
-				.subscribe((v) => {
-					navigationState.activeQuestionInstances = [];
-					// navigationState.hiddenQuestions = [];
-					let questionInstances = v.activeInstances;
-					if (questionInstances.length > 0) {
-						if (navigationState.activeRespondentIndex > this._state.viewerState.groupMembers.length - 1) {
-							navigationState.activeRespondentIndex = 0;
-						}
-						navigationState.activePage = this._state.viewerState.surveyPages[
-							questionInstances[0]?.model.pageIndex
-						];
-						navigationState.activeSectionId = -1;
-						navigationState.activeSectionId = questionInstances[0]?.model.parentSection?.id;
-						navigationState.activeSection = questionInstances[0]?.model.parentSection;
-						navigationState.activeRespondent = this._getRespondentForIdx(
-							navigationState.activeRespondentIndex
-						);
+			this._initQuestionInstancesForState(navigationState).subscribe((v) => {
+				navigationState.activeQuestionInstances = [];
+				// navigationState.hiddenQuestions = [];
+				let questionInstances = v.activeInstances;
+				if (questionInstances.length > 0) {
+					if (navigationState.activeRespondentIndex > this._state.viewerState.groupMembers.length - 1) {
+						navigationState.activeRespondentIndex = 0;
+					}
+					navigationState.activePage = this._state.viewerState.surveyPages[
+						questionInstances[0]?.model.pageIndex
+					];
+					navigationState.activeSectionId = -1;
+					navigationState.activeSectionId = questionInstances[0]?.model.parentSection?.id;
+					navigationState.activeSection = questionInstances[0]?.model.parentSection;
+					navigationState.activeRespondent = this._getRespondentForIdx(navigationState.activeRespondentIndex);
 
-						for (let question of questionInstances) {
-							let instanceId = this.getQuestionInstanceId(
-								question.model,
-								question.repeat,
-								navigationState.activeRespondent
-							);
-							let prevIdx = findIndex(
-								this._currentState.activeQuestionInstances,
-								(instance: { id: string }) => {
-									return instance.id === instanceId;
-								}
-							);
-							if (prevIdx >= 0) {
-								navigationState.activeQuestionInstances.push(
-									this._currentState.activeQuestionInstances[prevIdx]
-								);
-							} else {
-								question.validationState = {
-									isValid: false,
-									questionValidationState: {
-										validationState: ValidationState.Untouched,
-										errorMessages: [],
-									},
-									surveyLogicValidationState: {
-										validationState: ValidationState.Untouched,
-										errorMessages: [],
-									},
-								};
-								navigationState.activeQuestionInstances.push(question);
+					for (let question of questionInstances) {
+						let instanceId = this.getQuestionInstanceId(
+							question.model,
+							question.repeat,
+							navigationState.activeRespondent
+						);
+						let prevIdx = findIndex(
+							this._currentState.activeQuestionInstances,
+							(instance: { id: string }) => {
+								return instance.id === instanceId;
 							}
+						);
+						if (prevIdx >= 0) {
+							navigationState.activeQuestionInstances.push(
+								this._currentState.activeQuestionInstances[prevIdx]
+							);
+						} else {
+							question.validationState = {
+								isValid: false,
+								questionValidationState: {
+									validationState: ValidationState.Untouched,
+									errorMessages: [],
+								},
+								surveyLogicValidationState: {
+									validationState: ValidationState.Untouched,
+									errorMessages: [],
+								},
+							};
+							navigationState.activeQuestionInstances.push(question);
 						}
 					}
-					else {
-						navigationState.activeSection = v.baseQuestions[0]?.parentSection;
-						navigationState.activeSectionId = v.baseQuestions[0]?.parentSection?.id;
-					}
-					obs.next(navigationState);
-					obs.complete();
-				});
+				} else {
+					navigationState.activeSection = v.baseQuestions[0]?.parentSection;
+					navigationState.activeSectionId = v.baseQuestions[0]?.parentSection?.id;
+				}
+				obs.next(navigationState);
+				obs.complete();
+			});
 		});
 	}
 
@@ -500,12 +491,13 @@ export class SurveyNavigator {
 	 * @param navigationState
 	 * @param evaluateConditions
 	 */
-	private _initQuestionInstancesForState(navigationState: NavigationState):
-	Observable<{activeInstances: QuestionInstance[], baseQuestions: SurveyViewQuestion[]}> {
+	private _initQuestionInstancesForState(
+		navigationState: NavigationState
+	): Observable<{ activeInstances: QuestionInstance[]; baseQuestions: SurveyViewQuestion[] }> {
 		let questions: SurveyViewQuestion[] = [];
 		questions = questions.concat(this._state.viewerState.questionBlocks[navigationState.activeQuestionIndex]);
 		if (navigationState.activeQuestionIndex >= this._state.viewerState.questionBlocks.length) {
-			return Observable.of({activeInstances: [], baseQuestions: questions});
+			return Observable.of({ activeInstances: [], baseQuestions: questions });
 		} else {
 			let questionInstances = [];
 			let evals = [];
@@ -578,7 +570,7 @@ export class SurveyNavigator {
 						this._viewTransformer
 							.applyViewTransformations(navigationState, questionInstances)
 							.subscribe((instances: QuestionInstance[]) => {
-								obs.next({activeInstances: instances, baseQuestions: questions});
+								obs.next({ activeInstances: instances, baseQuestions: questions });
 								obs.complete();
 							});
 					}
