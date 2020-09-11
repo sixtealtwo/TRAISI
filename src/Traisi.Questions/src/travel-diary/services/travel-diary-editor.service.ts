@@ -87,7 +87,7 @@ export class TravelDiaryEditor {
 
 	private createHomeEndEvent(user: SurveyRespondentUser): TravelDiaryEvent {
 		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
-		returnHomeEvent.start = new Date(new Date().setHours(23 + TIME_DELTA, 1, 0, 0));
+		returnHomeEvent.start = new Date(new Date().setHours(23 + TIME_DELTA, 59, 0, 0));
 		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
 		returnHomeEvent.meta.model.timeA = new Date(new Date().setHours(17 , 1, 0, 0));
 		returnHomeEvent.meta.model.isValid = false;
