@@ -5,6 +5,11 @@
 		"id": "home"
 	},
 	{
+		"label": "home (end of day)",
+		"icon": "fas fa-house-night",
+		"id": "home-permanently"
+	},
+	{
 		"label": "usual work location",
 		"icon": "fas fa-building",
 		"id": "work"
