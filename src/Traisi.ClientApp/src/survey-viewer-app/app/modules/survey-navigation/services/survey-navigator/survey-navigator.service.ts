@@ -4,7 +4,7 @@ import { Subject, Observable, Observer, BehaviorSubject, EMPTY, forkJoin } from 
 import { NavigationState } from '../../../../models/navigation-state.model';
 import { QuestionInstance } from 'app/models/question-instance.model';
 import { findIndex, every } from 'lodash';
-import { expand, share, tap, flatMap, map, count, takeWhile, take, shareReplay } from 'rxjs/operators';
+import { expand, share, tap, flatMap, map, count, takeWhile, take, shareReplay, skipWhile } from 'rxjs/operators';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { ValidationState } from 'app/services/survey-viewer-api-client.service';
@@ -172,7 +172,8 @@ export class SurveyNavigator {
 			expand((x) =>
 				x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY
 			),
-			take(1),
+			skipWhile(x => x.activeQuestionInstances.length === 0),
+			// take(1),
 			shareReplay(1)
 		);
 		this.nextEnabled$.next(false);
@@ -192,8 +193,10 @@ export class SurveyNavigator {
 		this._previousState = this.navigationState$.value;
 		let prev = this._decrementNavigation(this._newState()).pipe(
 			expand((x) =>
-				x.activeQuestionInstances.length === 0 ? this._decrementNavigation(x) : EMPTY
+				x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY
 			),
+			skipWhile(x => x.activeQuestionInstances.length === 0),
+			// take(1),
 			shareReplay(1)
 		);
 
