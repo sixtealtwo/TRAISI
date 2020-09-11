@@ -186,6 +186,7 @@ export class TravelDiaryService {
 				return false;
 			}
 			if (!this._validateNoOverlappingEvents(filter)) {
+				console.log('no overlapping');
 				return false;
 			}
 		}
@@ -198,10 +199,11 @@ export class TravelDiaryService {
 	 */
 	private _validateNoOverlappingEvents(userEvents: TravelDiaryEvent[]): boolean {
 		for (let i = 0; i < userEvents.length - 1; i++) {
-			if (userEvents[i].end >= userEvents[i + 1].start) {
+			if (userEvents[i].end > userEvents[i + 1].start) {
 				return false;
 			}
 		}
+		return true;
 	}
 
 	/**
