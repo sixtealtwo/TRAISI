@@ -172,6 +172,7 @@ export class SurveyNavigator {
 			expand((x) =>
 				x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY
 			),
+			tap(x => console.log(x)),
 			shareReplay(1)
 		);
 		this.nextEnabled$.next(false);
