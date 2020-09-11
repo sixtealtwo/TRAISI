@@ -172,11 +172,12 @@ export class SurveyNavigator {
 			expand((x) =>
 				x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY
 			),
-			tap(x => console.log(x)),
+			take(1),
 			shareReplay(1)
 		);
 		this.nextEnabled$.next(false);
 		let result = nav.subscribe((state) => {
+			console.log(state);
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
 			this._checkValidation(state);
