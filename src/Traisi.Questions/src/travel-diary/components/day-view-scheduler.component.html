@@ -93,16 +93,15 @@
 			</div>
 		</div>
 		<ng-template
-		let-segment="segment"
-		let-locale="locale"
-		let-segmentHeight="segmentHeight"
-		let-isTimeLabel="isTimeLabel"
-		let-daysInWeek="daysInWeek"
-		#customHourSegment
+			let-segment="segment"
+			let-locale="locale"
+			let-segmentHeight="segmentHeight"
+			let-isTimeLabel="isTimeLabel"
+			let-daysInWeek="daysInWeek"
+			#customHourSegment
 		>
-		
-		{{renderDate(segment)}}
-	</ng-template>
+			{{ renderDate(segment) }}
+		</ng-template>
 		<div class="cal-day-columns" [class.cal-resize-active]="timeEventResizes.size > 0" #dayColumns>
 			<div class="cal-day-column" *ngFor="let column of view.hourColumns; trackBy: trackByHourColumn">
 				<div
@@ -236,13 +235,27 @@
 						}"
 					>
 					</ng-template>
+					<ng-template #popTemplate let-event="event">
+						<div>{{event.title}} - {{event.meta.model.purpose}}
+						</div>
+						<div>
+							{{event.meta.model.mode}}
+						</div>
+						<span *ngIf="event.meta.model?.address">
+							{{event.meta.model.address.streetNumber}} {{event.meta.model.address.streetAddress}}, {{event.meta.model.address.city }}
+						</span>
+					</ng-template>
 					<mwl-calendar-week-view-event
+						[popover]="popTemplate"
+						triggers="mouseenter:mouseleave"
+						#pop="bs-popover"
+						[popoverContext]="timeEvent"
 						[locale]="locale"
 						[weekEvent]="timeEvent"
 						[tooltipPlacement]="tooltipPlacement"
 						[tooltipTemplate]="tooltipTemplate"
 						[tooltipAppendToBody]="tooltipAppendToBody"
-						[tooltipDisabled]="dragActive || timeEventResizes.size > 0"
+						[tooltipDisabled]="true"
 						[tooltipDelay]="tooltipDelay"
 						[customTemplate]="eventTemplate"
 						[eventTitleTemplate]="customTitleTemplate"

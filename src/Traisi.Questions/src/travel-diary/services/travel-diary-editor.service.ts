@@ -226,9 +226,17 @@ export class TravelDiaryEditor {
 					returnEvent.meta.model.displayId = displayId;
 					returnEvent.meta.model.timeA = event.insertedEndTime;
 					returnEvent.meta.model.isValid = overlap.meta.model.isValid;
+
+					if(returnEvent.meta.model.purpose === 'home') {
+						returnEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
+					}
+
 					insertedEvent.meta.model.isValid = true;
 					events.push(insertedEvent);
 					events.push(returnEvent);
+
+					console.log(insertedEvent);
+					console.log(returnEvent);
 				}
 			}
 		}
@@ -261,7 +269,17 @@ export class TravelDiaryEditor {
 			// get users for event
 			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
 			for (let i = 1; i < userEvents.length; i++) {
-				if (userEvents[i].start < model.timeA && userEvents[i].end > model.timeA) {
+				let timeA = new Date(userEvents[i].start);
+				timeA.setHours(timeA.getHours() - TIME_DELTA);
+
+				let timeB = new Date(userEvents[i].end)
+				timeB.setHours(timeB.getHours() - TIME_DELTA);
+
+				console.log(timeA);
+				console.log(timeB);
+				console.log(model.timeA);
+				console.log(userEvents[i]);
+				if (timeA < model.timeA && timeB > model.timeA) {
 					return userEvents[i];
 				}
 			}

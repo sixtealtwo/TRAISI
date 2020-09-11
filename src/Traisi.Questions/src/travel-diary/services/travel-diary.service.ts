@@ -174,9 +174,13 @@ export class TravelDiaryService {
 	 */
 	private _removeRespondent(respondent: SurveyRespondentUser) {
 		let idx = this.respondents.findIndex((x) => x.id === respondent.id);
-		if (idx >= 0) {
+		if (idx >= 0 && !this._hasValues(respondent)) {
 			this.respondents.splice(idx, 1);
 		}
+	}
+
+	private _hasValues(respondent: SurveyRespondentUser): boolean {
+		return this._diaryEvents.some(x => x.meta.user.id === respondent.id);
 	}
 
 	public get isTravelDiaryValid(): boolean {
@@ -187,6 +191,9 @@ export class TravelDiaryService {
 			}
 			if (!this._validateNoOverlappingEvents(filter)) {
 				console.log('no overlapping');
+				return false;
+			}
+			if (!this._validateConsecutiveHomeEvents(filter)) {
 				return false;
 			}
 		}
@@ -200,6 +207,15 @@ export class TravelDiaryService {
 	private _validateNoOverlappingEvents(userEvents: TravelDiaryEvent[]): boolean {
 		for (let i = 0; i < userEvents.length - 1; i++) {
 			if (userEvents[i].end > userEvents[i + 1].start) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private _validateConsecutiveHomeEvents(userEvents: TravelDiaryEvent[]): boolean {
+		for (let i = 0; i < userEvents.length - 1; i++) {
+			if (userEvents[i].meta.model.purpose === 'home' && userEvents[i + 1].meta.model.purpose === 'home') {
 				return false;
 			}
 		}
@@ -322,6 +338,7 @@ export class TravelDiaryService {
 					);
 				}
 			}
+			console.log(this.respondents);
 			this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
 				this._initializeSmartFill(
 					respondents,
@@ -359,6 +376,7 @@ export class TravelDiaryService {
 	): void {
 		let toRemove = [];
 		let added = [];
+		console.log(res);
 		for (let r of respondents) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
 
@@ -384,7 +402,9 @@ export class TravelDiaryService {
 			const workLocation = responseMatches.find((x) => x.questionId === workLocationId)?.responseValues[0];
 			const schoolLocation = responseMatches.find((x) => x.questionId === schoolLocationId)?.responseValues[0];
 
+			console.log(responseMatches.length);
 			if (responseMatches.length === 0) {
+				console.log(r);
 				toRemove.push(r);
 				break;
 			}
@@ -402,17 +422,22 @@ export class TravelDiaryService {
 			);
 			this.addEvents(events);
 		}
+		console.log(added);
 		// let toRemove = [];
-		for(let r of this.respondents) {
-			if(!added.some(x => x.id === r.id)) {
+		for (let r of this.respondents) {
+			if (!added.some((x) => x.id === r.id)) {
 				toRemove.push(r);
 			}
 		}
+		console.log(toRemove);
 		for (let r of toRemove) {
 			this._removeRespondent(r);
 		}
 		this.respondents = this.respondents;
+
+		console.log(this.respondents);
 	}
+
 
 	/**
 	 * Loads addresses

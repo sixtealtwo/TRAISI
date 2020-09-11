@@ -120,6 +120,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			timeA: new Date(),
 			timeB: new Date(),
 			users: [],
+			displayAddress: undefined
 		};
 
 		if (this.eventForm) {
