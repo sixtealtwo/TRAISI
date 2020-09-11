@@ -356,6 +356,7 @@ export class TravelDiaryService {
 		schoolLocationId: number
 	): void {
 		let toRemove = [];
+		let added = [];
 		for (let r of respondents) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
 
@@ -385,6 +386,8 @@ export class TravelDiaryService {
 				toRemove.push(r);
 				break;
 			}
+			added.push(r);
+			console.log(r);
 
 			let events = this._edtior.createDefaultTravelDiaryforRespondent(
 				this.userMap[r.id],
@@ -396,6 +399,12 @@ export class TravelDiaryService {
 				schoolLocation //school loc
 			);
 			this.addEvents(events);
+		}
+		// let toRemove = [];
+		for(let r of this.respondents) {
+			if(!added.some(x => x.id === r.id)) {
+				toRemove.push(r);
+			}
 		}
 		for (let r of toRemove) {
 			this._removeRespondent(r);

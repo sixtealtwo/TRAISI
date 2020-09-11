@@ -48,6 +48,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	@ViewChild('entryDialog')
 	public entryDialog: TravelDiaryEditDialogComponent;
 
+	private _isValid: boolean = false;
+
 	public constructor(
 		private _travelDiaryService: TravelDiaryService,
 		private _modalService: BsModalService,
@@ -68,6 +70,10 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public get users(): Observable<any> {
 		return this._travelDiaryService.users;
+	}
+
+	public get isTravelDiaryValid(): boolean {
+		return this._isValid;
 	}
 
 	public newEvent(): void {
@@ -100,12 +106,11 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.users.subscribe(this.usersUpdated);
 	}
 
-	public usersUpdated = (users: SurveyRespondentUser[]): void => {
-
-	};
+	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
 		let isValid = this._travelDiaryService.isTravelDiaryValid;
+		this._isValid = isValid;
 		if (isValid) {
 			this.saveTravelDiary();
 		}
@@ -116,7 +121,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		}
 		//if (this.scheduleComponent) {
 		//	this.scheduleComponent.refresh.next();
-	//	}
+		//	}
 	};
 
 	public saveTravelDiary(): void {

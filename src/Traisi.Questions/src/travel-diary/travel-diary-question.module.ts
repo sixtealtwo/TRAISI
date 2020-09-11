@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 export const calendarProps = {
 	provide: DateAdapter,
 	useFactory: adapterFactory,
@@ -96,6 +97,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 		NgSelectModule,
 		AlertModule.forRoot(),
 		BsDropdownModule.forRoot(),
+		PopoverModule.forRoot()
 	],
 	exports: [CalendarDayModule, CalendarModule, CalendarCommonModule],
 })

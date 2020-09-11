@@ -1,5 +1,5 @@
 <div class="add-event-overlay">
-	<div class="btn-group" dropdown container="body" placement="top right" [dropup]="isDropup">
+	<span class="btn-group" dropdown container="body" placement="top right" [dropup]="isDropup">
 		<button type="button" class="btn btn-primary" (click)="newEvent()">New Event</button>
 		<button
 			id="button-split"
@@ -12,17 +12,31 @@
 			<span class="sr-only">Split button</span>
 		</button>
 		<ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-split">
-			<li role="menuitem"><a [routerLink]="" class="dropdown-item" (click)="resetEvents()">Reset travel diary</a></li>
-			<li role="menuitem"><a [routerLink]="" class="dropdown-item" (click)="clearEvents()">Clear all events</a></li>
+			<li role="menuitem">
+				<a [routerLink]="" class="dropdown-item" (click)="resetEvents()">Reset travel diary</a>
+			</li>
+			<li role="menuitem">
+				<a [routerLink]="" class="dropdown-item" (click)="clearEvents()">Clear all events</a>
+			</li>
 		</ul>
-	</div>
+	</span>
+	<span
+		class="view-validation-errors"
+		[popover]="popTemplate"
+		triggers=""
+		#pop="bs-popover"
+		(click)="pop.toggle()"
+		*ngIf="!isTravelDiaryValid"
+	>
+		<i class="fas fa-exclamation-triangle warning-icon"></i>Missing Information
+	</span>
 </div>
 
 <div class="travel-diary-question" [style.height.px]="containerHeight" *ngIf="isComponentLoaded | async">
 	<traisi-travel-dairy-day-view-scheduler
 		[viewDate]="viewDate"
 		[events]="events"
-		[dayStartHour]="4"
+		[dayStartHour]="0"
 		[dayEndHour]="24"
 		[hourSegments]="1"
 		[refresh]="events$"
@@ -39,3 +53,5 @@
 	(eventSaved)="eventSaved($event)"
 	#entryDialog
 ></traisi-travel-diary-edit-dialog>
+
+<ng-template #popTemplate>The dravel diary is missing information for some events. Click on events with an orange border to fill in the missing information.</ng-template>

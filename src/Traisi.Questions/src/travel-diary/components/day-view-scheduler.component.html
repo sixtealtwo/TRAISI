@@ -86,12 +86,23 @@
 					[segment]="segment"
 					[segmentHeight]="hourSegmentHeight"
 					[locale]="locale"
-					[customTemplate]="hourSegmentTemplate"
+					[customTemplate]="customHourSegment"
 					[isTimeLabel]="true"
 				>
 				</mwl-calendar-week-view-hour-segment>
 			</div>
 		</div>
+		<ng-template
+		let-segment="segment"
+		let-locale="locale"
+		let-segmentHeight="segmentHeight"
+		let-isTimeLabel="isTimeLabel"
+		let-daysInWeek="daysInWeek"
+		#customHourSegment
+		>
+		
+		{{renderDate(segment)}}
+	</ng-template>
 		<div class="cal-day-columns" [class.cal-resize-active]="timeEventResizes.size > 0" #dayColumns>
 			<div class="cal-day-column" *ngFor="let column of view.hourColumns; trackBy: trackByHourColumn">
 				<div

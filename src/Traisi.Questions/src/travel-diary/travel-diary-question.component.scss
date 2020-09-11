@@ -35,7 +35,17 @@
 	/* top: 0px; */
 	right: calc(50% - 80px);
 	z-index: 10;
-	width: 160px;
+	width: 280px;
+}
+.view-validation-errors{
+	cursor: pointer;
+	font-size: 14px;
+	margin-left: 10px;
+	text-decoration: underline;
+
+	.warning-icon {
+		color: orange;
+	}
 }
 
 ul.dropdown-menu {

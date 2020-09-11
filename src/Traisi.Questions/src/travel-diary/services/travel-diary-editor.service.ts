@@ -2,6 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { CalendarEvent } from 'calendar-utils';
+import { start } from 'repl';
 import { SurveyResponseViewModel, LocationResponseData, TimelineResponseData } from 'traisi-question-sdk';
 import {
 	SurveyRespondentUser,
@@ -9,6 +10,8 @@ import {
 	TravelDiaryEvent,
 	colors,
 } from 'travel-diary/models/consts';
+
+const TIME_DELTA: number = -4;
 
 // events based on user input
 @Injectable()
@@ -71,7 +74,7 @@ export class TravelDiaryEditor {
 
 	private createHomeStartEvent(user: SurveyRespondentUser): TravelDiaryEvent {
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
-		homeEvent.end = new Date(new Date().setHours(9, 0, 0, 0));
+		homeEvent.end = new Date(new Date().setHours(9 + TIME_DELTA, 0, 0, 0));
 		homeEvent.meta.model.timeA = new Date(new Date().setHours(0, 0, 0, 0));
 		homeEvent.meta.model.isValid = true;
 		homeEvent.meta.model.order = 0;
@@ -84,9 +87,9 @@ export class TravelDiaryEditor {
 
 	private createHomeEndEvent(user: SurveyRespondentUser): TravelDiaryEvent {
 		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
-		returnHomeEvent.start = new Date(new Date().setHours(17, 1, 0, 0));
+		returnHomeEvent.start = new Date(new Date().setHours(17 + TIME_DELTA, 1, 0, 0));
 		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
-		returnHomeEvent.meta.model.timeA = new Date(new Date().setHours(17, 1, 0, 0));
+		returnHomeEvent.meta.model.timeA = new Date(new Date().setHours(17 , 1, 0, 0));
 		returnHomeEvent.meta.model.isValid = false;
 		returnHomeEvent.meta.model.model = 2;
 		returnHomeEvent.meta.model.address = user.homeAddress ?? {};
@@ -102,10 +105,12 @@ export class TravelDiaryEditor {
 		hasSchoolTrip: boolean
 	): TravelDiaryEvent {
 		let workEvent = this.createBaseEvent(user, 'Work (Not Home)', 'work');
-		workEvent.start = new Date(new Date().setHours(9, 1, 0, 0));
-		workEvent.end = new Date(new Date().setHours(hasSchoolTrip ? 12 : 17, 0, 0, 0));
-		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
-		workEvent.meta.model.timeB = new Date(new Date().setHours(hasSchoolTrip ? 12 : 17, 0, 0, 0));
+		workEvent.start = new Date(new Date().setHours(9 + TIME_DELTA, 1, 0, 0));
+		workEvent.end = new Date(new Date().setHours(hasSchoolTrip ? 12 + TIME_DELTA : 17 + TIME_DELTA, 0, 0, 0));
+		workEvent.meta.model.timeA = new Date(new Date().setHours(9 , 1, 0, 0));
+		workEvent.meta.model.timeB = new Date(
+			new Date().setHours(hasSchoolTrip ? 12 : 17 , 0, 0, 0)
+		);
 		workEvent.meta.model.address = workLocation.address;
 		workEvent.meta.model.latitude = workLocation.latitude;
 		workEvent.meta.model.longitude = workLocation.longitude;
@@ -121,12 +126,14 @@ export class TravelDiaryEditor {
 	): TravelDiaryEvent {
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
 		let workEvent = this.createBaseEvent(user, 'School (Not Home)', 'school');
-		homeEvent.end = new Date(new Date().setHours(9, 0, 0, 0));
-		workEvent.start = new Date(new Date().setHours(hasWorkTrip ? 12 : 9, 1, 0, 1));
-		workEvent.end = new Date(new Date().setHours(17, 0, 0, 0));
+		homeEvent.end = new Date(new Date().setHours(9 + TIME_DELTA, 0, 0, 0));
+		workEvent.start = new Date(new Date().setHours(hasWorkTrip ? 12 + TIME_DELTA : 9 + TIME_DELTA, 1, 0, 1));
+		workEvent.end = new Date(new Date().setHours(17 + TIME_DELTA, 0, 0, 0));
 
-		workEvent.meta.model.timeA = new Date(new Date().setHours(hasWorkTrip ? 12 : 9, 1, 0, 1));
-		workEvent.meta.model.timeB = new Date(new Date().setHours(17, 0, 0, 0));
+		workEvent.meta.model.timeA = new Date(
+			new Date().setHours(hasWorkTrip ? 12 + TIME_DELTA : 9 + TIME_DELTA, 1, 0, 1)
+		);
+		workEvent.meta.model.timeB = new Date(new Date().setHours(17 + TIME_DELTA, 0, 0, 0));
 		workEvent.meta.model.address = schoolLocation.address;
 		workEvent.meta.model.latitude = schoolLocation.latitude;
 		workEvent.meta.model.longitude = schoolLocation.longitude;
@@ -147,10 +154,12 @@ export class TravelDiaryEditor {
 		event.displayId = displayId;
 		for (let u of event.users) {
 			if (!event.isInserted) {
+				let startTime = new Date(event.timeA);
+				startTime.setHours(startTime.getHours() + TIME_DELTA);
 				let newEvent = {
 					id: displayId,
 					title: event.name,
-					start: event.timeA,
+					start: startTime,
 					// end: event.timeB,
 					draggable: false,
 					resizable: { afterEnd: true },
@@ -170,6 +179,11 @@ export class TravelDiaryEditor {
 			} else {
 				// need to insert this event, but then find overalpping event
 				let overlap = this.getOverlappingDeparture(event, events);
+				let startTime = new Date(event.timeA);
+				startTime.setHours(startTime.getHours() + TIME_DELTA);
+
+				let endTime = new Date(event.insertedEndTime);
+				endTime.setHours(endTime.getHours() + TIME_DELTA);
 				if (overlap) {
 					// set the overlap END to the start of this event
 					overlap.end = event.timeA;
@@ -177,8 +191,8 @@ export class TravelDiaryEditor {
 					let insertedEvent = {
 						id: displayId,
 						title: event.name,
-						start: event.timeA,
-						end: event.insertedEndTime,
+						start: startTime,
+						end: endTime,
 						draggable: false,
 						resizable: { afterEnd: true },
 						meta: {
@@ -195,7 +209,7 @@ export class TravelDiaryEditor {
 					let returnEvent = {
 						id: displayId,
 						title: overlap.title,
-						start: event.insertedEndTime,
+						start: endTime,
 						end: overlap.end,
 						draggable: false,
 						resizable: { afterEnd: true },
@@ -308,11 +322,15 @@ export class TravelDiaryEditor {
 		let evt = events.find((x) => x.meta.model.displayId === update.displayId);
 		if (evt) {
 			let newModel = Object.assign(evt.meta.model, update);
+			let displayTime = new Date(update.timeA);
+			displayTime.setHours(displayTime.getHours() + TIME_DELTA);
+			let endTime = new Date(update.insertedEndTime);
+			endTime.setHours(endTime.getHours() + TIME_DELTA);
 			evt.meta.model = newModel;
 			evt.meta.model.isValid = true;
-			evt.start = update.timeA;
+			evt.start = displayTime;
 			if (update.hasEndTime) {
-				evt.end = update.insertedEndTime;
+				evt.end = endTime;
 			}
 		} else {
 		}
@@ -334,20 +352,29 @@ export class TravelDiaryEditor {
 			events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
 			for (let i = 0; i < events.length - 1; i++) {
 				events[i].meta.model.order = i;
-				events[i].start = events[i].meta.model.timeA;
+				let displayTime = new Date(events[i].meta.model.timeA);
+				displayTime.setHours(displayTime.getHours() + TIME_DELTA);
+				events[i].start = displayTime;
+
 				if (events[i].meta.model.displayId === updated?.displayId && updated?.hasEndTime) {
-					events[i + 1].start = events[i].meta.model.insertedEndTime;
+					let endTime = new Date(events[i].meta.model.insertedEndTime);
+					endTime.setHours(endTime.getHours() + TIME_DELTA);
+					events[i + 1].start = endTime;
 					if (events[i].meta.model.insertedEndTime) {
 						events[i + 1].meta.model.timeA = events[i].meta.model.insertedEndTime;
 					}
-					events[i].end = events[i].meta.model.insertedEndTime;
+					events[i].end = endTime;
 				} else {
-					events[i].end = events[i + 1].meta.model.timeA;
+					let displayTime2 = new Date(events[i + 1].meta.model.timeA);
+					displayTime2.setHours(displayTime2.getHours() + TIME_DELTA);
+					events[i].end = displayTime2;
 				}
 			}
 			if (events.length > 1) {
+				let displayTime = new Date(events[events.length - 1].meta.model.timeA);
+				displayTime.setHours(displayTime.getHours() + TIME_DELTA);
 				events[events.length - 1].meta.model.order = events.length - 1;
-				events[events.length - 1].start = events[events.length - 1].meta.model.timeA;
+				events[events.length - 1].start = displayTime;
 			}
 		}
 	}
@@ -441,6 +468,7 @@ export class TravelDiaryEditor {
 					id: undefined,
 					displayId: displayId,
 					isValid: false,
+					displayAddress: undefined,
 				},
 				id: Date.now(),
 			},
