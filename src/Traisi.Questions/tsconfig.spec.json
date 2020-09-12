@@ -1,26 +1,29 @@
 {
 	"compilerOptions": {
 		"sourceMap": true,
-		"declaration": true,
+		"declaration": false,
 		"moduleResolution": "node",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"skipLibCheck": true,
-		"target": "es5",
-		"module":"amd",
-		"lib": ["es2015", "dom"],
-		"outDir": "dist",
-		"baseUrl": "src",
-		"plugins": [
-			{
-				"name": "typescript-tslint-plugin"
-			}
-		],
-		"isolatedModules": false,
-		"paths": {} 
+		"module": "commonjs",
+		"outDir": "../out-tsc/spec",
+		"target": "esnext",
+		"noEmit": false,
+		// "rootDirs": ["."],
+		"lib": ["es2016", "dom"],
+		"types": ["webpack-env", "node", "jasmine"],
+		"baseUrl": ".",
+		"traceResolution": false,
+		
+		"paths": {
+			//	// "*": ["../*", "generated/*"]
+		}
 	},
-	"exclude": ["dist/**/*"],
-	"include": ["src/**/*"],
+	
 	"angularCompilerOptions": {
-	}
+		// "enableResourceInlining": true
+	},
+	"include": ["tests/**/*/*.spec.ts", "**/*.d.ts", "**/*/"],
+	"exclude": ["dist/**/*", "node_modules/**/*"]
 }

@@ -5,7 +5,7 @@ module.exports = function(config) {
 		basePath: './',
 		plugins: ['karma-jasmine', 'karma-chrome-launcher', 'karma-webpack'],
 		karmaTypescriptConfig: {
-			tsconfig: './tsconfig.json'
+			tsconfig: './tsconfig.spec.json'
 		},
 
 		// frameworks to use
@@ -17,10 +17,16 @@ module.exports = function(config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'src/**/*.spec.ts' // *.tsx for React Jsx
+			'src/**/*.ts' // *.tsx for React Jsx
 		],
 
-		webpack: webpack,
+        webpack: webpack,
+        
+        webpackMiddleware: {
+            // webpack-dev-middleware configuration
+            // i. e.
+            stats: 'errors-only',
+        },
 
 		// list of files / patterns to exclude
 		exclude: ['node_modules/*'],
@@ -44,14 +50,14 @@ module.exports = function(config) {
 
 		// level of logging
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-		logLevel: config.LOG_INFO,
+		logLevel: config.LOG_WARN,
 
 		// enable / disable watching file and executing tests whenever any file changes
 		autoWatch: true,
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['Chrome'],
+		browsers: ['ChromeHeadless'],
 
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits

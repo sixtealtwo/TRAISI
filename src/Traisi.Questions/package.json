@@ -12,6 +12,14 @@
 	},
 	"author": "University of Toronto",
 	"license": "ISC",
+	"browser": {
+		"http": false,
+		"https": false,
+		"net": false,
+		"path": false,
+		"stream": false,
+		"tls": false
+	},
 	"dependencies": {
 		"@angular/animations": "^9.1.9",
 		"@angular/cdk": "^9.2.4",
@@ -82,6 +90,7 @@
 		"copy-webpack-plugin": "^6.0.1",
 		"css-loader": "^3.5.3",
 		"file-loader": "^6.0.0",
+		"ignore-loader": "^0.1.2",
 		"image-webpack-loader": "^6.0.0",
 		"jasmine": "^3.5.0",
 		"jasmine-core": "^3.5.0",

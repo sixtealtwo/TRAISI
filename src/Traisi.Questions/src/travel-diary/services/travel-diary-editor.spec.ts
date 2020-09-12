@@ -1,10 +1,14 @@
 import {} from 'jasmine';
+import { TravelDiaryEditor } from './travel-diary-editor.service';
 
 describe('Hello world', () => {
-	let expected = '';
+    let expected = '';
+    
+    let x = new TravelDiaryEditor();
 
 	beforeEach(() => {
-		expected = 'Hello World';
+        expected = 'Hello World';
+        console.log(TravelDiaryEditor);
 	});
 
 	afterEach(() => {
@@ -15,3 +19,6 @@ describe('Hello world', () => {
 		expect('').toEqual('');
 	});
 }); 
+
+
+

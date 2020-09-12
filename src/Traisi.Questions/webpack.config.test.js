@@ -1,27 +1,37 @@
 const path = require('path');
-const WebpackSystemRegister = require('webpack-system-register');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const WebpackBar = require('webpackbar');
 module.exports = {
 	mode: 'development',
-	devtool: 'inline-source-map',
 
 	resolve: {
 		extensions: ['.ts', '.js'],
-		plugins: [new TsConfigPathsPlugin(/* { tsconfig, compiler } */)],
+		plugins: [new TsConfigPathsPlugin /* { tsconfig, compiler } */()],
 	},
 
 	module: {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: 'ts-loader',
-				exclude: [/node_modules/],
+				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), path.resolve(__dirname, 'node_modules')],
+				use: {
+					loader: 'ts-loader',
+					options: {},
+				},
 			},
 			{
 				test: /\.html?$/,
 				use: 'raw-loader',
+			},
+			{
+				test: /\.svg$/,
+				use: {
+					loader: 'svg-url-loader',
+					options: {
+						limit: 10000000, // Convert images < 8kb to base64 strings
+						name: 'images/[hash]-[name].[ext]',
+					},
+				},
 			},
 			{
 				test: /\.css$/,
@@ -29,6 +39,7 @@ module.exports = {
 					'style-loader', // creates style nodes from JS strings
 					'css-loader', // translates CSS into CommonJS
 				],
+				include: [/node_modules/],
 			},
 			{
 				test: /\.scss$/,
@@ -37,36 +48,51 @@ module.exports = {
 					{
 						loader: 'css-loader',
 						options: {
-							sourceMap: false,
+							sourceMap: true,
 						},
 					},
 					{
 						loader: 'sass-loader',
 						options: {
-							sourceMap: false,
+							sourceMap: true,
 
 							sassOptions: {
 								data: '@import "_styles";',
-								includePaths: [path.join(__dirname, 'assets'), '.assets/'],
+								includePaths: [path.join(__dirname, 'src/assets')],
 							},
 						},
 					},
 				],
 			},
 			{
-				test: /\.(png|jp(e*)g|svg)$/,
+				test: /\.(png|jp(e*)g)$/,
 				use: [
 					{
 						loader: 'url-loader',
 						options: {
-							limit: 12000, // Convert images < 8kb to base64 strings
+							limit: 8000, // Convert images < 8kb to base64 strings
 							name: 'images/[hash]-[name].[ext]',
 						},
 					},
 				],
 			},
+			{
+				test: /\.m?js$/,
+				exclude: [
+					path.resolve(__dirname, 'node_modules/mapbox-gl'),
+					/node_modules/,
+					path.resolve(__dirname, 'angular-calendar'),
+				],
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env'],
+					},
+				},
+			},
 		],
 	},
+
 	/*externals: [
         function (context, request, callback) {
             if (/^@angular/.test(request)) {
@@ -74,24 +100,23 @@ module.exports = {
             }
             callback();
         }
-    ],*/
-	externals: [
-		/^@angular\/platform-browser\/animations/,
-		/^@angular\/animations/,
-		/^@angular\/common/,
-		/^@angular\/core/,
-		/^@angular\/upgrade/,
-		/^@angular\/upgrade/,
-		/^@angular\/router/,
-		/^@angular\/forms/,
-		/^@angular\/platform-browser/,
-		/^@angular/,
-		/^ngx-bootstrap/,
-		/^@fortawesome/,
-		/^bootstrap/,
-		/^bootswatch/,
-		/^angular-calendar/,
-		/^rxjs/,
-		/^traisi-question-sdk/,
+	],*/
+
+	externals: [/^bootstrap/, /^bootswatch/],
+	plugins: [
+		/* new WebpackSystemRegister({
+             systemjsDeps: [
+                 /^ngx-bootstrap/, // any import that starts with react
+             ],
+             registerName: 'test-module', // optional name that SystemJS will know this bundle as.
+         }), */
+		/*
+        new UglifyJsPlugin({
+            uglifyOptions:{
+                output: {
+                    comments: false,
+                }
+            }
+		})  */
 	],
 };

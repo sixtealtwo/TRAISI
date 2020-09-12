@@ -18,7 +18,9 @@ const TIME_DELTA: number = -4;
 export class TravelDiaryEditor {
 	private _idCounter: number = 0;
 
-	public constructor() {}
+	public constructor() {
+		console.log(' in constructor ');
+	}
 
 	/**
 	 * Will attempt to create, if  any, the appropriate initial events on the travel diary
