@@ -165,7 +165,7 @@ export class TravelDiaryService {
 	}
 
 	private loadSavedResponses(): Observable<any> {
-		return this._responseService.loadSavedResponsesForRespondents([this._question], this.respondents);
+		return <Observable<any>><any>this._responseService.loadSavedResponsesForRespondents([this._question], this.respondents);
 	}
 
 	/**
