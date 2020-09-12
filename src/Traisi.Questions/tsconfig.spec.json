@@ -1,12 +1,12 @@
 {
 	"compilerOptions": {
 		"sourceMap": true,
-		"declaration": false,
+		"declaration": true,
 		"moduleResolution": "node",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"skipLibCheck": true,
-		"module": "commonjs",
+		"module": "ES6",
 		"outDir": "../out-tsc/spec",
 		"target": "esnext",
 		"noEmit": false,
