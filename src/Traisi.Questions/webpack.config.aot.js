@@ -15,13 +15,11 @@ module.exports = {
 	},
 	stats: 'detailed',
 
-    output: {
-        path: path.join(__dirname, 'dist/aot'),
-        publicPath: '/',
-        filename: '[name].bundle.js',
-		chunkFilename: '[id].chunk.js',
+	output: {
+		path: path.join(__dirname, 'dist'),
+		filename: 'traisi-questions-[name].module.js',
 		libraryTarget: 'amd'
-    },
+	},
 	mode: 'production',
 	devtool: false,
 	resolve: {

@@ -13,6 +13,8 @@ import {
 	InjectionToken,
 	Type,
 	Inject,
+	NgModuleFactory,
+	SystemJsNgModuleLoader,
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import {
@@ -175,9 +177,9 @@ export class QuestionLoaderService {
 					if (module.default.name in this._moduleRefs) {
 						return this._moduleRefs[module.default.name];
 					}
+
 					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 					const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
-					this._moduleRefs[<string>module.default.name] = moduleRef;
 
 					this._questionConfigurationService.setQuestionServerConfiguratioByType(questionType, config);
 					return moduleRef;
@@ -233,6 +235,25 @@ export class QuestionLoaderService {
 			// 	this._componentFactories[questionType] = componentFactory;
 		}
 		return componentFactory;
+	}
+
+	/**
+	 * Preloads modules for questions, and only once
+	 * @param questions
+	 */
+	public loadModulesForQuestions(questions: SurveyViewQuestion[]): Observable<void> {
+		let unique = new Set<string>();
+		for (let question of questions) {
+			unique.add(question.questionType);
+		}
+		let moduleLoads = [];
+		for(let qType of unique) {
+			
+		}
+
+		return new Observable((obs) => {
+			obs.complete();
+		});
 	}
 
 	/**

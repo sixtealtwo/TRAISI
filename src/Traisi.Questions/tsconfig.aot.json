@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
-		"target": "es5",
-		"module": "commonjs",
+		"target": "es6",
+		"module": "amd",
 		"moduleResolution": "node",
 		"sourceMap": true,
 		"emitDecoratorMetadata": true,
@@ -22,7 +22,8 @@
 	
 	"angularCompilerOptions": {
 		"genDir": "aot/",
-		"skipMetadataEmit": true
+		"skipMetadataEmit": true,
+		"enableIvy": false
 	  },
 	
 	"exclude": ["dist", "node_modules"]
