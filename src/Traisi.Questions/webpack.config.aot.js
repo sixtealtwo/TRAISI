@@ -2,6 +2,7 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const WebpackBar = require('webpackbar');
+const ngw = require('@ngtools/webpack');
 module.exports = {
 	entry: {
 		general: path.join(process.cwd(), './src/general/viewer/traisi-questions-viewer.module.ts'),
@@ -12,17 +13,17 @@ module.exports = {
 		'travel-diary': path.join(process.cwd(), './src/travel-diary/travel-diary-question.module.ts'),
 		'route-select': path.join(process.cwd(), './src/route-select/route-select-question.module.ts')
 	},
+	stats: 'detailed',
 
-	output: {
-		path: path.join(process.cwd(), 'dist'),
-		filename: 'traisi-questions-[name].module.js',
+    output: {
+        path: path.join(__dirname, 'dist/aot'),
+        publicPath: '/',
+        filename: '[name].bundle.js',
+		chunkFilename: '[id].chunk.js',
 		libraryTarget: 'amd'
-	},
+    },
 	mode: 'production',
 	devtool: false,
-	optimization: {
-		minimize: true,
-	},
 	resolve: {
 		extensions: ['.ts', '.js'],
 		plugins: [new TsConfigPathsPlugin /* { tsconfig, compiler } */()]
@@ -31,13 +32,8 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.tsx?$/,
-				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'),path.resolve(__dirname,'node_modules')],
-				use: {
-					loader: 'babel-loader',
-					options: {
-					}
-				}
+				test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+				loader: '@ngtools/webpack'
 			},
 			{
 				test: /\.html?$/,
@@ -96,7 +92,7 @@ module.exports = {
 					}
 				]
 			},
-			{
+			/*{
 				test: /\.m?js$/,
 				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), /node_modules/],
 				use: {
@@ -105,7 +101,7 @@ module.exports = {
 						presets: ['@babel/preset-env']
 					}
 				}
-			}
+			}*/
 		]
 	},
 
@@ -118,6 +114,7 @@ module.exports = {
         }
     ],*/
 	externals: [
+		/^@angular/,
 		/^@angular\/platform-browser\/animations/,
 		/^@angular\/animations/,
 		/^@angular\/common/,
@@ -132,10 +129,19 @@ module.exports = {
 		/^bootswatch/,
 		/^angular-calendar/,
 		/^rxjs/,
-		/^traisi-question-sdk/
+		/^traisi-question-sdk/ 
 	],
 	plugins: [
-		new WebpackBar()
+		new WebpackBar(),
+		new ngw.AngularCompilerPlugin({
+			mainPath: "src/travel-diary/travel-diary-question.module.ts",
+			tsConfigPath: path.join(__dirname, 'tsconfig.aot.json'),
+			"skipCodeGeneration": true,
+			platform: 0,
+			
+			
+		})
+
 
 	]
 };

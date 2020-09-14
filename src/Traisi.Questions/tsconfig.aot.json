@@ -1,29 +1,29 @@
 {
 	"compilerOptions": {
-		"sourceMap": true,
-		"declaration": true,
+		"target": "es5",
+		"module": "commonjs",
 		"moduleResolution": "node",
+		"sourceMap": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"skipLibCheck": true,
-		"module": "ES6",
-		"outDir": "../out-tsc/spec",
-		"target": "esnext",
-		"noEmit": false,
+		"noImplicitAny": false,
+		"suppressImplicitAnyIndexErrors": true,
+		"lib": ["es6", "dom"],
 		// "rootDirs": ["."],
-		"lib": ["es2016", "dom"],
-		"types": ["webpack-env", "node", "jasmine"],
-		"baseUrl": ".",
+		"types": [ "node", "jasmine"],
+		"baseUrl": "src",
 		"traceResolution": false,
 		
 		"paths": {
+		
 			//	// "*": ["../*", "generated/*"]
 		}
 	},
 	
 	"angularCompilerOptions": {
-		// "enableResourceInlining": true
-	},
-	"include": ["tests/**/*/*.spec.ts", "**/*.d.ts", "**/*/"],
-	"exclude": ["dist/**/*", "node_modules/**/*"]
+		"genDir": "aot/",
+		"skipMetadataEmit": true
+	  },
+	
+	"exclude": ["dist", "node_modules"]
 }

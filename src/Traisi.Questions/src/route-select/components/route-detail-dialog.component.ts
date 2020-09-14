@@ -3,7 +3,7 @@ import { SurveyQuestion, ResponseTypes, TimelineResponseData, TraisiValues } fro
 
 import templateString from './route-detail-dialog.component.html';
 import styleString from './route-detail-dialog.component.scss';
-import { Trip, Section, Trips } from 'route-select/models/trip-route.model';
+import { Trip, Section, Trips } from '../models/trip-route.model';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
