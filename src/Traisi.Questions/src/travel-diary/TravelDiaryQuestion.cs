@@ -23,6 +23,16 @@ namespace Traisi.Sdk.Questions
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
+                /// <summary>
+        /// The minimum or earliest allowed date
+        /// </summary>
+        [QuestionConfiguration(ConfigurationValueType.Boolean,
+        DisplayName = "CollectEntireHousehold",
+        Description = "Collect trips for the entire household.",
+        SurveyBuilderValueType = QuestionBuilderType.Switch,
+        DefaultValue = false)]
+        public DateTime CollectEntireHousehold;
+
         /// <summary>
         /// The minimum or earliest allowed date
         /// </summary>
