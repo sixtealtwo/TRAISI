@@ -3,7 +3,12 @@ const WebpackSystemRegister = require('webpack-system-register');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const WebpackBar = require('webpackbar');
-module.exports = {
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+ 
+const smp = new SpeedMeasurePlugin();
+
+
+module.exports = smp.wrap({
 	entry: {
 		general: path.join(process.cwd(), './src/general/viewer/traisi-questions-viewer.module.ts'),
 		'general-builder': path.join(process.cwd(), './src/general/builder/traisi-questions-builder.module.ts'),
@@ -139,4 +144,4 @@ module.exports = {
 			patterns: [{ from: 'dist/', to: '../../Traisi/development', toType: 'dir' }],
 		}),
 	],
-};
+});

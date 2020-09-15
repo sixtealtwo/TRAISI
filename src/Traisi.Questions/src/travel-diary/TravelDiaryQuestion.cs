@@ -23,7 +23,7 @@ namespace Traisi.Sdk.Questions
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
-                /// <summary>
+        /// <summary>
         /// The minimum or earliest allowed date
         /// </summary>
         [QuestionConfiguration(ConfigurationValueType.Boolean,
