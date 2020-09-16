@@ -110,8 +110,10 @@ export class TravelDiaryService {
 					homeLatitude: primaryHomeLat,
 					homeLongitude: primaryHomeLng,
 				};
-				this.respondents.push(respondentUser);
-				this.userMap[respondentUser.id] = respondentUser;
+				if (respondentUser.id === this._respondent.id) {
+					this.respondents.push(respondentUser);
+					this.userMap[respondentUser.id] = respondentUser;
+				}
 			}
 			this.loadSavedResponses().subscribe({
 				next: (v: SurveyResponseViewModel[]) => {
@@ -165,7 +167,9 @@ export class TravelDiaryService {
 	}
 
 	private loadSavedResponses(): Observable<any> {
-		return <Observable<any>><any>this._responseService.loadSavedResponsesForRespondents([this._question], this.respondents);
+		return <Observable<any>>(
+			(<any>this._responseService.loadSavedResponsesForRespondents([this._question], this.respondents))
+		);
 	}
 
 	/**
@@ -180,7 +184,7 @@ export class TravelDiaryService {
 	}
 
 	private _hasValues(respondent: SurveyRespondentUser): boolean {
-		return this._diaryEvents.some(x => x.meta.user.id === respondent.id);
+		return this._diaryEvents.some((x) => x.meta.user.id === respondent.id);
 	}
 
 	public get isTravelDiaryValid(): boolean {
@@ -437,7 +441,6 @@ export class TravelDiaryService {
 
 		console.log(this.respondents);
 	}
-
 
 	/**
 	 * Loads addresses
