@@ -62,9 +62,10 @@ namespace Traisi.Controllers
         /// Returns the builder client code (browser) for the associated question type.
         /// </summary>
         /// <param name="questionType"></param>
+        ///<param name="es5"></param>
         /// <returns></returns>
         [HttpGet("client-code/builder/{questionType}")]
-        public async Task<ActionResult> CustomBuilderClientCode(string questionType)
+        public async Task<ActionResult> CustomBuilderClientCode(string questionType, [FromQuery] bool es5 = false)
         {
             if (!_questionTypeManager.QuestionTypeDefinitions.Keys.Contains(questionType))
             {
