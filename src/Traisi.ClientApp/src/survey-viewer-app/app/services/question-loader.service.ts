@@ -180,7 +180,7 @@ export class QuestionLoaderService {
 
 					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 					const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
-
+					this._moduleRefs[<string>module.default.name] = moduleRef;
 					this._questionConfigurationService.setQuestionServerConfiguratioByType(questionType, config);
 					return moduleRef;
 				}),
