@@ -250,8 +250,6 @@
               "node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill/dist/quill.snow.css",
-              "node_modules/quill/dist/quill.bubble.css",
               "node_modules/simplebar/dist/simplebar.css",
               "node_modules/@fortawesome/fontawesome-pro/css/duotone.min.css",
               "node_modules/@fortawesome/fontawesome-pro/css/regular.min.css",
@@ -283,7 +281,13 @@
                   "maximumWarning": "6kb"
                 }
               ],
-              "tsConfig": "src/survey-viewer-app/tsconfig.app.es5.json"
+              "tsConfig": "src/survey-viewer-app/tsconfig.app.es5.json",
+              "fileReplacements": [
+                {
+                  "replace": "src/survey-viewer-app/environments/module.ts",
+                  "with": "src/survey-viewer-app/environments/module.es5.ts"
+                }
+              ]
             },
             "production": {
               "budgets": [
