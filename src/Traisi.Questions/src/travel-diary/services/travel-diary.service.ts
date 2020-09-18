@@ -125,6 +125,8 @@ export class TravelDiaryService {
 						);
 					}
 					this._edtior.reAlignTimeBoundaries(this.respondents, this._diaryEvents);
+
+					console.log(this.respondents);
 					// find respondents with 0 events
 					let respondentsToLoad = [];
 					for (let r of this.respondents) {
@@ -138,11 +140,12 @@ export class TravelDiaryService {
 								this._diaryEvents = [].concat(this._diaryEvents);
 								this.isLoaded.next(true);
 								this.diaryEvents$.next(this._diaryEvents);
-								this.users.next(this.respondents);
+								this.users.next([].concat(this.respondents));
 							},
 						});
 					} else {
 						this.isLoaded.next(true);
+						this.users.next([].concat(this.respondents));
 						this.diaryEvents$.next(this._diaryEvents);
 					}
 				},

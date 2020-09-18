@@ -53,7 +53,7 @@ namespace Traisi.Controllers.SurveyViewer
         [HttpPost]
         [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}", Name = "Save_Response")]
         public async Task<ActionResult<SurveyViewerValidationStateViewModel>> SaveResponse(int surveyId, int questionId,
-            int respondentId, int repeat, [FromBody] JArray content, [FromHeader] string language, [FromQuery] bool force = false)
+            int respondentId, int repeat, [FromBody] JArray content, [FromHeader] string language, [FromQuery] bool force = false, [FromQuery] bool isPartial = false)
         {
             var respondent = await _unitOfWork.SurveyRespondents.GetSurveyRespondentAsync(respondentId);
             var question = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionId);

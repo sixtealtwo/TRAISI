@@ -172,7 +172,8 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 					repeat,
 					this._session.language,
 					false,
-					responseData
+					false,
+					responseData,
 				)
 				.subscribe((result) => {
 					if (result.isValid) {
@@ -207,6 +208,7 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 						repeat,
 						this._session.language,
 						true,
+						false,
 						this._getStoredInvalidResponse(question, respondent)
 					)
 					.subscribe((result) => {

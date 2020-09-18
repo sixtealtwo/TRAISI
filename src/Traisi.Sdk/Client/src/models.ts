@@ -10,10 +10,10 @@ export interface SurveyResponseViewModel {
 export type ResponseModel = SurveyResponseViewModel
 
 export interface Address {
-    postalCode: string;
-    streetAddress: string;
-    streetNumber: number;
-    city: string;
-    province: string;
+    postalCode?: string;
+    streetAddress?: string;
+    streetNumber?: number;
+    city?: string;
+    province?: string;
 }
 
