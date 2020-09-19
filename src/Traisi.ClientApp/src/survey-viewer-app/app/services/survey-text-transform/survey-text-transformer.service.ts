@@ -27,7 +27,7 @@ export class SurveyTextTransformer {
 		text = text.replace(yesterdayRegex, yesterdayDate.toDateString());
 
 		let accessTime = surveyAccessTimeRegex.exec(text);
-		if (accessTime.length > 1) {
+		if (accessTime && accessTime.length > 1) {
 			text = this.processSurveyAccessTime(text, accessTime);
 		}
 
