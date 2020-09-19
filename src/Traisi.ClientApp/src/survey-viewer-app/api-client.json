@@ -30,8 +30,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/SurveyRespondentViewModel"
                 }
               }
             }
@@ -1552,6 +1551,10 @@
           "homeLongitude": {
             "type": "number",
             "format": "double"
+          },
+          "surveyAccessTime": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

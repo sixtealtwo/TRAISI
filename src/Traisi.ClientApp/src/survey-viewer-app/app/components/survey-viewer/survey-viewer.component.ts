@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { sortBy } from 'lodash';
-import { flatMap, share } from 'rxjs/operators';
+import { flatMap, mergeMap, share, shareReplay } from 'rxjs/operators';
 import { SurveyUser } from 'shared/models/survey-user.model';
 import { Utilities } from 'shared/services/utilities';
 import {
@@ -197,7 +197,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this._titleService.setTitle(`TRAISI - ${session.surveyTitle}`);
 					return this.surveyViewerService.pageThemeInfoJson;
 				}),
-				share(),
 				flatMap((pageTheme: any) => {
 					this.pageThemeInfo = pageTheme;
 
@@ -235,7 +234,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.loadedComponents = true;
 					return this.surveyViewerService.getSurveyViewPages(this.surveyId);
 				}),
-				share()
+				shareReplay(1)
 			)
 			.subscribe((pages: SurveyViewPage[]) => {
 				this.loadQuestions(pages);
@@ -344,17 +343,15 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._respondentService
 			.getSurveyPrimaryRespondent(this.surveyId)
 			.pipe(
-				flatMap((respondent: SurveyRespondent) => {
+				mergeMap((respondent: SurveyRespondent) => {
 					this._respondentService.primaryRespondent = {
 						id: respondent.id,
 						name: null,
 						relationship: null,
 					};
 					this.viewerState.primaryRespondent = this._respondentService.primaryRespondent;
-
 					return this._respondentService.getSurveyGroupMembers(this.viewerState.primaryRespondent);
 				}),
-				share()
 			)
 			.subscribe((members: Array<SurveyViewGroupMember>) => {
 				if (members.length > 0) {

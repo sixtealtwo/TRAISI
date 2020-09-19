@@ -9,4 +9,5 @@ export interface SurveyRespondent {
   homeAddress?: Address
   homeLatitude?: number
   homeLongitude?: number
+  surveyAccessTime?: Date;
 }

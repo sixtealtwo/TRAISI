@@ -178,6 +178,7 @@ namespace Traisi.Services
 
             // create the associated primary respondent 
             var respondent = await this._respondentService.CreatePrimaryRespondentForUser(appUser, survey);
+            respondent.SurveyAccessDateTime = DateTime.Now;
             result.Item3.PrimaryRespondent = respondent;
             return (result.Item1, result.Item2, result.Item3, respondent);
 
@@ -251,6 +252,7 @@ namespace Traisi.Services
                     if (primaryRespondent == null)
                     {
                         primaryRespondent = await _respondentService.CreatePrimaryRespondentForUser(user, survey);
+                        primaryRespondent.SurveyAccessDateTime = DateTime.Now;
                     }
                 }
             }

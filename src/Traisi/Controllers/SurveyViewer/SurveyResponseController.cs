@@ -19,6 +19,7 @@ using Traisi.ViewModels.SurveyViewer;
 using AutoMapper;
 using Traisi.Models.Surveys.Validation;
 using System.Linq;
+using System;
 
 namespace Traisi.Controllers.SurveyViewer
 {
@@ -27,12 +28,12 @@ namespace Traisi.Controllers.SurveyViewer
     [Route("api/[controller]/")]
     public class SurveyResponseController : ControllerBase
     {
-        private UserManager<ApplicationUser> _userManager;
+        private UserManager<TraisiUser> _userManager;
         private IUnitOfWork _unitOfWork;
         private ISurveyResponseService _resonseService;
         private readonly IMapper _mapper;
         public SurveyResponseController(IUnitOfWork unitOfWork, ISurveyResponseService responseService,
-        UserManager<ApplicationUser> userManager,
+        UserManager<TraisiUser> userManager,
         IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -275,8 +276,15 @@ namespace Traisi.Controllers.SurveyViewer
         public async Task<IActionResult> DeleteAllResponses(int surveyId, int respondentId)
         {
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
-            await this._resonseService.RemoveAllResponses(surveyId, respondentId, user);
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            var primaryRespondent = await _unitOfWork.SurveyRespondents.GetPrimaryRespondentForSurveyAndTraisiUserAsync(user, survey);
 
+            if (primaryRespondent != null)
+            {
+                primaryRespondent.SurveyAccessDateTime = DateTime.Now;
+            }
+            await this._resonseService.RemoveAllResponses(surveyId, respondentId, user);
+            await this._unitOfWork.SaveChangesAsync();
             return new OkResult();
         }
 

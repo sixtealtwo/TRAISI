@@ -11,7 +11,7 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { SurveyViewerValidationStateViewModel, SurveyResponseViewModel, SurveyLogicCondition, SurveyLogicOperator, SurveyViewerLogicRulesViewModel } from 'traisi-question-sdk';
+import { SurveyRespondentViewModel, SurveyViewerValidationStateViewModel, SurveyResponseViewModel, SurveyLogicCondition, SurveyLogicOperator, SurveyViewerLogicRulesViewModel } from 'traisi-question-sdk';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -28,7 +28,7 @@ export class SurveyRespondentClient {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    getSurveyPrimaryRespondent(surveyId: number): Observable<number> {
+    getSurveyPrimaryRespondent(surveyId: number): Observable<SurveyRespondentViewModel> {
         let url_ = this.baseUrl + "/api/SurveyRespondent/surveys/{surveyId}/respondents/primary";
         if (surveyId === undefined || surveyId === null)
             throw new Error("The parameter 'surveyId' must be defined.");
@@ -50,14 +50,14 @@ export class SurveyRespondentClient {
                 try {
                     return this.processGetSurveyPrimaryRespondent(<any>response_);
                 } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
+                    return <Observable<SurveyRespondentViewModel>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<number>><any>_observableThrow(response_);
+                return <Observable<SurveyRespondentViewModel>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetSurveyPrimaryRespondent(response: HttpResponseBase): Observable<number> {
+    protected processGetSurveyPrimaryRespondent(response: HttpResponseBase): Observable<SurveyRespondentViewModel> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -67,7 +67,7 @@ export class SurveyRespondentClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <number>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <SurveyRespondentViewModel>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -75,7 +75,7 @@ export class SurveyRespondentClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<number>(<any>null);
+        return _observableOf<SurveyRespondentViewModel>(<any>null);
     }
 
     addSurveyGroupMember(respondent: SurveyRespondentViewModel | null): Observable<number> {
@@ -1753,17 +1753,6 @@ export class SurveyViewerClient {
         }
         return _observableOf<FileResponse>(<any>null);
     }
-}
-
-export interface SurveyRespondentViewModel {
-    id?: number;
-    name?: string | undefined;
-    relationship?: string | undefined;
-    email?: string | undefined;
-    phoneNumber?: string | undefined;
-    homeAddress?: Address | undefined;
-    homeLatitude?: number;
-    homeLongitude?: number;
 }
 
 export interface Address {

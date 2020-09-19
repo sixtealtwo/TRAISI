@@ -184,6 +184,7 @@ namespace Traisi.Data
 
             builder.Entity<PrimaryRespondent>().HasMany(o => o.SurveyAccessRecords).WithOne(o => o.Respondent).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<PrimaryRespondent>().Property(m => m.HomeLocation).IsRequired(false);
+            builder.Entity<PrimaryRespondent>().Property(m => m.SurveyAccessDateTime).HasDefaultValue((DateTimeOffset)DateTime.MinValue);
             builder.Entity<SubRespondent>().Property(m => m.HomeLocation).IsRequired(false);
             builder.Entity<PrimaryRespondent>().Property(m => m.HomeAddress).IsRequired(false);
             builder.Entity<SubRespondent>().Property(m => m.HomeAddress).IsRequired(false);

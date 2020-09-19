@@ -32,12 +32,15 @@ namespace Traisi.Models.Mapping
                     }
                 });
 
+
             CreateMap<SubRespondent, SurveyRespondentViewModel>();
             CreateMap<SurveyRespondentViewModel, SubRespondent>()
                 .ForMember(m => m.SurveyRespondentGroup, c => c.Ignore());
             CreateMap<PrimaryRespondent, SurveyRespondentViewModel>()
                 .ForMember(m => m.HomeLatitude, c => c.MapFrom(x => x.HomeLocation.Y))
-                .ForMember(m => m.HomeLongitude, c => c.MapFrom(x => x.HomeLocation.X));
+                .ForMember(m => m.HomeLongitude, c => c.MapFrom(x => x.HomeLocation.X))
+                .ForMember(m => m.SurveyAccessTime, c => c.MapFrom(x => x.SurveyAccessDateTime));
+                
             CreateMap<SurveyResponse, LocationResponseViewModel>().ForMember(
                 m => m.ResponseValues, r => r.MapFrom<LocationResponseValueResolver>()
             ).ForMember(s => s.Configuration, r => r.MapFrom<SurveyResponseConfigurationValueResolver>())

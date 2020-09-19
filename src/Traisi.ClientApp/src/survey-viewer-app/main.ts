@@ -3,7 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import '@angular/compiler';
 import { AppModule } from 'app/app.module';
 import { environment } from 'environments/environment';
-import { module } from 'environments/module.es5';
+import { jsModule as moduleSupport } from 'environments/module';
 
 if (environment.production) {
   enableProdMode();
@@ -14,4 +14,4 @@ platformBrowserDynamic().bootstrapModule(AppModule)
 
 
   console.log(environment);
-  console.log(module);
+  console.log(moduleSupport);

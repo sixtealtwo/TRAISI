@@ -1,3 +1,4 @@
+using System;
 using Traisi.Sdk.Interfaces;
 
 namespace Traisi.ViewModels.SurveyViewer
@@ -15,5 +16,7 @@ namespace Traisi.ViewModels.SurveyViewer
         public double HomeLatitude { get; set; }
 
         public double HomeLongitude { get; set; }
+
+        public DateTimeOffset SurveyAccessTime { get; set; }
     }
 }

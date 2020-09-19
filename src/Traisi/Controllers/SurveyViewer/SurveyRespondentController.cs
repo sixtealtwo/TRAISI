@@ -33,7 +33,7 @@ namespace Traisi.Controllers.SurveyViewer
 
         private IRespondentGroupService _respondentGroupService;
 
-        private UserManager<ApplicationUser> _userManager;
+        private UserManager<TraisiUser> _userManager;
 
         private IUnitOfWork _unitOfWork;
 
@@ -50,7 +50,7 @@ namespace Traisi.Controllers.SurveyViewer
             IRespondentGroupService respondentGroupService,
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            UserManager<ApplicationUser> userManager)
+            UserManager<TraisiUser> userManager)
         {
             this._respondentService = respondentService;
             this._userManager = userManager;
@@ -61,7 +61,7 @@ namespace Traisi.Controllers.SurveyViewer
 
 
 
-        [Produces(typeof(int))]
+        [Produces(typeof(SurveyRespondentViewModel))]
         //[Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [HttpGet]
         [Route("surveys/{surveyId}/respondents/primary", Name = "Get_Primary_Respondent_For_Survey")]
@@ -74,20 +74,24 @@ namespace Traisi.Controllers.SurveyViewer
             }
             else
             {
-                var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForSurveyAsync(survey);
+                var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
+                var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForSurveyAndTraisiUserAsync(user, survey);
 
                 if (respondent == null)
                 {
-                    var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
+
                     var newRespondent = await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
+                    newRespondent.SurveyAccessDateTime = DateTime.Now;
                     newRespondent.Survey = survey;
                     this._unitOfWork.SaveChanges();
-                    return new ObjectResult(_mapper.Map<SurveyRespondentViewModel>(newRespondent));
+                    var resp = _mapper.Map<SurveyRespondentViewModel>(newRespondent);
+                    return new OkObjectResult(resp);
 
                 }
                 else
                 {
-                    return new ObjectResult(_mapper.Map<SurveyRespondentViewModel>(respondent));
+                    var resp = _mapper.Map<SurveyRespondentViewModel>(respondent);
+                    return new OkObjectResult(resp);
                 }
             }
         }

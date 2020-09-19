@@ -96,6 +96,7 @@ export class TravelDiaryService {
 			let primaryHomeAddress: any = {};
 			let primaryHomeLat = 0;
 			let primaryHomeLng = 0;
+			console.log(respondents);
 			if (respondents.length > 0) {
 				primaryHomeAddress = respondents[0].homeAddress;
 				primaryHomeLat = respondents[0].homeLatitude;

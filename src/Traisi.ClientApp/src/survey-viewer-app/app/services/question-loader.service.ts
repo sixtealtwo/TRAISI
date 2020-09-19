@@ -42,7 +42,6 @@ import * as alert from 'ngx-bootstrap/alert';
 import * as buttons from 'ngx-bootstrap/buttons';
 import * as modal from 'ngx-bootstrap/modal';
 import * as dropdown from 'ngx-bootstrap/dropdown';
-import * as carousel from 'ngx-bootstrap/carousel';
 import * as datepicker from 'ngx-bootstrap/datepicker';
 import * as BrowserModule from '@angular/platform-browser';
 import * as tooltip from 'ngx-bootstrap/tooltip';
@@ -62,7 +61,7 @@ import * as rxjsOperators from 'rxjs/operators';
 import { UpgradeModule } from '@angular/upgrade/static';
 import { SurveyQuestion, QuestionConfiguration, SurveyViewQuestion } from 'traisi-question-sdk';
 import { QuestionConfigurationService } from './question-configuration.service';
-
+import { jsModule as moduleSupport } from 'environments/module';
 type ComponentFactoryBoundToModule<T> = any;
 
 declare const SystemJS;
@@ -119,7 +118,7 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('ngx-bootstrap/buttons', SystemJS.newModule(buttons));
 		SystemJS.registry.set('ngx-bootstrap/modal', SystemJS.newModule(modal));
 		SystemJS.registry.set('ngx-bootstrap/dropdown', SystemJS.newModule(dropdown));
-		SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
+		// SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
 		SystemJS.registry.set('ngx-bootstrap/tooltip', SystemJS.newModule(tooltip));
 		SystemJS.registry.set('ngx-bootstrap/timepicker', SystemJS.newModule(timePicker));
 		SystemJS.registry.set('traisi-question-sdk', SystemJS.newModule(traisiSdkModule));
@@ -170,7 +169,7 @@ export class QuestionLoaderService {
 			);
 		} else {
 			return forkJoin([
-				from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))),
+				from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType, moduleSupport.es5))),
 				this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(questionType),
 			]).pipe(
 				map(([module, config]: any) => {
