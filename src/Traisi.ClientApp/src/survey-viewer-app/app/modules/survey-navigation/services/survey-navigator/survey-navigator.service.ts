@@ -169,10 +169,8 @@ export class SurveyNavigator {
 	public navigateNext(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
 		let nav = this._incrementNavigation(this._newState()).pipe(
-			expand((x) =>
-				x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY
-			),
-			skipWhile(x => x.activeQuestionInstances.length === 0),
+			expand((x) => (x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY)),
+			skipWhile((x) => x.activeQuestionInstances.length === 0),
 			// take(1),
 			shareReplay(1)
 		);
@@ -191,10 +189,8 @@ export class SurveyNavigator {
 	public navigatePrevious(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
 		let prev = this._decrementNavigation(this._newState()).pipe(
-			expand((x) =>
-				x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY
-			),
-			skipWhile(x => x.activeQuestionInstances.length === 0),
+			expand((x) => (x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY)),
+			skipWhile((x) => x.activeQuestionInstances.length === 0),
 			// take(1),
 			shareReplay(1)
 		);
@@ -622,16 +618,21 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	public getInvalidQuestions(): QuestionInstance [] {
+	public getInvalidQuestions(): QuestionInstance[] {
 		let invalidQuestions: QuestionInstance[] = [];
 		for (let instance of this._currentState.activeQuestionInstances) {
-			if (!instance.validationState.isValid && !instance.model.isOptional) {
+			if (
+				!instance.validationState.isValid &&
+				!instance.model.isOptional &&
+				instance.model.questionType !== 'heading'
+			) {
 				invalidQuestions.push(instance);
 				// break;
 			}
 		}
+		console.log(invalidQuestions);
 		return invalidQuestions;
 	}
 
