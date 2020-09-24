@@ -5,6 +5,7 @@ import {
 	LocationResponseData,
 	TimelineResponseData,
 	ResponseValidationState,
+	ValidationError,
 } from 'traisi-question-sdk';
 import {
 	Component,
@@ -149,5 +150,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public get isComponentLoaded(): BehaviorSubject<boolean> {
 		return this._travelDiaryService.isLoaded;
+	}
+
+	public reportErrors(): ValidationError[] {
+		return this._travelDiaryService.reportErrors();
 	}
 }

@@ -17,6 +17,7 @@ import {
 	SurveyViewerLogicRuleViewModel,
 	TimelineResponseData,
 	SurveyResponseViewModel,
+	ValidationError,
 } from 'traisi-question-sdk';
 import { Console } from 'console';
 import { TravelDiaryEditDialogComponent } from '../components/travel-diary-edit-dialog.component';
@@ -52,6 +53,8 @@ export class TravelDiaryService {
 	public isLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 	public users: BehaviorSubject<SurveyRespondentUser[]> = new BehaviorSubject<SurveyRespondentUser[]>([]);
+
+	public activeUser: SurveyRespondentUser;
 
 	public surveyId: number;
 
@@ -96,7 +99,6 @@ export class TravelDiaryService {
 			let primaryHomeAddress: any = {};
 			let primaryHomeLat = 0;
 			let primaryHomeLng = 0;
-			console.log(respondents);
 			if (respondents.length > 0) {
 				primaryHomeAddress = respondents[0].homeAddress;
 				primaryHomeLat = respondents[0].homeLatitude;
@@ -112,9 +114,10 @@ export class TravelDiaryService {
 					homeLongitude: primaryHomeLng,
 				};
 				if (respondentUser.id === this._respondent.id) {
-					this.respondents.push(respondentUser);
-					this.userMap[respondentUser.id] = respondentUser;
+					this.activeUser = respondentUser;
 				}
+				this.userMap[respondentUser.id] = respondentUser;
+				this.respondents.push(respondentUser);
 			}
 			this.loadSavedResponses().subscribe({
 				next: (v: SurveyResponseViewModel[]) => {
@@ -126,8 +129,6 @@ export class TravelDiaryService {
 						);
 					}
 					this._edtior.reAlignTimeBoundaries(this.respondents, this._diaryEvents);
-
-					console.log(this.respondents);
 					// find respondents with 0 events
 					let respondentsToLoad = [];
 					for (let r of this.respondents) {
@@ -141,12 +142,12 @@ export class TravelDiaryService {
 								this._diaryEvents = [].concat(this._diaryEvents);
 								this.isLoaded.next(true);
 								this.diaryEvents$.next(this._diaryEvents);
-								this.users.next([].concat(this.respondents));
+								this.users.next([].concat(this.activeUser));
 							},
 						});
 					} else {
 						this.isLoaded.next(true);
-						this.users.next([].concat(this.respondents));
+						this.users.next([].concat(this.activeUser));
 						this.diaryEvents$.next(this._diaryEvents);
 					}
 				},
@@ -198,7 +199,6 @@ export class TravelDiaryService {
 				return false;
 			}
 			if (!this._validateNoOverlappingEvents(filter)) {
-				console.log('no overlapping');
 				return false;
 			}
 			if (!this._validateConsecutiveHomeEvents(filter)) {
@@ -206,6 +206,39 @@ export class TravelDiaryService {
 			}
 		}
 		return !this._diaryEvents.some((x) => x.meta.model.isValid === false);
+	}
+
+	public reportErrors(): ValidationError[] {
+		let errors: ValidationError[] = [];
+
+		//for (let r of this.respondents) {
+		let filter = this._diaryEvents.filter((x) => x.meta.user.id === this.activeUser.id);
+		filter = filter.sort((v1, v2) => v1.start.getUTCMinutes() - v2.start.getUTCMinutes());
+		if (filter.length === 0) {
+			errors.push({
+				message: 'You cannot have an empty travel diary.',
+			});
+		}
+		if (!this._validateNoOverlappingEvents(filter)) {
+			errors.push({
+				message: 'Activities cannot be overlapping.',
+			});
+		}
+		if (!this._validateConsecutiveHomeEvents(filter)) {
+			errors.push({
+				message: 'You cannot have two home events in a row.',
+			});
+		}
+		for (let i = 0; i < filter.length; i++) {
+			let event = filter[i];
+			if (event.meta.model.mode === undefined && i > 0) {
+				errors.push({
+					message: `Activity <strong>${event.meta.model.name}</strong> has no mode assigned.`,
+				});
+			}
+		}
+		//}
+		return errors;
 	}
 
 	/**
@@ -221,6 +254,10 @@ export class TravelDiaryService {
 		return true;
 	}
 
+	/**
+	 *
+	 * @param userEvents
+	 */
 	private _validateConsecutiveHomeEvents(userEvents: TravelDiaryEvent[]): boolean {
 		for (let i = 0; i < userEvents.length - 1; i++) {
 			if (userEvents[i].meta.model.purpose === 'home' && userEvents[i + 1].meta.model.purpose === 'home') {

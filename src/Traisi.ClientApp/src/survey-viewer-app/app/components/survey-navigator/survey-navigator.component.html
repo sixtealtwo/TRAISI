@@ -3,7 +3,7 @@
 		<button
 			(click)="navigatePrevious()"
 			[disabled]="!(navigator.previousEnabled$ | async)"
-			class="btn btn-secondary pl-4 pr-4 survey-nav-button  survey-nav-button-previous"
+			class="btn btn-secondary pl-4 pr-4 survey-nav-button survey-nav-button-previous"
 			type="button"
 		>
 			<i class="fas fa-arrow-alt-circle-left mr-1"></i>
@@ -12,13 +12,15 @@
 
 		<button
 			[popper]="validationPopperContent"
-			[popperTrigger]="'click'"
 			[popperHideOnScroll]="true"
+			[popperTrigger]="'none'"
 			[popperHideOnClickOutside]="true"
+			[popperHideOnMouseLeave]="false"
 			(click)="navigateNext()"
 			[disabled]="!(navigator.nextEnabled$ | async)"
 			class="btn btn-primary pl-4 pr-4 survey-nav-button survey-nav-button-next"
 			type="button"
+			#navigateNextButton
 		>
 			<div>
 				{{ 'Viewer.Next' | translate }}
@@ -29,9 +31,16 @@
 		</button>
 		<popper-content #validationPopperContent>
 			<div class="validation-popper-title">You have not answered the following questions:</div>
-			<div class="invalid-question-label" *ngFor="let question of invalidQuestions | async">
-				<a [routerLink]="" fragment="{{question.model.questionId}}">{{ question.model.name }}</a>
-			</div>
+			<ng-container *ngFor="let question of invalidQuestions | async">
+				<div class="invalid-question-label">
+					<a [routerLink]="" fragment="{{ question.model.questionId }}">{{ question.model.name }}</a>
+				</div>
+				<ul class="invalid-question-messages">
+					<li class="invalid-question-message" *ngFor="let error of question.validationErrors">
+						<span [innerHTML]="error.message"></span>
+					</li>
+				</ul>
+			</ng-container>
 		</popper-content>
 		<button
 			*ngIf="false"

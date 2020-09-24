@@ -15,6 +15,7 @@ import {
 	SurveyViewPage,
 	SurveyViewSection,
 	SurveyViewQuestion,
+	SurveyQuestion,
 } from 'traisi-question-sdk';
 import { ViewTransformer } from './view-transformer.service';
 import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk';
@@ -550,6 +551,7 @@ export class SurveyNavigator {
 									model: result.question,
 									component: null,
 									repeat: 0,
+									validationErrors: [],
 									questionInstanceState: null,
 									validationState: {
 										isValid: false,
@@ -618,7 +620,7 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 *
+	 * Gets invalid questions and reports validation errors
 	 */
 	public getInvalidQuestions(): QuestionInstance[] {
 		let invalidQuestions: QuestionInstance[] = [];
@@ -629,7 +631,10 @@ export class SurveyNavigator {
 				instance.model.questionType !== 'heading'
 			) {
 				invalidQuestions.push(instance);
+				instance.validationErrors = [].concat((<SurveyQuestion<any>>instance.component).reportErrors());
 				// break;
+			} else {
+				instance.validationErrors = [];
 			}
 		}
 		console.log(invalidQuestions);

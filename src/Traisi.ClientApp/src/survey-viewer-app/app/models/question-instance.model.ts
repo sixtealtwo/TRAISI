@@ -1,6 +1,6 @@
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk/survey-validation.model';
-import { SurveyViewQuestion } from 'traisi-question-sdk';
+import { SurveyViewQuestion, ValidationError } from 'traisi-question-sdk';
 
 /**
  * Represents a question isntance that is displayable.
@@ -28,4 +28,6 @@ export interface QuestionInstance {
 
 	// the entire repeat source (question response)
 	repeatSource?: any;
+
+	validationErrors: ValidationError[];
 }

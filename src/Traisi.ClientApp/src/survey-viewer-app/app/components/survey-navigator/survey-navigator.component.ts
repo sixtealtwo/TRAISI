@@ -6,6 +6,8 @@ import {
 	Inject,
 	TemplateRef,
 	ViewChild,
+	HostListener,
+	ElementRef,
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
@@ -30,6 +32,12 @@ export class SurveyNavigatorComponent implements OnInit {
 	@ViewChild('validationPopperContent')
 	public validationPopperContent: PopperComponent;
 
+	@ViewChild('validationPopperContent', { read: ElementRef })
+	public validationPopperContentRef: ElementRef;
+
+	@ViewChild('navigateNextButton', { read: ElementRef })
+	public navigateNextButtonRef: ElementRef;
+
 	public invalidQuestions: BehaviorSubject<QuestionInstance[]>;
 
 	public get viewerState(): SurveyViewerState {
@@ -40,7 +48,7 @@ export class SurveyNavigatorComponent implements OnInit {
 		public navigator: SurveyNavigator,
 		private _viewerStateService: SurveyViewerStateService,
 		private _router: Router,
-		@Inject(DOCUMENT) private _document
+		@Inject(DOCUMENT) private _document: Document
 	) {
 		this.invalidQuestions = new BehaviorSubject<QuestionInstance[]>([]);
 	}
@@ -51,15 +59,30 @@ export class SurveyNavigatorComponent implements OnInit {
 		// this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
+	@HostListener('document:click', ['$event'])
+	public clickout(event: Event): void {
+		if (
+			!this.validationPopperContentRef.nativeElement.contains(event.target) &&
+			!this.navigateNextButtonRef.nativeElement.contains(event.target)
+		) {
+			(<any>this.validationPopperContent)['hide']();
+		} else {
+			//
+		}
+	}
+
 	public navigateNext(): void {
+		(<any>this.validationPopperContent)['hide']();
 		let invalidQuestions = this.navigator.getInvalidQuestions();
 		this.invalidQuestions.next(invalidQuestions);
 		if (invalidQuestions.length === 0) {
-			(<any>this.validationPopperContent)['hide']();
 			let obs = this.navigator.navigateNext().subscribe({
-				complete: () => {},
+				complete: () => {
+					(<any>this.validationPopperContent)['hide']();
+				},
 			});
 		} else {
+			console.log(invalidQuestions);
 			(<any>this.validationPopperContent)['show']();
 			// this.validationPopperContent.show = true;
 		}
