@@ -433,7 +433,7 @@ namespace Traisi.Models.Mapping
                 return JToken.Parse(sourceMember);
             }
             else {
-                return new JObject();
+                return new JArray();
             }
             
         }
