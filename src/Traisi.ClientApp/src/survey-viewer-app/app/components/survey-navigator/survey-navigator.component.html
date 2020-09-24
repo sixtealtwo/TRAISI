@@ -3,7 +3,7 @@
 		<button
 			(click)="navigatePrevious()"
 			[disabled]="!(navigator.previousEnabled$ | async)"
-			class="btn btn-secondary pl-4 pr-4 survey-nav-button"
+			class="btn btn-secondary pl-4 pr-4 survey-nav-button  survey-nav-button-previous"
 			type="button"
 		>
 			<i class="fas fa-arrow-alt-circle-left mr-1"></i>
@@ -17,7 +17,7 @@
 			[popperHideOnClickOutside]="true"
 			(click)="navigateNext()"
 			[disabled]="!(navigator.nextEnabled$ | async)"
-			class="btn btn-primary pl-4 pr-4 survey-nav-button"
+			class="btn btn-primary pl-4 pr-4 survey-nav-button survey-nav-button-next"
 			type="button"
 		>
 			<div>
@@ -28,9 +28,9 @@
 			</div>
 		</button>
 		<popper-content #validationPopperContent>
-			<div>You must respond to all non optional questions:</div>
+			<div class="validation-popper-title">You have not answered the following questions:</div>
 			<div class="invalid-question-label" *ngFor="let question of invalidQuestions | async">
-				{{ question.model.name }}
+				<a [routerLink]="" fragment="{{question.model.questionId}}">{{ question.model.name }}</a>
 			</div>
 		</popper-content>
 		<button

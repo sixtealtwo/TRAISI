@@ -16,7 +16,7 @@ export class DropdownListComponent implements OnInit {
 	public constructor(private alertService: AlertService) {}
 
 	public ngOnInit() {
-		let optionData = JSON.parse(this.questionConfiguration.resourceData)?.options;
+		let optionData = JSON.parse(this.questionConfiguration.resourceData);
 		if (optionData instanceof Array) {
 			optionData.forEach((element) => {
 				this.options.push(element);
@@ -29,18 +29,18 @@ export class DropdownListComponent implements OnInit {
 	 * @param last
 	 */
 	public processPriorValue(last: string): void {
-		console.log(last);
 		if (last) {
 			try {
-				let model = last;
+				let model = JSON.parse(last);
 				this.selectedFull = model;
-				this.selected = model;
+				this.selected = model.id;
 			} catch {}
 		}
 	}
 
 	public onChanged(event): void {
 		this.selectedFull = event;
+
 	}
 	getValue() {
 		if (this.selected === null) {

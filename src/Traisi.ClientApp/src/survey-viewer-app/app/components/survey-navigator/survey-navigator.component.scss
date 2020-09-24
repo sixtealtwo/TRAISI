@@ -4,12 +4,42 @@ popper-content {
 	text-align: left;
 
 	.invalid-question-label {
-		font-weight: bold;
+		font-weight: normal;
 		margin-top: 10px;
-		font-weight: 12px;
+		font-size: 14px;
+	}
+
+	.validation-popper-title {
+		font-size: 16px;
+		font-weight: bold;;
 	}
 }
 
 popper-content > div {
     background-color: white;
+}
+
+.survey-nav-button:disabled {
+	cursor: initial;
+}
+
+
+.survey-nav-button {
+	width: 140px;
+}
+
+.btn-group > .btn.survey-nav-button-next {
+	border-radius: 7px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-top-right-radius: 7px !important;
+    border-bottom-right-radius:  7px !important;
+}
+
+.btn.survey-nav-button-next:active {
+	border-radius: 7px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-top-right-radius: 7px !important;
+    border-bottom-right-radius:  7px !important;
 }
