@@ -704,7 +704,8 @@ export class SurveyNavigator {
 		let newState: NavigationState = this._initializeNavigationSate(this._currentState);
 		this._initState(newState).subscribe((v) => {
 			this.navigationState$.next(v);
-			this.nextEnabled$.next(this._checkValidation(v));
+			this._checkValidation(v);
+			// this.nextEnabled$.next();
 		});
 	}
 }
