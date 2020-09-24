@@ -64,8 +64,8 @@
 									[surveyViewer]="ref"
 									[ngClass]="{
 										invalid:
-											!question.validationState?.clientValidationState ===
-											validationStates.INVALID
+											(question.validationState?.clientValidationState ===
+											validationStates.INVALID)
 									}"
 									[activeQuestionIndex]="i"
 									[questionInstance]="question"

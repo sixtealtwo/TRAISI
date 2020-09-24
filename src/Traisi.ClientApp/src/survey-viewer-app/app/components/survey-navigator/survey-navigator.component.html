@@ -1,7 +1,4 @@
-<div
-	id="question-viewer-nav"
-	class="text-center viewer-nav"
->
+<div id="question-viewer-nav" class="text-center viewer-nav">
 	<div class="row justify-content-center btn-group align-center">
 		<button
 			(click)="navigatePrevious()"
@@ -14,13 +11,12 @@
 		</button>
 
 		<button
-			*ngIf="!viewerState.isNavComplete && !viewerState.isNavFinished"
 			(click)="navigateNext()"
 			[disabled]="!(navigator.nextEnabled$ | async)"
 			class="btn btn-primary pl-4 pr-4 survey-nav-button"
 			type="button"
 		>
-			<div *ngIf="!viewerState.isNavComplete">
+			<div>
 				{{ 'Viewer.Next' | translate }}
 				<i class="fas fa-arrow-alt-circle-right ml-1"></i>
 
@@ -28,8 +24,7 @@
 			</div>
 		</button>
 		<button
-			*ngIf="viewerState.isNavFinished"
-			[disabled]="!viewerState.isNavComplete"
+			*ngIf="false"
 			(click)="navigateCompleteSurvey()"
 			class="btn btn-primary pl-4 pr-4 survey-nav-button"
 			type="button"
