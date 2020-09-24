@@ -176,9 +176,8 @@ export class SurveyNavigator {
 			// take(1),
 			shareReplay(1)
 		);
-		this.nextEnabled$.next(false);
+		// this.nextEnabled$.next(false);
 		let result = nav.subscribe((state) => {
-			console.log(state);
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
 			this._checkValidation(state);
