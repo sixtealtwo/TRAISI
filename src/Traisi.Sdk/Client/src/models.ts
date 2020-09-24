@@ -17,3 +17,7 @@ export interface Address {
     province?: string;
 }
 
+export interface ValidationError {
+    message: string;
+}
+

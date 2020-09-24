@@ -4,7 +4,7 @@ import { QuestionConfiguration } from './question-configuration'
 import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs'
 import { QuestionOption } from './question-option'
 import { SurveyRespondent } from './survey-respondent.model'
-import { Address } from './models'
+import { Address, ValidationError } from './models'
 
 /**
  * Base abstract class for Survey Questions available to TRAISI
@@ -177,6 +177,10 @@ export abstract class SurveyQuestion<
   public traisiOnLoaded(): void {}
 
   public traisiOnUnloaded(): void {}
+
+  public reportErrors(): ValidationError[] {
+    return []
+  }
 }
 
 /**
