@@ -11,6 +11,10 @@
 		</button>
 
 		<button
+			[popper]="validationPopperContent"
+			[popperTrigger]="'click'"
+			[popperHideOnScroll]="true"
+			[popperHideOnClickOutside]="true"
 			(click)="navigateNext()"
 			[disabled]="!(navigator.nextEnabled$ | async)"
 			class="btn btn-primary pl-4 pr-4 survey-nav-button"
@@ -23,6 +27,12 @@
 				<span *ngIf="false">Has Error</span>
 			</div>
 		</button>
+		<popper-content #validationPopperContent>
+			<div>You must respond to all non optional questions:</div>
+			<div class="invalid-question-label" *ngFor="let question of invalidQuestions | async">
+				{{ question.model.name }}
+			</div>
+		</popper-content>
 		<button
 			*ngIf="false"
 			(click)="navigateCompleteSurvey()"

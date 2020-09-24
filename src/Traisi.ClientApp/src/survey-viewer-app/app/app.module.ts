@@ -66,6 +66,7 @@ import { SurveyViewerResponseService } from './services/survey-viewer-response.s
 import { SurveyViewerRespondentService } from './services/survey-viewer-respondent.service';
 import { SurveyProgressComponent } from './components/survey-progress/survey-progress.component';
 import { StorageServiceModule, StorageService } from 'ngx-webstorage-service';
+import { NgxPopperModule } from 'ngx-popper';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {
 	CalendarModule,
@@ -113,7 +114,7 @@ export const STORAGE_TOKEN = new InjectionToken<StorageService>('STORAGE_TOKEN')
 		SurveyShortcodePageComponent,
 		Footer1Component,
 		SurveyProgressComponent,
-		SurveyNavigatorComponent
+		SurveyNavigatorComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -144,6 +145,7 @@ export const STORAGE_TOKEN = new InjectionToken<StorageService>('STORAGE_TOKEN')
 		calModule,
 		calC,
 		StorageServiceModule,
+		NgxPopperModule.forRoot(),
 	],
 	providers: [
 		LocalStoreManager,
@@ -167,7 +169,7 @@ export const STORAGE_TOKEN = new InjectionToken<StorageService>('STORAGE_TOKEN')
 		httpInterceptorProviders,
 		SurveyResponderEndpointService,
 		BsModalRef,
-		{ provide: TraisiValues.QuestionLoader, useClass: QuestionLoaderService }, 
+		{ provide: TraisiValues.QuestionLoader, useClass: QuestionLoaderService },
 		{ provide: 'CONFIG_SERVICE', useExisting: QuestionConfigurationService },
 		{ provide: Config, useExisting: QuestionConfigurationService },
 		SurveyDataResolver,

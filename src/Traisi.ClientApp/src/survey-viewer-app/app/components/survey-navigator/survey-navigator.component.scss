@@ -1,0 +1,15 @@
+popper-content {
+	line-height: initial;
+	background-color: white;
+	text-align: left;
+
+	.invalid-question-label {
+		font-weight: bold;
+		margin-top: 10px;
+		font-weight: 12px;
+	}
+}
+
+popper-content > div {
+    background-color: white;
+}

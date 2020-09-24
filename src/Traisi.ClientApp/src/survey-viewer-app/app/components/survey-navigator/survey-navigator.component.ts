@@ -1,4 +1,12 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewEncapsulation, Inject, TemplateRef } from '@angular/core';
+import {
+	Component,
+	ComponentFactoryResolver,
+	OnInit,
+	ViewEncapsulation,
+	Inject,
+	TemplateRef,
+	ViewChild,
+} from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyErrorComponent } from '../survey-error/survey-error.component';
@@ -8,6 +16,9 @@ import { SurveyViewerStateService } from 'app/services/survey-viewer-state.servi
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { BehaviorSubject } from 'rxjs';
+import { QuestionInstance } from 'app/models/question-instance.model';
+import { NgxPopper, PopperComponent } from 'angular-popper';
 @Component({
 	encapsulation: ViewEncapsulation.None,
 	selector: 'traisi-survey-navigator',
@@ -16,6 +27,11 @@ import { DOCUMENT } from '@angular/common';
 	entryComponents: [SurveyErrorComponent, SurveyStartPageComponent],
 })
 export class SurveyNavigatorComponent implements OnInit {
+	@ViewChild('validationPopperContent')
+	public validationPopperContent: PopperComponent;
+
+	public invalidQuestions: BehaviorSubject<QuestionInstance[]>;
+
 	public get viewerState(): SurveyViewerState {
 		return this._viewerStateService.viewerState;
 	}
@@ -25,7 +41,9 @@ export class SurveyNavigatorComponent implements OnInit {
 		private _viewerStateService: SurveyViewerStateService,
 		private _router: Router,
 		@Inject(DOCUMENT) private _document
-	) {}
+	) {
+		this.invalidQuestions = new BehaviorSubject<QuestionInstance[]>([]);
+	}
 
 	public ngOnInit(): void {}
 
@@ -34,14 +52,21 @@ export class SurveyNavigatorComponent implements OnInit {
 	}
 
 	public navigateNext(): void {
-		let obs = this.navigator.navigateNext().subscribe({
-			complete: () => {
-				
-			},
-		});
+		let invalidQuestions = this.navigator.getInvalidQuestions();
+		this.invalidQuestions.next(invalidQuestions);
+		if (invalidQuestions.length === 0) {
+			(<any>this.validationPopperContent)['hide']();
+			let obs = this.navigator.navigateNext().subscribe({
+				complete: () => {},
+			});
+		} else {
+			(<any>this.validationPopperContent)['show']();
+			// this.validationPopperContent.show = true;
+		}
 	}
 
 	public navigatePrevious(): void {
+		(<any>this.validationPopperContent)['hide']();
 		this.navigator.navigatePrevious().subscribe((state) => {});
 	}
 }

@@ -84,7 +84,7 @@ export class SurveyNavigator {
 		};
 		this.navigationState$ = new BehaviorSubject<NavigationState>(initialState);
 		this.previousEnabled$ = new BehaviorSubject<boolean>(false);
-		this.nextEnabled$ = new BehaviorSubject<boolean>(false);
+		this.nextEnabled$ = new BehaviorSubject<boolean>(true);
 		this.navigationStateChanged.next(initialState);
 		this._surveyCompleted$ = new Subject<void>();
 	}
@@ -622,10 +622,25 @@ export class SurveyNavigator {
 	}
 
 	/**
+	 * 
+	 */
+	public getInvalidQuestions(): QuestionInstance [] {
+		let invalidQuestions: QuestionInstance[] = [];
+		for (let instance of this._currentState.activeQuestionInstances) {
+			if (!instance.validationState.isValid && !instance.model.isOptional) {
+				invalidQuestions.push(instance);
+				// break;
+			}
+		}
+		return invalidQuestions;
+	}
+
+	/**
 	 *
 	 */
 	public validationChanged(): void {
-		this.nextEnabled$.next(this._checkValidation(this._currentState));
+		// this.nextEnabled$.next(this._checkValidation(this._currentState));
+		this._checkValidation(this._currentState);
 	}
 
 	/**
