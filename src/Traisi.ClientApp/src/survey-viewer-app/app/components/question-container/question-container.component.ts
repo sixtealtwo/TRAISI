@@ -234,6 +234,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					provide: TraisiValues.RepeatValue,
 					useValue: this.questionInstance.repeatValue,
 				},
+				{
+					provide: TraisiValues.SurveyAccessTime,
+					useValue: this.viewerState.surveyAccessTime,
+				},
 				this.createServerConfigProviders(),
 				questionProviders,
 			],

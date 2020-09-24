@@ -48,9 +48,13 @@ export class TravelDiaryService {
 
 	public addressesLoading: boolean = false;
 
-	public respondents = [];
+	public respondents: SurveyRespondentUser[] = [];
+
+	public activeRespondents: SurveyRespondentUser[] = [];
 
 	public isLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+	public activeUsers: BehaviorSubject<SurveyRespondentUser[]> = new BehaviorSubject<SurveyRespondentUser[]>([]);
 
 	public users: BehaviorSubject<SurveyRespondentUser[]> = new BehaviorSubject<SurveyRespondentUser[]>([]);
 
@@ -77,10 +81,13 @@ export class TravelDiaryService {
 		@Inject(TraisiValues.Configuration) private _configuration: any,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
 		@Inject(TraisiValues.SurveyQuestion) private _question: SurveyViewQuestion,
+		@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date,
 		private _injector: Injector
 	) {
 		this.diaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
 		this.isLoaded.next(false);
+		console.log('survey access time: ');
+		console.log(this._surveyAccessTime);
 	}
 
 	/**
@@ -142,12 +149,14 @@ export class TravelDiaryService {
 								this._diaryEvents = [].concat(this._diaryEvents);
 								this.isLoaded.next(true);
 								this.diaryEvents$.next(this._diaryEvents);
-								this.users.next([].concat(this.activeUser));
+								this.activeUsers.next([].concat(this.activeUser));
+								this.users.next([].concat(this.respondents));
 							},
 						});
 					} else {
 						this.isLoaded.next(true);
-						this.users.next([].concat(this.activeUser));
+						this.users.next([].concat(this.respondents));
+						this.activeUsers.next([].concat(this.activeUser));
 						this.diaryEvents$.next(this._diaryEvents);
 					}
 				},
@@ -383,7 +392,6 @@ export class TravelDiaryService {
 					);
 				}
 			}
-			console.log(this.respondents);
 			this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
 				this._initializeSmartFill(
 					respondents,
@@ -421,7 +429,6 @@ export class TravelDiaryService {
 	): void {
 		let toRemove = [];
 		let added = [];
-		console.log(res);
 		for (let r of respondents) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
 
@@ -447,14 +454,11 @@ export class TravelDiaryService {
 			const workLocation = responseMatches.find((x) => x.questionId === workLocationId)?.responseValues[0];
 			const schoolLocation = responseMatches.find((x) => x.questionId === schoolLocationId)?.responseValues[0];
 
-			console.log(responseMatches.length);
 			if (responseMatches.length === 0) {
-				console.log(r);
 				toRemove.push(r);
 				break;
 			}
 			added.push(r);
-			console.log(r);
 
 			let events = this._edtior.createDefaultTravelDiaryforRespondent(
 				this.userMap[r.id],
@@ -467,20 +471,16 @@ export class TravelDiaryService {
 			);
 			this.addEvents(events);
 		}
-		console.log(added);
 		// let toRemove = [];
 		for (let r of this.respondents) {
 			if (!added.some((x) => x.id === r.id)) {
 				toRemove.push(r);
 			}
 		}
-		console.log(toRemove);
 		for (let r of toRemove) {
 			this._removeRespondent(r);
 		}
 		this.respondents = this.respondents;
-
-		console.log(this.respondents);
 	}
 
 	/**

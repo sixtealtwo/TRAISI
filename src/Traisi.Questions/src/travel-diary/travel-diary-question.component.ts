@@ -70,7 +70,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public get users(): Observable<any> {
-		return this._travelDiaryService.users;
+		return this._travelDiaryService.activeUsers;
 	}
 
 	public get isTravelDiaryValid(): boolean {
@@ -104,14 +104,12 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public ngOnInit(): void {
 		this._travelDiaryService.initialize();
 		this._travelDiaryService.diaryEvents$.subscribe(this.eventsUpdated);
-		this._travelDiaryService.users.subscribe(this.usersUpdated);
+		this._travelDiaryService.activeUsers.subscribe(this.usersUpdated);
 	}
 
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
-		console.log('got events');
-		console.log(events);
 		let isValid = this._travelDiaryService.isTravelDiaryValid;
 		this._isValid = isValid;
 		if (isValid) {

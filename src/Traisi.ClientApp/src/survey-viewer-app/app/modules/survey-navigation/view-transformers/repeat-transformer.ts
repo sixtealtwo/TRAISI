@@ -97,6 +97,7 @@ export class RepeatTransformer extends ViewTransformation {
 				repeat: i,
 				repeatValue: responses[i],
 				repeatSource: fullResponses,
+				validationErrors: [],
 				validationState: {
 					isValid: false,
 					questionValidationState: {
