@@ -7,6 +7,11 @@ import {
 	ViewEncapsulation,
 	ComponentRef,
 	ViewChild,
+	ComponentFactoryResolver,
+	TemplateRef,
+	ViewContainerRef,
+	AfterContentInit,
+	AfterViewInit,
 } from '@angular/core';
 import { Header1Component } from './header1/header1.component';
 import { MainSurveyAccess1Component } from './main-survey-access1/main-survey-access1.component';
@@ -20,6 +25,7 @@ import BlotFormatter from 'quill-blot-formatter';
 import { Utilities } from '../../../../shared/services/utilities';
 import { SurveyAccessComponent } from 'app/models/survey-access-component.interface';
 import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
+import { NgTemplateOutlet } from '@angular/common';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -51,7 +57,7 @@ interface SpecialPageDataInput {
 	encapsulation: ViewEncapsulation.None,
 	entryComponents: [MainSurveyAccess1Component, TextBlock1Component, Header1Component, Footer1Component],
 })
-export class SpecialPageBuilderComponent implements OnInit {
+export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, AfterViewInit {
 	public loadedComponents: boolean = false;
 
 	public headerComponent: any;
@@ -88,27 +94,41 @@ export class SpecialPageBuilderComponent implements OnInit {
 	@Input()
 	public startPageComponent: SurveyStartPageComponent;
 
-	@ViewChild('accessComponent')
-	public accessComponent: any;
+	public accessComponent: ComponentRef<any>;
 
-	constructor() {}
+	@ViewChild('headerTemplate', { static: false, read: ViewContainerRef })
+	public headerTemplate: ViewContainerRef;
 
-	public ngOnInit(): void {
-		// deserailize page data
+	@ViewChild('surveyAccessTemplate', { static: false, read: ViewContainerRef })
+	public surveyAccessTemplate: ViewContainerRef;
+
+	@ViewChild('mainTemplate', { static: false, read: ViewContainerRef })
+	public mainTemplate: ViewContainerRef;
+
+	public interval: any;
+
+	constructor(private _componentFactoryResolver: ComponentFactoryResolver) {}
+
+	public ngAfterViewInit(): void {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
+			console.log(pageData);
 			(<any[]>pageData).forEach((sectionInfo) => {
 				if (sectionInfo.sectionType.startsWith('header')) {
-					this.headerComponent = this.getComponent(sectionInfo.sectionType);
+					this.headerComponent = this.getComponent(sectionInfo.sectionType, this.headerTemplate);
+					this.headerTemplate.clear();
 					this.headerHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType.startsWith('mainSurveyAccess')) {
-					this.surveyAccessComponent = this.getComponent(sectionInfo.sectionType);
+					console.log('in here');
 					this.surveyAccessHTML = sectionInfo.html;
+					this.surveyAccessComponent = this.getComponent(sectionInfo.sectionType, this.surveyAccessTemplate);
+					this.accessComponent = <any>this.surveyAccessComponent;
 				} else if (sectionInfo.sectionType.startsWith('footer')) {
 					this.footerComponent = this.getComponent(sectionInfo.sectionType);
 					this.footerHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType === 'termsFooter') {
 					this.termsFooterHTML = sectionInfo.html;
+					console.log(this.termsFooterHTML);
 				} else {
 					this.componentList.push(this.getComponent(sectionInfo.sectionType));
 					this.componentHTML.push(sectionInfo.html);
@@ -124,6 +144,41 @@ export class SpecialPageBuilderComponent implements OnInit {
 				this.componentHTML.push('');
 			}
 		}
+	}
+	public ngAfterContentInit(): void {}
+
+	public ngOnInit(): void {
+		try {
+			let pageData = JSON.parse(this.pageHTML);
+			console.log(pageData);
+			(<any[]>pageData).forEach((sectionInfo) => {
+				if (sectionInfo.sectionType.startsWith('header')) {
+					this.headerHTML = sectionInfo.html;
+				} else if (sectionInfo.sectionType.startsWith('mainSurveyAccess')) {
+					console.log('in here');
+					this.surveyAccessHTML = sectionInfo.html;
+				} else if (sectionInfo.sectionType.startsWith('footer')) {
+					this.footerHTML = sectionInfo.html;
+				} else if (sectionInfo.sectionType === 'termsFooter') {
+					this.termsFooterHTML = sectionInfo.html;
+					console.log(this.termsFooterHTML);
+				} else {
+					this.componentList.push(this.getComponent(sectionInfo.sectionType));
+					this.componentHTML.push(sectionInfo.html);
+				}
+			});
+		} catch (e) {
+			if (this.pageType === 'welcome') {
+			} else if (this.pageType === 'privacyPolicy') {
+				this.componentList.push(this.getComponent('textBlock1'));
+				this.componentHTML.push('');
+			} else if (this.pageType === 'thankYou') {
+				this.componentList.push(this.getComponent('textBlock1'));
+				this.componentHTML.push('');
+			}
+		}
+		// deserailize page data
+
 		if (!this.pageThemeInfo) {
 			this.pageThemeInfo = {};
 		}
@@ -173,16 +228,24 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.termsAccepted.emit();
 	}
 
-	private getComponent(componentName: string): any {
+	private getComponent(componentName: string, ref: ViewContainerRef = undefined): any {
+		let factory;
+		let component: ComponentRef<any>;
 		switch (componentName) {
 			case 'header1':
-				return Header1Component;
+				factory = this._componentFactoryResolver.resolveComponentFactory(Header1Component);
+				return ref.createComponent(factory);
 				break;
 			case 'header2':
 				return Header2Component;
 				break;
 			case 'mainSurveyAccess1':
-				return MainSurveyAccess1Component;
+				factory = this._componentFactoryResolver.resolveComponentFactory(MainSurveyAccess1Component);
+				component = ref.createComponent<MainSurveyAccess1Component>(factory, undefined, undefined);
+				component.instance['pageHTML'] = this.surveyAccessHTML;
+				component.instance['pageThemeInfo'] = this.pageThemeInfo;
+				console.log(component);
+				return component;
 				break;
 			case 'textBlock1':
 				return TextBlock1Component;
@@ -216,8 +279,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 	 * @param shortcode
 	 */
 	public setShortcodeInput(shortcode: string): void {
-		if (this.accessComponent.componentRef !== undefined) {
-			this.accessComponent.componentRef.instance.setShortcodeInput(shortcode);
+		if (this.accessComponent !== undefined) {
+			this.accessComponent.instance.setShortcodeInput(shortcode);
 		}
 	}
 }

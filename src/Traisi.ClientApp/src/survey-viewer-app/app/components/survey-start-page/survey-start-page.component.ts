@@ -118,6 +118,8 @@ export class SurveyStartPageComponent implements OnInit {
 		});
 
 		this.authMode = this._surveyViewerService.authenticationMode;
+
+		console.log('here');
 	}
 
 	/**

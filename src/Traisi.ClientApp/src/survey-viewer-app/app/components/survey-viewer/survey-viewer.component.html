@@ -15,8 +15,9 @@
 				[ {{ state.activeRespondent.name }} ]
 			</span>
 		</span>
-		<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs">
-		</ndc-dynamic>
+		<ng-template headerTemplate></ng-template>
+		<!-- <ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs">
+		</ndc-dynamic> -->
 	</nav>
 </header>
 <div class="container-fluid">
@@ -179,8 +180,9 @@
 <footer class="footer">
 	<div class="container">
 		<traisi-survey-navigator></traisi-survey-navigator>
-		<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs">
-		</ndc-dynamic>
+		<ng-template footerTemplate></ng-template>
+		<!-- <ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs">
+		</ndc-dynamic> -->
 
 		<div class="admin-container">
 			<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>

@@ -32,7 +32,6 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule, ModalBackdropComponent, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { QuillModule } from 'ngx-quill';
-import { DynamicModule } from 'ng-dynamic-component';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
 import { Header1Component } from './components/special-page-builder/header1/header1.component';
 import { Header2Component } from './components/special-page-builder/header2/header2.component';
@@ -137,7 +136,6 @@ export const STORAGE_TOKEN = new InjectionToken<StorageService>('STORAGE_TOKEN')
 		AlertModule.forRoot(),
 		PopoverModule.forRoot(),
 		QuillModule.forRoot(),
-		DynamicModule,
 		TooltipModule.forRoot(),
 		TimepickerModule.forRoot(),
 		SurveyNavigationModule.forRoot(),
