@@ -7,8 +7,7 @@ import {
 	CalendarModule,
 	DateAdapter,
 	CalendarCommonModule,
-	CalendarDayModule,
-	CalendarTooltipWindowComponent,
+	CalendarDayModule
 } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -18,7 +17,6 @@ import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DayViewSchedulerComponent } from './components/day-view-scheduler.component';
 import { TravelDiaryEventDisplayComponent } from './components/travel-diary-event-display.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ReturnTimeValidatorDirective } from './validators/return-time.directive';

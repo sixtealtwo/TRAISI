@@ -6,8 +6,7 @@ import {
 	CalendarModule,
 	DateAdapter,
 	CalendarCommonModule,
-	CalendarDayModule,
-	CalendarTooltipWindowComponent,
+	CalendarDayModule
 } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
