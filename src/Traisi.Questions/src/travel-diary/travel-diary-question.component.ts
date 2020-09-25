@@ -58,7 +58,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public dropdownToggle: BsDropdownDirective;
 
 	@ViewChild('template', { read: TemplateRef })
-	public template: TemplateRef;
+	public template: TemplateRef<any>;
 
 	private _isValid: boolean = false;
 
