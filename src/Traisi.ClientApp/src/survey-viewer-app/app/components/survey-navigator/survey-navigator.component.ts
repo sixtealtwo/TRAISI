@@ -82,7 +82,6 @@ export class SurveyNavigatorComponent implements OnInit {
 				},
 			});
 		} else {
-			console.log(invalidQuestions);
 			(<any>this.validationPopperContent)['show']();
 			// this.validationPopperContent.show = true;
 		}

@@ -1,8 +1,10 @@
 import { animate, keyframes, query, stagger, style, transition, trigger, state } from '@angular/animations';
 import {
+	AfterContentChecked,
 	AfterContentInit,
 	AfterViewChecked,
 	AfterViewInit,
+	ChangeDetectorRef,
 	Component,
 	ElementRef,
 	Inject,
@@ -73,7 +75,8 @@ interface SpecialPageDataInput {
 	],
 	providers: [SurveyViewerProviders],
 })
-export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
+export class SurveyViewerComponent
+	implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked, AfterContentChecked {
 	public get viewerState(): SurveyViewerState {
 		return this._viewerStateService.viewerState;
 	}
@@ -124,10 +127,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private elementRef: ElementRef,
 		private _authService: AuthService,
 		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyViewerRespondentService,
-		@Inject(LOCAL_STORAGE) private _storage: StorageService
+		@Inject(LOCAL_STORAGE) private _storage: StorageService,
+		private _cd: ChangeDetectorRef
 	) {
 		this.ref = this;
 	}
+
 	public surveyId: number;
 	public titleText: string;
 	public loadedComponents: boolean = false;
@@ -351,7 +356,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					};
 					this.viewerState.primaryRespondent = this._respondentService.primaryRespondent;
 					return this._respondentService.getSurveyGroupMembers(this.viewerState.primaryRespondent);
-				}),
+				})
 			)
 			.subscribe((members: Array<SurveyViewGroupMember>) => {
 				if (members.length > 0) {
@@ -584,6 +589,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.callVisibilityHooks();
 			});
 		});
+	}
+
+	public ngAfterContentChecked(): void {
+		this._cd.detectChanges();
 	}
 
 	/**

@@ -32,6 +32,8 @@ import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 export class TravelDiaryService {
 	public diaryEvents$: BehaviorSubject<TravelDiaryEvent[]>;
 
+	public inactiveDiaryEvents$: BehaviorSubject<TravelDiaryEvent[]>;
+
 	public configuration: TravelDiaryConfiguration = {
 		purpose: [],
 		mode: [],
@@ -66,11 +68,17 @@ export class TravelDiaryService {
 
 	private _diaryEvents: TravelDiaryEvent[] = [];
 
+	private _inactiveDiaryEvents: TravelDiaryEvent[] = [];
+
 	public userMap: { [id: number]: SurveyRespondentUser } = {};
 
 	public modeMap: { [id: string]: TravelMode } = {};
 
 	public purposeMap: { [id: string]: TravelMode } = {};
+
+	public get viewDate(): Date {
+		return this._surveyAccessTime;
+	}
 
 	public constructor(
 		private _http: HttpClient,
@@ -85,6 +93,7 @@ export class TravelDiaryService {
 		private _injector: Injector
 	) {
 		this.diaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
+		this.inactiveDiaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
 		this.isLoaded.next(false);
 		console.log('survey access time: ');
 		console.log(this._surveyAccessTime);
@@ -122,6 +131,7 @@ export class TravelDiaryService {
 				};
 				if (respondentUser.id === this._respondent.id) {
 					this.activeUser = respondentUser;
+					this.activeRespondents.push(respondentUser);
 				}
 				this.userMap[respondentUser.id] = respondentUser;
 				this.respondents.push(respondentUser);
@@ -129,11 +139,13 @@ export class TravelDiaryService {
 			this.loadSavedResponses().subscribe({
 				next: (v: SurveyResponseViewModel[]) => {
 					for (let result of v) {
-						this._edtior.createDiaryFromResponseData(
-							this.userMap[result.respondent.id],
-							result.responseValues as TimelineResponseData[],
-							this._diaryEvents
-						);
+						if (this.activeRespondents.some((x) => result.respondent.id === x.id)) {
+							this._edtior.createDiaryFromResponseData(
+								this.userMap[result.respondent.id],
+								result.responseValues as TimelineResponseData[],
+								this._diaryEvents
+							);
+						}
 					}
 					this._edtior.reAlignTimeBoundaries(this.respondents, this._diaryEvents);
 					// find respondents with 0 events
@@ -222,7 +234,8 @@ export class TravelDiaryService {
 
 		//for (let r of this.respondents) {
 		let filter = this._diaryEvents.filter((x) => x.meta.user.id === this.activeUser.id);
-		filter = filter.sort((v1, v2) => v1.start.getUTCMinutes() - v2.start.getUTCMinutes());
+		filter = filter.sort((v1, v2) => v1.start.getTime() - v2.start.getTime());
+		console.log(filter);
 		if (filter.length === 0) {
 			errors.push({
 				message: 'You cannot have an empty travel diary.',
@@ -469,7 +482,13 @@ export class TravelDiaryService {
 				workLocation, // work loc,
 				schoolLocation //school loc
 			);
-			this.addEvents(events);
+			if (this.activeRespondents.some((x) => x.id === r.id)) {
+				console.log('adding active');
+				this.addEvents(events);
+			} else {
+				console.log('adding inactive');
+				this.addInactiveRespondentEvents(events);
+			}
 		}
 		// let toRemove = [];
 		for (let r of this.respondents) {
@@ -536,8 +555,6 @@ export class TravelDiaryService {
 		for (let event of events) {
 			timelineData.push(event.meta.model);
 		}
-		console.log(' generated timeline data: ');
-		console.log(timelineData);
 		return timelineData;
 	}
 
@@ -570,6 +587,11 @@ export class TravelDiaryService {
 	public addEvents(events: TravelDiaryEvent[]): void {
 		this._diaryEvents = this._diaryEvents.concat(events);
 		this.diaryEvents$.next(this._diaryEvents);
+	}
+
+	public addInactiveRespondentEvents(events: TravelDiaryEvent[]): void {
+		this._inactiveDiaryEvents = this._inactiveDiaryEvents.concat(events);
+		this.inactiveDiaryEvents$.next(this._inactiveDiaryEvents);
 	}
 
 	/**

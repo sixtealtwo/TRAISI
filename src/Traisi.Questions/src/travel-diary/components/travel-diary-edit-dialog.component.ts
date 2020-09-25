@@ -120,7 +120,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			timeA: new Date(),
 			timeB: new Date(),
 			users: [],
-			displayAddress: undefined
+			displayAddress: undefined,
 		};
 
 		if (this.eventForm) {
@@ -148,7 +148,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		);
 		if (this.dialogMode === DialogMode.Edit) {
 			let laterEvent = this._editorService.getLaterEvent(this.model, this._travelDiaryService.diaryEvents$.value);
-			
+
 			if (laterEvent) {
 				this.model.hasEndTime = true;
 				this.isRequiresEndTime = true;
@@ -166,7 +166,15 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		}
 	}
 
+	/**
+	 *
+	 * @param $event
+	 */
 	public onDepartureTimeChange($event: Date): void {
+		if ($event.getHours() < 4 && $event.getHours() >= 0) {
+			// this needs to be adjusted
+			$event.setDate($event.getDate() + 1);
+		}
 		this.model.timeA = $event;
 		this.checkTimeOverlaps();
 	}

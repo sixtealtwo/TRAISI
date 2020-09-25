@@ -39,8 +39,6 @@ import { ReturnTimeValidatorDirective } from './validators/return-time.directive
 })
 export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.Timeline>
 	implements OnInit, AfterViewInit, OnVisibilityChanged {
-	public viewDate: Date = new Date();
-
 	public viewHeight: number = 100;
 
 	@ViewChild('schedule')
@@ -77,6 +75,10 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		return this._isValid;
 	}
 
+	public get viewDate(): Date {
+		return this._travelDiaryService.viewDate;
+	}
+
 	public newEvent(): void {
 		this.entryDialog.show(DialogMode.New);
 	}
@@ -110,6 +112,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
+		console.log(events);
 		let isValid = this._travelDiaryService.isTravelDiaryValid;
 		this._isValid = isValid;
 		if (isValid) {

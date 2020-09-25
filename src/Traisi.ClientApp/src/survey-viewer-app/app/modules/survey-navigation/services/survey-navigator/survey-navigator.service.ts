@@ -637,7 +637,6 @@ export class SurveyNavigator {
 				instance.validationErrors = [];
 			}
 		}
-		console.log(invalidQuestions);
 		return invalidQuestions;
 	}
 

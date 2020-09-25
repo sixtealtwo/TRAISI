@@ -91,7 +91,7 @@ export class TravelDiaryEditor {
 		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
 		returnHomeEvent.start = new Date(new Date().setHours(23 + TIME_DELTA, 59, 0, 0));
 		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
-		returnHomeEvent.meta.model.timeA = new Date(new Date().setHours(17 , 1, 0, 0));
+		returnHomeEvent.meta.model.timeA = new Date(new Date().setHours(17, 1, 0, 0));
 		returnHomeEvent.meta.model.isValid = false;
 		returnHomeEvent.meta.model.model = 2;
 		returnHomeEvent.meta.model.address = user.homeAddress ?? {};
@@ -109,10 +109,8 @@ export class TravelDiaryEditor {
 		let workEvent = this.createBaseEvent(user, 'Work (Not Home)', 'work');
 		workEvent.start = new Date(new Date().setHours(9 + TIME_DELTA, 1, 0, 0));
 		workEvent.end = new Date(new Date().setHours(hasSchoolTrip ? 12 + TIME_DELTA : 17 + TIME_DELTA, 0, 0, 0));
-		workEvent.meta.model.timeA = new Date(new Date().setHours(9 , 1, 0, 0));
-		workEvent.meta.model.timeB = new Date(
-			new Date().setHours(hasSchoolTrip ? 12 : 17 , 0, 0, 0)
-		);
+		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
+		workEvent.meta.model.timeB = new Date(new Date().setHours(hasSchoolTrip ? 12 : 17, 0, 0, 0));
 		workEvent.meta.model.address = workLocation.address;
 		workEvent.meta.model.latitude = workLocation.latitude;
 		workEvent.meta.model.longitude = workLocation.longitude;
@@ -229,7 +227,7 @@ export class TravelDiaryEditor {
 					returnEvent.meta.model.timeA = event.insertedEndTime;
 					returnEvent.meta.model.isValid = overlap.meta.model.isValid;
 
-					if(returnEvent.meta.model.purpose === 'home') {
+					if (returnEvent.meta.model.purpose === 'home') {
 						returnEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
 					}
 
@@ -274,7 +272,7 @@ export class TravelDiaryEditor {
 				let timeA = new Date(userEvents[i].start);
 				timeA.setHours(timeA.getHours() - TIME_DELTA);
 
-				let timeB = new Date(userEvents[i].end)
+				let timeB = new Date(userEvents[i].end);
 				timeB.setHours(timeB.getHours() - TIME_DELTA);
 
 				console.log(timeA);
@@ -374,7 +372,9 @@ export class TravelDiaryEditor {
 				events[i].meta.model.order = i;
 				let displayTime = new Date(events[i].meta.model.timeA);
 				displayTime.setHours(displayTime.getHours() + TIME_DELTA);
-				events[i].start = displayTime;
+				if (i > 0) {
+					events[i].start = displayTime;
+				}
 
 				if (events[i].meta.model.displayId === updated?.displayId && updated?.hasEndTime) {
 					let endTime = new Date(events[i].meta.model.insertedEndTime);

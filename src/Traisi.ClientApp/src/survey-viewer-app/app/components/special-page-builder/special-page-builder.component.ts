@@ -112,7 +112,6 @@ export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, Af
 	public ngAfterViewInit(): void {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
-			console.log(pageData);
 			(<any[]>pageData).forEach((sectionInfo) => {
 				if (sectionInfo.sectionType.startsWith('header')) {
 					this.headerComponent = this.getComponent(sectionInfo.sectionType, this.headerTemplate);
@@ -155,13 +154,11 @@ export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, Af
 				if (sectionInfo.sectionType.startsWith('header')) {
 					this.headerHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType.startsWith('mainSurveyAccess')) {
-					console.log('in here');
 					this.surveyAccessHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType.startsWith('footer')) {
 					this.footerHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType === 'termsFooter') {
 					this.termsFooterHTML = sectionInfo.html;
-					console.log(this.termsFooterHTML);
 				} else {
 					this.componentList.push(this.getComponent(sectionInfo.sectionType));
 					this.componentHTML.push(sectionInfo.html);
