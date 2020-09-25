@@ -276,6 +276,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.form.markAllAsTouched();
 			this.eventForm.form.updateValueAndValidity();
 			this.model = Object.assign({}, model);
+			this.model.isInserted = false;
+			this.model.isReturnHomeSplit = false;
 		}
 
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;

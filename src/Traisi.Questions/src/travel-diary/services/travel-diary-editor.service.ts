@@ -152,18 +152,54 @@ export class TravelDiaryEditor {
 	 * The source events are modified in place.
 	 * @param eventData
 	 */
-	public insertEvent(events: TravelDiaryEvent[], event: TimelineLineResponseDisplayData): TravelDiaryEvent[] {
+	public insertEvent(
+		events: TravelDiaryEvent[],
+		event: TimelineLineResponseDisplayData,
+		activeUser: SurveyRespondentUser
+	): TravelDiaryEvent[] {
 		let displayId = this.generateId();
 		event.displayId = displayId;
-		for (let u of event.users) {
-			if (!event.isInserted) {
-				let startTime = new Date(event.timeA);
-				startTime.setHours(startTime.getHours() + TIME_DELTA);
-				let newEvent = {
+		let u = activeUser;
+		if (!event.isInserted) {
+			let startTime = new Date(event.timeA);
+			startTime.setHours(startTime.getHours() + TIME_DELTA);
+			let newEvent = {
+				id: displayId,
+				title: event.name,
+				start: startTime,
+				// end: event.timeB,
+				draggable: false,
+				resizable: { afterEnd: true },
+				meta: {
+					purpose: event.purpose['label'],
+					address: event.address,
+					user: u,
+					mode: event.mode['label'],
+					model: event,
+					id: displayId,
+				},
+				color: colors.blue,
+			};
+			newEvent.meta.model.displayId = displayId;
+			newEvent.meta.model.isValid = true;
+			events.push(newEvent);
+		} else {
+			// need to insert this event, but then find overalpping event
+			let overlap = this.getOverlappingDeparture(event, events);
+			let startTime = new Date(event.timeA);
+			startTime.setHours(startTime.getHours() + TIME_DELTA);
+
+			let endTime = new Date(event.insertedEndTime);
+			endTime.setHours(endTime.getHours() + TIME_DELTA);
+			if (overlap) {
+				// set the overlap END to the start of this event
+				overlap.end = event.timeA;
+				// create a new event that
+				let insertedEvent = {
 					id: displayId,
 					title: event.name,
 					start: startTime,
-					// end: event.timeB,
+					end: endTime,
 					draggable: false,
 					resizable: { afterEnd: true },
 					meta: {
@@ -176,68 +212,35 @@ export class TravelDiaryEditor {
 					},
 					color: colors.blue,
 				};
-				newEvent.meta.model.displayId = displayId;
-				newEvent.meta.model.isValid = true;
-				events.push(newEvent);
-			} else {
-				// need to insert this event, but then find overalpping event
-				let overlap = this.getOverlappingDeparture(event, events);
-				let startTime = new Date(event.timeA);
-				startTime.setHours(startTime.getHours() + TIME_DELTA);
-
-				let endTime = new Date(event.insertedEndTime);
-				endTime.setHours(endTime.getHours() + TIME_DELTA);
-				if (overlap) {
-					// set the overlap END to the start of this event
-					overlap.end = event.timeA;
-					// create a new event that
-					let insertedEvent = {
+				displayId = this.generateId();
+				let returnEvent = {
+					id: displayId,
+					title: overlap.title,
+					start: endTime,
+					end: overlap.end,
+					draggable: false,
+					resizable: { afterEnd: true },
+					meta: {
+						purpose: overlap.meta.purpose,
+						address: overlap.meta.address,
+						user: overlap.meta.user,
+						mode: overlap.meta.mode,
+						model: Object.assign({}, overlap.meta.model),
 						id: displayId,
-						title: event.name,
-						start: startTime,
-						end: endTime,
-						draggable: false,
-						resizable: { afterEnd: true },
-						meta: {
-							purpose: event.purpose['label'],
-							address: event.address,
-							user: u,
-							mode: event.mode['label'],
-							model: event,
-							id: displayId,
-						},
-						color: colors.blue,
-					};
-					displayId = this.generateId();
-					let returnEvent = {
-						id: displayId,
-						title: overlap.title,
-						start: endTime,
-						end: overlap.end,
-						draggable: false,
-						resizable: { afterEnd: true },
-						meta: {
-							purpose: overlap.meta.purpose,
-							address: overlap.meta.address,
-							user: overlap.meta.user,
-							mode: overlap.meta.mode,
-							model: Object.assign({}, overlap.meta.model),
-							id: displayId,
-						},
-						color: colors.blue,
-					};
-					returnEvent.meta.model.displayId = displayId;
-					returnEvent.meta.model.timeA = event.insertedEndTime;
-					returnEvent.meta.model.isValid = overlap.meta.model.isValid;
+					},
+					color: colors.blue,
+				};
+				returnEvent.meta.model.displayId = displayId;
+				returnEvent.meta.model.timeA = event.insertedEndTime;
+				returnEvent.meta.model.isValid = overlap.meta.model.isValid;
 
-					if (returnEvent.meta.model.purpose === 'home') {
-						returnEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
-					}
-
-					insertedEvent.meta.model.isValid = true;
-					events.push(insertedEvent);
-					events.push(returnEvent);
+				if (returnEvent.meta.model.purpose === 'home') {
+					returnEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
 				}
+
+				insertedEvent.meta.model.isValid = true;
+				events.push(insertedEvent);
+				events.push(returnEvent);
 			}
 		}
 		events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);

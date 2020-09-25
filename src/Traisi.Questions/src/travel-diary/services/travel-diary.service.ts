@@ -278,8 +278,7 @@ export class TravelDiaryService {
 	}
 
 	private _validateAtLeastOneHOme(userEvents: TravelDiaryEvent[]): boolean {
-
-		return userEvents.some( x=> x.meta.model.purpose.toLowerCase().includes('home'));
+		return userEvents.some((x) => x.meta.model.purpose.toLowerCase().includes('home'));
 	}
 
 	/**
@@ -568,13 +567,11 @@ export class TravelDiaryService {
 	 * @param {LocationResponseData} event
 	 */
 	public newEvent(event: TimelineLineResponseDisplayData): void {
-		console.log(event);
-		this._edtior.insertEvent(this._diaryEvents, event);
+		this._edtior.insertEvent(this._diaryEvents, event, this.activeRespondents[0]);
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 
-
-	public checkHom
+	public checkHom;
 
 	/**
 	 *
