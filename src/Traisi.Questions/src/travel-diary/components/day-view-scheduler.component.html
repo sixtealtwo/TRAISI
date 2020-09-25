@@ -236,13 +236,13 @@
 					>
 					</ng-template>
 					<ng-template #popTemplate let-event="event">
-						<div>{{event.title}} - {{event.meta.model.purpose}}
-						</div>
+						<div>{{ event.title }} - {{ event.meta.model.purpose }}</div>
 						<div>
-							{{event.meta.model.mode}}
+							{{ event.meta.model.mode }}
 						</div>
 						<span *ngIf="event.meta.model?.address">
-							{{event.meta.model.address.streetNumber}} {{event.meta.model.address.streetAddress}}, {{event.meta.model.address.city }}
+							{{ event.meta.model.address.streetNumber }} {{ event.meta.model.address.streetAddress }},
+							{{ event.meta.model.address.city }}
 						</span>
 					</ng-template>
 					<mwl-calendar-week-view-event

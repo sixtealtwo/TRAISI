@@ -3,10 +3,9 @@ const WebpackSystemRegister = require('webpack-system-register');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const WebpackBar = require('webpackbar');
-const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
- 
-const smp = new SpeedMeasurePlugin();
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
+const smp = new SpeedMeasurePlugin();
 
 module.exports = smp.wrap({
 	entry: {
@@ -16,7 +15,7 @@ module.exports = smp.wrap({
 		sp: path.join(process.cwd(), './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'),
 		'sp-builder': path.join(process.cwd(), './src/stated-preference/builder/traisi-sp-question-builder.module.ts'),
 		'travel-diary': path.join(process.cwd(), './src/travel-diary/travel-diary-question.module.ts'),
-		'route-select': path.join(process.cwd(), './src/route-select/route-select-question.module.ts')
+		'route-select': path.join(process.cwd(), './src/route-select/route-select-question.module.ts'),
 	},
 
 	output: {
@@ -36,7 +35,10 @@ module.exports = smp.wrap({
 		rules: [
 			{
 				test: /\.tsx?$/,
-				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), path.resolve(__dirname, 'node_modules/angular-calendar/')],
+				exclude: [
+					path.resolve(__dirname, 'node_modules/mapbox-gl'),
+					path.resolve(__dirname, 'node_modules/angular-calendar/'),
+				],
 				use: {
 					loader: 'babel-loader',
 					options: {},

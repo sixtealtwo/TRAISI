@@ -29,13 +29,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { colors, DialogMode, TimelineLineResponseDisplayData, SurveyRespondentUser } from './models/consts';
 import { TravelDiaryEditor } from './services/travel-diary-editor.service';
 import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
+import { TravelDiaryTourService } from './services/travel-diary-tour.service';
+// import { tour } from './tour/travel-diary-tour';
 @Component({
 	selector: 'traisi-travel-diary-question',
 	template: '' + templateString,
-	providers: [TravelDiaryService, TravelDiaryEditor, ReturnTimeValidatorDirective],
+	providers: [TravelDiaryService, TravelDiaryEditor, ReturnTimeValidatorDirective, TravelDiaryTourService],
 	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
-	styles: ['' + styleString ],
+	styles: ['' + styleString],
 })
 export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.Timeline>
 	implements OnInit, AfterViewInit, OnVisibilityChanged {
@@ -53,7 +55,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		private _travelDiaryService: TravelDiaryService,
 		private _modalService: BsModalService,
 		private _elementRef: ElementRef,
-		private _injector: Injector
+		private _injector: Injector,
+		private _tour: TravelDiaryTourService
 	) {
 		super();
 		this.isFillVertical = true;
@@ -107,6 +110,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.initialize();
 		this._travelDiaryService.diaryEvents$.subscribe(this.eventsUpdated);
 		this._travelDiaryService.activeUsers.subscribe(this.usersUpdated);
+		
 	}
 
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
@@ -140,6 +144,11 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public eventClicked({ event }: { event: CalendarEvent }): void {
 		this.entryDialog.show(DialogMode.Edit, event.meta.model);
+	}
+
+	public startTour(): void {
+		this._tour.initialize();
+		this._tour.startTour();
 	}
 
 	public ngAfterViewInit(): void {}

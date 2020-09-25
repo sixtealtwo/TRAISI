@@ -20,6 +20,12 @@
 			</li>
 		</ul>
 	</span>
+
+	<span class="tour" (click)="startTour()">
+		Tour
+	</span>
+
+	
 	<span
 		class="view-validation-errors"
 		[popover]="popTemplate"
@@ -32,7 +38,7 @@
 	</span>
 </div>
 
-<div class="travel-diary-question" [style.height.px]="containerHeight" *ngIf="isComponentLoaded | async">
+<div class="travel-diary-question" [style.height.px]="containerHeight" *ngIf="isComponentLoaded | async" id="travelDiaryQuestionContainer">
 	<traisi-travel-dairy-day-view-scheduler
 		[viewDate]="viewDate"
 		[events]="events"

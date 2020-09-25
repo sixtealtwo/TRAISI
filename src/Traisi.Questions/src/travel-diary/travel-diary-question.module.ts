@@ -3,12 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TravelDiaryQuestionComponent } from './travel-diary-question.component';
-import {
-	CalendarModule,
-	DateAdapter,
-	CalendarCommonModule,
-	CalendarDayModule
-} from 'angular-calendar';
+import { CalendarModule, DateAdapter, CalendarCommonModule, CalendarDayModule } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +16,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+
+
 export const calendarProps = {
 	provide: DateAdapter,
 	useFactory: adapterFactory,
@@ -80,7 +77,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 				name: 'location',
 			},
 		},
-		ReturnTimeValidatorDirective
+		ReturnTimeValidatorDirective,
 	],
 	imports: [
 		RouterModule,
@@ -95,7 +92,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 		NgSelectModule,
 		AlertModule.forRoot(),
 		BsDropdownModule.forRoot(),
-		PopoverModule.forRoot()
+		PopoverModule.forRoot(),
 	],
 	exports: [CalendarDayModule, CalendarModule, CalendarCommonModule],
 })
