@@ -12,7 +12,7 @@
 				<form #eventForm="ngForm" validate returnTime>
 					<div class="form-group row">
 						<div class="col-12">
-							<label for="name" class="col-form-label">Title of the event</label>
+							<label for="name" class="col-form-label">Title of the activity</label>
 							<input
 								class="form-control"
 								type="text"
@@ -27,7 +27,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-12">
-							<label for="purpose" class="col-form-label">Purpose of the event</label>
+							<label for="purpose" class="col-form-label">Purpose of the trip</label>
 							<ng-select
 								appearance="outline"
 								#purposeSelect
@@ -48,7 +48,7 @@
 					</div>
 					<div class="form-group row" *ngIf="!isFirstEventInDay">
 						<div class="col-12">
-							<label for="mode" class="col-form-label">Travel mode to the event location</label>
+							<label for="mode" class="col-form-label">Travel mode for the trip</label>
 							<ng-select
 								appearance="outline"
 								#purposeSelect
@@ -89,7 +89,7 @@
 
 					<div class="form-group row" *ngIf="!isFirstEventInDay">
 						<div class="col-12">
-							<label for="timeA" class="col-form-label">Departure time to the event</label>
+							<label for="timeA" class="col-form-label">Departure time for the trip</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroupPrepend2"
@@ -106,6 +106,7 @@
 									[(ngModel)]="model.timeA"
 									[noCalendar]="true"
 									[enableTime]="true"
+									[now]="defaultDate"
 									dateFormat="H:i"
 									aria-describedby="inputGroupPrepend2"
 									[convertModelValue]="true"
@@ -121,7 +122,7 @@
 					</div>
 					<div
 						class="form-group row return-confirm"
-						*ngIf="isInsertedDepartureTime && dialogMode !== dialogModeEdit"
+						*ngIf="isInsertedDepartureTime && dialogMode !== dialogModeEdit && !isRequiresReturnHomeTime"
 					>
 						<div class="col-12">
 							<div class="confirm-label col-form-label" *ngIf="!isInsertedDepartureTime">
@@ -158,10 +159,11 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group row" *ngIf="model.isInserted || isRequiresEndTime">
+					<div class="form-group row" *ngIf="model.isInserted || isRequiresEndTime || isRequiresReturnHomeTime">
 						<div class="col-12">
 							<label for="timeA" class="col-form-label" *ngIf="model.isInserted">Return Time</label>
 							<label for="timeA" class="col-form-label" *ngIf="isRequiresEndTime">Until What Time?</label>
+							<label for="timeA" class="col-form-label" *ngIf="isRequiresReturnHomeTime">What time did you return home?</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="insertedEndTime"
@@ -179,6 +181,7 @@
 									[(ngModel)]="model.insertedEndTime"
 									[noCalendar]="true"
 									[enableTime]="true"
+									[now]="defaultDate"
 									dateFormat="H:i"
 									aria-describedby="insertedEndTime"
 									[convertModelValue]="true"
@@ -192,7 +195,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-12">
-							<label for="location" class="col-form-label">Event location</label>
+							<label for="location" class="col-form-label">Trip destination</label>
 
 							<ng-select
 								name="location"

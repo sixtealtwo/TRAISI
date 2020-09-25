@@ -1,9 +1,9 @@
 // adds, moves etc travel diary
 
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { CalendarEvent } from 'calendar-utils';
 import { start } from 'repl';
-import { SurveyResponseViewModel, LocationResponseData, TimelineResponseData } from 'traisi-question-sdk';
+import { SurveyResponseViewModel, LocationResponseData, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
 import {
 	SurveyRespondentUser,
 	TimelineLineResponseDisplayData,
@@ -18,7 +18,7 @@ const TIME_DELTA: number = -4;
 export class TravelDiaryEditor {
 	private _idCounter: number = 0;
 
-	public constructor() {
+	public constructor(@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date) {
 		console.log(' in constructor ');
 	}
 
@@ -76,22 +76,23 @@ export class TravelDiaryEditor {
 
 	private createHomeStartEvent(user: SurveyRespondentUser): TravelDiaryEvent {
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
-		homeEvent.end = new Date(new Date().setHours(9 + TIME_DELTA, 0, 0, 0));
-		homeEvent.meta.model.timeA = new Date(new Date().setHours(0, 0, 0, 0));
+		homeEvent.end = new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 0, 0, 0));
+		homeEvent.meta.model.timeA = new Date(new Date(this._surveyAccessTime).setHours(0, 1, 0, 0));
 		homeEvent.meta.model.isValid = true;
 		homeEvent.meta.model.order = 0;
 		homeEvent.meta.model.address = user.homeAddress ?? {};
 		homeEvent.meta.model.latitude = user.homeLatitude;
 		homeEvent.meta.model.longitude = user.homeLongitude;
+		console.log(homeEvent);
 		console.log(user);
 		return homeEvent;
 	}
 
 	private createHomeEndEvent(user: SurveyRespondentUser): TravelDiaryEvent {
 		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
-		returnHomeEvent.start = new Date(new Date().setHours(23 + TIME_DELTA, 59, 0, 0));
-		returnHomeEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
-		returnHomeEvent.meta.model.timeA = new Date(new Date().setHours(17, 1, 0, 0));
+		returnHomeEvent.start = new Date(new Date(this._surveyAccessTime).setHours(23 + TIME_DELTA, 59, 0, 0));
+		returnHomeEvent.end = new Date(new Date(this._surveyAccessTime).setHours(23, 59, 0, 0));
+		returnHomeEvent.meta.model.timeA = new Date(new Date(this._surveyAccessTime).setHours(17, 1, 0, 0));
 		returnHomeEvent.meta.model.isValid = false;
 		returnHomeEvent.meta.model.model = 2;
 		returnHomeEvent.meta.model.address = user.homeAddress ?? {};
@@ -107,10 +108,14 @@ export class TravelDiaryEditor {
 		hasSchoolTrip: boolean
 	): TravelDiaryEvent {
 		let workEvent = this.createBaseEvent(user, 'Work (Not Home)', 'work');
-		workEvent.start = new Date(new Date().setHours(9 + TIME_DELTA, 1, 0, 0));
-		workEvent.end = new Date(new Date().setHours(hasSchoolTrip ? 12 + TIME_DELTA : 17 + TIME_DELTA, 0, 0, 0));
-		workEvent.meta.model.timeA = new Date(new Date().setHours(9, 1, 0, 0));
-		workEvent.meta.model.timeB = new Date(new Date().setHours(hasSchoolTrip ? 12 : 17, 0, 0, 0));
+		workEvent.start = new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 1, 0, 0));
+		workEvent.end = new Date(
+			new Date(this._surveyAccessTime).setHours(hasSchoolTrip ? 12 + TIME_DELTA : 17 + TIME_DELTA, 0, 0, 0)
+		);
+		workEvent.meta.model.timeA = new Date(new Date(this._surveyAccessTime).setHours(9, 1, 0, 0));
+		workEvent.meta.model.timeB = new Date(
+			new Date(this._surveyAccessTime).setHours(hasSchoolTrip ? 12 : 17, 0, 0, 0)
+		);
 		workEvent.meta.model.address = workLocation.address;
 		workEvent.meta.model.latitude = workLocation.latitude;
 		workEvent.meta.model.longitude = workLocation.longitude;
@@ -126,14 +131,16 @@ export class TravelDiaryEditor {
 	): TravelDiaryEvent {
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
 		let workEvent = this.createBaseEvent(user, 'School (Not Home)', 'school');
-		homeEvent.end = new Date(new Date().setHours(9 + TIME_DELTA, 0, 0, 0));
-		workEvent.start = new Date(new Date().setHours(hasWorkTrip ? 12 + TIME_DELTA : 9 + TIME_DELTA, 1, 0, 1));
-		workEvent.end = new Date(new Date().setHours(17 + TIME_DELTA, 0, 0, 0));
+		homeEvent.end = new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 0, 0, 0));
+		workEvent.start = new Date(
+			new Date(this._surveyAccessTime).setHours(hasWorkTrip ? 12 + TIME_DELTA : 9 + TIME_DELTA, 1, 0, 1)
+		);
+		workEvent.end = new Date(new Date(this._surveyAccessTime).setHours(17 + TIME_DELTA, 0, 0, 0));
 
 		workEvent.meta.model.timeA = new Date(
-			new Date().setHours(hasWorkTrip ? 12 + TIME_DELTA : 9 + TIME_DELTA, 1, 0, 1)
+			new Date(this._surveyAccessTime).setHours(hasWorkTrip ? 12 + TIME_DELTA : 9 + TIME_DELTA, 1, 0, 1)
 		);
-		workEvent.meta.model.timeB = new Date(new Date().setHours(17 + TIME_DELTA, 0, 0, 0));
+		workEvent.meta.model.timeB = new Date(new Date(this._surveyAccessTime).setHours(17 + TIME_DELTA, 0, 0, 0));
 		workEvent.meta.model.address = schoolLocation.address;
 		workEvent.meta.model.latitude = schoolLocation.latitude;
 		workEvent.meta.model.longitude = schoolLocation.longitude;
@@ -234,14 +241,12 @@ export class TravelDiaryEditor {
 					insertedEvent.meta.model.isValid = true;
 					events.push(insertedEvent);
 					events.push(returnEvent);
-
-					console.log(insertedEvent);
-					console.log(returnEvent);
 				}
 			}
 		}
 		events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
 		this.reAlignTimeBoundaries(event.users, events);
+		this.updateHomeEvents(events);
 		return events;
 	}
 
@@ -275,11 +280,7 @@ export class TravelDiaryEditor {
 				let timeB = new Date(userEvents[i].end);
 				timeB.setHours(timeB.getHours() - TIME_DELTA);
 
-				console.log(timeA);
-				console.log(timeB);
-				console.log(model.timeA);
-				console.log(userEvents[i]);
-				if (timeA < model.timeA && timeB > model.timeA) {
+				if (timeA.getTime() < model.timeA.getTime() && timeB.getTime() > model.timeA.getTime()) {
 					return userEvents[i];
 				}
 			}
@@ -353,6 +354,40 @@ export class TravelDiaryEditor {
 		} else {
 		}
 		this.reAlignTimeBoundaries(update.users, events, update);
+		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeB);
+		this.updateHomeEvents(events);
+		this.reAlignTimeBoundaries(update.users, events, update);
+	}
+
+	/**
+	 *
+	 * @param events
+	 */
+	public updateHomeEvents(events: TravelDiaryEvent[]): void {
+		console.log('in update home events');
+		for (let i = 0; i < events.length; i++) {
+			if (i < events.length - 1) {
+				if (events[i].meta.model.purpose.includes('home')) {
+					events[i].meta.model.name = 'Home Temporarily';
+					events[i].title = 'Home Temporarily';
+				}
+			}
+
+			if (i === events.length - 1) {
+				if (events[i].meta.model.purpose.includes('home')) {
+					events[i].meta.model.name = 'Return Home';
+					events[i].title = 'Return Home';
+					events[i].end = new Date(new Date(this._surveyAccessTime).setHours(23, 59, 0, 0));
+				}
+			}
+
+			if (i === 0) {
+				if (events[i].meta.model.purpose.includes('home')) {
+					events[i].meta.model.name = 'At Home';
+					events[i].title = 'At Home';
+				}
+			}
+		}
 	}
 
 	/**
@@ -364,16 +399,26 @@ export class TravelDiaryEditor {
 		allEvents: TravelDiaryEvent[],
 		updated: TimelineLineResponseDisplayData = null
 	) {
+		console.log(updated);
 		// realigns time boundaries using the location / timeline model as master
 		for (let user of users) {
 			let events = allEvents.filter((x) => x.meta.user.id === user.id);
-			events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
+			// events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
+			console.log(events);
 			for (let i = 0; i < events.length - 1; i++) {
 				events[i].meta.model.order = i;
 				let displayTime = new Date(events[i].meta.model.timeA);
 				displayTime.setHours(displayTime.getHours() + TIME_DELTA);
 				if (i > 0) {
 					events[i].start = displayTime;
+				}
+
+				if (
+					events[i].meta.model.displayId === updated?.displayId &&
+					updated?.hasEndTime &&
+					events[i + 1].meta.model.purpose.toLowerCase().includes('home')
+				) {
+					console.log('inserted into home event');
 				}
 
 				if (events[i].meta.model.displayId === updated?.displayId && updated?.hasEndTime) {
@@ -432,8 +477,8 @@ export class TravelDiaryEditor {
 					address: user.homeAddress,
 					purpose: 'home',
 					mode: undefined,
-					timeA: new Date(new Date().setHours(0, 0, 0, 0)),
-					timeB: new Date(new Date().setHours(23, 59, 0, 0)),
+					timeA: new Date(new Date(this._surveyAccessTime).setHours(0, 0, 0, 0)),
+					timeB: new Date(new Date(this._surveyAccessTime).setHours(23, 59, 0, 0)),
 					latitude: undefined,
 					longitude: undefined,
 					name: 'Home All Day',
@@ -492,8 +537,8 @@ export class TravelDiaryEditor {
 				},
 				id: Date.now(),
 			},
-			start: new Date(new Date().setHours(0, 0, 0, 0)),
-			end: new Date(new Date().setHours(23, 59, 0, 0)),
+			start: new Date(new Date(this._surveyAccessTime).setHours(0, 0, 0, 0)),
+			end: new Date(new Date(this._surveyAccessTime).setHours(23, 59, 0, 0)),
 		};
 	}
 
@@ -518,6 +563,7 @@ export class TravelDiaryEditor {
 			events.splice(idx, 1);
 		}
 		this.reAlignTimeBoundaries(event.users, events);
+		this.updateHomeEvents(events);
 	}
 
 	public updateIndices(user: SurveyRespondentUser, events: TravelDiaryEvent[]): void {

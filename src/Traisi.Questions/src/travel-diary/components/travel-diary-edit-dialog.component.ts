@@ -81,9 +81,15 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public isRequiresEndTime: boolean = false;
 
+	public isRequiresReturnHomeTime: boolean = false;
+
 	public insertedIntoEvent: TravelDiaryEvent;
 
 	public isFirstEventInDay: boolean = false;
+
+	public get defaultDate(): Date {
+		return this._surveyAccessTime;
+	}
 
 	/**
 	 *Creates an instance of TravelDiaryEditDialogComponent.
@@ -97,7 +103,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		private _injector: Injector,
 		private _editorService: TravelDiaryEditor,
 		private _travelDiaryService: TravelDiaryService,
-		@Inject(TraisiValues.QuestionLoader) private _questionLoaderService
+		@Inject(TraisiValues.QuestionLoader) private _questionLoaderService,
+		@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date
 	) {
 		this.resetModel();
 	}
@@ -106,6 +113,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.isInsertedDepartureTime = false;
 		this.insertedIntoEvent = null;
 		this.isRequiresEndTime = false;
+		this.isRequiresReturnHomeTime = false;
 		let id = Date.now();
 		this.model = {
 			id: undefined,
@@ -117,8 +125,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			name: undefined,
 			order: 1,
 			purpose: undefined,
-			timeA: new Date(),
-			timeB: new Date(),
+			timeA: new Date(this._surveyAccessTime),
+			timeB: new Date(this._surveyAccessTime),
 			users: [],
 			displayAddress: undefined,
 		};
@@ -146,6 +154,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.model,
 			this._travelDiaryService.diaryEvents$.value
 		);
+
 		if (this.dialogMode === DialogMode.Edit) {
 			let laterEvent = this._editorService.getLaterEvent(this.model, this._travelDiaryService.diaryEvents$.value);
 
@@ -160,7 +169,19 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		if (insertedEvent) {
 			this.insertedIntoEvent = insertedEvent;
 			this.isInsertedDepartureTime = true;
+			if (
+				insertedEvent.meta.model.purpose.toLowerCase().includes('home') &&
+				insertedEvent.meta.model.displayId !== this.model.displayId
+			) {
+				console.log(insertedEvent);
+				console.log(this.model);
+				console.log('inserted into home event');
+				this.isRequiresReturnHomeTime = true;
+				this.model.hasEndTime = true;
+				this.model.isInserted = true;
+			}
 		} else {
+			this.isRequiresReturnHomeTime = false;
 			this.insertedIntoEvent = undefined;
 			this.isInsertedDepartureTime = false;
 		}
@@ -171,21 +192,38 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	 * @param $event
 	 */
 	public onDepartureTimeChange($event: Date): void {
+		if(!$event) {
+			return;
+		}
+		$event.setDate(this.defaultDate.getDate());
 		if ($event.getHours() < 4 && $event.getHours() >= 0) {
 			// this needs to be adjusted
 			$event.setDate($event.getDate() + 1);
 		}
+
 		this.model.timeA = $event;
 		this.checkTimeOverlaps();
 	}
 
+	/**
+	 *
+	 * @param $event
+	 */
 	public onReturnTimeChange($event: Date): void {
+		if (!$event) {
+			return;
+		}
+		$event.setDate(this.defaultDate.getDate());
+		if ($event.getHours() < 4 && $event.getHours() >= 0) {
+			// this needs to be adjusted
+			$event.setDate($event.getDate() + 1);
+		}
+
 		if ($event < this.model.timeA) {
 			this.eventForm.form.controls['insertedEndTime'].setErrors({ invalid: true });
 		} else {
 			this.eventForm.form.controls['insertedEndTime'].setErrors(null);
 		}
-		console.log(this.eventForm);
 	}
 
 	public onInsertionConfirm($event: any): void {}

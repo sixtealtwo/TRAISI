@@ -34,6 +34,8 @@ export class TravelDiaryService {
 
 	public inactiveDiaryEvents$: BehaviorSubject<TravelDiaryEvent[]>;
 
+	public inactiveUserDiaries: { [id: number]: TravelDiaryEvent[] };
+
 	public configuration: TravelDiaryConfiguration = {
 		purpose: [],
 		mode: [],
@@ -95,6 +97,7 @@ export class TravelDiaryService {
 		this.diaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
 		this.inactiveDiaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
 		this.isLoaded.next(false);
+		this.inactiveUserDiaries = {};
 		console.log('survey access time: ');
 		console.log(this._surveyAccessTime);
 	}
@@ -483,11 +486,9 @@ export class TravelDiaryService {
 				schoolLocation //school loc
 			);
 			if (this.activeRespondents.some((x) => x.id === r.id)) {
-				console.log('adding active');
-				this.addEvents(events);
+				this.addEvents(events.sort((x1, x2) => x1.start.getTime() - x2.start.getTime()));
 			} else {
-				console.log('adding inactive');
-				this.addInactiveRespondentEvents(events);
+				this.addInactiveRespondentEvents(events.sort((x1, x2) => x1.start.getTime() - x2.start.getTime()));
 			}
 		}
 		// let toRemove = [];
