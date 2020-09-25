@@ -30,6 +30,8 @@ import { colors, DialogMode, TimelineLineResponseDisplayData, SurveyRespondentUs
 import { TravelDiaryEditor } from './services/travel-diary-editor.service';
 import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
 import { TravelDiaryTourService } from './services/travel-diary-tour.service';
+import { PopoverDirective } from 'ngx-bootstrap/popover';
+import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 // import { tour } from './tour/travel-diary-tour';
 @Component({
 	selector: 'traisi-travel-diary-question',
@@ -48,6 +50,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	@ViewChild('entryDialog')
 	public entryDialog: TravelDiaryEditDialogComponent;
+
+	@ViewChild('dropdownToggle')
+	public dropdownToggle: BsDropdownDirective;
 
 	private _isValid: boolean = false;
 
@@ -110,7 +115,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.initialize();
 		this._travelDiaryService.diaryEvents$.subscribe(this.eventsUpdated);
 		this._travelDiaryService.activeUsers.subscribe(this.usersUpdated);
-		
 	}
 
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
@@ -147,7 +151,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public startTour(): void {
-		this._tour.initialize();
+		this._tour.initialize(this.dropdownToggle);
 		this._tour.startTour();
 	}
 

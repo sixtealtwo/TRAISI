@@ -1,7 +1,8 @@
 <div class="add-event-overlay">
-	<span class="btn-group" dropdown container="body" placement="top right" [dropup]="isDropup">
+	<span class="btn-group add-event-button" dropdown container="body" placement="top right" [dropup]="isDropup" #dropdownToggle="bs-dropdown" >
 		<button type="button" class="btn btn-primary" (click)="newEvent()">Add Trip</button>
 		<button
+			
 			id="button-split"
 			type="button"
 			dropdownToggle

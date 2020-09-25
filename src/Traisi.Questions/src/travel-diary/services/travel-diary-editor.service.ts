@@ -18,8 +18,7 @@ const TIME_DELTA: number = -4;
 export class TravelDiaryEditor {
 	private _idCounter: number = 0;
 
-	public constructor(@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date) {
-	}
+	public constructor(@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date) {}
 
 	/**
 	 * Will attempt to create, if  any, the appropriate initial events on the travel diary
@@ -89,7 +88,7 @@ export class TravelDiaryEditor {
 		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
 		returnHomeEvent.start = new Date(new Date(this._surveyAccessTime).setHours(23 + TIME_DELTA, 59, 0, 0));
 		returnHomeEvent.end = new Date(new Date(this._surveyAccessTime).setHours(23, 59, 0, 0));
-		returnHomeEvent.meta.model.timeA = new Date(new Date(this._surveyAccessTime).setHours(17, 1, 0, 0));
+		returnHomeEvent.meta.model.timeA = new Date(new Date(this._surveyAccessTime).setHours(23, 1, 0, 0));
 		returnHomeEvent.meta.model.isValid = false;
 		returnHomeEvent.meta.model.model = 2;
 		returnHomeEvent.meta.model.address = user.homeAddress ?? {};
@@ -350,6 +349,8 @@ export class TravelDiaryEditor {
 			}
 		} else {
 		}
+
+		console.log(events);
 		this.reAlignTimeBoundaries(update.users, events, update);
 		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeA);
 		this.updateHomeEvents(events);
