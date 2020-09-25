@@ -49,12 +49,11 @@ export class PrivacyConfirmationComponent implements OnInit {
 
 	public ngOnInit(): void {
 		try {
-			console.log(this.pageHTML);
+
 			let pageData = JSON.parse(this.pageHTML);
 
 			this.pageHTMLJson = pageData;
 			this.acceptTermsHTML = pageData.acceptTerms;
-			console.log(this.acceptTermsHTML);
 		} catch (e) {
 			console.log(e);
 			this.pageHTMLJson = {};

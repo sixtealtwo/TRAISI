@@ -1,6 +1,9 @@
-
-
-<div class="travel-diary-question" [style.height.px]="containerHeight-30" *ngIf="isComponentLoaded | async" id="travelDiaryQuestionContainer">
+<div
+	class="travel-diary-question"
+	[style.height.px]="containerHeight - 30"
+	*ngIf="isComponentLoaded | async"
+	id="travelDiaryQuestionContainer"
+>
 	<traisi-travel-dairy-day-view-scheduler
 		[viewDate]="viewDate"
 		[events]="events"
@@ -16,10 +19,16 @@
 </div>
 
 <div class="add-event-overlay">
-	<span class="btn-group add-event-button" dropdown container="body" placement="top right" [dropup]="isDropup" #dropdownToggle="bs-dropdown" >
+	<span
+		class="btn-group add-event-button"
+		dropdown
+		container="body"
+		placement="top right"
+		[dropup]="isDropup"
+		#dropdownToggle="bs-dropdown"
+	>
 		<button type="button" class="btn btn-primary" (click)="newEvent()">Add Trip</button>
 		<button
-			
 			id="button-split"
 			type="button"
 			dropdownToggle
@@ -39,11 +48,8 @@
 		</ul>
 	</span>
 
-	<a [routerLink]="" class="tour" (click)="startTour()">
-		<i class="fas fa-info-circle"></i>Tour
-	</a>
+	<a [routerLink]="" class="tour" (click)="startTour()"> <i class="fas fa-info-circle"></i>Tour </a>
 
-	
 	<span
 		class="view-validation-errors"
 		[popover]="popTemplate"
@@ -63,12 +69,31 @@
 	#entryDialog
 ></traisi-travel-diary-edit-dialog>
 
-<ng-template #popTemplate><p>
+<ng-template #popTemplate
+	><p>
+		The dravel diary is missing information for some events. Click on events with an orange border to fill in the
+		missing information.
+	</p>
 
-The dravel diary is missing information for some events. Click on events with an orange border to fill in the missing information.</p>
+	<p>The diary also requires that there are no two consecutive home events appearing for a household member.</p>
 
-<p>The diary also requires that there are no two consecutive home events appearing for a household member.</p>
+	<p>Overlapping departure times are also not allowed for the travel diary input.</p>
+</ng-template>
 
-<p>Overlapping departure times are also not allowed for the travel diary input.</p>
-
+<ng-template #template>
+	<div class="modal-header">
+		<h4 class="modal-title pull-left">At Home (Temporarily)</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body text-center">
+		<p>
+			A temporary return home activity was added to the travel diary. If you did not make a trip back home, you
+			can delete the event from your diary.
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="modalRef.hide()">Ok</button>
+	</div>
 </ng-template>

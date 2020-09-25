@@ -186,11 +186,13 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				insertedEvent.meta.model.displayId !== this.model.displayId
 			) {
 				this.isRequiresReturnHomeTime = true;
+				this.model.isReturnHomeSplit = true;
 				this.model.hasEndTime = true;
 				this.model.isInserted = true;
 			}
 		} else {
 			this.isRequiresReturnHomeTime = false;
+			this.model.isReturnHomeSplit = false;
 			this.insertedIntoEvent = undefined;
 			this.isInsertedDepartureTime = false;
 		}
@@ -355,7 +357,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			}
 		});
 
-		console.log(this);
 		if (this._primaryRespondent.id === this._respondent.id) {
 			this.isShowMemberSelect = true;
 		} else {

@@ -57,7 +57,12 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	@ViewChild('dropdownToggle')
 	public dropdownToggle: BsDropdownDirective;
 
+	@ViewChild('template', { read: TemplateRef })
+	public template: TemplateRef;
+
 	private _isValid: boolean = false;
+
+	public modalRef: BsModalRef | null;
 
 	public constructor(
 		private _travelDiaryService: TravelDiaryService,
@@ -65,6 +70,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		private _elementRef: ElementRef,
 		private _injector: Injector,
 		private _tour: TravelDiaryTourService,
+		private modalService: BsModalService,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
 		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent
 	) {
@@ -97,10 +103,14 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public newEntrySaved(event: TimelineLineResponseDisplayData) {
+		if (event.isReturnHomeSplit) {
+			this.openModal(this.template);
+		}
 		this._travelDiaryService.newEvent(event);
 	}
 
 	public eventSaved(event: TimelineLineResponseDisplayData) {
+		console.log(event);
 		this._travelDiaryService.updateEvent(event);
 	}
 
@@ -179,5 +189,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public reportErrors(): ValidationError[] {
 		return this._travelDiaryService.reportErrors();
+	}
+
+	public openModal(template: TemplateRef<any>): void {
+		this.modalRef = this.modalService.show(template, {class:'modal-dialog-centered'});
 	}
 }

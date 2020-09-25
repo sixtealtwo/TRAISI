@@ -35,6 +35,7 @@ export type TimelineLineResponseDisplayData = TimelineResponseData & {
 	isInserted?: boolean;
 	hasEndTime?: boolean;
 	insertedEndTime?: Date;
+	isReturnHomeSplit?: boolean;
 	displayAddress: any;
 };
 

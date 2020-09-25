@@ -219,15 +219,12 @@ export class TravelDiaryService {
 		for (let r of this.activeRespondents) {
 			let filter = this._diaryEvents.filter((x) => x.meta.user.id === r.id);
 			if (filter.length === 0) {
-				console.log(' fail missing events');
 				return false;
 			}
 			if (!this._validateNoOverlappingEvents(filter)) {
-				console.log('failed overlapping');
 				return false;
 			}
 			if (!this._validateConsecutiveHomeEvents(filter)) {
-				console.log('failed validate consecutive');
 				return false;
 			}
 		}
@@ -278,6 +275,11 @@ export class TravelDiaryService {
 			}
 		}
 		return true;
+	}
+
+	private _validateAtLeastOneHOme(userEvents: TravelDiaryEvent[]): boolean {
+
+		return userEvents.some( x=> x.meta.model.purpose.toLowerCase().includes('home'));
 	}
 
 	/**
@@ -566,9 +568,13 @@ export class TravelDiaryService {
 	 * @param {LocationResponseData} event
 	 */
 	public newEvent(event: TimelineLineResponseDisplayData): void {
+		console.log(event);
 		this._edtior.insertEvent(this._diaryEvents, event);
 		this.diaryEvents$.next(this._diaryEvents);
 	}
+
+
+	public checkHom
 
 	/**
 	 *
