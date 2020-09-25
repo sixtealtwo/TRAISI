@@ -112,7 +112,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
-		console.log(events);
 		let isValid = this._travelDiaryService.isTravelDiaryValid;
 		this._isValid = isValid;
 		if (isValid) {

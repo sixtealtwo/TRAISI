@@ -19,7 +19,6 @@ export class TravelDiaryEditor {
 	private _idCounter: number = 0;
 
 	public constructor(@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date) {
-		console.log(' in constructor ');
 	}
 
 	/**
@@ -83,8 +82,6 @@ export class TravelDiaryEditor {
 		homeEvent.meta.model.address = user.homeAddress ?? {};
 		homeEvent.meta.model.latitude = user.homeLatitude;
 		homeEvent.meta.model.longitude = user.homeLongitude;
-		console.log(homeEvent);
-		console.log(user);
 		return homeEvent;
 	}
 
@@ -354,9 +351,9 @@ export class TravelDiaryEditor {
 		} else {
 		}
 		this.reAlignTimeBoundaries(update.users, events, update);
-		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeB);
+		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeA);
 		this.updateHomeEvents(events);
-		this.reAlignTimeBoundaries(update.users, events, update);
+		// this.reAlignTimeBoundaries(update.users, events, update);
 	}
 
 	/**
@@ -399,12 +396,11 @@ export class TravelDiaryEditor {
 		allEvents: TravelDiaryEvent[],
 		updated: TimelineLineResponseDisplayData = null
 	) {
-		console.log(updated);
 		// realigns time boundaries using the location / timeline model as master
 		for (let user of users) {
 			let events = allEvents.filter((x) => x.meta.user.id === user.id);
 			// events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
-			console.log(events);
+
 			for (let i = 0; i < events.length - 1; i++) {
 				events[i].meta.model.order = i;
 				let displayTime = new Date(events[i].meta.model.timeA);
@@ -412,15 +408,6 @@ export class TravelDiaryEditor {
 				if (i > 0) {
 					events[i].start = displayTime;
 				}
-
-				if (
-					events[i].meta.model.displayId === updated?.displayId &&
-					updated?.hasEndTime &&
-					events[i + 1].meta.model.purpose.toLowerCase().includes('home')
-				) {
-					console.log('inserted into home event');
-				}
-
 				if (events[i].meta.model.displayId === updated?.displayId && updated?.hasEndTime) {
 					let endTime = new Date(events[i].meta.model.insertedEndTime);
 					endTime.setHours(endTime.getHours() + TIME_DELTA);

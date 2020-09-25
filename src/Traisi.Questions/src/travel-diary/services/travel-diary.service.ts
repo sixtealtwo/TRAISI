@@ -98,8 +98,7 @@ export class TravelDiaryService {
 		this.inactiveDiaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
 		this.isLoaded.next(false);
 		this.inactiveUserDiaries = {};
-		console.log('survey access time: ');
-		console.log(this._surveyAccessTime);
+		console.log(this._respondent);
 	}
 
 	/**
@@ -133,6 +132,8 @@ export class TravelDiaryService {
 					homeLongitude: primaryHomeLng,
 				};
 				if (respondentUser.id === this._respondent.id) {
+					console.log('setting respondent user to ');
+					console.log(respondentUser);
 					this.activeUser = respondentUser;
 					this.activeRespondents.push(respondentUser);
 				}
@@ -217,15 +218,18 @@ export class TravelDiaryService {
 	}
 
 	public get isTravelDiaryValid(): boolean {
-		for (let r of this.respondents) {
+		for (let r of this.activeRespondents) {
 			let filter = this._diaryEvents.filter((x) => x.meta.user.id === r.id);
 			if (filter.length === 0) {
+				console.log(' fail missing events');
 				return false;
 			}
 			if (!this._validateNoOverlappingEvents(filter)) {
+				console.log('failed overlapping');
 				return false;
 			}
 			if (!this._validateConsecutiveHomeEvents(filter)) {
+				console.log('failed validate consecutive');
 				return false;
 			}
 		}
@@ -238,7 +242,6 @@ export class TravelDiaryService {
 		//for (let r of this.respondents) {
 		let filter = this._diaryEvents.filter((x) => x.meta.user.id === this.activeUser.id);
 		filter = filter.sort((v1, v2) => v1.start.getTime() - v2.start.getTime());
-		console.log(filter);
 		if (filter.length === 0) {
 			errors.push({
 				message: 'You cannot have an empty travel diary.',
@@ -577,7 +580,6 @@ export class TravelDiaryService {
 		// this._diaryEvents = this._diaryEvents.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
 		this._edtior.updateEvent(event, this._diaryEvents);
 		this.diaryEvents$.next(this._diaryEvents);
-		console.log(this._diaryEvents);
 	}
 
 	/**
