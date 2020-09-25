@@ -190,14 +190,7 @@ module.exports = [
 						},
 					},
 				},
-				{
-					test: /\.css$/,
-					use: [
-						'style-loader', // creates style nodes from JS strings
-						'css-loader', // translates CSS into CommonJS
-					],
-					include: [/node_modules/],
-				},
+				{ test: /\.css$/, loader: 'raw-loader' },
 				{
 					test: /\.scss$/,
 					use: [
