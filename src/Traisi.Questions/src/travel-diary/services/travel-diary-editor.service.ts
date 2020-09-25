@@ -244,7 +244,7 @@ export class TravelDiaryEditor {
 			}
 		}
 		events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
-		this.reAlignTimeBoundaries(event.users, events);
+		this.reAlignTimeBoundaries([].concat(u), events);
 		this.updateHomeEvents(events);
 		return events;
 	}
@@ -353,7 +353,6 @@ export class TravelDiaryEditor {
 		} else {
 		}
 
-		console.log(events);
 		this.reAlignTimeBoundaries(update.users, events, update);
 		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeA);
 		this.updateHomeEvents(events);
@@ -365,7 +364,6 @@ export class TravelDiaryEditor {
 	 * @param events
 	 */
 	public updateHomeEvents(events: TravelDiaryEvent[]): void {
-		console.log('in update home events');
 		for (let i = 0; i < events.length; i++) {
 			if (i < events.length - 1) {
 				if (events[i].meta.model.purpose.includes('home')) {
