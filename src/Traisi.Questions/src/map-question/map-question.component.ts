@@ -31,6 +31,9 @@ import styleString from './map-question.component.scss';
 import * as mapboxgl from 'mapbox-gl';
 import markerPng from './marker.png';
 import { MapQuestionConfiguration } from './models/map-question-configuration.model';
+
+
+
 @Component({
 	selector: 'traisi-map-question',
 	template: '' + templateString,
@@ -272,7 +275,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	private updateAddressInput(address: Address): void {
 		let element: HTMLInputElement = this._element.nativeElement.querySelector('.mapboxgl-ctrl-geocoder--input');
 		if (element) {
-			element.value = this.getAddressString(address);;
+			element.value = this.getAddressString(address);
 		}
 	}
 

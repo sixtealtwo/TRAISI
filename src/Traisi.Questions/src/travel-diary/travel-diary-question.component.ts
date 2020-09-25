@@ -35,7 +35,7 @@ import { ReturnTimeValidatorDirective } from './validators/return-time.directive
 	providers: [TravelDiaryService, TravelDiaryEditor, ReturnTimeValidatorDirective],
 	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
-	styles: ['' + styleString],
+	styles: ['' + styleString ],
 })
 export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.Timeline>
 	implements OnInit, AfterViewInit, OnVisibilityChanged {

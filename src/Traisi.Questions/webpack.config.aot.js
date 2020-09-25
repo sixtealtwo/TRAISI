@@ -9,11 +9,11 @@ module.exports = [
 			general: path.join(process.cwd(), './src/general/viewer/traisi-questions-viewer.module.ts'),
 			'general-builder': path.join(process.cwd(), './src/general/builder/traisi-questions-builder.module.ts'),
 			map: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
-			sp: path.join(process.cwd(), './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'),
+			/*sp: path.join(process.cwd(), './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'),
 			'sp-builder': path.join(
 				process.cwd(),
 				'./src/stated-preference/builder/traisi-sp-question-builder.module.ts'
-			),
+			), */
 			'travel-diary': path.join(process.cwd(), './src/travel-diary/travel-diary-question.module.ts'),
 			'route-select': path.join(process.cwd(), './src/route-select/route-select-question.module.ts'),
 		},
@@ -52,28 +52,17 @@ module.exports = [
 					},
 				},
 				{
-					test: /\.css$/,
-					use: [
-						'style-loader', // creates style nodes from JS strings
-						'css-loader', // translates CSS into CommonJS
-					],
-					include: [/node_modules/],
+					test: /\.css$/i,
+					use: ['to-string-loader', 'css-loader'],
 				},
 				{
 					test: /\.scss$/,
 					use: [
-						'to-string-loader',
-						{
-							loader: 'css-loader',
-							options: {
-								sourceMap: true,
-							},
-						},
+						'style-loader',
+						'css-loader',
 						{
 							loader: 'sass-loader',
 							options: {
-								sourceMap: true,
-
 								sassOptions: {
 									data: '@import "_styles";',
 									includePaths: [path.join(__dirname, 'src/assets')],
@@ -148,11 +137,11 @@ module.exports = [
 			general: path.join(process.cwd(), './src/general/viewer/traisi-questions-viewer.module.ts'),
 			'general-builder': path.join(process.cwd(), './src/general/builder/traisi-questions-builder.module.ts'),
 			map: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
-			sp: path.join(process.cwd(), './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'),
+			/*sp: path.join(process.cwd(), './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'),
 			'sp-builder': path.join(
 				process.cwd(),
 				'./src/stated-preference/builder/traisi-sp-question-builder.module.ts'
-			),
+			), */
 			'travel-diary': path.join(process.cwd(), './src/travel-diary/travel-diary-question.module.ts'),
 			'route-select': path.join(process.cwd(), './src/route-select/route-select-question.module.ts'),
 		},
@@ -190,22 +179,18 @@ module.exports = [
 						},
 					},
 				},
-				{ test: /\.css$/, loader: 'raw-loader' },
+				{
+					test: /\.css$/i,
+					use: ['to-string-loader', 'css-loader'],
+				},
 				{
 					test: /\.scss$/,
 					use: [
-						'to-string-loader',
-						{
-							loader: 'css-loader',
-							options: {
-								sourceMap: true,
-							},
-						},
+						'style-loader',
+						'css-loader',
 						{
 							loader: 'sass-loader',
 							options: {
-								sourceMap: true,
-
 								sassOptions: {
 									data: '@import "_styles";',
 									includePaths: [path.join(__dirname, 'src/assets')],

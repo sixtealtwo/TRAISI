@@ -190,7 +190,7 @@ export class SurveyNavigator {
 	public navigatePrevious(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
 		let prev = this._decrementNavigation(this._newState()).pipe(
-			expand((x) => (x.activeQuestionInstances.length === 0 ? this._incrementNavigation(x) : EMPTY)),
+			expand((x) => (x.activeQuestionInstances.length === 0 ? this._decrementNavigation(x) : EMPTY)),
 			skipWhile((x) => x.activeQuestionInstances.length === 0),
 			// take(1),
 			shareReplay(1)

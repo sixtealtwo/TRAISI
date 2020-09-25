@@ -12,12 +12,14 @@ import {
 
 import templateString from './radio-question.component.html';
 import styleString from './radio-question.component.scss';
+
 @Component({
 	selector: 'traisi-radio-question',
 	template: '' + templateString,
 	styles: ['' + styleString],
 })
-export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect> implements OnInit, OnOptionsLoaded, AfterViewInit {
+export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect>
+	implements OnInit, OnOptionsLoaded, AfterViewInit {
 	public options: QuestionOption[];
 
 	public selectedOption: any;
@@ -65,7 +67,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 			if (this.customResponseOptions.has(optionResponse.code)) {
 				this.customResponseValue = optionResponse.value;
 			}
-			this.validationState.emit(ResponseValidationState.VALID); 
+			this.validationState.emit(ResponseValidationState.VALID);
 		}
 
 		this.isLoaded.next(true);
@@ -110,8 +112,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 * @param {*} result
 	 * @memberof TextQuestionComponent
 	 */
-	public onResponseSaved(): void {
-	}
+	public onResponseSaved(): void {}
 
 	/**
 	 *
