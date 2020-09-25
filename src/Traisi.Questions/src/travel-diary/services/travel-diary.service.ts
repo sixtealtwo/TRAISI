@@ -132,8 +132,6 @@ export class TravelDiaryService {
 					homeLongitude: primaryHomeLng,
 				};
 				if (respondentUser.id === this._respondent.id) {
-					console.log('setting respondent user to ');
-					console.log(respondentUser);
 					this.activeUser = respondentUser;
 					this.activeRespondents.push(respondentUser);
 				}

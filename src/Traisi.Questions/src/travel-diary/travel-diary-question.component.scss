@@ -5,6 +5,13 @@
 	width: 6px;
 }
 
+traisi-travel-diary-question {
+	display: flex;
+	flex-direction: column;
+}
+
+
+
 .travel-diary-question::-webkit-scrollbar-track {
 	background: #e6e6e6;
 	border-radius: 2px;
@@ -20,7 +27,6 @@
 .travel-diary-question {
 	overflow-y: auto;
 
-	margin-bottom: 20px;
 
 	.mapboxgl-ctrl-geocoder {
 		display: none;
@@ -31,14 +37,19 @@
 	}
 }
 .add-event-overlay {
-	position: absolute;
-	bottom: 10px;
-	/* top: 0px; */
-	right: calc(50% - 160px);
+	position: relative;
 	z-index: 10;
 	width: 320px;
 	background-color: white;
+	margin: auto;
+
+	.tour {
+		margin-left: 10px;
+		
+	}
 }
+
+
 .view-validation-errors{
 	cursor: pointer;
 	font-size: 14px;

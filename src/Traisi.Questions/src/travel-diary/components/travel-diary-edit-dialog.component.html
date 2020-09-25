@@ -66,9 +66,11 @@
 							</ng-select>
 						</div>
 					</div>
-					<div class="form-group row">
+					<div class="form-group row" *ngIf="isShowMemberSelect">
 						<div class="col-12">
-							<label for="members" class="col-form-label">Family members who attended this event</label>
+							<label for="members" class="col-form-label"
+								>Family members who attended this activity</label
+							>
 							<ng-select
 								appearance="outline"
 								#memberSelect
@@ -159,11 +161,21 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group row" *ngIf="model.isInserted || isRequiresEndTime || isRequiresReturnHomeTime">
+					<div
+						class="form-group row"
+						*ngIf="model.isInserted || isRequiresEndTime || isRequiresReturnHomeTime"
+					>
 						<div class="col-12">
-							<label for="timeA" class="col-form-label" *ngIf="model.isInserted">Return Time</label>
+							<label
+								for="timeA"
+								class="col-form-label"
+								*ngIf="model.isInserted && !isRequiresReturnHomeTime"
+								>Return Time</label
+							>
 							<label for="timeA" class="col-form-label" *ngIf="isRequiresEndTime">Until What Time?</label>
-							<label for="timeA" class="col-form-label" *ngIf="isRequiresReturnHomeTime">What time did you return home?</label>
+							<label for="timeA" class="col-form-label" *ngIf="isRequiresReturnHomeTime"
+								>What time did you return home?</label
+							>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="insertedEndTime"

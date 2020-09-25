@@ -2,6 +2,7 @@ export enum TraisiValues {
   Configuration = 'CONFIGURATION',
   Household = 'HOUSEHOLD',
   Respondent = 'RESPONDENT',
+  PrimaryRespondent = 'PRIMARYRESPONDENT',
   SurveyId = 'SURVEYID',
   QuestionLoader = 'QUESTIONLOADER',
   SurveyResponseService = 'SURVEYRESPONSESERVUCE',

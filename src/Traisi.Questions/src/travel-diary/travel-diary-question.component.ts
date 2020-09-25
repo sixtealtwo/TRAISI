@@ -6,6 +6,8 @@ import {
 	TimelineResponseData,
 	ResponseValidationState,
 	ValidationError,
+	SurveyRespondent,
+	TraisiValues,
 } from 'traisi-question-sdk';
 import {
 	Component,
@@ -16,6 +18,7 @@ import {
 	ElementRef,
 	TemplateRef,
 	Injector,
+	Inject,
 } from '@angular/core';
 import { setHours, isSameMonth, setMinutes, addHours } from 'date-fns';
 import templateString from './travel-diary-question.component.html';
@@ -61,7 +64,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		private _modalService: BsModalService,
 		private _elementRef: ElementRef,
 		private _injector: Injector,
-		private _tour: TravelDiaryTourService
+		private _tour: TravelDiaryTourService,
+		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
+		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent
 	) {
 		super();
 		this.isFillVertical = true;
@@ -115,6 +120,13 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.initialize();
 		this._travelDiaryService.diaryEvents$.subscribe(this.eventsUpdated);
 		this._travelDiaryService.activeUsers.subscribe(this.usersUpdated);
+
+		this._travelDiaryService.isLoaded.subscribe((v) => {
+			if (v && this._respondent.id === this._primaryRespondent.id) {
+				console.log(this);
+				this.startTour();
+			}
+		});
 	}
 
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};

@@ -1,3 +1,20 @@
+
+
+<div class="travel-diary-question" [style.height.px]="containerHeight-30" *ngIf="isComponentLoaded | async" id="travelDiaryQuestionContainer">
+	<traisi-travel-dairy-day-view-scheduler
+		[viewDate]="viewDate"
+		[events]="events"
+		[dayStartHour]="0"
+		[dayEndHour]="24"
+		[hourSegments]="1"
+		[refresh]="events$"
+		[users]="users | async"
+		#schedule
+		(eventClicked)="eventClicked($event)"
+	>
+	</traisi-travel-dairy-day-view-scheduler>
+</div>
+
 <div class="add-event-overlay">
 	<span class="btn-group add-event-button" dropdown container="body" placement="top right" [dropup]="isDropup" #dropdownToggle="bs-dropdown" >
 		<button type="button" class="btn btn-primary" (click)="newEvent()">Add Trip</button>
@@ -22,9 +39,9 @@
 		</ul>
 	</span>
 
-	<span class="tour" (click)="startTour()">
-		Tour
-	</span>
+	<a [routerLink]="" class="tour" (click)="startTour()">
+		<i class="fas fa-info-circle"></i>Tour
+	</a>
 
 	
 	<span
@@ -35,23 +52,8 @@
 		(click)="pop.toggle()"
 		*ngIf="!isTravelDiaryValid"
 	>
-		<i class="fas fa-exclamation-triangle warning-icon"></i>Missing Information
+		<i class="fas fa-exclamation-triangle warning-icon"></i>Invalid Information
 	</span>
-</div>
-
-<div class="travel-diary-question" [style.height.px]="containerHeight" *ngIf="isComponentLoaded | async" id="travelDiaryQuestionContainer">
-	<traisi-travel-dairy-day-view-scheduler
-		[viewDate]="viewDate"
-		[events]="events"
-		[dayStartHour]="0"
-		[dayEndHour]="24"
-		[hourSegments]="1"
-		[refresh]="events$"
-		[users]="users | async"
-		#schedule
-		(eventClicked)="eventClicked($event)"
-	>
-	</traisi-travel-dairy-day-view-scheduler>
 </div>
 
 <traisi-travel-diary-edit-dialog

@@ -4,6 +4,7 @@ import {
 	OnVisibilityChanged,
 	TimelineResponseData,
 	TraisiValues,
+	SurveyRespondent,
 } from 'traisi-question-sdk';
 import {
 	Component,
@@ -87,6 +88,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public isFirstEventInDay: boolean = false;
 
+	public isShowMemberSelect: boolean = true;
+
+	private _respondentRef: SurveyRespondentUser;
+
 	public get defaultDate(): Date {
 		return this._surveyAccessTime;
 	}
@@ -104,7 +109,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		private _editorService: TravelDiaryEditor,
 		private _travelDiaryService: TravelDiaryService,
 		@Inject(TraisiValues.QuestionLoader) private _questionLoaderService,
-		@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date
+		@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date,
+		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
+		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent
 	) {
 		this.resetModel();
 	}
@@ -115,6 +122,11 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.isRequiresEndTime = false;
 		this.isRequiresReturnHomeTime = false;
 		let id = Date.now();
+		let users = [];
+		if (this._respondentRef) {
+			users = [].concat(this._respondentRef);
+		}
+
 		this.model = {
 			id: undefined,
 			displayId: id,
@@ -127,7 +139,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			purpose: undefined,
 			timeA: new Date(this._surveyAccessTime),
 			timeB: new Date(this._surveyAccessTime),
-			users: [],
+			users: users,
 			displayAddress: undefined,
 		};
 
@@ -173,9 +185,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				insertedEvent.meta.model.purpose.toLowerCase().includes('home') &&
 				insertedEvent.meta.model.displayId !== this.model.displayId
 			) {
-				console.log(insertedEvent);
-				console.log(this.model);
-				console.log('inserted into home event');
 				this.isRequiresReturnHomeTime = true;
 				this.model.hasEndTime = true;
 				this.model.isInserted = true;
@@ -192,7 +201,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	 * @param $event
 	 */
 	public onDepartureTimeChange($event: Date): void {
-		if(!$event) {
+		if (!$event) {
 			return;
 		}
 		$event.setDate(this.defaultDate.getDate());
@@ -260,6 +269,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.form.markAsUntouched();
 			this.eventForm.form.reset();
 			this.eventForm.reset();
+			this.model.users = [].concat(this._respondentRef);
 		} else {
 			this.eventForm.form.markAllAsTouched();
 			this.eventForm.form.updateValueAndValidity();
@@ -334,9 +344,22 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.model.address = response['address'];
 		this.model.latitude = response['latitude'];
 		this.model.longitude = response['longitude'];
-		console.log(this.model);
 	}
 
 	public ngAfterViewInit(): void {}
-	public ngOnInit(): void {}
+	public ngOnInit(): void {
+		this._travelDiaryService.users.subscribe((x) => {
+			let r = x.find((y) => y.id === this._respondent.id);
+			if (r) {
+				this._respondentRef = r;
+			}
+		});
+
+		console.log(this);
+		if (this._primaryRespondent.id === this._respondent.id) {
+			this.isShowMemberSelect = true;
+		} else {
+			this.isShowMemberSelect = false;
+		}
+	}
 }
