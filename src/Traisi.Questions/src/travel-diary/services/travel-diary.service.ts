@@ -33,7 +33,7 @@ import { eventNames } from 'process';
 export class TravelDiaryService {
 	public diaryEvents$: BehaviorSubject<TravelDiaryEvent[]>;
 
-	public inactiveDiaryEvents$: BehaviorSubject<TravelDiaryEvent[]>;
+	public inactiveDiaryEvents$: Subject<TravelDiaryEvent[]>;
 
 	public userTravelDiaries: { [id: number]: TravelDiaryEvent[] };
 
@@ -96,7 +96,7 @@ export class TravelDiaryService {
 		private _injector: Injector
 	) {
 		this.diaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
-		this.inactiveDiaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
+		this.inactiveDiaryEvents$ = new Subject<TravelDiaryEvent[]>();
 		this.isLoaded.next(false);
 		this.userTravelDiaries = {};
 	}
@@ -164,7 +164,7 @@ export class TravelDiaryService {
 					if (respondentsToLoad.length > 0) {
 						this.loadPriorResponseData(respondentsToLoad).subscribe({
 							complete: () => {
-								this._diaryEvents = [].concat(this._diaryEvents);
+								// this._diaryEvents = [].concat(this._diaryEvents);
 								this.isLoaded.next(true);
 								this.diaryEvents$.next(this._diaryEvents);
 								this.activeUsers.next([].concat(this.activeUser));
@@ -302,12 +302,18 @@ export class TravelDiaryService {
 	 * Resets the travel diary to use the prior and piped information.
 	 */
 	public resetTravelDiary(): void {
-		this._diaryEvents = [];
+		this._diaryEvents.splice(0, this._diaryEvents.length);
+		for (let id in this.userTravelDiaries) {
+			let idx = Number(id);
+			if (idx !== this.activeUser.id) {
+				this.userTravelDiaries[id].splice(0, this.userTravelDiaries[id].length);
+			}
+		}
 		this.loadPriorResponseData(this.respondents).subscribe();
 	}
 
 	public clearTravelDiary(): void {
-		this._diaryEvents = [];
+		this._diaryEvents.splice(0, this._diaryEvents.length);
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 
@@ -332,8 +338,6 @@ export class TravelDiaryService {
 	 * Loads prior response data for questions for initializing timeline
 	 */
 	private loadPriorResponseData(respondents: SurveyRespondentUser[]): Observable<void> {
-		console.log('loading prior response data for ');
-		console.log(respondents);
 		return new Observable((obs) => {
 			let questionIds: SurveyViewQuestion[] = [];
 			let homeAllDayId = 0;
@@ -496,7 +500,10 @@ export class TravelDiaryService {
 			if (this.activeRespondents.some((x) => x.id === r.id)) {
 				this.addEvents(events.sort((x1, x2) => x1.start.getTime() - x2.start.getTime()));
 			} else {
-				this.addInactiveEvents(r,events.sort((x1, x2) => x1.start.getTime() - x2.start.getTime()));
+				this.addInactiveEvents(
+					r,
+					events.sort((x1, x2) => x1.start.getTime() - x2.start.getTime())
+				);
 			}
 		}
 		// let toRemove = [];
@@ -559,7 +566,7 @@ export class TravelDiaryService {
 	 * @param respondent
 	 */
 	public getTimelineResponseDataForRespondent(respondent: SurveyRespondent): TimelineResponseData[] {
-		let events = this._diaryEvents.filter((x) => x.meta.user.id === respondent.id);
+		let events = this.userTravelDiaries[respondent.id];
 		let timelineData = [];
 		for (let event of events) {
 			timelineData.push(event.meta.model);
@@ -576,6 +583,9 @@ export class TravelDiaryService {
 		let events = this._splitEvent(event);
 		for (let splitEvent of events) {
 			this._edtior.insertEvent(this.userTravelDiaries[splitEvent.users[0].id], splitEvent);
+			if (splitEvent.users[0].id !== this.activeUser.id) {
+				this.inactiveDiaryEvents$.next(this.userTravelDiaries[splitEvent.users[0].id]);
+			}
 		}
 		// update the active user
 		this.diaryEvents$.next(this._diaryEvents);
@@ -590,6 +600,10 @@ export class TravelDiaryService {
 		for (let user of event.users) {
 			let splitEvent = Object.assign({}, event);
 			splitEvent.users = [user];
+			// set the mode to undefined
+			if (user.id !== this.activeUser.id) {
+				splitEvent.mode = undefined;
+			}
 			events.push(splitEvent);
 		}
 		return events;
@@ -604,6 +618,9 @@ export class TravelDiaryService {
 		let events = this._splitEvent(event);
 		for (let splitEvent of events) {
 			this._edtior.updateEvent(splitEvent, this.userTravelDiaries[splitEvent.users[0].id]);
+			if (splitEvent.users[0].id !== this.activeUser.id) {
+				this.inactiveDiaryEvents$.next(this.userTravelDiaries[splitEvent.users[0].id]);
+			}
 		}
 		// update events for active user
 		this.diaryEvents$.next(this._diaryEvents);
@@ -615,16 +632,25 @@ export class TravelDiaryService {
 	 * @param events
 	 */
 	public addEvents(events: TravelDiaryEvent[]): void {
-		this._diaryEvents = this._diaryEvents.concat(events);
+		if (this._diaryEvents.length === 0) {
+			this._diaryEvents.push(...events);
+		}
+
+		// = this._diaryEvents.concat(events);
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 
+	/**
+	 * 
+	 * @param user 
+	 * @param events 
+	 */
 	public addInactiveEvents(user: SurveyRespondentUser, events: TravelDiaryEvent[]): void {
+		if (this.userTravelDiaries[user.id].length === 0) {
+			this.userTravelDiaries[user.id].push(...events);
+		}
 
-		this.userTravelDiaries[user.id] = this.userTravelDiaries[user.id].concat(events);
-
-		this._inactiveDiaryEvents = this._inactiveDiaryEvents.concat(events);
-		this.inactiveDiaryEvents$.next(this._inactiveDiaryEvents);
+		this.inactiveDiaryEvents$.next(this.userTravelDiaries[user.id]);
 	}
 
 	/**
@@ -635,6 +661,9 @@ export class TravelDiaryService {
 		let events = this._splitEvent(event);
 		for (let splitEvent of events) {
 			this._edtior.deleteEvent(splitEvent, this.userTravelDiaries[splitEvent.users[0].id]);
+			if (splitEvent.users[0].id !== this.activeUser.id) {
+				this.inactiveDiaryEvents$.next(this.userTravelDiaries[splitEvent.users[0].id]);
+			}
 		}
 
 		this.diaryEvents$.next(this._diaryEvents);

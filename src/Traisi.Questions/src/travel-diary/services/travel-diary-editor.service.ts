@@ -238,6 +238,11 @@ export class TravelDiaryEditor {
 				events.push(insertedEvent);
 				events.push(returnEvent);
 			}
+			else {
+				// no overlap (case where other user has diferent condition than primary user)
+				event.isInserted = false;
+				return this.insertEvent(events,event);
+			}
 		}
 		events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
 		this.reAlignTimeBoundaries([].concat(u), events);

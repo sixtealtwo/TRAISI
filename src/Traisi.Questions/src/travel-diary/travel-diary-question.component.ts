@@ -29,7 +29,13 @@ import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-c
 import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-dialog.component';
 import { DayViewSchedulerComponent } from './components/day-view-scheduler.component';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { colors, DialogMode, TimelineLineResponseDisplayData, SurveyRespondentUser } from './models/consts';
+import {
+	colors,
+	DialogMode,
+	TimelineLineResponseDisplayData,
+	SurveyRespondentUser,
+	TravelDiaryEvent,
+} from './models/consts';
 import { TravelDiaryEditor } from './services/travel-diary-editor.service';
 import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
 import { TravelDiaryTourService } from './services/travel-diary-tour.service';
@@ -129,6 +135,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.initialize();
 		this._travelDiaryService.diaryEvents$.subscribe(this.eventsUpdated);
 		this._travelDiaryService.activeUsers.subscribe(this.usersUpdated);
+		this._travelDiaryService.inactiveDiaryEvents$.subscribe(this.inactiveEventsUpdated);
 
 		this._travelDiaryService.isLoaded.subscribe((v) => {
 			if (v && this._respondent.id === this._primaryRespondent.id) {
@@ -143,6 +150,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public eventsUpdated = (events: CalendarEvent[]): void => {
 		let isValid = this._travelDiaryService.isTravelDiaryValid;
 		this._isValid = isValid;
+
 		if (isValid) {
 			this.saveTravelDiary();
 		}
@@ -151,19 +159,46 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		} else {
 			this.validationState.emit(ResponseValidationState.INVALID);
 		}
-		//if (this.scheduleComponent) {
-		//	this.scheduleComponent.refresh.next();
-		//	}
 	};
 
+	/**
+	 *
+	 * @param events
+	 */
+	public inactiveEventsUpdated = (events: TravelDiaryEvent[]): void => {
+		console.log('got inactive events update');
+		console.log(events);
+		if (events.length > 0) {
+			let respondent = events[0].meta.model.users[0];
+			this.saveInactiveTravelDiary(respondent);
+		}
+	};
+
+	/**
+	 * Saves the travel diary for all active respondents
+	 */
 	public saveTravelDiary(): void {
 		if (this._travelDiaryService.isLoaded.value) {
-			for (let r of this._travelDiaryService.respondents) {
+			for (let r of this._travelDiaryService.activeRespondents) {
 				this.responseWithRespondent.emit({
 					respondent: r,
 					response: this._travelDiaryService.getTimelineResponseDataForRespondent(r),
 				});
 			}
+		}
+	}
+
+	/**
+	 * Saves the inactive
+	 * @param respondent
+	 */
+	public saveInactiveTravelDiary(respondent: SurveyRespondentUser): void {
+		if (this._travelDiaryService.isLoaded.value) {
+			let response = this._travelDiaryService.getTimelineResponseDataForRespondent(respondent);
+			this.responseWithRespondent.emit({
+				respondent: respondent,
+				response: response,
+			});
 		}
 	}
 
@@ -191,6 +226,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public openModal(template: TemplateRef<any>): void {
-		this.modalRef = this.modalService.show(template, {class:'modal-dialog-centered'});
+		this.modalRef = this.modalService.show(template, { class: 'modal-dialog-centered' });
 	}
 }

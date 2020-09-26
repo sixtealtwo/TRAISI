@@ -119,14 +119,25 @@ export class QuestionInstanceState {
 		respondent: SurveyRespondent;
 		response: ResponseData<ResponseTypes>[];
 	}): void => {
-		this._responseService
-			.saveResponse(
-				this._questionModel,
-				response.respondent,
-				this._repeatIndex,
-				Array.isArray(response.response) ? response.response : [response.response]
-			)
-			.subscribe(this.onResponseSaved);
+		if (this.respondent.id === response.respondent.id) {
+			this._responseService
+				.saveResponse(
+					this._questionModel,
+					response.respondent,
+					this._repeatIndex,
+					Array.isArray(response.response) ? response.response : [response.response]
+				)
+				.subscribe(this.onResponseSaved);
+		} else {
+			this._responseService
+				.saveResponse(
+					this._questionModel,
+					response.respondent,
+					this._repeatIndex,
+					Array.isArray(response.response) ? response.response : [response.response]
+				)
+				.subscribe();
+		}
 	};
 
 	/**
