@@ -144,8 +144,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.isLoaded.subscribe((v) => {
 
 			if (v && this._respondent.id === this._primaryRespondent.id) {
-
-				this.startTour();
+				// console.log(this.isTravelDiaryCollectionDisabled);
+				setTimeout( () => this.startTour());
 			}
 		});
 	}
