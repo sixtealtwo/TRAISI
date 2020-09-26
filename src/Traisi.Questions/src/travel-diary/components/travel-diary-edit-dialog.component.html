@@ -48,7 +48,9 @@
 					</div>
 					<div class="form-group row" *ngIf="!isFirstEventInDay">
 						<div class="col-12">
-							<label for="mode" class="col-form-label">Travel mode for the trip</label>
+							<label for="mode" class="col-form-label"
+								>{{ activeRespondentName }}'s travel mode for the trip</label
+							>
 							<ng-select
 								appearance="outline"
 								#purposeSelect

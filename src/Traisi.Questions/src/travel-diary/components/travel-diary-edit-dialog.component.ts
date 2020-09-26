@@ -96,6 +96,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		return this._surveyAccessTime;
 	}
 
+	public get activeRespondentName(): string {
+		return this._respondent.name;
+	}
+
 	/**
 	 *Creates an instance of TravelDiaryEditDialogComponent.
 	 * @param {BsModalService} _modalService
