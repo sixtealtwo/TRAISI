@@ -237,11 +237,10 @@ export class TravelDiaryEditor {
 				insertedEvent.meta.model.isValid = true;
 				events.push(insertedEvent);
 				events.push(returnEvent);
-			}
-			else {
+			} else {
 				// no overlap (case where other user has diferent condition than primary user)
 				event.isInserted = false;
-				return this.insertEvent(events,event);
+				return this.insertEvent(events, event);
 			}
 		}
 		events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
@@ -317,12 +316,18 @@ export class TravelDiaryEditor {
 		responses: TimelineResponseData[],
 		events: TravelDiaryEvent[]
 	) {
-		for (let response of responses) {
+		for(let i = 0 ; i < responses.length; i++ ) {
+			let response = responses[i];
 			let event = this.createBaseEvent(respondent, response.name, response.purpose);
 			event.meta.model = response;
 			event.meta.model.timeA = new Date(response.timeA);
 			event.meta.model.users = [respondent];
-			event.meta.model.isValid = true;
+			if (!event.meta.model.mode && (response.purpose.toLocaleLowerCase() !== 'home' && i > 0)) {
+				event.meta.model.isValid = false;
+			} else {
+				event.meta.model.isValid = true;
+			}
+
 			event.meta.model.displayId = this.generateId();
 			events.push(event);
 			if (responses.length === 1 && responses[0].purpose.toLowerCase() === 'home') {
@@ -353,7 +358,6 @@ export class TravelDiaryEditor {
 			}
 		} else {
 		}
-
 
 		this.reAlignTimeBoundaries(update.users, events, update);
 		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeA);

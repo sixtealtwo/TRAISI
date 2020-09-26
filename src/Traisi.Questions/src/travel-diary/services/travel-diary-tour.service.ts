@@ -50,15 +50,12 @@ export class TravelDiaryTourService {
 	public startTour(): void {
         this._popover.toggle(true);
 		this._tour.start();
-		console.log(this._tour);
 	}
 
 	public onBeforeChange = () => {
-		console.log(this);
 		if (this._tour._currentStep === 3) {
             this._popover.show();
             // this._popover.toggle(true);
-            console.log('showing popover');
 		}
 	};
 }

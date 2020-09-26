@@ -139,7 +139,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 		this._travelDiaryService.isLoaded.subscribe((v) => {
 			if (v && this._respondent.id === this._primaryRespondent.id) {
-				console.log(this);
 				this.startTour();
 			}
 		});
@@ -166,8 +165,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	 * @param events
 	 */
 	public inactiveEventsUpdated = (events: TravelDiaryEvent[]): void => {
-		console.log('got inactive events update');
-		console.log(events);
 		if (events.length > 0) {
 			let respondent = events[0].meta.model.users[0];
 			this.saveInactiveTravelDiary(respondent);
