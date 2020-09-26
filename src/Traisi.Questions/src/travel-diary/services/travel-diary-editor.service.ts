@@ -112,10 +112,13 @@ export class TravelDiaryEditor {
 		workEvent.meta.model.timeB = new Date(
 			new Date(this._surveyAccessTime).setHours(hasSchoolTrip ? 12 : 17, 0, 0, 0)
 		);
-		workEvent.meta.model.address = workLocation.address;
-		workEvent.meta.model.latitude = workLocation.latitude;
-		workEvent.meta.model.longitude = workLocation.longitude;
-		workEvent.meta.model.order = 1;
+
+		if (workLocation) {
+			workEvent.meta.model.address = workLocation.address;
+			workEvent.meta.model.latitude = workLocation.latitude;
+			workEvent.meta.model.longitude = workLocation.longitude;
+			workEvent.meta.model.order = 1;
+		}
 		return workEvent;
 	}
 
@@ -316,13 +319,13 @@ export class TravelDiaryEditor {
 		responses: TimelineResponseData[],
 		events: TravelDiaryEvent[]
 	) {
-		for(let i = 0 ; i < responses.length; i++ ) {
+		for (let i = 0; i < responses.length; i++) {
 			let response = responses[i];
 			let event = this.createBaseEvent(respondent, response.name, response.purpose);
 			event.meta.model = response;
 			event.meta.model.timeA = new Date(response.timeA);
 			event.meta.model.users = [respondent];
-			if (!event.meta.model.mode && (i > 0)) {
+			if (!event.meta.model.mode && i > 0) {
 				event.meta.model.isValid = false;
 			} else {
 				event.meta.model.isValid = true;

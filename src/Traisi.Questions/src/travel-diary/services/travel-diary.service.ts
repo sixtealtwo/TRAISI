@@ -79,6 +79,8 @@ export class TravelDiaryService {
 
 	public purposeMap: { [id: string]: TravelMode } = {};
 
+	public isActiveUserDisabled: boolean = false;
+
 	public get viewDate(): Date {
 		return this._surveyAccessTime;
 	}
@@ -514,6 +516,9 @@ export class TravelDiaryService {
 		}
 		for (let r of toRemove) {
 			this._removeRespondent(r);
+			if (r.id === this.activeUser.id) {
+				this.isActiveUserDisabled = true;
+			}
 		}
 		this.respondents = this.respondents;
 	}
@@ -641,9 +646,9 @@ export class TravelDiaryService {
 	}
 
 	/**
-	 * 
-	 * @param user 
-	 * @param events 
+	 *
+	 * @param user
+	 * @param events
 	 */
 	public addInactiveEvents(user: SurveyRespondentUser, events: TravelDiaryEvent[]): void {
 		if (this.userTravelDiaries[user.id].length === 0) {

@@ -3,6 +3,7 @@
 	[style.height.px]="containerHeight - 30"
 	*ngIf="isComponentLoaded | async"
 	id="travelDiaryQuestionContainer"
+
 >
 	<traisi-travel-dairy-day-view-scheduler
 		[viewDate]="viewDate"
@@ -12,13 +13,22 @@
 		[hourSegments]="1"
 		[refresh]="events$"
 		[users]="users | async"
+		*ngIf="!isTravelDiaryCollectionDisabled"
 		#schedule
 		(eventClicked)="eventClicked($event)"
 	>
 	</traisi-travel-dairy-day-view-scheduler>
+
+	<div class="inactive-user-message" *ngIf="isTravelDiaryCollectionDisabled">
+		<div class="alert alert-primary" role="alert">
+			<p>No travel information will be used for this respondent as they do not fulfill the minimum age requirements for data collection.</p>
+			<p>You may press next to continue the survey.</p>
+		  </div>
+	
+	</div>
 </div>
 
-<div class="add-event-overlay">
+<div class="add-event-overlay" *ngIf="!isTravelDiaryCollectionDisabled">
 	<span
 		class="btn-group add-event-button"
 		dropdown

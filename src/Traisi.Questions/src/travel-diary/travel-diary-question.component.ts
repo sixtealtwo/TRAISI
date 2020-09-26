@@ -104,6 +104,10 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		return this._travelDiaryService.viewDate;
 	}
 
+	public get isTravelDiaryCollectionDisabled(): boolean {
+		return this._travelDiaryService.isActiveUserDisabled;
+	}
+
 	public newEvent(): void {
 		this.entryDialog.show(DialogMode.New);
 	}
@@ -147,16 +151,21 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
 
 	public eventsUpdated = (events: CalendarEvent[]): void => {
-		let isValid = this._travelDiaryService.isTravelDiaryValid;
-		this._isValid = isValid;
+		if (!this._travelDiaryService.isActiveUserDisabled) {
+			let isValid = this._travelDiaryService.isTravelDiaryValid;
+			this._isValid = isValid;
 
-		if (isValid) {
-			this.saveTravelDiary();
-		}
-		if (this._travelDiaryService.isLoaded.value && isValid) {
-			this.validationState.emit(ResponseValidationState.VALID);
+			if (isValid) {
+				this.saveTravelDiary();
+			}
+			if (this._travelDiaryService.isLoaded.value && isValid) {
+				this.validationState.emit(ResponseValidationState.VALID);
+			} else {
+				this.validationState.emit(ResponseValidationState.INVALID);
+			}
 		} else {
-			this.validationState.emit(ResponseValidationState.INVALID);
+			this.validationState.emit(ResponseValidationState.VALID);
+			console.log('in events updated and user disabled');
 		}
 	};
 
