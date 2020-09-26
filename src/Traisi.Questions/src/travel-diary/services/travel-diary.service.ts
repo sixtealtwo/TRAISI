@@ -303,13 +303,13 @@ export class TravelDiaryService {
 	 */
 	public resetTravelDiary(): void {
 		this._diaryEvents.splice(0, this._diaryEvents.length);
-		for (let id in this.userTravelDiaries) {
+		/* for (let id in this.userTravelDiaries) {
 			let idx = Number(id);
 			if (idx !== this.activeUser.id) {
 				this.userTravelDiaries[id].splice(0, this.userTravelDiaries[id].length);
 			}
-		}
-		this.loadPriorResponseData(this.respondents).subscribe();
+		} */
+		this.loadPriorResponseData([this.activeUser]).subscribe();
 	}
 
 	public clearTravelDiary(): void {

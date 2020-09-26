@@ -322,7 +322,7 @@ export class TravelDiaryEditor {
 			event.meta.model = response;
 			event.meta.model.timeA = new Date(response.timeA);
 			event.meta.model.users = [respondent];
-			if (!event.meta.model.mode && (response.purpose.toLocaleLowerCase() !== 'home' && i > 0)) {
+			if (!event.meta.model.mode && (i > 0)) {
 				event.meta.model.isValid = false;
 			} else {
 				event.meta.model.isValid = true;
