@@ -459,6 +459,7 @@ export class TravelDiaryService {
 	): void {
 		let toRemove = [];
 		let added = [];
+
 		for (let r of respondents) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
 
@@ -516,10 +517,11 @@ export class TravelDiaryService {
 		}
 		for (let r of toRemove) {
 			this._removeRespondent(r);
-			if (r.id === this.activeUser.id) {
+			if (r.id === this.activeUser.id && this.userTravelDiaries[this.activeUser.id].length === 0) {
 				this.isActiveUserDisabled = true;
 			}
 		}
+
 		this.respondents = this.respondents;
 	}
 
