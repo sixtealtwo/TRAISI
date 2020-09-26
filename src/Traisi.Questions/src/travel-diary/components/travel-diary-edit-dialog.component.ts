@@ -182,6 +182,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this.isRequiresEndTime = false;
 			}
 		}
+		
 		if (insertedEvent) {
 			this.insertedIntoEvent = insertedEvent;
 			this.isInsertedDepartureTime = true;
@@ -285,7 +286,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		}
 
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;
-
+		this.isRequiresEndTime = false;
 		this.searchInFocus = false;
 		this.modal.show();
 		if (!this._isMapLoaded) {
