@@ -33,7 +33,8 @@ namespace Traisi.Controllers.SurveyViewer
 
         private IRespondentGroupService _respondentGroupService;
 
-        private UserManager<TraisiUser> _userManager;
+        private UserManager<ApplicationUser> _userManager;
+
 
         private IUnitOfWork _unitOfWork;
 
@@ -50,7 +51,7 @@ namespace Traisi.Controllers.SurveyViewer
             IRespondentGroupService respondentGroupService,
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            UserManager<TraisiUser> userManager)
+            UserManager<ApplicationUser> userManager)
         {
             this._respondentService = respondentService;
             this._userManager = userManager;

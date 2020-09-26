@@ -286,6 +286,8 @@ namespace Traisi.Services
                     }
                     var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
                     primaryRespondent = res.respondent;
+                    res.user.PrimaryRespondent = primaryRespondent;
+                    // existingUser.PrimaryRespondent = primaryRespondent;
                 }
                 else
                 {

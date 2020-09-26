@@ -12,6 +12,8 @@ import {
 	ViewContainerRef,
 	AfterContentInit,
 	AfterViewInit,
+	ViewChildren,
+	QueryList, ChangeDetectorRef
 } from '@angular/core';
 import { Header1Component } from './header1/header1.component';
 import { MainSurveyAccess1Component } from './main-survey-access1/main-survey-access1.component';
@@ -107,7 +109,7 @@ export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, Af
 
 	public interval: any;
 
-	constructor(private _componentFactoryResolver: ComponentFactoryResolver) {}
+	constructor(private _componentFactoryResolver: ComponentFactoryResolver,private _cd: ChangeDetectorRef) {}
 
 	public ngAfterViewInit(): void {
 		try {
@@ -118,7 +120,6 @@ export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, Af
 					this.headerTemplate.clear();
 					this.headerHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType.startsWith('mainSurveyAccess')) {
-					console.log('in here');
 					this.surveyAccessHTML = sectionInfo.html;
 					this.surveyAccessComponent = this.getComponent(sectionInfo.sectionType, this.surveyAccessTemplate);
 					this.accessComponent = <any>this.surveyAccessComponent;
@@ -127,10 +128,11 @@ export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, Af
 					this.footerHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType === 'termsFooter') {
 					this.termsFooterHTML = sectionInfo.html;
-					console.log(this.termsFooterHTML);
 				} else {
-					this.componentList.push(this.getComponent(sectionInfo.sectionType));
-					this.componentHTML.push(sectionInfo.html);
+
+					let component = this.getComponent(sectionInfo.sectionType, this.mainTemplate, sectionInfo.html);
+					// this.componentList.push(this.getComponent(sectionInfo.sectionType));
+					// this.componentHTML.push(sectionInfo.html);
 				}
 			});
 		} catch (e) {
@@ -146,10 +148,14 @@ export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, Af
 	}
 	public ngAfterContentInit(): void {}
 
+	public ngAfterContentChecked(): void {
+		this._cd.detectChanges();
+	}
+
 	public ngOnInit(): void {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
-			console.log(pageData);
+
 			(<any[]>pageData).forEach((sectionInfo) => {
 				if (sectionInfo.sectionType.startsWith('header')) {
 					this.headerHTML = sectionInfo.html;
@@ -160,17 +166,17 @@ export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, Af
 				} else if (sectionInfo.sectionType === 'termsFooter') {
 					this.termsFooterHTML = sectionInfo.html;
 				} else {
-					this.componentList.push(this.getComponent(sectionInfo.sectionType));
+					// this.componentList.push(this.getComponent(sectionInfo.sectionType));
 					this.componentHTML.push(sectionInfo.html);
 				}
 			});
 		} catch (e) {
 			if (this.pageType === 'welcome') {
 			} else if (this.pageType === 'privacyPolicy') {
-				this.componentList.push(this.getComponent('textBlock1'));
+				// this.componentList.push(this.getComponent('textBlock1'));
 				this.componentHTML.push('');
 			} else if (this.pageType === 'thankYou') {
-				this.componentList.push(this.getComponent('textBlock1'));
+				// this.componentList.push(this.getComponent('textBlock1'));
 				this.componentHTML.push('');
 			}
 		}
@@ -225,7 +231,7 @@ export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, Af
 		this.termsAccepted.emit();
 	}
 
-	private getComponent(componentName: string, ref: ViewContainerRef = undefined): any {
+	private getComponent(componentName: string, ref?: ViewContainerRef , pageHTML?: string): any {
 		let factory;
 		let component: ComponentRef<any>;
 		switch (componentName) {
@@ -241,11 +247,13 @@ export class SpecialPageBuilderComponent implements OnInit, AfterContentInit, Af
 				component = ref.createComponent<MainSurveyAccess1Component>(factory, undefined, undefined);
 				component.instance['pageHTML'] = this.surveyAccessHTML;
 				component.instance['pageThemeInfo'] = this.pageThemeInfo;
-				console.log(component);
 				return component;
 				break;
 			case 'textBlock1':
-				return TextBlock1Component;
+				factory = this._componentFactoryResolver.resolveComponentFactory(TextBlock1Component);
+				component = ref.createComponent<TextBlock1Component>(factory, undefined, undefined);
+				component.instance['pageHTML'] = pageHTML;
+				return component;
 				break;
 			case 'footer1':
 				return Footer1Component;

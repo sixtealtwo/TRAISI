@@ -10,12 +10,12 @@
 	</div>
 	<!--<app-question-viewer [pageThemeInfo]="pageThemeInfo" [allPages]="allPages" *ngIf="pageType == 'questionViewer'"></app-question-viewer>-->
 	<div *ngIf="pageType != 'questionViewer'" id="special-page-content">
-		<div *ngFor="let component of componentList; index as i">
+		<!-- <div *ngFor="let component of componentList; index as i"> -->
 			<div [style.background-color]="pageThemeInfo.sectionBackgroundColour[pageType][i]" [style.color]="bestSectionTextColour[i]">
 				<ng-template #mainTemplate></ng-template>
 				<!-- <ndc-dynamic [ndcDynamicComponent]="component" [ndcDynamicInputs]="getComponentInputs(i)"></ndc-dynamic> -->
 			</div>
-		</div>
+		<!-- </div> -->
 	</div>
 	<app-privacy-confirmation (termsAccepted)="acceptTerms()" [pageThemeInfo]="pageThemeInfo" [(pageHTML)]="termsFooterHTML" *ngIf="pageType == 'privacyPolicy'"></app-privacy-confirmation>
 	<div class="footer fixed-bottom" id="special-page-footer"  *ngIf="pageType != 'privacyPolicy'">
