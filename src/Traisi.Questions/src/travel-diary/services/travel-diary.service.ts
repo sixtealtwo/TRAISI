@@ -27,6 +27,7 @@ import { get } from 'http';
 import { NumberQuestionConfiguration } from 'general/viewer/number-question/number-question.configuration';
 import { TravelDiaryEditor } from './travel-diary-editor.service';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+import { eventNames } from 'process';
 
 @Injectable()
 export class TravelDiaryService {
@@ -34,7 +35,7 @@ export class TravelDiaryService {
 
 	public inactiveDiaryEvents$: BehaviorSubject<TravelDiaryEvent[]>;
 
-	public inactiveUserDiaries: { [id: number]: TravelDiaryEvent[] };
+	public userTravelDiaries: { [id: number]: TravelDiaryEvent[] };
 
 	public configuration: TravelDiaryConfiguration = {
 		purpose: [],
@@ -97,8 +98,7 @@ export class TravelDiaryService {
 		this.diaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
 		this.inactiveDiaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
 		this.isLoaded.next(false);
-		this.inactiveUserDiaries = {};
-		console.log(this._respondent);
+		this.userTravelDiaries = {};
 	}
 
 	/**
@@ -137,19 +137,23 @@ export class TravelDiaryService {
 				}
 				this.userMap[respondentUser.id] = respondentUser;
 				this.respondents.push(respondentUser);
+				this.userTravelDiaries[respondentUser.id] = [];
 			}
+			this.userTravelDiaries[this.activeUser.id] = this._diaryEvents;
 			this.loadSavedResponses().subscribe({
 				next: (v: SurveyResponseViewModel[]) => {
 					for (let result of v) {
-						if (this.activeRespondents.some((x) => result.respondent.id === x.id)) {
-							this._edtior.createDiaryFromResponseData(
-								this.userMap[result.respondent.id],
-								result.responseValues as TimelineResponseData[],
-								this._diaryEvents
-							);
-						}
+						this._edtior.createDiaryFromResponseData(
+							this.userMap[result.respondent.id],
+							result.responseValues as TimelineResponseData[],
+							this.userTravelDiaries[result.respondent.id]
+						);
+						this._edtior.reAlignTimeBoundaries(
+							[this.userMap[result.respondent.id]],
+							this.userTravelDiaries[result.respondent.id]
+						);
 					}
-					this._edtior.reAlignTimeBoundaries(this.respondents, this._diaryEvents);
+
 					// find respondents with 0 events
 					let respondentsToLoad = [];
 					for (let r of this.respondents) {
@@ -328,6 +332,8 @@ export class TravelDiaryService {
 	 * Loads prior response data for questions for initializing timeline
 	 */
 	private loadPriorResponseData(respondents: SurveyRespondentUser[]): Observable<void> {
+		console.log('loading prior response data for ');
+		console.log(respondents);
 		return new Observable((obs) => {
 			let questionIds: SurveyViewQuestion[] = [];
 			let homeAllDayId = 0;
@@ -490,7 +496,7 @@ export class TravelDiaryService {
 			if (this.activeRespondents.some((x) => x.id === r.id)) {
 				this.addEvents(events.sort((x1, x2) => x1.start.getTime() - x2.start.getTime()));
 			} else {
-				this.addInactiveRespondentEvents(events.sort((x1, x2) => x1.start.getTime() - x2.start.getTime()));
+				this.addInactiveEvents(r,events.sort((x1, x2) => x1.start.getTime() - x2.start.getTime()));
 			}
 		}
 		// let toRemove = [];
@@ -567,19 +573,39 @@ export class TravelDiaryService {
 	 * @param {LocationResponseData} event
 	 */
 	public newEvent(event: TimelineLineResponseDisplayData): void {
-		this._edtior.insertEvent(this._diaryEvents, event, this.activeRespondents[0]);
+		let events = this._splitEvent(event);
+		for (let splitEvent of events) {
+			this._edtior.insertEvent(this.userTravelDiaries[splitEvent.users[0].id], splitEvent);
+		}
+		// update the active user
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 
-	public checkHom;
+	/**
+	 * Splits the event in multiple events, one for each user
+	 * @param event
+	 */
+	private _splitEvent(event: TimelineLineResponseDisplayData): TimelineLineResponseDisplayData[] {
+		let events: TimelineLineResponseDisplayData[] = [];
+		for (let user of event.users) {
+			let splitEvent = Object.assign({}, event);
+			splitEvent.users = [user];
+			events.push(splitEvent);
+		}
+		return events;
+	}
 
 	/**
 	 *
 	 * @param event
 	 */
 	public updateEvent(event: TimelineLineResponseDisplayData): void {
-		// this._diaryEvents = this._diaryEvents.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
-		this._edtior.updateEvent(event, this._diaryEvents);
+		// update for the main respondent
+		let events = this._splitEvent(event);
+		for (let splitEvent of events) {
+			this._edtior.updateEvent(splitEvent, this.userTravelDiaries[splitEvent.users[0].id]);
+		}
+		// update events for active user
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 
@@ -593,17 +619,24 @@ export class TravelDiaryService {
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 
-	public addInactiveRespondentEvents(events: TravelDiaryEvent[]): void {
+	public addInactiveEvents(user: SurveyRespondentUser, events: TravelDiaryEvent[]): void {
+
+		this.userTravelDiaries[user.id] = this.userTravelDiaries[user.id].concat(events);
+
 		this._inactiveDiaryEvents = this._inactiveDiaryEvents.concat(events);
 		this.inactiveDiaryEvents$.next(this._inactiveDiaryEvents);
 	}
 
 	/**
-	 *
+	 * Deletes the event from all applicable travel diaries
 	 * @param event
 	 */
 	public deleteEvent(event: TimelineLineResponseDisplayData): void {
-		this._edtior.deleteEvent(event, this._diaryEvents);
+		let events = this._splitEvent(event);
+		for (let splitEvent of events) {
+			this._edtior.deleteEvent(splitEvent, this.userTravelDiaries[splitEvent.users[0].id]);
+		}
+
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 }

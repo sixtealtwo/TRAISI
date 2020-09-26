@@ -152,14 +152,10 @@ export class TravelDiaryEditor {
 	 * The source events are modified in place.
 	 * @param eventData
 	 */
-	public insertEvent(
-		events: TravelDiaryEvent[],
-		event: TimelineLineResponseDisplayData,
-		activeUser: SurveyRespondentUser
-	): TravelDiaryEvent[] {
+	public insertEvent(events: TravelDiaryEvent[], event: TimelineLineResponseDisplayData): TravelDiaryEvent[] {
 		let displayId = this.generateId();
 		event.displayId = displayId;
-		let u = activeUser;
+		let u = event.users[0];
 		if (!event.isInserted) {
 			let startTime = new Date(event.timeA);
 			startTime.setHours(startTime.getHours() + TIME_DELTA);

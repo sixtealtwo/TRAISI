@@ -110,7 +110,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public eventSaved(event: TimelineLineResponseDisplayData) {
-		console.log(event);
 		this._travelDiaryService.updateEvent(event);
 	}
 

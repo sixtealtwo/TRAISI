@@ -255,6 +255,24 @@ namespace Traisi.Services
                         primaryRespondent.SurveyAccessDateTime = DateTime.Now;
                     }
                 }
+                else
+                {
+                    var existingUser = await this.GetSurveyUser(survey, shortcode);
+                    if (existingUser == null)
+                    {
+                        var shortcodeRef = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync(survey, shortcode);
+                        if (shortcodeRef == null)
+                        {
+                            return null;
+                        }
+                        var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
+                        primaryRespondent = res.respondent;
+                    }
+                    else
+                    {
+                        primaryRespondent = existingUser.PrimaryRespondent;
+                    }
+                }
             }
             else
             {
