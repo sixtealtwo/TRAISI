@@ -170,7 +170,7 @@ export class TravelDiaryEditor {
 					purpose: event.purpose['label'],
 					address: event.address,
 					user: u,
-					mode: event.mode['label'],
+					mode: event.mode ? event.mode['label'] : undefined,
 					model: event,
 					id: displayId,
 				},
@@ -353,6 +353,7 @@ export class TravelDiaryEditor {
 			}
 		} else {
 		}
+
 
 		this.reAlignTimeBoundaries(update.users, events, update);
 		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeA);
