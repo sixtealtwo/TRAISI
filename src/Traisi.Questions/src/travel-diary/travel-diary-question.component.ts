@@ -165,7 +165,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 			}
 		} else {
 			this.validationState.emit(ResponseValidationState.VALID);
-			console.log('in events updated and user disabled');
 		}
 	};
 
