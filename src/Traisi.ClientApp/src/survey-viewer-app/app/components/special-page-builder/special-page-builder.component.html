@@ -11,7 +11,7 @@
 	<!--<app-question-viewer [pageThemeInfo]="pageThemeInfo" [allPages]="allPages" *ngIf="pageType == 'questionViewer'"></app-question-viewer>-->
 	<div *ngIf="pageType != 'questionViewer'" id="special-page-content">
 		<!-- <div *ngFor="let component of componentList; index as i"> -->
-			<div [style.background-color]="pageThemeInfo.sectionBackgroundColour[pageType][i]" [style.color]="bestSectionTextColour[i]">
+			<div [style.background-color]="pageThemeInfo.sectionBackgroundColour[pageType][0]" [style.color]="bestSectionTextColour[0]">
 				<ng-template #mainTemplate></ng-template>
 				<!-- <ndc-dynamic [ndcDynamicComponent]="component" [ndcDynamicInputs]="getComponentInputs(i)"></ndc-dynamic> -->
 			</div>
