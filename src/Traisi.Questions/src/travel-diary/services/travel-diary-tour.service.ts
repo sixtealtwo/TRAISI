@@ -8,6 +8,7 @@ import { PopoverDirective } from 'ngx-bootstrap/popover';
 export class TravelDiaryTourService {
 	private _tour = introJs();
 	private _popover: BsDropdownDirective;
+	private _lastEvent;
 	public constructor(@Inject(DOCUMENT) private _document: Document) {
 		console.log(this._document);
 	}
@@ -15,7 +16,7 @@ export class TravelDiaryTourService {
 	public initialize(popover: BsDropdownDirective): void {
 		this._popover = popover;
 		let events = document.querySelectorAll('.cal-event-container');
-		let lastEvent = events[events.length - 1];
+		this._lastEvent = events[events.length - 1];
 		this._tour.onbeforechange(this.onBeforeChange);
 		this._tour.setOptions({
 			steps: [
@@ -39,7 +40,7 @@ export class TravelDiaryTourService {
                             <p>Trips with a dashed orange border means that the trip is missing some information.</p>`,
 				},
 				{
-					element: lastEvent,
+					element: this._lastEvent,
 					intro: `<h3>Travel Diary - Don't miss any information</h3>
                             <p>The timeline scrolls too - make sure you don't miss the last event of the day when filling in your information.</p>`,
 				},
@@ -48,14 +49,15 @@ export class TravelDiaryTourService {
 	}
 
 	public startTour(): void {
-        this._popover.toggle(true);
+		this._popover.toggle(true);
 		this._tour.start();
 	}
 
 	public onBeforeChange = () => {
 		if (this._tour._currentStep === 3) {
-            this._popover.show();
-            // this._popover.toggle(true);
+			this._popover.show();
+			// this._popover.toggle(true);
+			this._lastEvent.scrollIntoView();
 		}
 	};
 }
