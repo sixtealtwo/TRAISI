@@ -1,77 +1,74 @@
-<div
-	class="travel-diary-question"
-	[style.height.px]="containerHeight - 30"
-	*ngIf="isComponentLoaded | async"
-	id="travelDiaryQuestionContainer"
+<div id="travelDiaryQuestionContainer">
+	<div class="travel-diary-question" [style.height.px]="containerHeight - 30" *ngIf="isComponentLoaded | async">
+		<traisi-travel-dairy-day-view-scheduler
+			[viewDate]="viewDate"
+			[events]="events"
+			[dayStartHour]="0"
+			[dayEndHour]="24"
+			[hourSegments]="1"
+			[refresh]="events$"
+			[users]="users | async"
+			*ngIf="!isTravelDiaryCollectionDisabled"
+			#schedule
+			(eventClicked)="eventClicked($event)"
+		>
+		</traisi-travel-dairy-day-view-scheduler>
 
->
-	<traisi-travel-dairy-day-view-scheduler
-		[viewDate]="viewDate"
-		[events]="events"
-		[dayStartHour]="0"
-		[dayEndHour]="24"
-		[hourSegments]="1"
-		[refresh]="events$"
-		[users]="users | async"
-		*ngIf="!isTravelDiaryCollectionDisabled"
-		#schedule
-		(eventClicked)="eventClicked($event)"
-	>
-	</traisi-travel-dairy-day-view-scheduler>
+		<div class="inactive-user-message" *ngIf="isTravelDiaryCollectionDisabled">
+			<div class="alert alert-primary" role="alert">
+				<p>
+					No travel information will be used for this respondent as they do not fulfill the minimum age
+					requirements for data collection.
+				</p>
+				<p>You may press next to continue the survey.</p>
+			</div>
+		</div>
+	</div>
 
-	<div class="inactive-user-message" *ngIf="isTravelDiaryCollectionDisabled">
-		<div class="alert alert-primary" role="alert">
-			<p>No travel information will be used for this respondent as they do not fulfill the minimum age requirements for data collection.</p>
-			<p>You may press next to continue the survey.</p>
-		  </div>
-	
+	<div class="add-event-overlay" *ngIf="!isTravelDiaryCollectionDisabled">
+		<span
+			class="btn-group add-event-button"
+			dropdown
+			container="body"
+			placement="top right"
+			[dropup]="isDropup"
+			#dropdownToggle="bs-dropdown"
+		>
+			<button type="button" class="btn btn-primary" (click)="newEvent()">Add Trip</button>
+			<button
+				id="button-split"
+				type="button"
+				dropdownToggle
+				class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+				aria-controls="dropdown-split"
+			>
+				<span class="caret"></span>
+				<span class="sr-only">Split button</span>
+			</button>
+			<ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-split">
+				<li role="menuitem">
+					<a [routerLink]="" class="dropdown-item" (click)="resetEvents()">Reset travel diary</a>
+				</li>
+				<li role="menuitem">
+					<a [routerLink]="" class="dropdown-item" (click)="clearEvents()">Clear all trips</a>
+				</li>
+			</ul>
+		</span>
+
+		<a [routerLink]="" class="tour" (click)="startTour()"> <i class="fas fa-info-circle"></i>Tour </a>
+
+		<span
+			class="view-validation-errors"
+			[popover]="popTemplate"
+			triggers=""
+			#pop="bs-popover"
+			(click)="pop.toggle()"
+			*ngIf="!isTravelDiaryValid"
+		>
+			<i class="fas fa-exclamation-triangle warning-icon"></i>Invalid Information
+		</span>
 	</div>
 </div>
-
-<div class="add-event-overlay" *ngIf="!isTravelDiaryCollectionDisabled">
-	<span
-		class="btn-group add-event-button"
-		dropdown
-		container="body"
-		placement="top right"
-		[dropup]="isDropup"
-		#dropdownToggle="bs-dropdown"
-	>
-		<button type="button" class="btn btn-primary" (click)="newEvent()">Add Trip</button>
-		<button
-			id="button-split"
-			type="button"
-			dropdownToggle
-			class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-			aria-controls="dropdown-split"
-		>
-			<span class="caret"></span>
-			<span class="sr-only">Split button</span>
-		</button>
-		<ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-split">
-			<li role="menuitem">
-				<a [routerLink]="" class="dropdown-item" (click)="resetEvents()">Reset travel diary</a>
-			</li>
-			<li role="menuitem">
-				<a [routerLink]="" class="dropdown-item" (click)="clearEvents()">Clear all trips</a>
-			</li>
-		</ul>
-	</span>
-
-	<a [routerLink]="" class="tour" (click)="startTour()"> <i class="fas fa-info-circle"></i>Tour </a>
-
-	<span
-		class="view-validation-errors"
-		[popover]="popTemplate"
-		triggers=""
-		#pop="bs-popover"
-		(click)="pop.toggle()"
-		*ngIf="!isTravelDiaryValid"
-	>
-		<i class="fas fa-exclamation-triangle warning-icon"></i>Invalid Information
-	</span>
-</div>
-
 <traisi-travel-diary-edit-dialog
 	(eventDeleted)="eventDeleted($event)"
 	(newEventSaved)="newEntrySaved($event)"
