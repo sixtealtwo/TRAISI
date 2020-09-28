@@ -1,4 +1,4 @@
-<div bsModal #newEntryModal="bs-modal" class="modal fade">
+<div bsModal #newEntryModal="bs-modal" class="modal fade" [config]="{ignoreBackdropClick: true}">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -110,6 +110,7 @@
 									[(ngModel)]="model.timeA"
 									[noCalendar]="true"
 									[enableTime]="true"
+									[time24hr]="true"
 									[now]="defaultDate"
 									dateFormat="H:i"
 									aria-describedby="inputGroupPrepend2"
@@ -198,6 +199,7 @@
 									[noCalendar]="true"
 									[enableTime]="true"
 									[now]="defaultDate"
+									[time24hr]="true"
 									dateFormat="H:i"
 									aria-describedby="insertedEndTime"
 									[convertModelValue]="true"

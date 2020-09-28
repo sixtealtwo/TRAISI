@@ -1,10 +1,38 @@
 <div class="traisi-map-question map-container" [style.height.px]="containerHeight">
+	<div class="location-query">
 
-    <div class="address-overlay">
-        <span #addressOverlayText></span>
-    </div>
+        <div class="placeholder-overlay" *ngIf="addressInput===null">
+            <i class="fas fa-search"></i> <span class="placeholder-text">Type here to search for a location</span>
+        </div>
+		<ng-select
+			[typeahead]="addressInput$"
+			[loading]="addressesLoading"
+			[items]="addressResults$ | async"
+			bindLabel="formatted_address"
+			bindValue="formatted_address"
+			[trackByFn]="trackByFn"
+			[(ngModel)]="addressInput"
+			[clearable]="false"
+			(change)="addressChanged($event)"
+			placheholder="Please enter and address or name to search for a location"
+			typeToSearchText="Please enter the address or name to search for a location"
+			[minTermLength]="3"
+        >
+        
+			<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+				
+				<div class="location-name">
+					{{ item.formatted_address }}
+				</div>
+				<div class="location-fomratted-address">
+					{{ item.formatted_address }}
+				</div>
+			</ng-template>
+		</ng-select>
+	</div>
+	<div class="address-overlay">
+		<span #addressOverlayText></span>
+	</div>
 
-    <div class="mapbox-container" #mapContainer [style.height.px]="containerHeight">
-    
-    </div>
+	<div class="mapbox-container" #mapContainer [style.height.px]="containerHeight"></div>
 </div>

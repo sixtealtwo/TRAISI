@@ -27,14 +27,20 @@ namespace Traisi.Controllers
     {
         private readonly IGeoServiceProvider _geoService;
         private readonly RestClient _triplinx;
+
+        private readonly RestClient _googleGeocoding;
         private readonly IConfiguration _configuration;
         private readonly string TRIPLINX_API_KEY;
-
+        private readonly string GOOGLE_API_KEY;
         public GeoServiceController(IGeoServiceProvider geoService, IConfiguration configuration)
         {
             this._geoService = geoService;
             this._triplinx = new RestClient("https://api.triplinx.cityway.ca/api/journeyplanner/opt");
+            this._googleGeocoding = new RestClient("https://maps.googleapis.com/maps/api");
+
             this._configuration = configuration;
+            this.GOOGLE_API_KEY = configuration.GetValue<string>("GeoConfig:GoogleApiKey");
+            return;
 
         }
 
@@ -47,6 +53,21 @@ namespace Traisi.Controllers
             var address = await this._geoService.ReverseGeocodeAsync(lat, lng);
             GeocodeResult result = new GeocodeResult() { Latitude = lat, Longitude = lng, Address = address };
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("address-complete/")]
+        [ProducesResponseType(typeof(JObject), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AddressCompletion([FromQuery] string query)
+        {
+            var request = new RestRequest("place/textsearch/json", Method.GET);
+            request.AddParameter("key", this.GOOGLE_API_KEY);
+            request.AddParameter("query", query);
+            request.AddParameter("fields","address_component,adr_address,name,geometry,name");
+            request.AddParameter("region", "ca");
+
+            var response = await _googleGeocoding.ExecuteAsync(request);
+            return new OkObjectResult((JObject.Parse(response.Content)));
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ import { MapMouseEvent, Marker, LngLat } from 'mapbox-gl';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
-import { ReplaySubject, timer } from 'rxjs';
+import { concat, Observable, of, ReplaySubject, Subject, timer } from 'rxjs';
 import {
 	LocationResponseData,
 	OnVisibilityChanged,
@@ -22,7 +22,7 @@ import {
 	SurveyViewer,
 	QuestionConfigurationService,
 	TraisiValues,
-	Address,
+	Address
 } from 'traisi-question-sdk';
 import { GeoLocation } from './models/geo-location.model';
 import { MapEndpointService } from './services/mapservice.service';
@@ -30,9 +30,9 @@ import templateString from './map-question.component.html';
 import styleString from './map-question.component.scss';
 import * as mapboxgl from 'mapbox-gl';
 import markerPng from './marker.png';
+import { GeoServiceClient } from '../shared/geoservice-api-client.service';
 import { MapQuestionConfiguration } from './models/map-question-configuration.model';
-
-
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'traisi-map-question',
@@ -110,6 +110,14 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 	public loadGeocoder: boolean = true;
 
+	public addressResults$: Observable<any[]>;
+
+	public addressesLoading: boolean = false;
+
+	public addressInput$ = new Subject<string>();
+
+	public addressInput: any[] = null;
+
 	/**
 	 * Creates an instance of map question component.
 	 * @param mapEndpointService
@@ -120,6 +128,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		private mapEndpointService: MapEndpointService,
 		private _configurationService: QuestionConfigurationService,
 		private _element: ElementRef,
+		private _geoService: GeoServiceClient,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
 		@Inject(TraisiValues.Configuration) private _configuration: MapQuestionConfiguration,
 		@Inject('location.accesstoken') private _accessToken: string
@@ -154,6 +163,33 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 				this.purpose = this._configuration.purpose;
 			} catch {}
 		}
+
+		this._initializeAddressSearch();
+	}
+
+	private _initializeAddressSearch(): void {
+		this.addressResults$ = concat(
+			of([]), // default items
+			this.addressInput$.pipe(
+				distinctUntilChanged(),
+				tap(() => (this.addressesLoading = true)),
+				debounceTime(500),
+				switchMap((term) =>
+					this._geoService.addressCompletion(term).pipe(
+						catchError(() => of([])), // empty list on error
+						tap((x) => {
+							console.log(x);
+							this.addressesLoading = false;
+						}),
+						map((x) => x.results)
+					)
+				)
+			)
+		);
+	}
+
+	trackByFn(item: any) {
+		return item.formatted_address;
 	}
 
 	public traisiOnInit(): void {}
@@ -244,6 +280,31 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.saveLocation(lngLat);
 	}
 
+	public addressChanged(address: any) {
+		
+		this.flyToPosition([address.geometry.location.lng, address.geometry.location.lat]);
+		this.setMarkerLocation(new LngLat(address.geometry.location.lng, address.geometry.location.lat));
+
+	
+		let addressObj: Address;
+		addressObj = {
+			streetAddress :address.formatted_address
+		};
+
+		this.saveLocationNoReverseGeocode(new LngLat(address.geometry.location.lng, address.geometry.location.lat));
+	}
+	
+	private saveLocationNoReverseGeocode(lngLat: LngLat, address?: Address) {
+		let data: LocationResponseData = {
+			latitude: lngLat.lat,
+			longitude: lngLat.lng,
+			address: address,
+		};
+		this.saveResponse(data);
+		this.validationState.emit(ResponseValidationState.VALID);
+		this.surveyViewerService.updateNavigationState(true);
+	}
+
 	/**
 	 * Saves the passed location. The address will be resolved using the server's geocode service.
 	 * @private
@@ -253,7 +314,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.mapEndpointService.reverseGeocode(lngLat.lat, lngLat.lng).subscribe((result: GeoLocation) => {
 			let saveAddress = address === undefined ? result.address : address;
 			this.updateAddressInput(saveAddress);
-			console.log(saveAddress);
 			let data: LocationResponseData = {
 				latitude: lngLat.lat,
 				longitude: lngLat.lng,

@@ -48,6 +48,36 @@
         }
       }
     },
+    "/api/GeoService/address-complete": {
+      "get": {
+        "tags": [
+          "GeoService"
+        ],
+        "operationId": "GeoService_AddressCompletion",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GeoService/distancematrix": {
       "get": {
         "tags": [

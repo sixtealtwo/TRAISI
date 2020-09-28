@@ -12,7 +12,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule } from '@angular/forms';
 import { RouteSelectQuestionComponent } from './route-select-question.component';
-import { GeoServiceClient } from './geoservice-api-client.service';
+import { GeoServiceClient } from '../shared/geoservice-api-client.service';
 import { RouteDisplayComponent } from './components/route-display.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteDetailDialogComponent } from './components/route-detail-dialog.component';

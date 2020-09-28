@@ -13,7 +13,7 @@ import {
 
 import templateString from './route-select-question.component.html';
 import styleString from './route-select-question.component.scss';
-import { GeoServiceClient } from './geoservice-api-client.service';
+import { GeoServiceClient } from '../shared/geoservice-api-client.service';
 import { RootObject, Response, Trip } from './models/trip-route.model';
 import { RouteDetailDialogComponent } from './components/route-detail-dialog.component';
 

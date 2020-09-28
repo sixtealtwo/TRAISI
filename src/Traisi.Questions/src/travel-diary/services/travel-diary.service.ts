@@ -530,7 +530,7 @@ export class TravelDiaryService {
 	 */
 	public loadAddresses(): void {
 		this.addresses$ = <any>concat(
-			of([]), // default items
+			of(null), // default items
 			this.addressInput$.pipe(
 				distinctUntilChanged(),
 				debounceTime(500),
