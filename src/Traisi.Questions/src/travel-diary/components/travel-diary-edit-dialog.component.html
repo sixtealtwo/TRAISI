@@ -1,4 +1,4 @@
-<div bsModal #newEntryModal="bs-modal" class="modal fade" [config]="{ignoreBackdropClick: true}">
+<div bsModal #newEntryModal="bs-modal" class="modal fade" [config]="{ ignoreBackdropClick: true }">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -271,3 +271,13 @@
 		</div>
 	</div>
 </div>
+
+<ng-template #allDayHomeTemplate>
+	<div class="modal-header"><h4 class="modal-title pull-left">Confirm: Home all day activity</h4></div>
+
+	<div class="modal-body text-center">
+		<p>Are you sure that you meant to create a stay at home all day activity for multiple family members?</p>
+		<button type="button" class="btn btn-default" (click)="forceDialogSave()">Yes</button>
+		<button type="button" class="btn btn-primary" (click)="confirmModalRef.hide()">No</button>
+	</div>
+</ng-template>

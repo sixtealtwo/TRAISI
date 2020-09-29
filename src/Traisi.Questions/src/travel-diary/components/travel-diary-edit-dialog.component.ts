@@ -56,6 +56,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public modalRef: BsModalRef;
 
+	public confirmModalRef: BsModalRef;
+
 	private _mapComponent: any;
 
 	@ViewChild('eventForm') eventForm: NgForm;
@@ -65,6 +67,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	@ViewChild('mapTemplate', { read: ViewContainerRef })
 	public mapTemplate: ViewContainerRef;
+
+	@ViewChild('allDayHomeTemplate', { read: TemplateRef })
+	public allDayHomeTemplate: TemplateRef<any>;
 
 	public searchInFocus: boolean = false;
 
@@ -182,7 +187,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this.isRequiresEndTime = false;
 			}
 		}
-		
+
 		if (insertedEvent) {
 			this.insertedIntoEvent = insertedEvent;
 			this.isInsertedDepartureTime = true;
@@ -244,13 +249,25 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public onInsertionConfirm($event: any): void {}
 
-	public dialogSave(): void {
-		this.hide();
-		if (this.dialogMode === DialogMode.New) {
-			this.newEventSaved.emit(this.model);
+	public dialogSave(force: boolean): void {
+		if (
+			this._travelDiaryService.userTravelDiaries[this._respondent.id].length === 0 &&
+			!force &&
+			this.model.purpose.toLocaleLowerCase().includes('home') && this.model.users.length > 1
+		) {
+			this.confirmModalRef = this._modalService.show(this.allDayHomeTemplate, { class: 'modal-dialog-centered' });
 		} else {
-			this.eventSaved.emit(this.model);
+			this.hide();
+			if (this.dialogMode === DialogMode.New) {
+				this.newEventSaved.emit(this.model);
+			} else {
+				this.eventSaved.emit(this.model);
+			}
 		}
+	}
+
+	public forceDialogSave(): void {
+		this.dialogSave(true);
 	}
 
 	public hide(): void {
