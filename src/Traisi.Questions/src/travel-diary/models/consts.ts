@@ -37,6 +37,8 @@ export type TimelineLineResponseDisplayData = TimelineResponseData & {
 	insertedEndTime?: Date;
 	isReturnHomeSplit?: boolean;
 	displayAddress: any;
+	isUpdateEventCompress?: boolean;
+	isUpdateEventSwap?: boolean;
 };
 
 export type TravelDiaryEvent = CalendarEvent & { meta: { model: TimelineLineResponseDisplayData; [x: string]: any } };

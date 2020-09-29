@@ -282,6 +282,47 @@ export class TravelDiaryEditor {
 				let timeB = new Date(userEvents[i].end);
 				timeB.setHours(timeB.getHours() - TIME_DELTA);
 
+				if (userEvents[i].meta.model.name === model.name) {
+					continue;
+				}
+				if (timeA.getTime() < model.timeA.getTime() && timeB.getTime() > model.timeA.getTime()) {
+					return userEvents[i];
+				}
+			}
+		}
+		return undefined;
+	}
+
+	/**
+	 *
+	 * @param model
+	 * @param events
+	 */
+	public getOverlappingLaterDeparture(
+		model: TimelineLineResponseDisplayData,
+		events: TravelDiaryEvent[]
+	): TravelDiaryEvent {
+		if (!model.users) {
+			return undefined;
+		}
+		for (let respondent of model.users) {
+			// get users for event
+			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
+			for (let i = 1; i < userEvents.length; i++) {
+				let timeA = new Date(userEvents[i].start);
+				timeA.setHours(timeA.getHours() - TIME_DELTA);
+
+				let timeB = new Date(userEvents[i].end);
+				timeB.setHours(timeB.getHours() - TIME_DELTA);
+
+				if (userEvents[i].meta.model.displayId === model.displayId) {
+					continue;
+				}
+
+				if (model.timeA >= timeB) {
+					continue;
+				}
+
 				if (timeA.getTime() < model.timeA.getTime() && timeB.getTime() > model.timeA.getTime()) {
 					return userEvents[i];
 				}
@@ -348,17 +389,33 @@ export class TravelDiaryEditor {
 		// find the event
 		let evt = events.find((x) => x.meta.model.displayId === update.displayId);
 		if (evt) {
-			let newModel = Object.assign(evt.meta.model, update);
-			let displayTime = new Date(update.timeA);
-			displayTime.setHours(displayTime.getHours() + TIME_DELTA);
-			let endTime = new Date(update.insertedEndTime);
-			endTime.setHours(endTime.getHours() + TIME_DELTA);
-			evt.meta.model = newModel;
-			evt.meta.model.isValid = true;
-			evt.start = displayTime;
-			if (update.hasEndTime) {
-				evt.end = endTime;
+			// get the overlapping event
+			let overlap = this.getOverlappingDeparture(evt.meta.model, events);
+			if (overlap) {
+				// need to determine if swap or compress
+				if (update.isUpdateEventSwap) {
+					let overlapA = new Date(overlap.start);
+					let overlapB = new Date(overlap.end);
+
+					// updated event must go from event.timA to overlapB
+				} else {
+					// move time up and compress all events
+				}
+			} else {
+				let newModel = Object.assign(evt.meta.model, update);
+				let displayTime = new Date(update.timeA);
+				displayTime.setHours(displayTime.getHours() + TIME_DELTA);
+				let endTime = new Date(update.insertedEndTime);
+				endTime.setHours(endTime.getHours() + TIME_DELTA);
+				evt.meta.model = newModel;
+				evt.meta.model.isValid = true;
+				evt.start = displayTime;
+				if (update.hasEndTime) {
+					evt.end = endTime;
+				}
 			}
+
+			// if its an event time swap we take the overalpping event and place it in where this event is
 		} else {
 		}
 
@@ -367,6 +424,15 @@ export class TravelDiaryEditor {
 		this.updateHomeEvents(events);
 		// this.reAlignTimeBoundaries(update.users, events, update);
 	}
+
+	/**
+	 * Compresses the events within the index to all align between the start time of the first event and end at the
+	 * end time of the final event.
+	 * @param events C
+	 * @param startIndex
+	 * @param endIndex
+	 */
+	public compressEvents(events: TravelDiaryEvent[], startIndex: number, endIndex: number): void {}
 
 	/**
 	 *

@@ -20,6 +20,7 @@ import {
 	AfterViewInit,
 	SkipSelf,
 	ApplicationRef,
+	ChangeDetectorRef,
 } from '@angular/core';
 import templateString from './travel-diary-edit-dialog.component.html';
 import styleString from './travel-diary-edit-dialog.component.scss';
@@ -93,6 +94,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public isFirstEventInDay: boolean = false;
 
+	public isRequiresEventSwapConfirm: boolean = false;
+
 	public isShowMemberSelect: boolean = true;
 
 	private _respondentRef: SurveyRespondentUser;
@@ -117,6 +120,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		private _injector: Injector,
 		private _editorService: TravelDiaryEditor,
 		private _travelDiaryService: TravelDiaryService,
+		private _cdRef: ChangeDetectorRef,
 		@Inject(TraisiValues.QuestionLoader) private _questionLoaderService,
 		@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
@@ -130,6 +134,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.insertedIntoEvent = null;
 		this.isRequiresEndTime = false;
 		this.isRequiresReturnHomeTime = false;
+		this.isRequiresEventSwapConfirm = false;
+		this.insertedIntoEvent = undefined;
+
 		let id = Date.now();
 		let users = [];
 		if (this._respondentRef) {
@@ -143,6 +150,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			address: undefined,
 			latitude: 0,
 			longitude: 0,
+			isInserted: false,
+			isUpdateEventSwap: false,
 			name: undefined,
 			order: 1,
 			purpose: undefined,
@@ -178,6 +187,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 		if (this.dialogMode === DialogMode.Edit) {
 			let laterEvent = this._editorService.getLaterEvent(this.model, this._travelDiaryService.diaryEvents$.value);
+			this.insertedIntoEvent = insertedEvent;
 
 			if (laterEvent) {
 				this.model.hasEndTime = true;
@@ -185,6 +195,18 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			} else {
 				this.model.hasEndTime = false;
 				this.isRequiresEndTime = false;
+			}
+
+			let laterOverlap = this._editorService.getOverlappingLaterDeparture(
+				this.model,
+				this._travelDiaryService.diaryEvents$.value
+			);
+			console.log('later overlap');
+			console.log(laterOverlap);
+			if (laterOverlap && laterOverlap.meta.model.displayId !== this.model.displayId) {
+				this.isRequiresEventSwapConfirm = true;
+			} else {
+				this.isRequiresEventSwapConfirm = false;
 			}
 		}
 
@@ -249,11 +271,16 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public onInsertionConfirm($event: any): void {}
 
+	/**
+	 *
+	 * @param force
+	 */
 	public dialogSave(force: boolean): void {
 		if (
 			this._travelDiaryService.userTravelDiaries[this._respondent.id].length === 0 &&
 			!force &&
-			this.model.purpose.toLocaleLowerCase().includes('home') && this.model.users.length > 1
+			this.model.purpose.toLocaleLowerCase().includes('home') &&
+			this.model.users.length > 1
 		) {
 			this.confirmModalRef = this._modalService.show(this.allDayHomeTemplate, { class: 'modal-dialog-centered' });
 		} else {
@@ -264,6 +291,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this.eventSaved.emit(this.model);
 			}
 		}
+	}
+
+	public onShown(): void {
+		this._cdRef.detectChanges();
 	}
 
 	public forceDialogSave(): void {
@@ -305,6 +336,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;
 		this.isRequiresEndTime = false;
 		this.searchInFocus = false;
+		this.checkTimeOverlaps();
 		this.modal.show();
 		if (!this._isMapLoaded) {
 			let componentRef = null;
@@ -373,6 +405,16 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public ngAfterViewInit(): void {}
+
+	/**
+	 *
+	 * @param type
+	 * @param $event
+	 */
+	public modalShown($event: ModalDirective): void {
+
+		this._cdRef.detectChanges();
+	}
 	public ngOnInit(): void {
 		this._travelDiaryService.users.subscribe((x) => {
 			let r = x.find((y) => y.id === this._respondent.id);

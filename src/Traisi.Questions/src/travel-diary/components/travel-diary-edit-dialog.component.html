@@ -1,4 +1,4 @@
-<div bsModal #newEntryModal="bs-modal" class="modal fade" [config]="{ ignoreBackdropClick: true }">
+<div bsModal #newEntryModal="bs-modal" class="modal fade" [config]="{ ignoreBackdropClick: true }" (onShown)="modalShown($event)" >
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -125,6 +125,76 @@
 							</alert>
 						</div>
 					</div>
+
+					<div class="form-group row">
+						<div class="col-12">
+							<label for="location" class="col-form-label">Trip destination</label>
+
+							<ng-select
+								name="location"
+								[items]="addresses | async"
+								[hideSelected]="true"
+								bindLabel="place_name"
+								[minTermLength]="4"
+								typeToSearchText="Search for location"
+								[typeahead]="addressInput"
+								(focus)="searchFocus()"
+								minlength="10"
+								placeholder="Search for location"
+								aria-describedby="inputGroupPrepend3"
+								[ngModel]="model.address"
+								(change)="locationChanged($event)"
+								required
+							>
+								<ng-template ng-label-tmp let-item="item">
+									{{ item.streetNumber }} {{ item.streetAddress }}, {{ item.city }}
+								</ng-template>
+							</ng-select>
+							<div [hidden]="!searchInFocus">
+								<ng-template #mapTemplate>
+									<ng-container #container></ng-container>
+								</ng-template>
+							</div>
+						</div>
+					</div>
+
+					<!-- ask about insert after -->
+					<div
+						class="form-group row return-confirm"
+						*ngIf="dialogMode === dialogModeEdit && this.isRequiresEventSwapConfirm"
+					>
+						<div class="col-12">
+							<div class="confirm-label col-form-label">
+								Did you want to move this event <strong>{{model.name}}</strong> after
+								<strong>{{ insertedIntoEvent.meta.model.name }}</strong> ?
+							</div>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input
+									type="radio"
+									id="updateEventSwapYes"
+									name="updateEventSwapYes"
+									[value]="true"
+									[(ngModel)]="model.isUpdateEventSwap"
+									class="custom-control-input"
+									required
+								/>
+								<label class="custom-control-label" for="insertRadioYes">Yes</label>
+							</div>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input
+									type="radio"
+									id="updateEventSwapNo"
+									name="updateEventSwapNo"
+									[value]="false"
+									[(ngModel)]="!model.isUpdateEventSwap"
+									class="custom-control-input"
+									required
+								/>
+								<label class="custom-control-label" for="insertRadioNo">No</label>
+							</div>
+						</div>
+					</div>
+
 					<div
 						class="form-group row return-confirm"
 						*ngIf="isInsertedDepartureTime && dialogMode !== dialogModeEdit && !isRequiresReturnHomeTime"
@@ -166,7 +236,7 @@
 					</div>
 					<div
 						class="form-group row"
-						*ngIf="model.isInserted || isRequiresEndTime || isRequiresReturnHomeTime"
+						*ngIf="(model.isInserted || isRequiresEndTime || isRequiresReturnHomeTime) && false"
 					>
 						<div class="col-12">
 							<label
@@ -208,37 +278,6 @@
 							</div>
 							<div class="invalid-feedback">
 								Return time must be later than the original departure time.
-							</div>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-12">
-							<label for="location" class="col-form-label">Trip destination</label>
-
-							<ng-select
-								name="location"
-								[items]="addresses | async"
-								[hideSelected]="true"
-								bindLabel="place_name"
-								[minTermLength]="4"
-								typeToSearchText="Search for location"
-								[typeahead]="addressInput"
-								(focus)="searchFocus()"
-								minlength="10"
-								placeholder="Search for location"
-								aria-describedby="inputGroupPrepend3"
-								[ngModel]="model.address"
-								(change)="locationChanged($event)"
-								required
-							>
-								<ng-template ng-label-tmp let-item="item">
-									{{ item.streetNumber }} {{ item.streetAddress }}, {{ item.city }}
-								</ng-template>
-							</ng-select>
-							<div [hidden]="!searchInFocus">
-								<ng-template #mapTemplate>
-									<ng-container #container></ng-container>
-								</ng-template>
 							</div>
 						</div>
 					</div>
