@@ -96,7 +96,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public isRequiresEventSwapConfirm: boolean = false;
 
-	public isShowMemberSelect: boolean = true;
+	public displayIndex: number = -1;
 
 	private _respondentRef: SurveyRespondentUser;
 
@@ -106,6 +106,14 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public get activeRespondentName(): string {
 		return this._respondent.name;
+	}
+
+	public get isShowMemberSelect(): boolean {
+		if (this._primaryRespondent.id === this._respondent.id && this.displayIndex > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -153,7 +161,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			isInserted: false,
 			isUpdateEventSwap: false,
 			name: undefined,
-			order: 1,
+			order: 0,
 			purpose: undefined,
 			timeA: new Date(this._surveyAccessTime),
 			timeB: new Date(this._surveyAccessTime),
@@ -201,8 +209,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this.model,
 				this._travelDiaryService.diaryEvents$.value
 			);
-			console.log('later overlap');
-			console.log(laterOverlap);
+
 			if (laterOverlap && laterOverlap.meta.model.displayId !== this.model.displayId) {
 				this.isRequiresEventSwapConfirm = true;
 			} else {
@@ -325,37 +332,47 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.form.reset();
 			this.eventForm.reset();
 			this.model.users = [].concat(this._respondentRef);
+			this.displayIndex = -1;
 		} else {
 			this.eventForm.form.markAllAsTouched();
 			this.eventForm.form.updateValueAndValidity();
 			this.model = Object.assign({}, model);
 			this.model.isInserted = false;
 			this.model.isReturnHomeSplit = false;
+			this.displayIndex = this._editorService.getEventIndex(
+				this.model,
+				this._travelDiaryService.diaryEvents$.value
+			);
 		}
 
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;
 		this.isRequiresEndTime = false;
 		this.searchInFocus = false;
 		this.checkTimeOverlaps();
+
 		this.modal.show();
 		if (!this._isMapLoaded) {
-			let componentRef = null;
-			let factories = this._questionLoaderService.componentFactories;
-			let sub = Object.keys(this._questionLoaderService.componentFactories).forEach((key) => {
-				let factory = this._questionLoaderService.componentFactories[key];
-				if (factory.selector === 'traisi-map-question') {
-					componentRef = this.mapTemplate.createComponent(factory, undefined, this._injector);
-					let instance: SurveyQuestion<any> = <SurveyQuestion<any>>componentRef.instance;
-					instance.containerHeight = 300;
-					instance['loadGeocoder'] = false;
-					instance.response.subscribe((value) => {
-						this.mapResonse(value);
-					});
-					this._mapComponent = instance;
-					this._isMapLoaded = true;
-				}
-			});
+			this._loadMapDisplay();
 		}
+	}
+
+	private _loadMapDisplay(): void {
+		let componentRef = null;
+		let factories = this._questionLoaderService.componentFactories;
+		let sub = Object.keys(this._questionLoaderService.componentFactories).forEach((key) => {
+			let factory = this._questionLoaderService.componentFactories[key];
+			if (factory.selector === 'traisi-map-question') {
+				componentRef = this.mapTemplate.createComponent(factory, undefined, this._injector);
+				let instance: SurveyQuestion<any> = <SurveyQuestion<any>>componentRef.instance;
+				instance.containerHeight = 300;
+				instance['loadGeocoder'] = false;
+				instance.response.subscribe((value) => {
+					this.mapResonse(value);
+				});
+				this._mapComponent = instance;
+				this._isMapLoaded = true;
+			}
+		});
 	}
 
 	public searchFocus(): void {
@@ -412,7 +429,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	 * @param $event
 	 */
 	public modalShown($event: ModalDirective): void {
-
 		this._cdRef.detectChanges();
 	}
 	public ngOnInit(): void {
@@ -422,11 +438,5 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this._respondentRef = r;
 			}
 		});
-
-		if (this._primaryRespondent.id === this._respondent.id) {
-			this.isShowMemberSelect = true;
-		} else {
-			this.isShowMemberSelect = false;
-		}
 	}
 }
