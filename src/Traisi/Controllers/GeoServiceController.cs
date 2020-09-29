@@ -11,12 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using Traisi.Helpers;
 using Traisi.Helpers.Interfaces;
 using Traisi.Sdk.GeoServices;
 using Traisi.ViewModels;
+using Traisi.ViewModels.SurveyViewer;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Traisi.Controllers
@@ -55,6 +57,11 @@ namespace Traisi.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Returns a list of results based on some query input
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("address-complete/")]
         [ProducesResponseType(typeof(JObject), StatusCodes.Status200OK)]
@@ -63,11 +70,48 @@ namespace Traisi.Controllers
             var request = new RestRequest("place/textsearch/json", Method.GET);
             request.AddParameter("key", this.GOOGLE_API_KEY);
             request.AddParameter("query", query);
-            request.AddParameter("fields","address_component,adr_address,name,geometry,name");
+            request.AddParameter("fields", "geometry,formatted_address,name");
             request.AddParameter("region", "ca");
 
             var response = await _googleGeocoding.ExecuteAsync(request);
             return new OkObjectResult((JObject.Parse(response.Content)));
+        }
+
+
+        /// <summary>
+        /// Returns location info for an already formatted address or lat lng information
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("location-info/")]
+        [ProducesResponseType(typeof(MapLocation), StatusCodes.Status200OK)]
+        public async Task<IActionResult> LocationInfo([FromQuery] string query)
+        {
+            var request = new RestRequest("place/details/json", Method.GET);
+            request.AddParameter("key", this.GOOGLE_API_KEY);
+            request.AddParameter("place_id", query);
+            request.AddParameter("fields", "address_component,name,geometry,formatted_address");
+            request.AddParameter("region", "ca");
+
+            var response = await _googleGeocoding.ExecuteAsync(request);
+            var content = JObject.Parse(response.Content);
+            MapLocation location = content.ToObject<MapLocation>();
+
+            return new OkObjectResult(content);
+
+        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="content"></param>
+		/// <returns></returns>
+        private MapLocation parseLocationInformation(JObject content)
+        {
+            MapLocation location = new MapLocation();
+
+            return location;
+
         }
 
         /// <summary>

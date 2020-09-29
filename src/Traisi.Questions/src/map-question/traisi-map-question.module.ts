@@ -7,12 +7,13 @@ import { MapEndpointService } from './services/mapservice.service';
 import { GeoServiceClient } from '../shared/geoservice-api-client.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { LocationLookupComponent } from 'shared/services/location-lookup.component';
 
 // export const ngxMapWithConfig = NgxMapboxGLModule
 
 @NgModule({
-	declarations: [MapQuestionComponent],
-	entryComponents: [MapQuestionComponent],
+	declarations: [MapQuestionComponent, LocationLookupComponent],
+	entryComponents: [MapQuestionComponent, LocationLookupComponent],
 	providers: [
 		GeoServiceClient,
 		{
@@ -22,6 +23,11 @@ import { FormsModule } from '@angular/forms';
 					name: 'traisi-map-question',
 					id: 'location',
 					component: MapQuestionComponent,
+				},
+				{
+					name: 'traisi-location-lookup',
+					id: 'location-lookup',
+					component: LocationLookupComponent,
 				},
 			],
 			multi: true,

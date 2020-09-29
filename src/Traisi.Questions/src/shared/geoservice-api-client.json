@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v13.7.4.0 (NJsonSchema v10.1.26.0 (Newtonsoft.Json v12.0.0.0))",
+  "x-generator": "NSwag v13.8.1.0 (NJsonSchema v10.2.0.0 (Newtonsoft.Json v12.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "SurveyViewer API",
@@ -72,6 +72,38 @@
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GeoService/location-info": {
+      "get": {
+        "tags": [
+          "GeoService"
+        ],
+        "operationId": "GeoService_LocationInfo",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MapLocation"
+                }
               }
             }
           }
@@ -307,6 +339,28 @@
           "province": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "MapLocation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "address": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ]
           }
         }
       }
