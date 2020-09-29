@@ -1,5 +1,5 @@
 <div id="question-viewer-nav" class="text-center viewer-nav">
-	<div class="row justify-content-center btn-group align-center">
+	<div class="row justify-content-center btn-group align-center"  #navContainer>
 		<button
 			(click)="navigatePrevious()"
 			[disabled]="!(navigator.previousEnabled$ | async)"
@@ -16,6 +16,7 @@
 			[popperTrigger]="'none'"
 			[popperHideOnClickOutside]="true"
 			[popperHideOnMouseLeave]="false"
+			[popperTarget]="navContainer"
 			(click)="navigateNext()"
 			[disabled]="!(navigator.nextEnabled$ | async)"
 			class="btn btn-primary pl-4 pr-4 survey-nav-button survey-nav-button-next"

@@ -337,7 +337,7 @@ export class TravelDiaryEditor {
 	 * @param events 
 	 */
 	public getEventIndex(model: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): number {
-		for (let x = 0; x < events.length; i++) {
+		for (let x = 0; x < events.length; x++) {
 			if (events[x].meta.model.displayId === model.displayId) {
 				return x;
 			}

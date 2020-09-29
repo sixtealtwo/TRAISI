@@ -38,6 +38,8 @@ export class SurveyNavigatorComponent implements OnInit {
 	@ViewChild('navigateNextButton', { read: ElementRef })
 	public navigateNextButtonRef: ElementRef;
 
+
+
 	public invalidQuestions: BehaviorSubject<QuestionInstance[]>;
 
 	public get viewerState(): SurveyViewerState {
@@ -53,7 +55,9 @@ export class SurveyNavigatorComponent implements OnInit {
 		this.invalidQuestions = new BehaviorSubject<QuestionInstance[]>([]);
 	}
 
-	public ngOnInit(): void {}
+	public ngOnInit(): void {
+
+	}
 
 	public navigateCompleteSurvey(): void {
 		// this._router.navigate([this.surveyName, 'thankyou']);
@@ -76,7 +80,7 @@ export class SurveyNavigatorComponent implements OnInit {
 		let invalidQuestions = this.navigator.getInvalidQuestions();
 		this.invalidQuestions.next(invalidQuestions);
 		if (invalidQuestions.length === 0) {
-			let obs = this.navigator.navigateNext().subscribe({
+			this.navigator.navigateNext().subscribe({
 				complete: () => {
 					(<any>this.validationPopperContent)['hide']();
 				},

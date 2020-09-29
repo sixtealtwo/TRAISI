@@ -1,3 +1,6 @@
+
+@import "traisi-import";
+
 // CONFIG
 $SPACER_XS: 0.5rem;
 $SPACER_SM: 0.75rem;
@@ -97,7 +100,6 @@ header {
 		height: 16px;
 		font-size: 16px;
 		margin-right: 0px;
-		
 	}
 	.validation-status.valid {
 		color: #00c1fb;
@@ -106,6 +108,7 @@ header {
 		color: #777;
 	}
 }
+
 
 .progress__item {
 	position: relative;
@@ -186,4 +189,23 @@ header {
 }
 .progress__info.section--active {
 	color: #4f6b8e !important;
+}
+
+
+@include media-breakpoint-down(sm) {
+	.progress__item {
+		position: relative;
+		min-height: $PROGRESS_LIST_HEIGHT;
+		// counter-increment: list;
+		padding-left: $SPACER_XS;
+		margin-top: 15px;
+	}
+	position: relative;
+	padding: 0 $SPACER 0 3.5rem;
+	margin: 0x;
+	margin-top: 10px;
+	list-style: none;
+	display: block;
+	height: auto;
+	list-style-type: none;
 }
