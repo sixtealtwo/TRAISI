@@ -417,7 +417,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 	public resetInput(): void {
 		this._isMarkerAdded = false;
-		this._marker.remove();
+		if (this._marker) {
+			this._marker.remove();
+		}
 	}
 
 	public clearLocation(): void {
