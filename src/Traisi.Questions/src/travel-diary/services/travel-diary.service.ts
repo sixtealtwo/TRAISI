@@ -279,7 +279,13 @@ export class TravelDiaryService {
 			if (userEvents[i].end > userEvents[i + 1].start) {
 				return false;
 			}
+			for (let j = i + 1; j < userEvents.length - 1; j++) {
+				if (userEvents[i].start >= userEvents[j].start) {
+					return false;
+				}
+			}
 		}
+
 		return true;
 	}
 
