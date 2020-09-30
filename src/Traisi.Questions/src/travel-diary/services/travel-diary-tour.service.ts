@@ -14,8 +14,37 @@ export class TravelDiaryTourService {
 	public tourEnded: Subject<any> = new Subject<any>();
 
 	public constructor(@Inject(DOCUMENT) private _document: Document) {
-		console.log(this._document);
-		console.log(this._tour);
+	}
+
+	public initializeSubTour(popover: BsDropdownDirective): void {
+		this._popover = popover;
+		let events = document.querySelectorAll('.cal-event-container');
+		this._lastEvent = events[events.length - 1];
+		//this._tour.onbeforechange(this.onBeforeChange);
+		//this._tour.onexit(this.onExit);
+		introJs().refresh();
+		// this._tour.on
+		this._tour.setOptions({
+			steps: [
+				{
+					element: this._document.querySelector('.add-event-button'),
+					intro: `<h3>Travel Diary - Add a Trip</h3>
+                            <p>Click this button to add new trips to your travel diary. If you wish to edit an existing activity or trip, simply click it in the summary.</p>
+                            <p>Trips with a dashed orange border means that the trip is missing some information.</p>`,
+				},
+				{
+					element: this._lastEvent,
+					intro: `<h3>Travel Diary - Don't miss any information</h3>
+                            <p>The timeline scrolls too - make sure you don't miss the last event of the day when filling in your information.</p>`,
+				},
+				{
+					element: this._document.querySelector('#button-split'),
+					intro: `<h3>Travel Diary - Starting Over</h3>
+							<p>If you'd like to start entering your information again, use the reset travel diary option to reset the travel diary back to a fresh state.</p>
+							<p>If you'd like to remove all the events from your diary, choose clear all trips, You will also be prompted to enter the starting location of your day.`,
+				},
+			],
+		});
 	}
 
 	public initialize(popover: BsDropdownDirective): void {
