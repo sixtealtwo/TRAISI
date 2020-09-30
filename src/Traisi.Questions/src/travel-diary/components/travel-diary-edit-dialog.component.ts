@@ -164,7 +164,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			address: undefined,
 			latitude: 0,
 			longitude: 0,
-			isInserted: false,
+			isInserted: undefined,
 			isUpdateEventSwap: false,
 			name: undefined,
 			order: 1,

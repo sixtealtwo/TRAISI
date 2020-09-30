@@ -34,12 +34,14 @@ namespace Traisi.Controllers
         private readonly IConfiguration _configuration;
         private readonly string TRIPLINX_API_KEY;
         private readonly string GOOGLE_API_KEY;
+
+        private readonly RestClient _ipApi;
         public GeoServiceController(IGeoServiceProvider geoService, IConfiguration configuration)
         {
             this._geoService = geoService;
             this._triplinx = new RestClient("https://api.triplinx.cityway.ca/api/journeyplanner/opt");
             this._googleGeocoding = new RestClient("https://maps.googleapis.com/maps/api");
-
+            this._ipApi = new RestClient("http://ip-api.com/");
             this._configuration = configuration;
             this.GOOGLE_API_KEY = configuration.GetValue<string>("GeoConfig:GoogleApiKey");
             return;
@@ -79,6 +81,18 @@ namespace Traisi.Controllers
 
         }
 
+        public async Task<Tuple<double, double>> getLatLngForIp(string Ip)
+        {
+
+            var request = new RestRequest("json", Method.GET);
+
+            var response = await _ipApi.ExecuteAsync(request);
+            var content = JObject.Parse(response.Content);
+
+            return new Tuple<double, double>(content.Value<double>("lat"), content.Value<double>("lon"));
+
+        }
+
         /// <summary>
         /// Returns a list of results based on some query input
         /// </summary>
@@ -92,6 +106,10 @@ namespace Traisi.Controllers
             var request = new RestRequest("place/textsearch/json", Method.GET);
             request.AddParameter("key", this.GOOGLE_API_KEY);
             request.AddParameter("query", query);
+
+            request.AddParameter("location", $"43.6532,-79.3832");
+            request.AddParameter("radius", 5000);
+
             request.AddParameter("fields", "geometry,formatted_address,name");
             request.AddParameter("region", "ca");
 
@@ -110,7 +128,7 @@ namespace Traisi.Controllers
                 mapLocation.Address = new Sdk.Interfaces.Address();
                 mapLocation.Address.FormattedAddress = result.Value<string>("formatted_address");
                 mapLocation.Address.Id = result.Value<string>("place_id");
-                mapLocation.Address.Id = result.Value<string>("name");
+                mapLocation.Name = result.Value<string>("name");
                 mapLocation.Latitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lat");
                 mapLocation.Longitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lng");
                 mapLocations.Add(mapLocation);
