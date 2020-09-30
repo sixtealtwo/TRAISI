@@ -367,6 +367,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				instance.containerHeight = 300;
 				instance['loadGeocoder'] = false;
 				instance.response.subscribe((value) => {
+					console.log(' got value from map ');
+					console.log(value);
 					this.mapResonse(value);
 				});
 				this._mapComponent = instance;
@@ -430,7 +432,15 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	 */
 	public modalShown($event: ModalDirective): void {
 		this._cdRef.detectChanges();
+		this._updateMapDisplay();
 	}
+
+	private _updateMapDisplay(): void {
+		this._mapComponent.updateAddressInput(this.model.address);
+		(<any>this._mapComponent).flyToPosition([this.model.longitude, this.model.latitude]);
+		(<any>this._mapComponent).setMarkerLocationLngLat(this.model.longitude, this.model.latitude);
+	}
+
 	public ngOnInit(): void {
 		this._travelDiaryService.users.subscribe((x) => {
 			let r = x.find((y) => y.id === this._respondent.id);

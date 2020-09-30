@@ -269,7 +269,7 @@ export class TravelDiaryEditor {
 		model: TimelineLineResponseDisplayData,
 		events: TravelDiaryEvent[]
 	): TravelDiaryEvent {
-		if (!model.users) {
+		if (!model.users || !model.timeA) {
 			return undefined;
 		}
 		for (let respondent of model.users) {
@@ -285,6 +285,7 @@ export class TravelDiaryEditor {
 				if (userEvents[i].meta.model.name === model.name) {
 					continue;
 				}
+				
 				if (timeA.getTime() < model.timeA.getTime() && timeB.getTime() > model.timeA.getTime()) {
 					return userEvents[i];
 				}

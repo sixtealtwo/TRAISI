@@ -130,7 +130,7 @@
 						<div class="col-12">
 							<label for="location" class="col-form-label">Trip destination</label>
 
-							<ng-select
+							<!-- <ng-select
 								name="location"
 								[items]="addresses | async"
 								[hideSelected]="true"
@@ -149,8 +149,8 @@
 								<ng-template ng-label-tmp let-item="item">
 									{{ item.streetNumber }} {{ item.streetAddress }}, {{ item.city }}
 								</ng-template>
-							</ng-select>
-							<div [hidden]="!searchInFocus">
+							</ng-select> -->
+							<div>
 								<ng-template #mapTemplate>
 									<ng-container #container></ng-container>
 								</ng-template>

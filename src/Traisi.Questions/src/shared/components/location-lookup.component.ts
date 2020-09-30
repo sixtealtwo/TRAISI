@@ -64,10 +64,7 @@ export class LocationLookupComponent implements OnInit {
 	 * @param $event
 	 */
 	private retrieveLocationInfo($event: MapLocation): void {
-		console.log('in retrieve location info');
 		this._geoService.locationInfo($event.address.id).subscribe((x) => {
-			console.log('got retreieve result');
-			console.log(x);
 		});
 	}
 
