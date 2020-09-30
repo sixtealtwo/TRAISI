@@ -51,24 +51,31 @@ export class TravelDiaryTourService {
 					intro: `<h3>Travel Diary - Don't miss any information</h3>
                             <p>The timeline scrolls too - make sure you don't miss the last event of the day when filling in your information.</p>`,
 				},
+				{
+					element: this._document.querySelector('#button-split'),
+					intro: `<h3>Travel Diary - Starting Over</h3>
+							<p>If you'd like to start entering your information again, use the reset travel diary option to reset the travel diary back to a fresh state.</p>
+							<p>If you'd like to remove all the events from your diary, choose clear all trips, You will also be prompted to enter the starting location of your day.`,
+				},
 			],
 		});
 	}
 
 	public startTour(): void {
-		this._popover.toggle(true);
+		
 		this._tour.start();
 	}
 
 	public onBeforeChange = () => {
 		if (this._tour._currentStep === 3) {
-			this._popover.show();
+			// this._popover.show();
 			// this._popover.toggle(true);
 			this._lastEvent.scrollIntoView();
 		}
 	};
 
 	public onExit = () => {
+		this._popover.toggle(false);
 		this.tourEnded.next();
 	};
 }

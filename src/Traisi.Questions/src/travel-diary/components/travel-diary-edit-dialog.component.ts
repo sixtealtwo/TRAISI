@@ -95,6 +95,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public insertedIntoEvent: TravelDiaryEvent;
 
+	public swapEvent: TravelDiaryEvent;
+
 	public isFirstEventInDay: boolean = false;
 
 	public isRequiresEventSwapConfirm: boolean = false;
@@ -151,6 +153,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.isRequiresEndTime = false;
 		this.isRequiresReturnHomeTime = false;
 		this.isRequiresEventSwapConfirm = false;
+		this.swapEvent = undefined;
 		this.insertedIntoEvent = undefined;
 		this.isRequiresEndTime = false;
 		this.isRequiresReturnHomeTime = false;
@@ -214,17 +217,22 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		);
 
 		if (this.dialogMode === DialogMode.Edit) {
-			let laterEvent = this._editorService.getLaterEvent(this.model, this._travelDiaryService.diaryEvents$.value);
-			this.insertedIntoEvent = insertedEvent;
+			let laterEvent = this._editorService.getOverlappingLaterDeparture(
+				this.model,
+				this._travelDiaryService.diaryEvents$.value
+			);
+			this.swapEvent = laterEvent;
 
-			if (laterEvent && insertedEvent) {
-				//		this.model.hasEndTime = true;
 
-				this.isRequiresEndTime = true;
-			} else {
-				//		this.model.hasEndTime = false;
-				this.isRequiresEndTime = false;
-			}
+			//console.log(laterEvent);
+			//if (laterEvent && insertedEvent) {
+			//		this.model.hasEndTime = true;
+
+			//	this.isRequiresEndTime = true;
+			//} else {
+			//		this.model.hasEndTime = false;
+			//	this.isRequiresEndTime = false;
+			//}
 
 			let laterOverlap = this._editorService.getOverlappingLaterDeparture(
 				this.model,
@@ -371,13 +379,13 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this._oldModel = Object.assign({}, model);
 			this.model.isInserted = false;
 			this.model.isReturnHomeSplit = false;
+			this.model.isUpdateEventSwap = undefined;
 			this.isFirstEventInDay = false;
 			this.model.isRequireDepartureConfirm = false;
 			this.displayIndex = this._editorService.getEventIndex(
 				this.model,
 				this._travelDiaryService.diaryEvents$.value
 			);
-
 		}
 
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;
@@ -394,7 +402,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this._loadMapDisplay();
 		}
 		console.log(this);
-
 	}
 
 	private _loadMapDisplay(): void {

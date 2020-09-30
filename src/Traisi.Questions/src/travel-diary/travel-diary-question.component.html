@@ -32,6 +32,7 @@
 			container="body"
 			placement="top right"
 			[dropup]="isDropup"
+			[autoClose]="false"
 			#dropdownToggle="bs-dropdown"
 		>
 			<button type="button" class="btn btn-primary" (click)="newEvent()">Add Trip</button>
@@ -39,6 +40,7 @@
 				id="button-split"
 				type="button"
 				dropdownToggle
+				autoClose="false"
 				class="btn btn-primary dropdown-toggle dropdown-toggle-split"
 				aria-controls="dropdown-split"
 			>
