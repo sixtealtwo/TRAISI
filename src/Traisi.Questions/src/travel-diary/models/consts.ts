@@ -19,7 +19,7 @@ export const colors: any = {
 export enum DialogMode {
 	New,
 	Edit,
-	CreateHome
+	CreateHome,
 }
 
 export type SurveyRespondentUser = SurveyRespondent & {
@@ -41,6 +41,7 @@ export type TimelineLineResponseDisplayData = TimelineResponseData & {
 	isUpdateEventCompress?: boolean;
 	isUpdateEventSwap?: boolean;
 	isRequireDepartureConfirm?: boolean;
+	isFirstEvent?: boolean;
 };
 
 export type TravelDiaryEvent = CalendarEvent & { meta: { model: TimelineLineResponseDisplayData; [x: string]: any } };

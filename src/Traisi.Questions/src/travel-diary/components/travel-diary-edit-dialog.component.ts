@@ -114,6 +114,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public get isShowMemberSelect(): boolean {
+		if (this.dialogModeCreateHome) {
+			return false;
+		}
 		if (this._primaryRespondent.id === this._respondent.id && this.displayIndex > 0) {
 			return true;
 		} else {
@@ -151,6 +154,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.insertedIntoEvent = undefined;
 		this.isRequiresEndTime = false;
 		this.isRequiresReturnHomeTime = false;
+		this.isFirstEventInDay = false;
 		let id = Date.now();
 		let users = [];
 		if (this._respondentRef) {
@@ -169,6 +173,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			name: undefined,
 			isRequireDepartureConfirm: false,
 			order: 1,
+			isFirstEvent: null,
 			purpose: undefined,
 			timeA: new Date(this._surveyAccessTime),
 			timeB: new Date(this._surveyAccessTime),
@@ -233,7 +238,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			}
 		}
 
-		if (insertedEvent && this.dialogMode  === DialogMode.New) {
+		if (insertedEvent && this.dialogMode === DialogMode.New) {
 			this.insertedIntoEvent = insertedEvent;
 			this.isInsertedDepartureTime = true;
 			if (
@@ -309,7 +314,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.confirmModalRef = this._modalService.show(this.allDayHomeTemplate, { class: 'modal-dialog-centered' });
 		} else {
 			this.hide();
-			if (this.dialogMode === DialogMode.New) {
+			if (this.dialogMode === DialogMode.New || this.dialogMode == DialogMode.CreateHome) {
 				this.newEventSaved.emit(this.model);
 			} else {
 				this.eventSaved.emit({ newData: this.model, oldData: this._oldModel });
@@ -356,6 +361,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.form.markAsUntouched();
 			this.eventForm.form.reset();
 			this.eventForm.reset();
+			this.model.isFirstEvent = true;
+			this.isFirstEventInDay = true;
 			this.model.users = [].concat(this._respondentRef);
 		} else {
 			this.eventForm.form.markAllAsTouched();
@@ -364,15 +371,19 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this._oldModel = Object.assign({}, model);
 			this.model.isInserted = false;
 			this.model.isReturnHomeSplit = false;
+			this.isFirstEventInDay = false;
 			this.model.isRequireDepartureConfirm = false;
 			this.displayIndex = this._editorService.getEventIndex(
 				this.model,
 				this._travelDiaryService.diaryEvents$.value
 			);
-			console.log(this.displayIndex);
 		}
 
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;
+		if (mode === DialogMode.CreateHome) {
+			this.isFirstEventInDay = true;
+		}
+
 		this.isRequiresEndTime = false;
 		this.searchInFocus = false;
 		this.checkTimeOverlaps();
@@ -381,6 +392,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		if (!this._isMapLoaded) {
 			this._loadMapDisplay();
 		}
+
+		console.log(this);
 	}
 
 	private _loadMapDisplay(): void {

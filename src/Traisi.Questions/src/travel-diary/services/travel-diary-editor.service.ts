@@ -178,6 +178,11 @@ export class TravelDiaryEditor {
 		if (!event.isInserted) {
 			let startTime = new Date(event.timeA);
 			startTime.setHours(startTime.getHours() + TIME_DELTA);
+
+			if (event.isFirstEvent) {
+				startTime = new Date(new Date(this._surveyAccessTime).setHours(0, 1, 0, 0));
+				event.timeA = new Date(new Date(this._surveyAccessTime).setHours(0, 1, 0, 0));
+			}
 			let newEvent = {
 				id: displayId,
 				title: event.name,
@@ -304,8 +309,6 @@ export class TravelDiaryEditor {
 				}
 
 				if (timeA.getTime() < model.timeA.getTime() && timeB.getTime() > model.timeA.getTime()) {
-					console.log(' got overlap ');
-					console.log(userEvents[i]);
 					return userEvents[i];
 				}
 			}
@@ -328,8 +331,6 @@ export class TravelDiaryEditor {
 		for (let respondent of model.users) {
 			// get users for event
 			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
-			console.log(userEvents);
-			console.log(model);
 			let thisEventIdx = userEvents.findIndex((x) => x.meta.model.displayId === model.displayId);
 			for (let i = 1; i < userEvents.length; i++) {
 				let timeA = new Date(userEvents[i].start);
@@ -437,6 +438,9 @@ export class TravelDiaryEditor {
 					let swapIdx = events.findIndex((x) => x.meta.model.displayId === laterOverlap.meta.model.displayId);
 
 					this.swapEvents(events, evtIdx, swapIdx, update.timeA);
+
+					this.updateModel(evt.meta.model, update);
+					// this.updateModel(evt.meta.model, update);
 				} else {
 					// get index of event being compressed
 
@@ -463,6 +467,7 @@ export class TravelDiaryEditor {
 
 			// if its an event time swap we take the overalpping event and place it in where this event is
 		} else {
+			this.updateModel(events[evtIdx].meta.model, update);
 		}
 
 		this.reAlignTimeBoundaries(update.users, events, update);
@@ -481,7 +486,7 @@ export class TravelDiaryEditor {
 		modelTarget.address = Object.assign({}, modelSource.address);
 		modelTarget.purpose = modelSource.purpose;
 		modelTarget.mode = modelSource.mode;
-		modelTarget.users = Object.assign({}, modelSource.users);
+		modelTarget.users = [].concat(modelSource.users);
 	}
 
 	/**
