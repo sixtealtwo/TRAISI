@@ -114,7 +114,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public get isShowMemberSelect(): boolean {
-		if (this.dialogModeCreateHome) {
+		if (this.dialogMode === DialogMode.CreateHome) {
 			return false;
 		}
 		if (this._primaryRespondent.id === this._respondent.id && this.displayIndex > 0) {
@@ -354,6 +354,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.reset();
 			this.model.users = [].concat(this._respondentRef);
 			this.displayIndex = 1;
+			this.model.order = 1;
 		} else if (mode === DialogMode.CreateHome) {
 			this.resetModel();
 			this.eventForm.form.markAsPristine();
