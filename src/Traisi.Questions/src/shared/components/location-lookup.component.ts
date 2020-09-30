@@ -50,7 +50,6 @@ export class LocationLookupComponent implements OnInit {
 
 						// empty list on error
 						tap((x) => {
-							console.log(x);
 							this.addressesLoading = false;
 						})
 					)
@@ -64,8 +63,8 @@ export class LocationLookupComponent implements OnInit {
 	 * @param $event
 	 */
 	private retrieveLocationInfo($event: MapLocation): void {
-		this._geoService.locationInfo($event.address.id).subscribe((x) => {
-			this.locationSelected.emit($event);
+		this._geoService.locationInfo($event.address.id).subscribe((x: MapLocation) => {
+			this.locationSelected.emit(x);
 		});
 	}
 

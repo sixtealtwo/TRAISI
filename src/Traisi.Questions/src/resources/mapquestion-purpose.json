@@ -1,13 +1,8 @@
 [
 	{
-		"label": "home (temporarily)",
-		"icon": "fas fa-home",
-		"id": "home"
-	},
-	{
-		"label": "home (end of day)",
+		"label": "home",
 		"icon": "fas fa-house-night",
-		"id": "home-permanently"
+		"id": "home"
 	},
 	{
 		"label": "usual work location",

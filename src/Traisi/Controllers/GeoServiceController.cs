@@ -86,7 +86,7 @@ namespace Traisi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("address-complete/")]
-        [ProducesResponseType(typeof(MapLocation), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<MapLocation>), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddressCompletion([FromQuery] string query)
         {
             var request = new RestRequest("place/textsearch/json", Method.GET);
@@ -102,16 +102,22 @@ namespace Traisi.Controllers
             {
                 return new OkObjectResult(new MapLocation[0]);
             }
-            var results = content.Value<JArray>("results").First();
+            var results = content.Value<JArray>("results");
+            var mapLocations = new List<MapLocation>();
+            foreach (JObject result in results)
+            {
+                MapLocation mapLocation = new MapLocation();
+                mapLocation.Address = new Sdk.Interfaces.Address();
+                mapLocation.Address.FormattedAddress = result.Value<string>("formatted_address");
+                mapLocation.Address.Id = result.Value<string>("place_id");
 
-            MapLocation mapLocation = new MapLocation();
-            mapLocation.Address = new Sdk.Interfaces.Address();
-            mapLocation.Address.FormattedAddress = results.Value<string>("formatted_address");
-            mapLocation.Address.Id = results.Value<string>("place_id");
+                mapLocation.Latitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lat");
+                mapLocation.Longitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lng");
+                mapLocations.Add(mapLocation);
+            }
 
-            mapLocation.Latitude = results.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lat");
-            mapLocation.Longitude = results.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lng");
-            return new OkObjectResult(new MapLocation[] { mapLocation });
+
+            return new OkObjectResult(mapLocations);
         }
 
 
@@ -157,13 +163,15 @@ namespace Traisi.Controllers
             var types = cmp.Value<JArray>("types").Values<string>();
             if (types.Contains("street_number"))
             {
-                try {
+                try
+                {
                     location.Address.StreetNumber = int.Parse(cmp.Value<string>("long_name"));
                 }
-                catch {
+                catch
+                {
                     location.Address.StreetNumber = -1;
                 }
-                
+
             }
             else if (types.Contains("route"))
             {

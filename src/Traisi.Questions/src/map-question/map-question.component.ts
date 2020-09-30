@@ -144,7 +144,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		if (this._map) {
 			this._map.flyTo({
 				center: new LngLat(val[0], val[1]),
-				duration: 500
+				duration: 500,
 			});
 		}
 	}
@@ -190,7 +190,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	public onLocationSelected($event: MapLocation): void {
 		this.setMarkerLocation(new LngLat($event.longitude, $event.latitude));
 		this.flyToPosition([$event.longitude, $event.latitude]);
-		this.updateAddressInput($event.address);
+		// this.updateAddressInput($event.address);
 		this.saveLocationNoReverseGeocode(new LngLat($event.longitude, $event.latitude), $event.address);
 	}
 
@@ -305,6 +305,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param event
 	 */
 	public locationFound(event: { result: Result }): void {
+		console.log('got event location found');
 		this.setMarkerLocation(new LngLat(event.result.geometry.coordinates[0], event.result.geometry.coordinates[1]));
 		this.saveLocation(new LngLat(event.result.geometry.coordinates[0], event.result.geometry.coordinates[1]));
 	}

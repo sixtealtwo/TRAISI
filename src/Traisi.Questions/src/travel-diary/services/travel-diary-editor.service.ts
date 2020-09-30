@@ -28,6 +28,7 @@ export class TravelDiaryEditor {
 	public createDefaultTravelDiaryforRespondent(
 		user: SurveyRespondentUser,
 		homeAllDay: boolean,
+		homeDeparture: boolean,
 		workDeparture: boolean,
 		schoolDeparture: boolean,
 		returnedHome: boolean,
@@ -35,10 +36,11 @@ export class TravelDiaryEditor {
 		schoolLoation?: any
 	): TravelDiaryEvent[] {
 		let events: TravelDiaryEvent[] = [];
+
 		if (homeAllDay) {
 			events = events.concat(this.createHomeAllDayEvent(user));
 			return events;
-		} else if (workDeparture || schoolDeparture || returnedHome) {
+		} else if ((workDeparture || schoolDeparture || returnedHome) && homeDeparture) {
 			let homeEvent = this.createHomeStartEvent(user);
 			events.push(homeEvent);
 		}
@@ -49,11 +51,23 @@ export class TravelDiaryEditor {
 		}
 
 		if (workDeparture) {
-			let workEvent = this.createHomeWorkHomeEvent(user, workLocation, returnedHome, schoolDeparture);
+			let workEvent = this.createHomeWorkHomeEvent(
+				user,
+				workLocation,
+				returnedHome,
+				schoolDeparture,
+				homeDeparture
+			);
 			events.push(workEvent);
 		}
 		if (schoolDeparture) {
-			let schoolEvent = this.createHomeSchoolHomeEvent(user, schoolLoation, returnedHome, workDeparture);
+			let schoolEvent = this.createHomeSchoolHomeEvent(
+				user,
+				schoolLoation,
+				returnedHome,
+				workDeparture,
+				homeDeparture
+			);
 			events.push(schoolEvent);
 		}
 
@@ -101,7 +115,8 @@ export class TravelDiaryEditor {
 		user: SurveyRespondentUser,
 		workLocation: LocationResponseData,
 		returnedHome: boolean,
-		hasSchoolTrip: boolean
+		hasSchoolTrip: boolean,
+		startAtHome: boolean
 	): TravelDiaryEvent {
 		let workEvent = this.createBaseEvent(user, 'Work (Not Home)', 'work');
 		workEvent.start = new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 1, 0, 0));
@@ -126,7 +141,8 @@ export class TravelDiaryEditor {
 		user: SurveyRespondentUser,
 		schoolLocation: LocationResponseData,
 		returnedHome: boolean,
-		hasWorkTrip: boolean
+		hasWorkTrip: boolean,
+		startAtHome: boolean
 	): TravelDiaryEvent {
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
 		let workEvent = this.createBaseEvent(user, 'School (Not Home)', 'school');
@@ -421,8 +437,6 @@ export class TravelDiaryEditor {
 					let swapIdx = events.findIndex((x) => x.meta.model.displayId === laterOverlap.meta.model.displayId);
 
 					this.swapEvents(events, evtIdx, swapIdx);
-
-				
 
 					// updated event must go from event.timA to overlapB
 				} else {

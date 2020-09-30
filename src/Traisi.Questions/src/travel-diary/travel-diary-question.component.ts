@@ -128,7 +128,16 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public resetEvents(): void {
-		this._travelDiaryService.resetTravelDiary();
+		this._travelDiaryService.resetTravelDiary().subscribe({
+			complete: () => {
+				if (this._travelDiaryService.diaryEvents$.value.length > 0) {
+					if (this._travelDiaryService.diaryEvents$.value[0].meta.model.timeA.getHours() > 2) {
+						// create new home event
+						this.entryDialog.show(DialogMode.CreateHome);
+					}
+				}
+			},
+		});
 	}
 
 	public clearEvents(): void {
@@ -145,6 +154,15 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 			if (v && this._respondent.id === this._primaryRespondent.id) {
 				// console.log(this.isTravelDiaryCollectionDisabled);
 				setTimeout(() => this.startTour());
+			}
+		});
+
+		this._tour.tourEnded.subscribe((x) => {
+			if (this._travelDiaryService.diaryEvents$.value.length > 0) {
+				if (this._travelDiaryService.diaryEvents$.value[0].meta.model.timeA.getHours() > 2) {
+					// create new home event
+					this.entryDialog.show(DialogMode.CreateHome);
+				}
 			}
 		});
 	}

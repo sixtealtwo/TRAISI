@@ -10,6 +10,7 @@
 			<div class="modal-header">
 				<h4 class="modal-title pull-left" *ngIf="dialogMode === dialogModeNew">New Trip</h4>
 				<h4 class="modal-title pull-left" *ngIf="dialogMode === dialogModeEdit">Edit Trip</h4>
+				<h4 class="modal-title pull-left" *ngIf="dialogMode === dialogModeCreateHome">Create Start of Day Trip</h4>
 				<button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -99,7 +100,7 @@
 
 					<div class="form-group row" *ngIf="!isFirstEventInDay">
 						<div class="col-12">
-							<label for="timeA" class="col-form-label">Departure time for the trip</label>
+							<label for="timeA" class="col-form-label">Departure time for the trip (as 24-hours) </label>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroupPrepend2"

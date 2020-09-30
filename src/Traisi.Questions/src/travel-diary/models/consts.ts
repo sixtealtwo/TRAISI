@@ -19,6 +19,7 @@ export const colors: any = {
 export enum DialogMode {
 	New,
 	Edit,
+	CreateHome
 }
 
 export type SurveyRespondentUser = SurveyRespondent & {

@@ -303,16 +303,19 @@ export class TravelDiaryService {
 	/**
 	 * Resets the travel diary to use the prior and piped information.
 	 */
-	public resetTravelDiary(): void {
+	public resetTravelDiary(): Observable<void> {
 		this._diaryEvents.splice(0, this._diaryEvents.length);
-		/* for (let id in this.userTravelDiaries) {
-			let idx = Number(id);
-			if (idx !== this.activeUser.id) {
-				this.userTravelDiaries[id].splice(0, this.userTravelDiaries[id].length);
-			}
-		} */
-		this.loadPriorResponseData([this.activeUser]).subscribe();
+		return new Observable((obs) => {
+			this.loadPriorResponseData([this.activeUser]).subscribe({
+				complete: () => {
+					console.log('complete');
+					obs.complete();
+				},
+			});
+		});
 	}
+
+	public collectFirstTripOfDay(): void {}
 
 	public clearTravelDiary(): void {
 		this._diaryEvents.splice(0, this._diaryEvents.length);
@@ -494,6 +497,7 @@ export class TravelDiaryService {
 			let events = this._edtior.createDefaultTravelDiaryforRespondent(
 				this.userMap[r.id],
 				isHomeAllDay,
+				homeDeparture,
 				workDeparture,
 				schoolDeparture, // school dept,
 				homeReturn, // returned h ome

@@ -83,6 +83,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public dialogModeNew = DialogMode.New;
 
+	public dialogModeCreateHome = DialogMode.CreateHome;
+
 	private _isMapLoaded = false;
 
 	public isInsertedDepartureTime: boolean = false;
@@ -343,7 +345,14 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.form.reset();
 			this.eventForm.reset();
 			this.model.users = [].concat(this._respondentRef);
-			this.displayIndex = -1;
+			this.displayIndex = 1;
+		} else if (mode === DialogMode.CreateHome) {
+			this.resetModel();
+			this.eventForm.form.markAsPristine();
+			this.eventForm.form.markAsUntouched();
+			this.eventForm.form.reset();
+			this.eventForm.reset();
+			this.model.users = [].concat(this._respondentRef);
 		} else {
 			this.eventForm.form.markAllAsTouched();
 			this.eventForm.form.updateValueAndValidity();

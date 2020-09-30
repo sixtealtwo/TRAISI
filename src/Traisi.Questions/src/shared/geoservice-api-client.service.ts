@@ -80,7 +80,7 @@ export class GeoServiceClient {
         return _observableOf<any>(<any>null);
     }
 
-    addressCompletion(query: string | null): Observable<MapLocation> {
+    addressCompletion(query: string | null): Observable<MapLocation[]> {
         let url_ = this.baseUrl + "/api/GeoService/address-complete?";
         if (query === undefined)
             throw new Error("The parameter 'query' must be defined.");
@@ -103,14 +103,14 @@ export class GeoServiceClient {
                 try {
                     return this.processAddressCompletion(<any>response_);
                 } catch (e) {
-                    return <Observable<MapLocation>><any>_observableThrow(e);
+                    return <Observable<MapLocation[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<MapLocation>><any>_observableThrow(response_);
+                return <Observable<MapLocation[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processAddressCompletion(response: HttpResponseBase): Observable<MapLocation> {
+    protected processAddressCompletion(response: HttpResponseBase): Observable<MapLocation[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -120,7 +120,7 @@ export class GeoServiceClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <MapLocation>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <MapLocation[]>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -128,7 +128,7 @@ export class GeoServiceClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<MapLocation>(<any>null);
+        return _observableOf<MapLocation[]>(<any>null);
     }
 
     locationInfo(query: string | null): Observable<MapLocation> {

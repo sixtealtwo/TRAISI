@@ -3,14 +3,19 @@ import { Inject, Injectable } from '@angular/core';
 import * as introJs from 'intro.js';
 import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 import { PopoverDirective } from 'ngx-bootstrap/popover';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class TravelDiaryTourService {
 	private _tour = introJs();
 	private _popover: BsDropdownDirective;
 	private _lastEvent;
+
+	public tourEnded: Subject<any> = new Subject<any>();
+
 	public constructor(@Inject(DOCUMENT) private _document: Document) {
 		console.log(this._document);
+		console.log(this._tour);
 	}
 
 	public initialize(popover: BsDropdownDirective): void {
@@ -18,6 +23,8 @@ export class TravelDiaryTourService {
 		let events = document.querySelectorAll('.cal-event-container');
 		this._lastEvent = events[events.length - 1];
 		this._tour.onbeforechange(this.onBeforeChange);
+		this._tour.onexit(this.onExit);
+		// this._tour.on
 		this._tour.setOptions({
 			steps: [
 				{
@@ -59,5 +66,9 @@ export class TravelDiaryTourService {
 			// this._popover.toggle(true);
 			this._lastEvent.scrollIntoView();
 		}
+	};
+
+	public onExit = () => {
+		this.tourEnded.next();
 	};
 }
