@@ -145,6 +145,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public clearEvents(): void {
 		this._travelDiaryService.clearTravelDiary();
+		this.entryDialog.show(DialogMode.CreateHome);
 	}
 
 	public ngOnInit(): void {

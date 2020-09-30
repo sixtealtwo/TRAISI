@@ -187,9 +187,10 @@ export class TravelDiaryEditor {
 				id: displayId,
 				title: event.name,
 				start: startTime,
-				// end: event.timeB,
+				end: event.isFirstEvent ? new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 0, 0, 0)) : undefined,
 				draggable: false,
 				resizable: { afterEnd: true },
+				order: event.isFirstEvent ? 0 : 1,
 				meta: {
 					purpose: event.purpose['label'],
 					address: event.address,
@@ -472,6 +473,9 @@ export class TravelDiaryEditor {
 
 		this.reAlignTimeBoundaries(update.users, events, update);
 		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeA);
+		for(let i = 0; i < events.length; i++ ){
+			events[i].meta.model.order = i;
+		}
 		this.updateHomeEvents(events);
 		// this.reAlignTimeBoundaries(update.users, events, update);
 	}

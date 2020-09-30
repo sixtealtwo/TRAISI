@@ -172,7 +172,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			isUpdateEventSwap: false,
 			name: undefined,
 			isRequireDepartureConfirm: false,
-			order: 1,
+			order: 0,
 			isFirstEvent: null,
 			purpose: undefined,
 			timeA: new Date(this._surveyAccessTime),
@@ -256,7 +256,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.insertedIntoEvent = undefined;
 			this.isInsertedDepartureTime = false;
 		}
-		console.log(this);
 	}
 
 	/**
@@ -377,6 +376,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this.model,
 				this._travelDiaryService.diaryEvents$.value
 			);
+
 		}
 
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;
@@ -392,8 +392,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		if (!this._isMapLoaded) {
 			this._loadMapDisplay();
 		}
-
 		console.log(this);
+
 	}
 
 	private _loadMapDisplay(): void {
