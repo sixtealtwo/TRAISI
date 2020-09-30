@@ -115,6 +115,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		return this._respondent.name;
 	}
 
+	public get respondent(): SurveyRespondentUser {
+		return this._respondentRef;
+	}
+
 	public get isShowMemberSelect(): boolean {
 		if (this.dialogMode === DialogMode.CreateHome) {
 			return false;

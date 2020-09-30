@@ -10,7 +10,7 @@
 			<div class="modal-header">
 				<h4 class="modal-title pull-left" *ngIf="dialogMode === dialogModeNew">New Trip</h4>
 				<h4 class="modal-title pull-left" *ngIf="dialogMode === dialogModeEdit">Edit Trip</h4>
-				<h4 class="modal-title pull-left" *ngIf="dialogMode === dialogModeCreateHome">Create Start of Day Trip</h4>
+				<h4 class="modal-title pull-left" *ngIf="dialogMode === dialogModeCreateHome">{{respondent.name}} was not at home at 3 am on the diary day, please tell us his/her activity at that time.</h4>
 				<button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -135,7 +135,7 @@
 
 					<div class="form-group row">
 						<div class="col-12">
-							<label for="location" class="col-form-label">Trip destination</label>
+							<label for="location" class="col-form-label">Activity location</label>
 
 							<!-- <ng-select
 								name="location"
@@ -185,7 +185,7 @@
 									class="custom-control-input"
 									required
 								/>
-								<label class="custom-control-label" for="updateEventSwapYes">Yes</label>
+								<label class="custom-control-label" for="updateEventSwapYes">Yes, I want to change the order</label>
 							</div>
 							<div class="custom-control custom-radio custom-control-inline">
 								<input
@@ -197,7 +197,7 @@
 									class="custom-control-input"
 									required
 								/>
-								<label class="custom-control-label" for="updateEventSwapNo">No</label>
+								<label class="custom-control-label" for="updateEventSwapNo">No, I want to keep the current order</label>
 							</div>
 						</div>
 					</div>
@@ -208,10 +208,11 @@
 					>
 						<div class="col-12">
 							<div class="confirm-label col-form-label" *ngIf="!isInsertedDepartureTime">
-								Did you return to the previous event ?
+								After finishing this activity, did {{ respondent.name }} travel back contunuing his/her previous activityon the timeline?  
 							</div>
 							<div class="confirm-label col-form-label" *ngIf="isInsertedDepartureTime">
-								Did you return to the previous event [{{ insertedIntoEvent?.meta.model.name }}] ?
+								After finishing this activity, did {{ respondent.name }} travel back contunuing his/her previous activity  [{{ insertedIntoEvent?.meta.model.name }}] on the timeline?  
+								Did you return to the previous event {{ insertedIntoEvent?.meta.model.name }} ?
 							</div>
 							<div class="custom-control custom-radio custom-control-inline">
 								<input
@@ -250,7 +251,7 @@
 								for="timeA"
 								class="col-form-label"
 								*ngIf="model.isInserted && !isRequiresReturnHomeTime"
-								>Return Time</label
+								> When did {{respondent.name}} travel back to the previous activity?</label
 							>
 							<label for="timeA" class="col-form-label" *ngIf="isRequiresEndTime"
 								>What time did you end this activity?</label
