@@ -27,7 +27,7 @@ export class GeoServiceClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    reverseGeocode(lat: number, lng: number): Observable<IGeocodeResult> {
+    reverseGeocode(lat: number, lng: number): Observable<any> {
         let url_ = this.baseUrl + "/api/GeoService/reversegeo/{lat}/{lng}";
         if (lat === undefined || lat === null)
             throw new Error("The parameter 'lat' must be defined.");
@@ -52,14 +52,14 @@ export class GeoServiceClient {
                 try {
                     return this.processReverseGeocode(<any>response_);
                 } catch (e) {
-                    return <Observable<IGeocodeResult>><any>_observableThrow(e);
+                    return <Observable<any>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<IGeocodeResult>><any>_observableThrow(response_);
+                return <Observable<any>><any>_observableThrow(response_);
         }));
     }
 
-    protected processReverseGeocode(response: HttpResponseBase): Observable<IGeocodeResult> {
+    protected processReverseGeocode(response: HttpResponseBase): Observable<any> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -69,7 +69,7 @@ export class GeoServiceClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <IGeocodeResult>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <any>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -77,10 +77,10 @@ export class GeoServiceClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<IGeocodeResult>(<any>null);
+        return _observableOf<any>(<any>null);
     }
 
-    addressCompletion(query: string | null): Observable<any> {
+    addressCompletion(query: string | null): Observable<MapLocation> {
         let url_ = this.baseUrl + "/api/GeoService/address-complete?";
         if (query === undefined)
             throw new Error("The parameter 'query' must be defined.");
@@ -103,14 +103,14 @@ export class GeoServiceClient {
                 try {
                     return this.processAddressCompletion(<any>response_);
                 } catch (e) {
-                    return <Observable<any>><any>_observableThrow(e);
+                    return <Observable<MapLocation>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<any>><any>_observableThrow(response_);
+                return <Observable<MapLocation>><any>_observableThrow(response_);
         }));
     }
 
-    protected processAddressCompletion(response: HttpResponseBase): Observable<any> {
+    protected processAddressCompletion(response: HttpResponseBase): Observable<MapLocation> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -120,7 +120,7 @@ export class GeoServiceClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <any>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <MapLocation>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -128,7 +128,7 @@ export class GeoServiceClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<any>(<any>null);
+        return _observableOf<MapLocation>(<any>null);
     }
 
     locationInfo(query: string | null): Observable<MapLocation> {
@@ -320,7 +320,7 @@ export class GeoServiceClient {
     }
 }
 
-export interface IGeocodeResult {
+export interface MapLocation {
     latitude?: number;
     longitude?: number;
     address?: Address | undefined;
@@ -332,12 +332,8 @@ export interface Address {
     streetNumber?: number;
     city?: string | undefined;
     province?: string | undefined;
-}
-
-export interface MapLocation {
-    latitude?: number;
-    longitude?: number;
-    address?: Address | undefined;
+    formattedAddress?: string | undefined;
+    id?: string | undefined;
 }
 
 export interface FileResponse {

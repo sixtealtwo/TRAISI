@@ -39,9 +39,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IGeocodeResult"
-                }
+                "schema": {}
               }
             }
           }
@@ -71,7 +69,9 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/MapLocation"
+                }
               }
             }
           }
@@ -293,9 +293,8 @@
   },
   "components": {
     "schemas": {
-      "IGeocodeResult": {
+      "MapLocation": {
         "type": "object",
-        "x-abstract": true,
         "additionalProperties": false,
         "properties": {
           "latitude": {
@@ -339,28 +338,14 @@
           "province": {
             "type": "string",
             "nullable": true
-          }
-        }
-      },
-      "MapLocation": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "latitude": {
-            "type": "number",
-            "format": "double"
           },
-          "longitude": {
-            "type": "number",
-            "format": "double"
+          "formattedAddress": {
+            "type": "string",
+            "nullable": true
           },
-          "address": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Address"
-              }
-            ]
+          "id": {
+            "type": "string",
+            "nullable": true
           }
         }
       }

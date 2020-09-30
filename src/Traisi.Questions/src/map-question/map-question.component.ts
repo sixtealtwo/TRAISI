@@ -22,7 +22,7 @@ import {
 	SurveyViewer,
 	QuestionConfigurationService,
 	TraisiValues,
-	Address
+	Address,
 } from 'traisi-question-sdk';
 import { GeoLocation } from './models/geo-location.model';
 import { MapEndpointService } from './services/mapservice.service';
@@ -30,9 +30,11 @@ import templateString from './map-question.component.html';
 import styleString from './map-question.component.scss';
 import * as mapboxgl from 'mapbox-gl';
 import markerPng from './marker.png';
-import { GeoServiceClient } from '../shared/geoservice-api-client.service';
+import { GeoServiceClient, MapLocation } from '../shared/geoservice-api-client.service';
 import { MapQuestionConfiguration } from './models/map-question-configuration.model';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { LocationLookupComponent } from 'shared/components/location-lookup.component';
 
 @Component({
 	selector: 'traisi-map-question',
@@ -80,7 +82,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Gets marker icon
 	 */
 	public getMarkerIcon(purpose: { label: string; id: string; icon: string }): string {
-		return purpose.icon;
+		return purpose?.icon;
 	}
 
 	@ViewChild('mapbox', { static: true })
@@ -96,6 +98,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	@ViewChild('mapContainer', { static: false })
 	public mapContainer: ElementRef;
 
+	@ViewChild('locationSelect', { static: false })
+	public locationSelect: LocationLookupComponent;
+
 	public mapInstance: ReplaySubject<mapboxgl.Map>;
 
 	private _marker: mapboxgl.Marker;
@@ -109,14 +114,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	protected accessToken: string;
 
 	public loadGeocoder: boolean = true;
-
-	public addressResults$: Observable<any[]>;
-
-	public addressesLoading: boolean = false;
-
-	public addressInput$ = new Subject<string>();
-
-	public addressInput: any[] = null;
 
 	/**
 	 * Creates an instance of map question component.
@@ -163,33 +160,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 				this.purpose = this._configuration.purpose;
 			} catch {}
 		}
-
-		this._initializeAddressSearch();
-	}
-
-	private _initializeAddressSearch(): void {
-		this.addressResults$ = concat(
-			of([]), // default items
-			this.addressInput$.pipe(
-				distinctUntilChanged(),
-				tap(() => (this.addressesLoading = true)),
-				debounceTime(500),
-				switchMap((term) =>
-					this._geoService.addressCompletion(term).pipe(
-						catchError(() => of([])), // empty list on error
-						tap((x) => {
-							console.log(x);
-							this.addressesLoading = false;
-						}),
-						map((x) => x.results)
-					)
-				)
-			)
-		);
-	}
-
-	trackByFn(item: any) {
-		return item.formatted_address;
 	}
 
 	public traisiOnInit(): void {}
@@ -203,6 +173,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		if (response !== 'none') {
 			let locationResponse = response[0];
 			let coords = new LngLat(locationResponse['longitude'], locationResponse['latitude']);
+
 			this.updateAddressInput(locationResponse.address);
 			this.setMarkerLocation(coords);
 			this.flyToPosition([coords.lng, coords.lat]);
@@ -210,6 +181,17 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 	};
+
+	/**
+	 *
+	 * @param $event
+	 */
+	public onLocationSelected($event: MapLocation): void {
+		this.setMarkerLocation(new LngLat($event.longitude, $event.latitude));
+		this.flyToPosition([$event.longitude, $event.latitude]);
+		this.updateAddressInput($event.address);
+		this.saveLocationNoReverseGeocode(new LngLat($event.longitude, $event.latitude), $event.address);
+	}
 
 	/**
 	 * after view init
@@ -225,22 +207,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			zoom: 14,
 		});
 		this._map.addControl(new mapboxgl.NavigationControl(), 'top-left');
-		this._geocoder = new MapboxGeocoder({
-			countries: 'ca',
-			accessToken: mapboxgl.accessToken,
-			mapboxgl: mapboxgl,
-			marker: false,
-		});
-		if (this.loadGeocoder) {
-			this._map.addControl(this._geocoder, 'top-right');
-		}
 
 		this._map.on('click', (ev: mapboxgl.MapMouseEvent) => {
 			this.mapLocationClicked(ev.lngLat);
-		});
-
-		this._geocoder.on('result', (event) => {
-			this.locationFound(event);
 		});
 
 		this._map.on('load', () => {
@@ -276,24 +245,13 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param {LngLat} lngLat
 	 */
 	public mapLocationClicked(lngLat: LngLat): void {
-		this.setMarkerLocation(lngLat);
-		this.saveLocation(lngLat);
+		this._geoService.reverseGeocode(lngLat.lat, lngLat.lng).subscribe((x: MapLocation) => {
+			this.setMarkerLocation(lngLat);
+			this.saveLocationNoReverseGeocode(new LngLat(x.longitude, x.latitude), x.address);
+			this.updateAddressInput(x.address);
+		});
 	}
 
-	public addressChanged(address: any) {
-		
-		this.flyToPosition([address.geometry.location.lng, address.geometry.location.lat]);
-		this.setMarkerLocation(new LngLat(address.geometry.location.lng, address.geometry.location.lat));
-
-	
-		let addressObj: Address;
-		addressObj = {
-			streetAddress :address.formatted_address
-		};
-
-		this.saveLocationNoReverseGeocode(new LngLat(address.geometry.location.lng, address.geometry.location.lat));
-	}
-	
 	private saveLocationNoReverseGeocode(lngLat: LngLat, address?: Address) {
 		let data: LocationResponseData = {
 			latitude: lngLat.lat,
@@ -333,10 +291,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param {string} address
 	 */
 	private updateAddressInput(address: Address): void {
-		let element: HTMLInputElement = this._element.nativeElement.querySelector('.mapboxgl-ctrl-geocoder--input');
-		if (element) {
-			element.value = this.getAddressString(address);
-		}
+		this.locationSelect.addressInputModel = address.formattedAddress;
 	}
 
 	/**

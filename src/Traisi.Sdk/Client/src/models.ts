@@ -15,6 +15,8 @@ export interface Address {
     streetNumber?: number;
     city?: string;
     province?: string;
+    formattedAddress?: string;
+    id?: string;
 }
 
 export interface ValidationError {

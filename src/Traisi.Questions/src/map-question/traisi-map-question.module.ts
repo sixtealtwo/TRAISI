@@ -7,7 +7,7 @@ import { MapEndpointService } from './services/mapservice.service';
 import { GeoServiceClient } from '../shared/geoservice-api-client.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { LocationLookupComponent } from 'shared/services/location-lookup.component';
+import { LocationLookupComponent } from './../shared/components/location-lookup.component';
 
 // export const ngxMapWithConfig = NgxMapboxGLModule
 

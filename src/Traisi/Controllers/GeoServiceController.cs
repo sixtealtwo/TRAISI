@@ -46,15 +46,37 @@ namespace Traisi.Controllers
 
         }
 
+
+        //https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
+
         // GET: api/<controller>
         [HttpGet]
         [Route("reversegeo/{lat}/{lng}")]
-        [Produces(typeof(IGeocodeResult))]
+        [Produces(typeof(JObject))]
         public async Task<IActionResult> ReverseGeocode(double lat, double lng)
         {
-            var address = await this._geoService.ReverseGeocodeAsync(lat, lng);
-            GeocodeResult result = new GeocodeResult() { Latitude = lat, Longitude = lng, Address = address };
-            return Ok(result);
+            var request = new RestRequest("geocode/json", Method.GET);
+            request.AddParameter("latlng", $"{lat},{lng}");
+            request.AddParameter("key", this.GOOGLE_API_KEY);
+
+            var response = await _googleGeocoding.ExecuteAsync(request);
+            var content = JObject.Parse(response.Content);
+            var result = content.Value<JArray>("results").First();
+
+            MapLocation mapLocation = new MapLocation();
+            mapLocation.Address = new Sdk.Interfaces.Address();
+            mapLocation.Address.FormattedAddress = result.Value<string>("formatted_address");
+            mapLocation.Address.Id = result.Value<string>("place_id");
+            mapLocation.Latitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lat");
+            mapLocation.Longitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lng");
+            var addressComponents = result.Value<JArray>("address_components");
+            foreach (JObject cmp in addressComponents)
+            {
+                ParseAddressComponents(cmp, mapLocation);
+            }
+
+            return new OkObjectResult(mapLocation);
+
         }
 
         /// <summary>
@@ -64,7 +86,7 @@ namespace Traisi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("address-complete/")]
-        [ProducesResponseType(typeof(JObject), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(MapLocation), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddressCompletion([FromQuery] string query)
         {
             var request = new RestRequest("place/textsearch/json", Method.GET);
@@ -74,7 +96,22 @@ namespace Traisi.Controllers
             request.AddParameter("region", "ca");
 
             var response = await _googleGeocoding.ExecuteAsync(request);
-            return new OkObjectResult((JObject.Parse(response.Content)));
+            var content = JObject.Parse(response.Content);
+
+            if (content.Value<JArray>("results").Count == 0)
+            {
+                return new OkObjectResult(new MapLocation[0]);
+            }
+            var results = content.Value<JArray>("results").First();
+
+            MapLocation mapLocation = new MapLocation();
+            mapLocation.Address = new Sdk.Interfaces.Address();
+            mapLocation.Address.FormattedAddress = results.Value<string>("formatted_address");
+            mapLocation.Address.Id = results.Value<string>("place_id");
+
+            mapLocation.Latitude = results.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lat");
+            mapLocation.Longitude = results.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lng");
+            return new OkObjectResult(new MapLocation[] { mapLocation });
         }
 
 
@@ -96,16 +133,55 @@ namespace Traisi.Controllers
 
             var response = await _googleGeocoding.ExecuteAsync(request);
             var content = JObject.Parse(response.Content);
-            MapLocation location = content.ToObject<MapLocation>();
 
-            return new OkObjectResult(content);
+
+            var result = content.Value<JObject>("result");
+            MapLocation mapLocation = new MapLocation();
+            mapLocation.Address = new Sdk.Interfaces.Address();
+            mapLocation.Address.FormattedAddress = result.Value<string>("formatted_address");
+            mapLocation.Address.Id = result.Value<string>("place_id");
+            mapLocation.Latitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lat");
+            mapLocation.Longitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lng");
+            var addressComponents = result.Value<JArray>("address_components");
+            foreach (JObject cmp in addressComponents)
+            {
+                ParseAddressComponents(cmp, mapLocation);
+            }
+
+            return new OkObjectResult(mapLocation);
 
         }
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="content"></param>
-		/// <returns></returns>
+
+        private void ParseAddressComponents(JObject cmp, MapLocation location)
+        {
+            var types = cmp.Value<JArray>("types").Values<string>();
+            if (types.Contains("street_number"))
+            {
+                location.Address.StreetNumber = int.Parse(cmp.Value<string>("long_name"));
+            }
+            else if (types.Contains("route"))
+            {
+                location.Address.StreetAddress = cmp.Value<string>("long_name");
+            }
+            else if (types.Contains("locality"))
+            {
+                location.Address.City = cmp.Value<string>("long_name");
+            }
+            else if (types.Contains("administrative_area_level_1"))
+            {
+                location.Address.Province = cmp.Value<string>("long_name");
+            }
+            else if (types.Contains("postal_code"))
+            {
+                location.Address.PostalCode = cmp.Value<string>("long_name");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
         private MapLocation parseLocationInformation(JObject content)
         {
             MapLocation location = new MapLocation();

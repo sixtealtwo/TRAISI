@@ -25,5 +25,9 @@ namespace Traisi.Sdk.Interfaces
         public string City { get; set; }
 
         public string Province { get; set; }
+
+        public string FormattedAddress { get; set; }
+
+        public string Id { get; set; }
     }
 }

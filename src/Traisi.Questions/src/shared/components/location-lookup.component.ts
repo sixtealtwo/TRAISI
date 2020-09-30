@@ -1,15 +1,16 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { concat, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, tap, debounceTime, switchMap, catchError, map } from 'rxjs/operators';
 import { GeoServiceClient } from 'shared/geoservice-api-client.service';
 import { MapLocation } from 'shared/models/map-location.model';
 import templateString from './location-lookup.component.html';
-import styleString from './location-lookup.component.html';
+import styleString from './location-lookup.component.scss';
 
 @Component({
 	selector: 'traisi-location-lookup',
 	template: '' + templateString,
 	providers: [GeoServiceClient],
+	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
 	styles: ['' + styleString],
 })
@@ -17,11 +18,14 @@ export class LocationLookupComponent implements OnInit {
 	@Output()
 	public locationSelected: EventEmitter<MapLocation> = new EventEmitter(true);
 
-	public addressResults$: Observable<any[]>;
+	public addressResults$: Observable<MapLocation[] | any>;
 
 	public addressInput$ = new Subject<string>();
 
 	public addressesLoading: boolean = false;
+
+	@Input()
+	public addressInputModel: any = null;
 
 	public constructor(private _geoService: GeoServiceClient) {}
 
@@ -38,15 +42,41 @@ export class LocationLookupComponent implements OnInit {
 				debounceTime(500),
 				switchMap((term) =>
 					this._geoService.addressCompletion(term).pipe(
-						catchError(() => of([])), // empty list on error
+						catchError((err) => {
+							console.log('err');
+							console.log(err);
+							return of([]);
+						}),
+
+						// empty list on error
 						tap((x) => {
 							console.log(x);
 							this.addressesLoading = false;
-						}),
-						map((x) => x.results)
+						})
 					)
 				)
 			)
 		);
+	}
+
+	/**
+	 *
+	 * @param $event
+	 */
+	private retrieveLocationInfo($event: MapLocation): void {
+		console.log('in retrieve location info');
+		this._geoService.locationInfo($event.address.id).subscribe((x) => {
+			console.log('got retreieve result');
+			console.log(x);
+		});
+	}
+
+	/**
+	 *
+	 * @param $event
+	 */
+	public addressChanged($event: MapLocation): void {
+		this.retrieveLocationInfo($event);
+		this.locationSelected.emit($event);
 	}
 }
