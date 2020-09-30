@@ -156,7 +156,7 @@
 									{{ item.streetNumber }} {{ item.streetAddress }}, {{ item.city }}
 								</ng-template>
 							</ng-select> -->
-							<div>
+							<div [class.missingMap]="model && !model.address">
 								<ng-template #mapTemplate>
 									<ng-container #container></ng-container>
 								</ng-template>
@@ -305,9 +305,9 @@
 				</button>
 				<button
 					type="button"
-					[class.disabled]="!eventForm.valid"
+					[class.disabled]="!isFormValid"
 					class="btn btn-primary"
-					[disabled]="!eventForm.valid"
+					[disabled]="!isFormValid"
 					(click)="dialogSave()"
 				>
 					Save

@@ -190,6 +190,14 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.checkTimeOverlaps();
 	}
 
+	public get isFormValid(): boolean {
+		if (this.eventForm && this.model) {
+			return this.eventForm.valid && this.model.address !== undefined;
+		} else {
+			return false;
+		}
+	}
+
 	public checkTimeOverlaps(): void {
 		let insertedEvent = this._editorService.getOverlappingDeparture(
 			this.model,

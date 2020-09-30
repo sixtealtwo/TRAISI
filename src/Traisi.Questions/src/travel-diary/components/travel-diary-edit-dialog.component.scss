@@ -22,6 +22,10 @@ form .ng-invalid {
     height: 30px;
 }
 
+.missingMap {
+	border: solid 1px red;
+}
+
 .ng-invalid + .invalid-feedback {
 	display: block;
 }
