@@ -48,9 +48,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	@Output() public newEventSaved: EventEmitter<
 		TimelineResponseData | { users: SurveyRespondentUser[] }
 	> = new EventEmitter();
-	@Output() public eventSaved: EventEmitter<
-		TimelineResponseData | { users: SurveyRespondentUser[] }
-	> = new EventEmitter();
+	@Output() public eventSaved: EventEmitter<{
+		newData: TimelineLineResponseDisplayData;
+		oldData: TimelineLineResponseDisplayData;
+	}> = new EventEmitter();
 	@Output() public eventDeleted: EventEmitter<
 		TimelineResponseData | { users: SurveyRespondentUser[] }
 	> = new EventEmitter();
@@ -97,6 +98,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	public isRequiresEventSwapConfirm: boolean = false;
 
 	public displayIndex: number = -1;
+
+	private _oldModel: TimelineLineResponseDisplayData = undefined;
 
 	private _respondentRef: SurveyRespondentUser;
 
@@ -161,7 +164,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			isInserted: false,
 			isUpdateEventSwap: false,
 			name: undefined,
-			order: 0,
+			order: 1,
 			purpose: undefined,
 			timeA: new Date(this._surveyAccessTime),
 			timeB: new Date(this._surveyAccessTime),
@@ -198,10 +201,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.insertedIntoEvent = insertedEvent;
 
 			if (laterEvent) {
-				this.model.hasEndTime = true;
+				//		this.model.hasEndTime = true;
 				this.isRequiresEndTime = true;
 			} else {
-				this.model.hasEndTime = false;
+				//		this.model.hasEndTime = false;
 				this.isRequiresEndTime = false;
 			}
 
@@ -295,7 +298,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			if (this.dialogMode === DialogMode.New) {
 				this.newEventSaved.emit(this.model);
 			} else {
-				this.eventSaved.emit(this.model);
+				this.eventSaved.emit({ newData: this.model, oldData: this._oldModel });
 			}
 		}
 	}
@@ -337,6 +340,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.form.markAllAsTouched();
 			this.eventForm.form.updateValueAndValidity();
 			this.model = Object.assign({}, model);
+			this._oldModel = Object.assign({}, model);
 			this.model.isInserted = false;
 			this.model.isReturnHomeSplit = false;
 			this.displayIndex = this._editorService.getEventIndex(
@@ -367,8 +371,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				instance.containerHeight = 300;
 				instance['loadGeocoder'] = false;
 				instance.response.subscribe((value) => {
-					console.log(' got value from map ');
-					console.log(value);
 					this.mapResonse(value);
 				});
 				this._mapComponent = instance;
@@ -386,7 +388,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		if (this._mapComponent) {
 			setTimeout(() => {
 				this._mapComponent['resize']();
-			}, 100);
+			}, 200);
 		}
 	}
 
@@ -437,8 +439,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	private _updateMapDisplay(): void {
 		this._mapComponent.updateAddressInput(this.model.address);
-		(<any>this._mapComponent).flyToPosition([this.model.longitude, this.model.latitude]);
-		(<any>this._mapComponent).setMarkerLocationLngLat(this.model.longitude, this.model.latitude);
+		if (this.model.longitude !== 0) {
+			(<any>this._mapComponent).flyToPosition([this.model.longitude, this.model.latitude]);
+			(<any>this._mapComponent).setMarkerLocationLngLat(this.model.longitude, this.model.latitude);
+		}
 	}
 
 	public ngOnInit(): void {

@@ -620,11 +620,11 @@ export class TravelDiaryService {
 	 *
 	 * @param event
 	 */
-	public updateEvent(event: TimelineLineResponseDisplayData): void {
+	public updateEvent(event: TimelineLineResponseDisplayData, oldEvent: TimelineLineResponseDisplayData): void {
 		// update for the main respondent
 		let events = this._splitEvent(event);
 		for (let splitEvent of events) {
-			this._edtior.updateEvent(splitEvent, this.userTravelDiaries[splitEvent.users[0].id]);
+			this._edtior.updateEvent(splitEvent, oldEvent, this.userTravelDiaries[splitEvent.users[0].id]);
 			if (splitEvent.users[0].id !== this.activeUser.id) {
 				this.inactiveDiaryEvents$.next(this.userTravelDiaries[splitEvent.users[0].id]);
 			}

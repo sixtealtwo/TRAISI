@@ -1,4 +1,10 @@
-<div bsModal #newEntryModal="bs-modal" class="modal fade" [config]="{ ignoreBackdropClick: true }" (onShown)="modalShown($event)" >
+<div
+	bsModal
+	#newEntryModal="bs-modal"
+	class="modal fade"
+	[config]="{ ignoreBackdropClick: true }"
+	(onShown)="modalShown($event)"
+>
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -165,32 +171,32 @@
 					>
 						<div class="col-12">
 							<div class="confirm-label col-form-label">
-								Did you want to move this event <strong>{{model.name}}</strong> after
-								<strong>{{ insertedIntoEvent.meta.model.name }}</strong> ?
+								Did you want to move this event <strong>{{ model.name }}</strong> after
+								<strong>{{ insertedIntoEvent?.meta.model.name }}</strong> ?
 							</div>
 							<div class="custom-control custom-radio custom-control-inline">
 								<input
 									type="radio"
 									id="updateEventSwapYes"
-									name="updateEventSwapYes"
+									name="updateEventSwap"
 									[value]="true"
 									[(ngModel)]="model.isUpdateEventSwap"
 									class="custom-control-input"
 									required
 								/>
-								<label class="custom-control-label" for="insertRadioYes">Yes</label>
+								<label class="custom-control-label" for="updateEventSwapYes">Yes</label>
 							</div>
 							<div class="custom-control custom-radio custom-control-inline">
 								<input
 									type="radio"
 									id="updateEventSwapNo"
-									name="updateEventSwapNo"
+									name="updateEventSwap"
 									[value]="false"
-									[(ngModel)]="!model.isUpdateEventSwap"
+									[(ngModel)]="model.isUpdateEventSwap"
 									class="custom-control-input"
 									required
 								/>
-								<label class="custom-control-label" for="insertRadioNo">No</label>
+								<label class="custom-control-label" for="updateEventSwapNo">No</label>
 							</div>
 						</div>
 					</div>

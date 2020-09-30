@@ -275,18 +275,21 @@ export class TravelDiaryEditor {
 		for (let respondent of model.users) {
 			// get users for event
 			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
+			// find index of this event
+
 			for (let i = 1; i < userEvents.length; i++) {
 				let timeA = new Date(userEvents[i].start);
 				timeA.setHours(timeA.getHours() - TIME_DELTA);
-
 				let timeB = new Date(userEvents[i].end);
 				timeB.setHours(timeB.getHours() - TIME_DELTA);
 
-				if (userEvents[i].meta.model.name === model.name) {
+				if (userEvents[i].meta.model.displayId === model.displayId) {
 					continue;
 				}
-				
+
 				if (timeA.getTime() < model.timeA.getTime() && timeB.getTime() > model.timeA.getTime()) {
+					console.log(' got overlap ');
+					console.log(userEvents[i]);
 					return userEvents[i];
 				}
 			}
@@ -309,6 +312,9 @@ export class TravelDiaryEditor {
 		for (let respondent of model.users) {
 			// get users for event
 			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
+			console.log(userEvents);
+			console.log(model);
+			let thisEventIdx = userEvents.findIndex((x) => x.meta.model.displayId === model.displayId);
 			for (let i = 1; i < userEvents.length; i++) {
 				let timeA = new Date(userEvents[i].start);
 				timeA.setHours(timeA.getHours() - TIME_DELTA);
@@ -316,15 +322,12 @@ export class TravelDiaryEditor {
 				let timeB = new Date(userEvents[i].end);
 				timeB.setHours(timeB.getHours() - TIME_DELTA);
 
-				if (userEvents[i].meta.model.displayId === model.displayId) {
-					continue;
-				}
-
-				if (model.timeA >= timeB) {
-					continue;
-				}
-
-				if (timeA.getTime() < model.timeA.getTime() && timeB.getTime() > model.timeA.getTime()) {
+				if (
+					userEvents[i].meta.model.displayId !== model.displayId &&
+					timeA.getTime() < model.timeA.getTime() &&
+					timeB.getTime() > model.timeA.getTime() &&
+					i > thisEventIdx
+				) {
 					return userEvents[i];
 				}
 			}
@@ -333,9 +336,9 @@ export class TravelDiaryEditor {
 	}
 
 	/**
-	 * 
-	 * @param model 
-	 * @param events 
+	 *
+	 * @param model
+	 * @param events
 	 */
 	public getEventIndex(model: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]): number {
 		for (let x = 0; x < events.length; x++) {
@@ -400,21 +403,37 @@ export class TravelDiaryEditor {
 	 * @param update
 	 * @param events
 	 */
-	public updateEvent(update: TimelineLineResponseDisplayData, events: TravelDiaryEvent[]) {
+	public updateEvent(
+		update: TimelineLineResponseDisplayData,
+		oldEvent: TimelineResponseData,
+		events: TravelDiaryEvent[]
+	) {
 		// find the event
-		let evt = events.find((x) => x.meta.model.displayId === update.displayId);
-		if (evt) {
-			// get the overlapping event
-			let overlap = this.getOverlappingDeparture(evt.meta.model, events);
-			if (overlap) {
+		let evtIdx = events.findIndex((x) => x.meta.model.displayId === update.displayId);
+		if (evtIdx > 0) {
+			let evt = events[evtIdx];
+
+			let laterOverlap = this.getOverlappingLaterDeparture(update, events);
+
+			if (laterOverlap) {
 				// need to determine if swap or compress
 				if (update.isUpdateEventSwap) {
-					let overlapA = new Date(overlap.start);
-					let overlapB = new Date(overlap.end);
+					let swapIdx = events.findIndex((x) => x.meta.model.displayId === laterOverlap.meta.model.displayId);
+
+					this.swapEvents(events, evtIdx, swapIdx);
+
+				
 
 					// updated event must go from event.timA to overlapB
 				} else {
-					// move time up and compress all events
+					// get index of event being compressed
+
+					this.compressEvents(
+						events,
+						update.timeA,
+						evtIdx,
+						this.hasEndHomeEvent(events) ? events.length - 2 : events.length - 1
+					);
 				}
 			} else {
 				let newModel = Object.assign(evt.meta.model, update);
@@ -440,6 +459,33 @@ export class TravelDiaryEditor {
 		// this.reAlignTimeBoundaries(update.users, events, update);
 	}
 
+	public updateModel(
+		modelTarget: TimelineLineResponseDisplayData,
+		modelSource: TimelineLineResponseDisplayData
+	): void {}
+
+	/**
+	 *
+	 * @param events
+	 * @param event1Idx
+	 * @param event2Idx
+	 */
+	public swapEvents(events: TravelDiaryEvent[], event1Idx: number, event2Idx: number): void {
+		let event1 = events[event1Idx];
+		let event2 = events[event2Idx];
+
+		let timeATemp = new Date(event1.meta.model.timeA);
+		let timeEndTemp = new Date(event1.end);
+		let timeStartTemp = new Date(event1.start);
+
+		event1.meta.model.timeA = new Date(event2.meta.model.timeA);
+		event1.start = new Date(event2.start);
+		event1.end = new Date(event2.end);
+
+		event2.meta.model.timeA = new Date(timeATemp);
+		event2.start = timeStartTemp;
+		event2.end = timeEndTemp;
+	}
 	/**
 	 * Compresses the events within the index to all align between the start time of the first event and end at the
 	 * end time of the final event.
@@ -447,7 +493,37 @@ export class TravelDiaryEditor {
 	 * @param startIndex
 	 * @param endIndex
 	 */
-	public compressEvents(events: TravelDiaryEvent[], startIndex: number, endIndex: number): void {}
+	public compressEvents(events: TravelDiaryEvent[], startTime: Date, startIndex: number, endIndex: number): void {
+		let endTime = new Date(events[endIndex].end);
+		endTime.setHours(endTime.getHours() - TIME_DELTA);
+
+		// duration in ms
+		let duration = (endTime.getTime() - startTime.getTime()) / (endIndex - startIndex + 1);
+
+		for (let i = 0; i <= endIndex - startIndex; i++) {
+			let newStartTime = new Date(startTime.getTime() + i * duration);
+
+			events[i + startIndex].meta.model.timeA = newStartTime;
+
+			let displayStartTime = new Date(events[i + startIndex].meta.model.timeA);
+			displayStartTime.setHours(displayStartTime.getHours() + TIME_DELTA);
+
+			let displayEndTime = new Date(displayStartTime.getTime() + duration);
+
+			events[i + startIndex].start = displayStartTime;
+			events[i + startIndex].end = displayEndTime;
+		}
+	}
+
+	public hasEndHomeEvent(events: TravelDiaryEvent[]): boolean {
+		if (events.length > 1) {
+			if (events[events.length - 1].meta.model.purpose === 'home') {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	 *
@@ -491,8 +567,7 @@ export class TravelDiaryEditor {
 		// realigns time boundaries using the location / timeline model as master
 		for (let user of users) {
 			let events = allEvents.filter((x) => x.meta.user.id === user.id);
-			// events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
-
+			events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
 			for (let i = 0; i < events.length - 1; i++) {
 				events[i].meta.model.order = i;
 				let displayTime = new Date(events[i].meta.model.timeA);

@@ -119,8 +119,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.newEvent(event);
 	}
 
-	public eventSaved(event: TimelineLineResponseDisplayData) {
-		this._travelDiaryService.updateEvent(event);
+	public eventSaved(event: { oldData: TimelineLineResponseDisplayData; newData: TimelineLineResponseDisplayData }) {
+		this._travelDiaryService.updateEvent(event.newData, event.oldData);
 	}
 
 	public eventDeleted(event: TimelineLineResponseDisplayData): void {
@@ -142,10 +142,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.inactiveDiaryEvents$.subscribe(this.inactiveEventsUpdated);
 
 		this._travelDiaryService.isLoaded.subscribe((v) => {
-
 			if (v && this._respondent.id === this._primaryRespondent.id) {
 				// console.log(this.isTravelDiaryCollectionDisabled);
-				setTimeout( () => this.startTour());
+				setTimeout(() => this.startTour());
 			}
 		});
 	}

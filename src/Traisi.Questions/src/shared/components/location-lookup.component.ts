@@ -65,6 +65,7 @@ export class LocationLookupComponent implements OnInit {
 	 */
 	private retrieveLocationInfo($event: MapLocation): void {
 		this._geoService.locationInfo($event.address.id).subscribe((x) => {
+			this.locationSelected.emit($event);
 		});
 	}
 
@@ -74,6 +75,5 @@ export class LocationLookupComponent implements OnInit {
 	 */
 	public addressChanged($event: MapLocation): void {
 		this.retrieveLocationInfo($event);
-		this.locationSelected.emit($event);
 	}
 }

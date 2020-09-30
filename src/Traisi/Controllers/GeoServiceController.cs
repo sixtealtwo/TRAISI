@@ -157,7 +157,13 @@ namespace Traisi.Controllers
             var types = cmp.Value<JArray>("types").Values<string>();
             if (types.Contains("street_number"))
             {
-                location.Address.StreetNumber = int.Parse(cmp.Value<string>("long_name"));
+                try {
+                    location.Address.StreetNumber = int.Parse(cmp.Value<string>("long_name"));
+                }
+                catch {
+                    location.Address.StreetNumber = -1;
+                }
+                
             }
             else if (types.Contains("route"))
             {

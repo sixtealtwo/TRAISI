@@ -144,6 +144,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		if (this._map) {
 			this._map.flyTo({
 				center: new LngLat(val[0], val[1]),
+				duration: 500
 			});
 		}
 	}
@@ -291,11 +292,12 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param {string} address
 	 */
 	private updateAddressInput(address: Address): void {
-		if (!address) {
-			return;
+		if (address) {
+			this.locationSelect.addressInputModel =
+				address.formattedAddress ?? `${address.streetNumber} ${address.streetAddress}, ${address.city}`;
+		} else {
+			this.locationSelect.addressInputModel = undefined;
 		}
-		this.locationSelect.addressInputModel =
-			address.formattedAddress ?? `${address.streetNumber} ${address.streetAddress}, ${address.city}`;
 	}
 
 	/**
@@ -322,12 +324,11 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	}
 
 	/**
-	 * 
-	 * @param lng 
-	 * @param lat 
+	 *
+	 * @param lng
+	 * @param lat
 	 */
-	public setMarkerLocationLngLat(lng: number, lat: number)
-	{
+	public setMarkerLocationLngLat(lng: number, lat: number) {
 		this.setMarkerLocation(new LngLat(lng, lat));
 	}
 
