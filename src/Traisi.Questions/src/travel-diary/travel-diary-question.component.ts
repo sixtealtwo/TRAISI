@@ -173,8 +173,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
 
 	/**
-	 * 
-	 * @param events 
+	 *
+	 * @param events
 	 */
 	public eventsUpdated = (events: CalendarEvent[]): void => {
 		// check events for activity sap
@@ -190,7 +190,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 			this._isValid = isValid;
 
 			if (isValid) {
-				// this.saveTravelDiary();
+				this.saveTravelDiary();
 			}
 			if (this._travelDiaryService.isLoaded.value && isValid) {
 				this.validationState.emit(ResponseValidationState.VALID);
