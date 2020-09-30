@@ -167,6 +167,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			isInserted: undefined,
 			isUpdateEventSwap: false,
 			name: undefined,
+			isRequireDepartureConfirm: false,
 			order: 1,
 			purpose: undefined,
 			timeA: new Date(this._surveyAccessTime),
@@ -211,8 +212,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			let laterEvent = this._editorService.getLaterEvent(this.model, this._travelDiaryService.diaryEvents$.value);
 			this.insertedIntoEvent = insertedEvent;
 
-			if (laterEvent) {
+			if (laterEvent && insertedEvent) {
 				//		this.model.hasEndTime = true;
+
 				this.isRequiresEndTime = true;
 			} else {
 				//		this.model.hasEndTime = false;
@@ -231,7 +233,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			}
 		}
 
-		if (insertedEvent) {
+		if (insertedEvent && this.dialogMode  === DialogMode.New) {
 			this.insertedIntoEvent = insertedEvent;
 			this.isInsertedDepartureTime = true;
 			if (
@@ -249,6 +251,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.insertedIntoEvent = undefined;
 			this.isInsertedDepartureTime = false;
 		}
+		console.log(this);
 	}
 
 	/**
@@ -361,6 +364,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this._oldModel = Object.assign({}, model);
 			this.model.isInserted = false;
 			this.model.isReturnHomeSplit = false;
+			this.model.isRequireDepartureConfirm = false;
 			this.displayIndex = this._editorService.getEventIndex(
 				this.model,
 				this._travelDiaryService.diaryEvents$.value

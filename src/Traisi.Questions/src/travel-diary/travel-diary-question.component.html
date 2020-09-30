@@ -105,3 +105,21 @@
 	</div>
 </ng-template>
 
+
+<ng-template #activitySwap>
+	<div class="modal-header">
+		<h4 class="modal-title pull-left">Please Confirm Departure Time</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body text-center">
+		<p>
+			The order of two activities have been swapped in your travel diary. Please confirm the updated departure time for the activity with the updated
+			departure time. It will be highlighted with an orange border. To confirm or change the departure time information, click the activity in the travel diary summary.
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="modalRef.hide()">Ok</button>
+	</div>
+</ng-template>

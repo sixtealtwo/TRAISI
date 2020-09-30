@@ -40,6 +40,7 @@ export type TimelineLineResponseDisplayData = TimelineResponseData & {
 	displayAddress: any;
 	isUpdateEventCompress?: boolean;
 	isUpdateEventSwap?: boolean;
+	isRequireDepartureConfirm?: boolean;
 };
 
 export type TravelDiaryEvent = CalendarEvent & { meta: { model: TimelineLineResponseDisplayData; [x: string]: any } };

@@ -66,6 +66,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	@ViewChild('template', { read: TemplateRef })
 	public template: TemplateRef<any>;
 
+	@ViewChild('activitySwap', { read: TemplateRef })
+	public activitySwapTemplate: TemplateRef<any>;
+
 	private _isValid: boolean = false;
 
 	public modalRef: BsModalRef | null;
@@ -169,13 +172,25 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
 
+	/**
+	 * 
+	 * @param events 
+	 */
 	public eventsUpdated = (events: CalendarEvent[]): void => {
+		// check events for activity sap
+		for (let e of events) {
+			if (e.meta.model.isRequireDepartureConfirm) {
+				this.openModal(this.activitySwapTemplate);
+				break;
+			}
+		}
+
 		if (!this._travelDiaryService.isActiveUserDisabled) {
 			let isValid = this._travelDiaryService.isTravelDiaryValid;
 			this._isValid = isValid;
 
 			if (isValid) {
-				this.saveTravelDiary();
+				// this.saveTravelDiary();
 			}
 			if (this._travelDiaryService.isLoaded.value && isValid) {
 				this.validationState.emit(ResponseValidationState.VALID);

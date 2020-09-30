@@ -436,9 +436,7 @@ export class TravelDiaryEditor {
 				if (update.isUpdateEventSwap) {
 					let swapIdx = events.findIndex((x) => x.meta.model.displayId === laterOverlap.meta.model.displayId);
 
-					this.swapEvents(events, evtIdx, swapIdx);
-
-					// updated event must go from event.timA to overlapB
+					this.swapEvents(events, evtIdx, swapIdx, update.timeA);
 				} else {
 					// get index of event being compressed
 
@@ -476,7 +474,15 @@ export class TravelDiaryEditor {
 	public updateModel(
 		modelTarget: TimelineLineResponseDisplayData,
 		modelSource: TimelineLineResponseDisplayData
-	): void {}
+	): void {
+		modelTarget.name = modelSource.name;
+		modelTarget.latitude = modelSource.latitude;
+		modelTarget.longitude = modelSource.longitude;
+		modelTarget.address = Object.assign({}, modelSource.address);
+		modelTarget.purpose = modelSource.purpose;
+		modelTarget.mode = modelSource.mode;
+		modelTarget.users = Object.assign({}, modelSource.users);
+	}
 
 	/**
 	 *
@@ -484,7 +490,7 @@ export class TravelDiaryEditor {
 	 * @param event1Idx
 	 * @param event2Idx
 	 */
-	public swapEvents(events: TravelDiaryEvent[], event1Idx: number, event2Idx: number): void {
+	public swapEvents(events: TravelDiaryEvent[], event1Idx: number, event2Idx: number, newStartTime: Date): void {
 		let event1 = events[event1Idx];
 		let event2 = events[event2Idx];
 
@@ -492,13 +498,15 @@ export class TravelDiaryEditor {
 		let timeEndTemp = new Date(event1.end);
 		let timeStartTemp = new Date(event1.start);
 
-		event1.meta.model.timeA = new Date(event2.meta.model.timeA);
-		event1.start = new Date(event2.start);
+		event1.meta.model.timeA = new Date(newStartTime);
+		event1.start = new Date(newStartTime);
 		event1.end = new Date(event2.end);
 
 		event2.meta.model.timeA = new Date(timeATemp);
 		event2.start = timeStartTemp;
 		event2.end = timeEndTemp;
+		event2.meta.model.isRequireDepartureConfirm = true;
+		event2.meta.model.isValid = false;
 	}
 	/**
 	 * Compresses the events within the index to all align between the start time of the first event and end at the
