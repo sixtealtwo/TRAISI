@@ -110,7 +110,7 @@ namespace Traisi.Controllers
                 mapLocation.Address = new Sdk.Interfaces.Address();
                 mapLocation.Address.FormattedAddress = result.Value<string>("formatted_address");
                 mapLocation.Address.Id = result.Value<string>("place_id");
-
+                mapLocation.Address.Id = result.Value<string>("name");
                 mapLocation.Latitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lat");
                 mapLocation.Longitude = result.Value<JObject>("geometry").Value<JObject>("location").Value<double>("lng");
                 mapLocations.Add(mapLocation);
