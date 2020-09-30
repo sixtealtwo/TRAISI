@@ -149,7 +149,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.isRequiresReturnHomeTime = false;
 		this.isRequiresEventSwapConfirm = false;
 		this.insertedIntoEvent = undefined;
-
+		this.isRequiresEndTime = false;
+		this.isRequiresReturnHomeTime = false;
 		let id = Date.now();
 		let users = [];
 		if (this._respondentRef) {
@@ -364,6 +365,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this.model,
 				this._travelDiaryService.diaryEvents$.value
 			);
+			console.log(this.displayIndex);
 		}
 
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;
