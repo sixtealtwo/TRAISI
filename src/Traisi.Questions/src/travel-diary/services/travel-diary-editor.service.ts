@@ -187,7 +187,9 @@ export class TravelDiaryEditor {
 				id: displayId,
 				title: event.name,
 				start: startTime,
-				end: event.isFirstEvent ? new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 0, 0, 0)) : undefined,
+				end: event.isFirstEvent
+					? new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 0, 0, 0))
+					: undefined,
 				draggable: false,
 				resizable: { afterEnd: true },
 				order: event.isFirstEvent ? 0 : 1,
@@ -268,8 +270,9 @@ export class TravelDiaryEditor {
 				return this.insertEvent(events, event);
 			}
 		}
-		events = events.sort((a, b) => a.meta.model.timeA - b.meta.model.timeA);
+		this.sortEvents(events);
 		this.reAlignTimeBoundaries([].concat(u), events);
+		this.sortEvents(events);
 		this.updateHomeEvents(events);
 		return events;
 	}
@@ -472,12 +475,16 @@ export class TravelDiaryEditor {
 		}
 
 		this.reAlignTimeBoundaries(update.users, events, update);
-		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeA);
-		for(let i = 0; i < events.length; i++ ){
-			events[i].meta.model.order = i;
-		}
+		this.sortEvents(events);
 		this.updateHomeEvents(events);
 		// this.reAlignTimeBoundaries(update.users, events, update);
+	}
+
+	private sortEvents(events: TravelDiaryEvent[]): void {
+		events = events.sort((x, y) => x.meta.model.timeA - y.meta.model.timeA);
+		for (let i = 0; i < events.length; i++) {
+			events[i].meta.model.order = i;
+		}
 	}
 
 	public updateModel(
@@ -748,6 +755,7 @@ export class TravelDiaryEditor {
 			events.splice(idx, 1);
 		}
 		this.reAlignTimeBoundaries(event.users, events);
+		this.sortEvents(events);
 		this.updateHomeEvents(events);
 	}
 
