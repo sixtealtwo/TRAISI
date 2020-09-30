@@ -155,13 +155,13 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.inactiveDiaryEvents$.subscribe(this.inactiveEventsUpdated);
 
 		this._travelDiaryService.isLoaded.subscribe((v) => {
-			if (v && this._respondent.id === this._primaryRespondent.id) {
+			if (v) {
 				// console.log(this.isTravelDiaryCollectionDisabled);
 				//this._tour.initialize(this.dropdownToggle);
 				setTimeout(() => this.startTour());
 			} else {
 				//this._tour.initializeSubTour(this.dropdownToggle);
-				setTimeout(() => this.startTour());
+				// setTimeout(() => this.startTour());
 			}
 		});
 
@@ -251,12 +251,14 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public startTour(full: boolean = false): void {
-		if (this._respondent.id === this._primaryRespondent.id || full) {
-			this._tour.initialize(this.dropdownToggle);
-		} else {
-			this._tour.initializeSubTour(this.dropdownToggle);
+		if (!this.isTravelDiaryCollectionDisabled) {
+			if (this._respondent.id === this._primaryRespondent.id || full) {
+				this._tour.initialize(this.dropdownToggle);
+			} else {
+				this._tour.initializeSubTour(this.dropdownToggle);
+			}
+			this._tour.startTour();
 		}
-		this._tour.startTour();
 	}
 
 	public ngAfterViewInit(): void {}
