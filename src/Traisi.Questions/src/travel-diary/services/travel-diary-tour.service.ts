@@ -13,18 +13,27 @@ export class TravelDiaryTourService {
 
 	public tourEnded: Subject<any> = new Subject<any>();
 
-	public constructor(@Inject(DOCUMENT) private _document: Document) {
-	}
+	public constructor(@Inject(DOCUMENT) private _document: Document) {}
 
 	public initializeSubTour(popover: BsDropdownDirective): void {
 		this._popover = popover;
-		let events = document.querySelectorAll('.cal-event-container');
-		this._lastEvent = events[events.length - 1];
-		//this._tour.onbeforechange(this.onBeforeChange);
-		//this._tour.onexit(this.onExit);
+
+		let invalidEvents = document.querySelectorAll('.invalid-event');
+
+		if (invalidEvents.length === 0) {
+			let events = document.querySelectorAll('.cal-event-container');
+			this._lastEvent = events[events.length - 1];
+		} else {
+			this._lastEvent = invalidEvents[invalidEvents.length - 1];
+		}
+
+		this._tour.onbeforechange(this.onBeforeChange);
+		this._tour.onexit(this.onExit);
 		introJs().refresh();
 		// this._tour.on
 		this._tour.setOptions({
+			scrollToElement: true,
+			keyboardNavigation: false,
 			steps: [
 				{
 					element: this._document.querySelector('.add-event-button'),
@@ -55,15 +64,18 @@ export class TravelDiaryTourService {
 		this._tour.onexit(this.onExit);
 		// this._tour.on
 		this._tour.setOptions({
+			scrollToElement: true,
+			keyboardNavigation: false,
 			steps: [
 				{
+					element: this._document.querySelector('#travelDiaryQuestionContainer'),
 					intro: `<h3>Travel Diary</h3>
                             <p>This question will collect trip information for you and members of your household.<p>
                             <p>Press next to see instructions on how to enter information about the trips you took on the assigned travel date. If
 							you need to see the instructions again, click the help icon at the bottom of the page.</p>
 							<p>If you need help, please call: <strong>1-647-836-5706</strong></p>`,
 				},
-				
+
 				{
 					element: this._document.querySelector('#travelDiaryQuestionContainer'),
 					intro: `<h3>Travel Diary - Overview</h3>
@@ -93,12 +105,12 @@ export class TravelDiaryTourService {
 	}
 
 	public startTour(): void {
-		
-		this._tour.start();
+		introJs().refresh();
+		this._tour.start().goToStep(1);
 	}
 
 	public onBeforeChange = () => {
-		if (this._tour._currentStep === 3) {
+		if (this._tour._currentStep === 1) {
 			// this._popover.show();
 			// this._popover.toggle(true);
 			this._lastEvent.scrollIntoView();
