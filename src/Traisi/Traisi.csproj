@@ -106,14 +106,14 @@
 	</Target>
 
 	<ItemGroup>
-		<Content Include="$(SpaRoot)\dist**">
+		<None Include="$(SpaRoot)\dist\**">
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
 
-		<None Include="$(SpaRoot)\**\**tsconfig" CopyToOutputDirectory="Never" />
+		<!--<None Include="$(SpaRoot)\**\*.tsconfig" CopyToOutputDirectory="Never" /> -->
 		<!--<Content Include="$(SpaRoot)\dist\**" Link="Traisi.ClientApp\dist\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" /> -->
 		<Content Update="appsettings.local.json" CopyToPublishDirectory="Never" CopyToOutputDirectory="PreserveNewest" />
 		<Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" CopyToOutputDirectory="Never" />
@@ -121,10 +121,10 @@
 		<!-- CopyToOutputDirectory = { Always, PreserveNewest, Never } -->
 	</ItemGroup>
 
-	<Target Name="BuildRunWebpack" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
-		<Message Text="Building admin angular app..." Importance="high" />
+	<Target Name="BuildRunWebpack" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Release2'">
+		<Message Text="Building admin angular app... 1" Importance="high" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  --source-map" StandardOutputImportance="low" StandardErrorImportance="low" />
-		<Message Text="Building survey viewer angular app..." Importance="high" />
+		<Message Text="Building survey viewer angular app... 1" Importance="high" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --aot=true --build-optimizer=true --source-map --prod=true" StandardOutputImportance="low" StandardErrorImportance="low" />
 		<Message Text="Finished building client side components." Importance="high" />
 	</Target>
@@ -147,11 +147,11 @@
 		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
 
 		<Message Text="Installing node package dependencies for main client app..." Importance="high" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install --no-audit" StandardOutputImportance="low" StandardErrorImportance="low" />
-		<Message Text="Building admin angular app..." Importance="high" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm ci --no-audit" StandardOutputImportance="low" StandardErrorImportance="low" />
+		<Message Text="Building admin angular app... " Importance="high" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  " StandardOutputImportance="low" StandardErrorImportance="low" />
-		<Message Text="Building survey viewer angular app..." Importance="high" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=false --build-optimizer=false" StandardOutputImportance="low" StandardErrorImportance="low" />
+		<Message Text="Building survey viewer angular app... " Importance="high" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=true --build-optimizer=false" StandardOutputImportance="low" StandardErrorImportance="low" />
 
 		<!--<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -/- -/-prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -/- survey-viewer-app -/-prod -/-aot=false -/-build-optimizer=false" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
