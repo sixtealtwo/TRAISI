@@ -173,6 +173,8 @@ namespace Traisi.Data
                 .HasValue<OptionSelectResponse>((int)ResponseTypes.OptionSelectResponse)
                 .HasValue<NumberResponse>((int)ResponseTypes.NumberResponse);
 
+            builder.Entity<TimelineResponse>().Property(x => x.Identifier).IsRequired(false);
+
             builder.Entity<SurveyResponse>().HasMany(s => s.ResponseValues).WithOne(v => v.SurveyResponse).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyResponse>().ToTable("SurveyResponses").HasOne(p => p.QuestionPart).WithMany().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyResponse>().Property(x => x.Excluded).HasDefaultValue(false);
