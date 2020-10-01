@@ -50,6 +50,7 @@ export class LocationLookupComponent implements OnInit {
 
 						// empty list on error
 						tap((x) => {
+							console.log(x);
 							this.addressesLoading = false;
 						})
 					)

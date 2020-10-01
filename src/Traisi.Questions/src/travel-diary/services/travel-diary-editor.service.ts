@@ -402,7 +402,6 @@ export class TravelDiaryEditor {
 			} else {
 				event.meta.model.isValid = true;
 			}
-
 			event.meta.model.identifier = this.generateId();
 			events.push(event);
 			if (responses.length === 1 && responses[0].purpose.toLowerCase() === 'home') {
