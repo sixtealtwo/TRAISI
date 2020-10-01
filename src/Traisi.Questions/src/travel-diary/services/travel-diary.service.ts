@@ -632,6 +632,9 @@ export class TravelDiaryService {
 	 */
 	public updateEvent(event: TimelineLineResponseDisplayData, oldEvent: TimelineLineResponseDisplayData): void {
 		// update for the main respondent
+
+		console.log('event updated');
+		console.log(event);
 		let events = this._splitEvent(event);
 		for (let splitEvent of events) {
 			this._edtior.updateEvent(splitEvent, oldEvent, this.userTravelDiaries[splitEvent.users[0].id]);

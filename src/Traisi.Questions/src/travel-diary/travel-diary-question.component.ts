@@ -222,6 +222,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	 * Saves the travel diary for all active respondents
 	 */
 	public saveTravelDiary(): void {
+		console.log('in save travel diary');
 		if (this._travelDiaryService.isLoaded.value) {
 			for (let r of this._travelDiaryService.activeRespondents) {
 				this.responseWithRespondent.emit({

@@ -37,6 +37,7 @@ import {
 } from 'travel-diary/models/consts';
 import { NgForm } from '@angular/forms';
 import { TravelDiaryEditor } from 'travel-diary/services/travel-diary-editor.service';
+import { v4 as uuidv4 } from 'uuid';
 @Component({
 	selector: 'traisi-travel-diary-edit-dialog',
 	template: '' + templateString,
@@ -107,8 +108,10 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	private _respondentRef: SurveyRespondentUser;
 
+	private _defaultDate: Date;
+
 	public get defaultDate(): Date {
-		return this._surveyAccessTime;
+		return this._defaultDate;
 	}
 
 	public get activeRespondentName(): string {
@@ -148,6 +151,14 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
 		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent
 	) {
+		this._initialize();
+	}
+
+	private _initialize(): void {
+		this._defaultDate = new Date(this._surveyAccessTime);
+		this._defaultDate.setHours(12);
+		this._defaultDate.setMinutes(0);
+		this._defaultDate.setSeconds(0);
 		this.resetModel();
 	}
 
@@ -162,7 +173,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		this.isRequiresEndTime = false;
 		this.isRequiresReturnHomeTime = false;
 		this.isFirstEventInDay = false;
-		let id = Date.now();
+		let id = uuidv4();
 		let users = [];
 		if (this._respondentRef) {
 			users = [].concat(this._respondentRef);
@@ -170,7 +181,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 		this.model = {
 			id: undefined,
-			displayId: id,
+			identifier: id,
 			isValid: false,
 			address: undefined,
 			latitude: 0,
@@ -182,8 +193,8 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			order: 0,
 			isFirstEvent: null,
 			purpose: undefined,
-			timeA: new Date(this._surveyAccessTime),
-			timeB: new Date(this._surveyAccessTime),
+			timeA: null,
+			timeB: undefined,
 			users: users,
 			displayAddress: undefined,
 		};
@@ -227,7 +238,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			);
 			this.swapEvent = laterEvent;
 
-
 			//console.log(laterEvent);
 			//if (laterEvent && insertedEvent) {
 			//		this.model.hasEndTime = true;
@@ -243,7 +253,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this._travelDiaryService.diaryEvents$.value
 			);
 
-			if (laterOverlap && laterOverlap.meta.model.displayId !== this.model.displayId) {
+			if (laterOverlap && laterOverlap.meta.model.identifier !== this.model.identifier) {
 				this.isRequiresEventSwapConfirm = true;
 			} else {
 				this.isRequiresEventSwapConfirm = false;
@@ -255,18 +265,28 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.isInsertedDepartureTime = true;
 			if (
 				insertedEvent.meta.model.purpose.toLowerCase().includes('home') &&
-				insertedEvent.meta.model.displayId !== this.model.displayId
+				insertedEvent.meta.model.identifier !== this.model.identifier
 			) {
 				this.isRequiresReturnHomeTime = true;
 				this.model.isReturnHomeSplit = true;
 				this.model.hasEndTime = true;
 				this.model.isInserted = true;
+			} else {
+				this.isRequiresReturnHomeTime = false;
+				this.model.isInserted = null;
 			}
 		} else {
 			this.isRequiresReturnHomeTime = false;
 			this.model.isReturnHomeSplit = false;
 			this.insertedIntoEvent = undefined;
 			this.isInsertedDepartureTime = false;
+		}
+		console.log(this);
+	}
+
+	public initTimeInput(model: TimelineLineResponseDisplayData): void {
+		if (!model.timeA) {
+			model.timeA = this.defaultDate;
 		}
 	}
 
@@ -278,12 +298,15 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		if (!$event) {
 			return;
 		}
+		$event.setFullYear(this.defaultDate.getFullYear());
+		$event.setMonth(this.defaultDate.getMonth());
 		$event.setDate(this.defaultDate.getDate());
 		if ($event.getHours() < 4 && $event.getHours() >= 0) {
 			// this needs to be adjusted
 			$event.setDate($event.getDate() + 1);
 		}
 
+		console.log($event);
 		this.model.timeA = $event;
 		this.checkTimeOverlaps();
 	}

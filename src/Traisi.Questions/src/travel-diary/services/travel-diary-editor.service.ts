@@ -422,6 +422,9 @@ export class TravelDiaryEditor {
 	) {
 		// find the event
 		let evtIdx = events.findIndex((x) => x.meta.model.identifier === update.identifier);
+
+		console.log('got event idx');
+		console.log(evtIdx);
 		if (evtIdx > 0) {
 			let evt = events[evtIdx];
 
@@ -447,6 +450,7 @@ export class TravelDiaryEditor {
 					);
 				}
 			} else {
+				console.log(' in here ');
 				let newModel = Object.assign(evt.meta.model, update);
 				let displayTime = new Date(update.timeA);
 				displayTime.setHours(displayTime.getHours() + TIME_DELTA);
@@ -458,6 +462,7 @@ export class TravelDiaryEditor {
 				if (update.hasEndTime) {
 					evt.end = endTime;
 				}
+				console.log(evt);
 			}
 
 			// if its an event time swap we take the overalpping event and place it in where this event is

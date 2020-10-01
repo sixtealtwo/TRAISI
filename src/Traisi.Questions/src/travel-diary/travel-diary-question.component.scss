@@ -10,8 +10,6 @@ traisi-travel-diary-question {
 	flex-direction: column;
 }
 
-
-
 .travel-diary-question::-webkit-scrollbar-track {
 	background: #e6e6e6;
 	border-radius: 2px;
@@ -26,7 +24,6 @@ traisi-travel-diary-question {
 
 .travel-diary-question {
 	overflow-y: auto;
-
 
 	.mapboxgl-ctrl-geocoder {
 		display: none;
@@ -45,7 +42,6 @@ traisi-travel-diary-question {
 
 	.tour {
 		margin-left: 10px;
-		
 	}
 }
 
@@ -53,8 +49,13 @@ traisi-travel-diary-question {
 	font-weight: bold;
 }
 
+.btn.view-select {
+	input {
+		display: none;
+	}
+}
 
-.view-validation-errors{
+.view-validation-errors {
 	cursor: pointer;
 	font-size: 14px;
 	margin-left: 10px;
@@ -72,7 +73,7 @@ ul.dropdown-menu {
 	padding-bottom: 0px;
 	border-radius: 5px;
 	box-shadow: 0px 0px black;
-	border: solid 1px #DDD;
+	border: solid 1px #ddd;
 	background-color: white;
 	li {
 		padding-left: 20px;
@@ -92,10 +93,7 @@ ul.dropdown-menu {
 	}
 }
 
-
-
-
-@media (max-width: 575.98px) { 
+@media (max-width: 575.98px) {
 	.cal-event {
 		writing-mode: vertical-rl;
 		text-orientation: mixed;

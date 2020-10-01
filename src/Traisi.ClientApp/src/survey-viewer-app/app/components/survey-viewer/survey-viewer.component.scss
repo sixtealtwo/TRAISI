@@ -86,7 +86,7 @@ nav.sidebar {
 	}
 
 	main.survey-container.menuToggled {
-		margin-left: 320px !important;
+		margin-left: 300px !important;
 	}
 
 	.survey-container {
@@ -177,6 +177,10 @@ nav.sidebar {
 		//margin-right: auto;
 		//max-width: 1000px;
 		//width: 1000px;
+	}
+	.questions-outer-container {
+		margin-right: 20px;
+		margin-left: 20px;
 	}
 }
 

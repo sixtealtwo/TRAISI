@@ -115,7 +115,7 @@ header {
 	min-height: $PROGRESS_LIST_HEIGHT;
 	// counter-increment: list;
 	padding-left: $SPACER_XS;
-	margin-top: 25px;
+	margin-top: 0px;
 	&:before {
 		content: '';
 		position: absolute;
