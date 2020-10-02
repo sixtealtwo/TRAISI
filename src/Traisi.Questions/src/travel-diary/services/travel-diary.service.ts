@@ -94,6 +94,7 @@ export class TravelDiaryService {
 		@Inject(TraisiValues.SurveyId) private _surveyId: number,
 		@Inject(TraisiValues.Configuration) private _configuration: any,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
+		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent,
 		@Inject(TraisiValues.SurveyQuestion) private _question: SurveyViewQuestion,
 		@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date,
 		private _injector: Injector
@@ -629,15 +630,27 @@ export class TravelDiaryService {
 	 * Splits the event in multiple events, one for each user
 	 * @param event
 	 */
-	private _splitEvent(event: TimelineLineResponseDisplayData): TimelineLineResponseDisplayData[] {
+	private _splitEvent(
+		event: TimelineLineResponseDisplayData,
+		oldEvent?: TimelineLineResponseDisplayData
+	): TimelineLineResponseDisplayData[] {
 		let events: TimelineLineResponseDisplayData[] = [];
 		for (let user of event.users) {
 			let splitEvent = Object.assign({}, event);
 			splitEvent.users = [user];
-			// set the mode to undefined
-			if (user.id !== this.activeUser.id) {
-				splitEvent.mode = undefined;
+
+			// set the mode to undefine for non active users
+			if (this.activeUser.id === this._primaryRespondent.id) {
+				if (user.id !== this.activeUser.id) {
+					splitEvent.mode = undefined;
+				}
+			} else {
+				if (user.id !== this.activeUser.id) {
+					let userEvent = this.getEventForUser(event, user);
+					splitEvent.mode = userEvent.meta.model.mode;
+				}
 			}
+
 			events.push(splitEvent);
 		}
 		return events;
@@ -649,7 +662,7 @@ export class TravelDiaryService {
 	 */
 	public updateEvent(event: TimelineLineResponseDisplayData, oldEvent: TimelineLineResponseDisplayData): void {
 		// update for the main respondent
-		let events = this._splitEvent(event);
+		let events = this._splitEvent(event, oldEvent);
 		for (let splitEvent of events) {
 			if (this.eventExistsForUser(event, splitEvent.users[0])) {
 				this._edtior.updateEvent(splitEvent, oldEvent, this.userTravelDiaries[splitEvent.users[0].id]);
@@ -663,7 +676,6 @@ export class TravelDiaryService {
 		}
 
 		// determine which respondents were removed
-		
 
 		this.diaryEvents$.next(this._diaryEvents);
 	}
@@ -676,6 +688,21 @@ export class TravelDiaryService {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 *
+	 * @param event
+	 * @param user
+	 */
+	public getEventForUser(event: TimelineLineResponseDisplayData, user: SurveyRespondentUser): TravelDiaryEvent {
+		let events = this.userTravelDiaries[user.id];
+		for (let userEvent of events) {
+			if (userEvent.meta.model.identifier === event.identifier) {
+				return userEvent;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -712,9 +739,11 @@ export class TravelDiaryService {
 	public deleteEvent(event: TimelineLineResponseDisplayData): void {
 		let events = this._splitEvent(event);
 		for (let splitEvent of events) {
-			this._edtior.deleteEvent(splitEvent, this.userTravelDiaries[splitEvent.users[0].id]);
-			if (splitEvent.users[0].id !== this.activeUser.id) {
-				this.inactiveDiaryEvents$.next(this.userTravelDiaries[splitEvent.users[0].id]);
+			if (this.activeUser.id === this._primaryRespondent.id || splitEvent.users[0].id === this.activeUser.id) {
+				this._edtior.deleteEvent(splitEvent, this.userTravelDiaries[splitEvent.users[0].id]);
+				if (splitEvent.users[0].id !== this.activeUser.id) {
+					this.inactiveDiaryEvents$.next(this.userTravelDiaries[splitEvent.users[0].id]);
+				}
 			}
 		}
 
