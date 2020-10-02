@@ -397,7 +397,6 @@ export class TravelDiaryEditor {
 		responses: TimelineResponseData[],
 		events: TravelDiaryEvent[]
 	) {
-		console.log(responses);
 		for (let i = 0; i < responses.length; i++) {
 			let response = responses[i];
 			let event = this.createBaseEvent(respondent, response.name, response.purpose);

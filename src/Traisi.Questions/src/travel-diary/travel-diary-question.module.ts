@@ -16,7 +16,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ReturnTimeValidatorDirective } from './validators/return-time.directive';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-
+import { TravelDiaryLinearViewComponent } from './components/travel-diary-linear-view.component';
 
 export const calendarProps = {
 	provide: DateAdapter,
@@ -31,12 +31,14 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 		DayViewSchedulerComponent,
 		TravelDiaryEventDisplayComponent,
 		ReturnTimeValidatorDirective,
+		TravelDiaryLinearViewComponent,
 	],
 	entryComponents: [
 		TravelDiaryQuestionComponent,
 		TravelDiaryEditDialogComponent,
 		DayViewSchedulerComponent,
 		TravelDiaryEventDisplayComponent,
+		TravelDiaryLinearViewComponent,
 	],
 	providers: [
 		{
@@ -61,6 +63,11 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 					name: 'traisi-travel-dairy-event-display',
 					id: 'travel-diary-event-display',
 					component: TravelDiaryEventDisplayComponent,
+				},
+				{
+					name: 'traisi-travel-dairy-linear-view',
+					id: 'travel-diary-linear-view',
+					component: TravelDiaryLinearViewComponent,
 				},
 				{
 					name: 'returnTime',

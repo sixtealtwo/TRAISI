@@ -333,7 +333,6 @@ export class TravelDiaryService {
 		return new Observable((obs) => {
 			this.loadPriorResponseData([this.activeUser]).subscribe({
 				complete: () => {
-					console.log('complete');
 					obs.complete();
 				},
 			});
