@@ -126,6 +126,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		if (this.dialogMode === DialogMode.CreateHome) {
 			return false;
 		}
+		if (this.model.purpose === 'dropoff' || this.model.purpose === 'pickup') {
+			return false;
+		}
 		if (this._primaryRespondent.id === this._respondent.id && this.displayIndex > 0) {
 			return true;
 		} else {
