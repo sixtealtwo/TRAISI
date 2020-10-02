@@ -125,7 +125,7 @@
 		"uglifyjs-webpack-plugin": "^2.2.0",
 		"url-loader": "^4.1.0",
 		"webpack": "^4.43.0",
-		"webpack-cli": "^3.3.11",
+		"webpack-cli": "^3.3.12",
 		"webpack-system-register": "^1.6.0",
 		"webpackbar": "^4.0.0"
 	},

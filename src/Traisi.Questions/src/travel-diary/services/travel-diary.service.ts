@@ -5,6 +5,7 @@ import { TravelDiaryConfiguration, TravelMode } from '../models/travel-diary-con
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
 import { formatRelative } from 'date-fns';
+import { v4 as uuidv4 } from 'uuid';
 import {
 	SurveyRespondentService,
 	SurveyRespondent,
@@ -215,6 +216,23 @@ export class TravelDiaryService {
 		if (idx >= 0 && !this._hasValues(respondent)) {
 			this.respondents.splice(idx, 1);
 		}
+	}
+
+	/**
+	 * Collects the list of users that are on this event.
+	 * @param event 
+	 */
+	public getUsersForEvent(event: TimelineLineResponseDisplayData): SurveyRespondentUser[] {
+		let users = [];
+		for(let key in this.userTravelDiaries) {
+			let userEvents = this.userTravelDiaries[key];
+			for(let userEvent of userEvents) {
+				if(userEvent.meta.model.identifier === event.identifier) {
+					users.push(this.userMap[key]);
+				}
+			}
+		}
+		return users;
 	}
 
 	private _hasValues(respondent: SurveyRespondentUser): boolean {
@@ -604,6 +622,7 @@ export class TravelDiaryService {
 				this.inactiveDiaryEvents$.next(this.userTravelDiaries[splitEvent.users[0].id]);
 			}
 		}
+		console.log(events);
 		// update the active user
 		this.diaryEvents$.next(this._diaryEvents);
 	}
@@ -632,9 +651,6 @@ export class TravelDiaryService {
 	 */
 	public updateEvent(event: TimelineLineResponseDisplayData, oldEvent: TimelineLineResponseDisplayData): void {
 		// update for the main respondent
-
-		console.log('event updated');
-		console.log(event);
 		let events = this._splitEvent(event);
 		for (let splitEvent of events) {
 			this._edtior.updateEvent(splitEvent, oldEvent, this.userTravelDiaries[splitEvent.users[0].id]);

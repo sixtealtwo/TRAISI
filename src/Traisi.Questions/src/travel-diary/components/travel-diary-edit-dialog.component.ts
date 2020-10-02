@@ -389,6 +389,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.reset();
 			this.model.users = [].concat(this._respondentRef);
 			this.displayIndex = 1;
+			this.model.identifier = uuidv4();
 			this.model.order = 1;
 		} else if (mode === DialogMode.CreateHome) {
 			this.resetModel();
@@ -413,6 +414,11 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this.model,
 				this._travelDiaryService.diaryEvents$.value
 			);
+			let users = this._travelDiaryService.getUsersForEvent(model);
+			console.log('got users');
+			console.log(users);
+			console.log(this.model);
+			this.model.users = users;
 		}
 
 		this.isFirstEventInDay = this.model.order > 0 ? false : true;
@@ -428,7 +434,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		if (!this._isMapLoaded) {
 			this._loadMapDisplay();
 		}
-		console.log(this);
 	}
 
 	private _loadMapDisplay(): void {

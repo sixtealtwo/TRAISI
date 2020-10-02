@@ -172,7 +172,13 @@ export class TravelDiaryEditor {
 	 * @param eventData
 	 */
 	public insertEvent(events: TravelDiaryEvent[], event: TimelineLineResponseDisplayData): TravelDiaryEvent[] {
-		let displayId = this.generateId();
+		let displayId: string;
+		if (!event.identifier) {
+			displayId = this.generateId();
+		} else {
+			displayId = event.identifier;
+		}
+
 		event.identifier = displayId;
 		let u = event.users[0];
 		if (!event.isInserted) {
@@ -391,6 +397,7 @@ export class TravelDiaryEditor {
 		responses: TimelineResponseData[],
 		events: TravelDiaryEvent[]
 	) {
+		console.log(responses);
 		for (let i = 0; i < responses.length; i++) {
 			let response = responses[i];
 			let event = this.createBaseEvent(respondent, response.name, response.purpose);
@@ -402,7 +409,12 @@ export class TravelDiaryEditor {
 			} else {
 				event.meta.model.isValid = true;
 			}
-			event.meta.model.identifier = this.generateId();
+			if (response.identifier) {
+				event.meta.model.identifier = response.identifier;
+			} else {
+				event.meta.model.identifier = uuidv4();
+			}
+
 			events.push(event);
 			if (responses.length === 1 && responses[0].purpose.toLowerCase() === 'home') {
 				event.meta.homeAllDay = true;
@@ -433,7 +445,9 @@ export class TravelDiaryEditor {
 			if (laterOverlap) {
 				// need to determine if swap or compress
 				if (update.isUpdateEventSwap) {
-					let swapIdx = events.findIndex((x) => x.meta.model.identifier === laterOverlap.meta.model.identifier);
+					let swapIdx = events.findIndex(
+						(x) => x.meta.model.identifier === laterOverlap.meta.model.identifier
+					);
 
 					this.swapEvents(events, evtIdx, swapIdx, update.timeA);
 
@@ -755,9 +769,9 @@ export class TravelDiaryEditor {
 	}
 
 	/**
-	 * 
-	 * @param user 
-	 * @param events 
+	 *
+	 * @param user
+	 * @param events
 	 */
 	public updateIndices(user: SurveyRespondentUser, events: TravelDiaryEvent[]): void {
 		let userEvents = events.filter((x) => x.meta.user.id === user.id);
