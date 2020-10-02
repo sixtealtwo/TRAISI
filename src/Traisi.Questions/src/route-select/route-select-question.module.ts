@@ -57,3 +57,5 @@ export default class RouteSelectQuestionModule {
 		};
 	}
 }
+
+export const moduleName = "route-select";

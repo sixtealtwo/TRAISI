@@ -173,3 +173,5 @@ export default class TraisiQuestions {
 		};
 	}
 }
+
+export const moduleName = "general";

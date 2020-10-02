@@ -112,3 +112,4 @@ export default class TravelDiaryQuestionModule {
 		};
 	}
 }
+export const moduleName = "travel-diary";
