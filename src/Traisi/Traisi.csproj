@@ -121,7 +121,7 @@
 		<!-- CopyToOutputDirectory = { Always, PreserveNewest, Never } -->
 	</ItemGroup>
 
-	<Target Name="BuildRunWebpack" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Release2'">
+	<Target Name="BuildRunWebpack" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
 		<Message Text="Building admin angular app... 1" Importance="high" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  --source-map" StandardOutputImportance="low" StandardErrorImportance="low" />
 		<Message Text="Building survey viewer angular app... 1" Importance="high" />
@@ -147,7 +147,7 @@
 		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
 
 		<Message Text="Installing node package dependencies for main client app..." Importance="high" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm ci --no-audit" StandardOutputImportance="low" StandardErrorImportance="low" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install --no-audit" StandardOutputImportance="low" StandardErrorImportance="low" />
 		<Message Text="Building admin angular app... " Importance="high" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod  " StandardOutputImportance="low" StandardErrorImportance="low" />
 		<Message Text="Building survey viewer angular app... " Importance="high" />
