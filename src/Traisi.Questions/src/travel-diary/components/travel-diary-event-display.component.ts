@@ -22,7 +22,7 @@ export class TravelDiaryEventDisplayComponent implements OnInit {
 	public get addressDisplay(): string {
 		let address = this.timeEvent.event.meta.model?.address as Address;
 		if (address) {
-			return `${address.streetNumber} ${address.streetAddress}, ${address.city}`;
+			return `${address.formattedAddress}`;
 		} else {
 			return '';
 		}
@@ -57,5 +57,6 @@ export class TravelDiaryEventDisplayComponent implements OnInit {
 		} else if (this.timeEvent.event.meta.homeAllDay) {
 			this.class = 'event-home-all-day';
 		}
+		console.log(this.model);
 	}
 }
