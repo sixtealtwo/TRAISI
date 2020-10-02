@@ -165,6 +165,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, tooltipForRoot, TextMaskModule, NgSelectModule, TimepickerModule,NgxMaskModule.forRoot()]
 })
 export default class TraisiQuestions {
+	static moduleName = "general"; 
 	static forRoot(): ModuleWithProviders<TraisiQuestions> {
 		return {
 			ngModule: TraisiQuestions,

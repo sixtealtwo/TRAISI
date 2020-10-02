@@ -104,6 +104,7 @@ export const calModule: ModuleWithProviders = CalendarModule.forRoot(calendarPro
 	exports: [CalendarDayModule, CalendarModule, CalendarCommonModule],
 })
 export default class TravelDiaryQuestionModule {
+	static moduleName = "travel-diary"; 
 	static forRoot(): ModuleWithProviders<TravelDiaryQuestionComponent> {
 		return {
 			ngModule: TravelDiaryQuestionComponent,
