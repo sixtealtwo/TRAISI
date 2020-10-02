@@ -492,7 +492,7 @@ export class TravelDiaryEditor {
 		events = events.sort((x, y) => x.meta.model.timeA.getTime() - y.meta.model.timeA.getTime());
 		for (let i = 0; i < events.length; i++) {
 			events[i].meta.model.order = i;
-			if (!events[i].meta.model.mode) {
+			if (!events[i].meta.model.mode && i > 0) {
 				events[i].meta.model.isValid = false;
 			}
 		}
