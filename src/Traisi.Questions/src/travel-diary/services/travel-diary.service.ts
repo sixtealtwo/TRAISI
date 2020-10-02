@@ -220,14 +220,14 @@ export class TravelDiaryService {
 
 	/**
 	 * Collects the list of users that are on this event.
-	 * @param event 
+	 * @param event
 	 */
 	public getUsersForEvent(event: TimelineLineResponseDisplayData): SurveyRespondentUser[] {
 		let users = [];
-		for(let key in this.userTravelDiaries) {
+		for (let key in this.userTravelDiaries) {
 			let userEvents = this.userTravelDiaries[key];
-			for(let userEvent of userEvents) {
-				if(userEvent.meta.model.identifier === event.identifier) {
+			for (let userEvent of userEvents) {
+				if (userEvent.meta.model.identifier === event.identifier) {
 					users.push(this.userMap[key]);
 				}
 			}
@@ -622,8 +622,6 @@ export class TravelDiaryService {
 				this.inactiveDiaryEvents$.next(this.userTravelDiaries[splitEvent.users[0].id]);
 			}
 		}
-		console.log(events);
-		// update the active user
 		this.diaryEvents$.next(this._diaryEvents);
 	}
 
@@ -653,13 +651,31 @@ export class TravelDiaryService {
 		// update for the main respondent
 		let events = this._splitEvent(event);
 		for (let splitEvent of events) {
-			this._edtior.updateEvent(splitEvent, oldEvent, this.userTravelDiaries[splitEvent.users[0].id]);
+			if (this.eventExistsForUser(event, splitEvent.users[0])) {
+				this._edtior.updateEvent(splitEvent, oldEvent, this.userTravelDiaries[splitEvent.users[0].id]);
+			} else {
+				// add the event
+				this._edtior.insertEvent(this.userTravelDiaries[splitEvent.users[0].id], splitEvent);
+			}
 			if (splitEvent.users[0].id !== this.activeUser.id) {
 				this.inactiveDiaryEvents$.next(this.userTravelDiaries[splitEvent.users[0].id]);
 			}
 		}
-		// update events for active user
+
+		// determine which respondents were removed
+		
+
 		this.diaryEvents$.next(this._diaryEvents);
+	}
+
+	public eventExistsForUser(event: TimelineLineResponseDisplayData, user: SurveyRespondentUser): boolean {
+		let events = this.userTravelDiaries[user.id];
+		for (let userEvent of events) {
+			if (userEvent.meta.model.identifier === event.identifier) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
