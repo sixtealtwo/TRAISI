@@ -484,13 +484,25 @@ export class TravelDiaryEditor {
 		// this.reAlignTimeBoundaries(update.users, events, update);
 	}
 
+	/**
+	 * 
+	 * @param events 
+	 */
 	private sortEvents(events: TravelDiaryEvent[]): void {
 		events = events.sort((x, y) => x.meta.model.timeA.getTime() - y.meta.model.timeA.getTime());
 		for (let i = 0; i < events.length; i++) {
 			events[i].meta.model.order = i;
+			if (!events[i].meta.model.mode) {
+				events[i].meta.model.isValid = false;
+			}
 		}
 	}
 
+	/**
+	 * 
+	 * @param modelTarget 
+	 * @param modelSource 
+	 */
 	public updateModel(
 		modelTarget: TimelineLineResponseDisplayData,
 		modelSource: TimelineLineResponseDisplayData
