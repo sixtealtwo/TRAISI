@@ -668,7 +668,6 @@ export class SurveyNavigator {
 		);
 		if (match) {
 			match.validationState = result;
-			console.log(match.validationState);
 			this.validationChanged();
 		}
 	}

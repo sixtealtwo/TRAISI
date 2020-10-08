@@ -173,6 +173,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 				}
 			}
 		});
+
+		console.log(' loaded travel diary');
 	}
 
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};

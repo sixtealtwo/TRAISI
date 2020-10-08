@@ -293,7 +293,7 @@ export class SurveyViewerComponent
 	 */
 	private navigationStateChanged(v: NavigationState): void {
 		let saveState = {
-			shortcode: this.session.shortcode ?? this._authService.currentSurveyUser.id,
+			shortcode: this.session.shortcode ?? this._authService.currentSurveyUser.shortcode,
 			surveyId: this.surveyId,
 			state: {
 				activeQuestionIndex: v.activeQuestionIndex ?? 0,
@@ -473,7 +473,6 @@ export class SurveyViewerComponent
 				// create questionBlocks
 				this._viewerStateService.initialize().subscribe();
 				this.initializeNavigator();
-				console.log(this.viewerState);
 				this.navigator.navigationState$.subscribe(this.navigationStateChanged.bind(this));
 			});
 	}
