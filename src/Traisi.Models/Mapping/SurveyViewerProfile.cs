@@ -313,6 +313,14 @@ namespace Traisi.Models.Mapping
                                                 .Replace(" ", "")] =
                                             double.Parse(a.Value);
                                         break;
+                                    case ConfigurationValueType.Boolean:
+                                        svm
+                                            .Configuration[ResponseValueResolver
+                                                .NamesContractResolver
+                                                .GetResolvedPropertyName(a.Name)
+                                                .Replace(" ", "")] =
+                                            bool.Parse(a.Value);
+                                        break;
                                     case ConfigurationValueType.Custom:
                                         try
                                         {
@@ -429,13 +437,15 @@ namespace Traisi.Models.Mapping
     {
         public object Convert(string sourceMember, ResolutionContext context)
         {
-            if(sourceMember != null) {
+            if (sourceMember != null)
+            {
                 return JToken.Parse(sourceMember);
             }
-            else {
+            else
+            {
                 return new JArray();
             }
-            
+
         }
     }
 
