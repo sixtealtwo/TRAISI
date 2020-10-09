@@ -293,7 +293,7 @@ export class SurveyViewerComponent
 	 */
 	private navigationStateChanged(v: NavigationState): void {
 		let saveState = {
-			shortcode: this.session.shortcode ?? this._authService.currentSurveyUser.shortcode,
+			shortcode: this.session.shortcode ?? this._authService.currentSurveyUser.shortcode ?? this._authService.currentUser.id,
 			surveyId: this.surveyId,
 			state: {
 				activeQuestionIndex: v.activeQuestionIndex ?? 0,
@@ -309,7 +309,6 @@ export class SurveyViewerComponent
 			},
 		};
 		this._storage.set(`surveyState:${this.surveyId}`, saveState);
-
 		if (this.previousState) {
 			if (
 				this.previousState.activeRespondentIndex !== v.activeRespondentIndex ||
@@ -485,9 +484,11 @@ export class SurveyViewerComponent
 				state: NavigationState;
 			} = this._storage.get(`surveyState:${this.surveyId}`);
 
+			let user = this._authService.currentSurveyUser
+				? this._authService.currentSurveyUser
+				: this._authService.currentUser;
 			if (
-				restoredState.shortcode ===
-					(this._authService.currentSurveyUser.shortcode ?? this._authService.currentSurveyUser.id) &&
+				restoredState.shortcode === (user['shortcode'] ?? user.id) &&
 				this.session.surveyId === restoredState.surveyId
 			) {
 				this.navigator.initialize(restoredState.state).subscribe((v) => {});

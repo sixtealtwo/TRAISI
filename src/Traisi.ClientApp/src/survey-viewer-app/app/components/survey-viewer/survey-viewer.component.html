@@ -38,7 +38,7 @@
 			<div *ngIf="navigator.navigationState$ | async as state; else loading" class="questions-outer-container">
 				<div class="questions-container flex-grow-1" #questionsContainer>
 					<div
-						class="question-section"
+						class="question-section {{state.activeQuestionInstances[0]?.component?.displayClass}}"
 						[ngClass]="{
 							'single-question':
 								state.activeQuestionInstances.length === 1 &&
