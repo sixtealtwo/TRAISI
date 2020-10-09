@@ -100,7 +100,7 @@
 
 					<div class="form-group row" *ngIf="!isFirstEventInDay">
 						<div class="col-12">
-							<label for="timeA" class="col-form-label">Departure time for the trip (as 24-hours) </label>
+							<label for="timeA" class="col-form-label">Departure time for the trip </label>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroupPrepend2"
@@ -118,7 +118,7 @@
 									[(ngModel)]="model.timeA"
 									[noCalendar]="true"
 									[enableTime]="true"
-									[time24hr]="true"
+									[time24hr]="false"
 									[now]="defaultDate"
 									dateFormat="H:i"
 									aria-describedby="inputGroupPrepend2"
@@ -278,7 +278,7 @@
 									[noCalendar]="true"
 									[enableTime]="true"
 									[now]="defaultDate"
-									[time24hr]="true"
+									[time24hr]="false"
 									dateFormat="H:i"
 									aria-describedby="insertedEndTime"
 									[convertModelValue]="true"

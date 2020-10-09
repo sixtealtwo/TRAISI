@@ -284,7 +284,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.insertedIntoEvent = undefined;
 			this.isInsertedDepartureTime = false;
 		}
-		console.log(this);
 	}
 
 	public initTimeInput(model: TimelineLineResponseDisplayData): void {
@@ -418,9 +417,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 				this._travelDiaryService.diaryEvents$.value
 			);
 			let users = this._travelDiaryService.getUsersForEvent(model);
-			console.log('got users');
-			console.log(users);
-			console.log(this.model);
 			this.model.users = users;
 		}
 

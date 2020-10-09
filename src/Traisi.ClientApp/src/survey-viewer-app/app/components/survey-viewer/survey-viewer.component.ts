@@ -48,7 +48,7 @@ import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { NavigationState } from 'app/models/navigation-state.model';
 import { AuthService } from 'shared/services/auth.service';
 import { SurveyViewerProviders } from 'app/providers/survey-viewer.providers';
-
+declare var Modernizr;
 interface SpecialPageDataInput {
 	pageHTML: string;
 	pageThemeInfo: string;
@@ -257,6 +257,10 @@ export class SurveyViewerComponent
 				}, 3000);
 			}
 		});
+
+		if (Modernizr.mq('(max-width: 768px)')) {
+			this.menuToggled = true;
+		}
 	}
 
 	public highlightQuestion(): void {}
