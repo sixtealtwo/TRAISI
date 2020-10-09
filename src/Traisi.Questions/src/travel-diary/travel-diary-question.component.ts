@@ -73,6 +73,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public modalRef: BsModalRef | null;
 
+	public isSummaryTravelDiaryView: boolean = true;
+
 	public constructor(
 		private _travelDiaryService: TravelDiaryService,
 		private _modalService: BsModalService,
@@ -173,8 +175,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 				}
 			}
 		});
-
-		console.log(' loaded travel diary');
 	}
 
 	public usersUpdated = (users: SurveyRespondentUser[]): void => {};
@@ -234,6 +234,10 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		}
 	}
 
+	public setSummaryTavelDiaryView(value: boolean): void {
+		this.isSummaryTravelDiaryView = value;
+	}
+
 	/**
 	 * Saves the inactive
 	 * @param respondent
@@ -249,6 +253,10 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public eventClicked({ event }: { event: CalendarEvent }): void {
+		this.entryDialog.show(DialogMode.Edit, event.meta.model);
+	}
+
+	public linearViewEventClicked(event: TravelDiaryEvent): void {
 		this.entryDialog.show(DialogMode.Edit, event.meta.model);
 	}
 

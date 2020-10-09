@@ -132,7 +132,6 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 			order: this.options.length + 1,
 		};
 
-		console.log(this.configuration);
 		if (this.configuration.isShowNoneOfTheAbove) {
 			this.options.push(this.notaOption);
 		}

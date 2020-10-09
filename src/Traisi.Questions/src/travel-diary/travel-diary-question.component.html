@@ -8,11 +8,17 @@
 			[hourSegments]="1"
 			[refresh]="events$"
 			[users]="users | async"
-			*ngIf="!isTravelDiaryCollectionDisabled"
+			*ngIf="!isTravelDiaryCollectionDisabled && isSummaryTravelDiaryView"
 			#schedule
 			(eventClicked)="eventClicked($event)"
 		>
 		</traisi-travel-dairy-day-view-scheduler>
+
+		<traisi-travel-diary-linear-view
+			*ngIf="!isTravelDiaryCollectionDisabled && !isSummaryTravelDiaryView"
+			(eventClicked)="linearViewEventClicked($event)"
+		>
+		</traisi-travel-diary-linear-view>
 
 		<div class="inactive-user-message" *ngIf="isTravelDiaryCollectionDisabled">
 			<div class="alert alert-primary" role="alert">
@@ -36,8 +42,12 @@
 			#dropdownToggle="bs-dropdown"
 		>
 			<button type="button" class="btn btn-primary" (click)="newEvent()">Add Trip</button>
-			<!--<label class="btn btn-primary view-select"><input type="radio" name="options" id="scheduleView" checked><i class="fas fa-calendar-week"></i></label>
-			<label class="btn btn-primary view-select"><input type="radio" name="options" id="linearView"><i class="fas fa-list-ol"></i></label> -->
+			<label class="btn btn-primary view-select" (click)="setSummaryTavelDiaryView(true)"
+				><input type="radio" name="options" id="scheduleView" checked /><i class="fas fa-calendar-week"></i
+			></label>
+			<label class="btn btn-primary view-select" (click)="setSummaryTavelDiaryView(false)"
+				><input type="radio" name="options" id="linearView" /><i class="fas fa-list-ol"></i
+			></label>
 			<button
 				id="button-split"
 				type="button"
@@ -100,15 +110,14 @@
 	</div>
 	<div class="modal-body text-center">
 		<p>
-			A temporary return home activity was added to the travel diary. If you are not departing from home to this activity, please
-			delete the temporary home trip from your travel diary.
+			A temporary return home activity was added to the travel diary. If you are not departing from home to this
+			activity, please delete the temporary home trip from your travel diary.
 		</p>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-primary" (click)="modalRef.hide()">Ok</button>
 	</div>
 </ng-template>
-
 
 <ng-template #activitySwap>
 	<div class="modal-header">
@@ -119,8 +128,9 @@
 	</div>
 	<div class="modal-body text-center">
 		<p>
-			The order of two activities have been swapped in your travel diary. Please confirm the updated departure time for the activity with the updated
-			departure time. It will be highlighted with an orange border. To confirm or change the departure time information, click the activity in the travel diary summary.
+			The order of two activities have been swapped in your travel diary. Please confirm the updated departure
+			time for the activity with the updated departure time. It will be highlighted with an orange border. To
+			confirm or change the departure time information, click the activity in the travel diary summary.
 		</p>
 	</div>
 	<div class="modal-footer">

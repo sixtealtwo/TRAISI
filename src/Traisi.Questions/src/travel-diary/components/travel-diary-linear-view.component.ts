@@ -1,4 +1,14 @@
-import { Component, ViewEncapsulation, OnChanges, SimpleChanges, OnInit, Input, HostBinding } from '@angular/core';
+import {
+	Component,
+	ViewEncapsulation,
+	OnChanges,
+	SimpleChanges,
+	OnInit,
+	Input,
+	HostBinding,
+	EventEmitter,
+	Output,
+} from '@angular/core';
 import { CalendarWeekViewComponent, CalendarEvent } from 'angular-calendar';
 import templateString from './travel-diary-linear-view.component.html';
 import styleString from './travel-diary-linear-view.component.scss';
@@ -16,14 +26,17 @@ import { Observable } from 'rxjs';
 	providers: [],
 })
 export class TravelDiaryLinearViewComponent implements OnInit {
+	@Output() eventClicked = new EventEmitter<TravelDiaryEvent>();
 
-    public get events$(): Observable<CalendarEvent[]> {
+	public get events$(): Observable<TravelDiaryEvent[]> {
 		return this._travelDiaryService.diaryEvents$;
 	}
 
 	public constructor(private _travelDiaryService: TravelDiaryService) {}
-	public ngOnInit(): void {
-		throw new Error('Method not implemented.');
+
+	public ngOnInit(): void {}
+
+	public onEventClicked(event: TravelDiaryEvent): void {
+		this.eventClicked.next(event);
 	}
-	@Input() public timeEvent: TravelDiaryViewTimeEvent;
 }
