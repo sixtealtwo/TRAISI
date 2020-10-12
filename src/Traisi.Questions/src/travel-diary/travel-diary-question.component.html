@@ -48,22 +48,12 @@
 			<label class="btn btn-primary view-select" (click)="setSummaryTavelDiaryView(false)"
 				><input type="radio" name="options" id="linearView" /><i class="fas fa-list-ol"></i
 			></label>
-			<button
-				id="button-split"
-				type="button"
-				dropdownToggle
-				autoClose="true"
-				class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-				aria-controls="dropdown-split"
-			>
-				<span class="caret"></span>
-				<span class="sr-only">Split button</span>
-			</button>
+
 		</span>
 
 		
-		<a [routerLink]="" class="dropdown-item" (click)="resetEvents()">Reset travel diary</a>
-		<a [routerLink]="" class="dropdown-item" (click)="clearEvents()">Clear all trips</a>
+		<a [routerLink]=""  (click)="resetEvents()">Reset travel diary</a> | 
+		<a [routerLink]=""  (click)="clearEvents()">Clear all trips</a>
 
 		<a [routerLink]="" class="tour" (click)="startTour(true)"> <i class="fas fa-info-circle"></i>Help </a>
 

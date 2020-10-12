@@ -36,10 +36,10 @@ traisi-travel-diary-question {
 .add-event-overlay {
 	position: relative;
 	z-index: 10;
-	width: 320px;
+	width: auto;
 	background-color: white;
 	margin: auto;
-
+	text-align: center;
 	.tour {
 		margin-left: 10px;
 	}
