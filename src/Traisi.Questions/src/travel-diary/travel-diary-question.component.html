@@ -59,15 +59,11 @@
 				<span class="caret"></span>
 				<span class="sr-only">Split button</span>
 			</button>
-			<ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-split">
-				<li role="menuitem">
-					<a [routerLink]="" class="dropdown-item" (click)="resetEvents()">Reset travel diary</a>
-				</li>
-				<li role="menuitem">
-					<a [routerLink]="" class="dropdown-item" (click)="clearEvents()">Clear all trips</a>
-				</li>
-			</ul>
 		</span>
+
+		
+		<a [routerLink]="" class="dropdown-item" (click)="resetEvents()">Reset travel diary</a>
+		<a [routerLink]="" class="dropdown-item" (click)="clearEvents()">Clear all trips</a>
 
 		<a [routerLink]="" class="tour" (click)="startTour(true)"> <i class="fas fa-info-circle"></i>Help </a>
 
