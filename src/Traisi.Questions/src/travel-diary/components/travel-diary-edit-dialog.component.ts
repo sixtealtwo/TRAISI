@@ -308,7 +308,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			$event.setDate($event.getDate() + 1);
 		}
 
-		console.log($event);
 		this.model.timeA = $event;
 		this.checkTimeOverlaps();
 	}

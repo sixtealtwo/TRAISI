@@ -118,9 +118,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public newEntrySaved(event: TimelineLineResponseDisplayData) {
-		if (event.isReturnHomeSplit) {
-			this.openModal(this.template);
-		}
+		// if (event.isReturnHomeSplit) {
+		// 	this.openModal(this.template);
+		// }
 		this._travelDiaryService.newEvent(event);
 	}
 
