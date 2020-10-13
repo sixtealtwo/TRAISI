@@ -114,6 +114,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public newEvent(): void {
+		this._tour.stopTour();
 		this.entryDialog.show(DialogMode.New);
 	}
 

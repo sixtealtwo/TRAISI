@@ -296,6 +296,12 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		}
 	}
 
+	public initReturnTimeInput(model: TimelineLineResponseDisplayData): void {
+		if (!model.insertedEndTime) {
+			model.insertedEndTime = this.defaultDate;
+		}
+	}
+
 	/**
 	 *
 	 * @param $event

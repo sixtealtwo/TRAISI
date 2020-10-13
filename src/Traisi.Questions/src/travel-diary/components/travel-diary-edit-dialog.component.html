@@ -25,7 +25,7 @@
 								type="text"
 								[(ngModel)]="model.name"
 								name="name"
-								minlength="4"
+								minlength="1"
 								id="name"
 								placeholder="Enter a title to describe the event"
 								required
@@ -277,6 +277,7 @@
 									[(ngModel)]="model.insertedEndTime"
 									[noCalendar]="true"
 									[enableTime]="true"
+									(click)="initReturnTimeInput(model)"
 									[now]="defaultDate"
 									[time24hr]="false"
 									dateFormat="H:i"

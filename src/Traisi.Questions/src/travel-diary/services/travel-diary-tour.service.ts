@@ -119,6 +119,10 @@ export class TravelDiaryTourService {
 		this._tour.start().goToStep(1);
 	}
 
+	public stopTour(): void {
+		this._tour.exit(true);
+	}
+
 	public onBeforeChange = () => {
 		if (this._tour._currentStep === 1) {
 			// this._popover.show();
