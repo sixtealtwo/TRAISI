@@ -253,7 +253,7 @@ export class TravelDiaryEditor {
 						purpose: overlap.meta.purpose,
 						address: overlap.meta.address,
 						user: overlap.meta.user,
-						mode: overlap.meta.mode,
+						mode: undefined,
 						model: Object.assign({}, overlap.meta.model),
 						id: displayId,
 					},
@@ -261,7 +261,8 @@ export class TravelDiaryEditor {
 				};
 				returnEvent.meta.model.identifier = displayId;
 				returnEvent.meta.model.timeA = event.insertedEndTime;
-				returnEvent.meta.model.isValid = overlap.meta.model.isValid;
+				returnEvent.meta.model.isValid = false;
+				returnEvent.meta.model.mode = undefined;
 
 				if (returnEvent.meta.model.purpose === 'home') {
 					returnEvent.end = new Date(new Date().setHours(23, 59, 0, 0));
