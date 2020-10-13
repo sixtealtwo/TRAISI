@@ -47,7 +47,7 @@ export class TravelDiaryTourService {
                             <p>The timeline scrolls too - make sure you don't miss the last event of the day when filling in your information.</p>`,
 				},
 				{
-					element: this._document.querySelector('#button-split'),
+					element: this._document.querySelector('.reset-links'),
 					intro: `<h3>Travel Diary - Starting Over</h3>
 							<p>If you'd like to start entering your information again, use the reset travel diary option to reset the travel diary back to a fresh state.</p>
 							<p>If you'd like to remove all the events from your diary, choose clear all trips, You will also be prompted to enter the starting location of your day.`,
