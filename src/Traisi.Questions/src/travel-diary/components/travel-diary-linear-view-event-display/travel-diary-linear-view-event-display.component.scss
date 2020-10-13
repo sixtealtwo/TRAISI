@@ -60,15 +60,15 @@
 	display:block;
 }
 
-.invalid {
+.linear-event-display.invalid {
 	border: dashed 2px #ff8b13 !important;
 }
 
-.customt-event-title:not(.invalid) {
+.linear-event-display:not(.invalid) {
 	border: solid 2px #1e90ff !important;
 }
 
-.customt-event-title {
+.linear-event-display {
 	margin: 0px;
 	padding: 16px;
 	border-radius: 5px;

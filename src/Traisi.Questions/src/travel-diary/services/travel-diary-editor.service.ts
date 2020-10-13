@@ -179,6 +179,9 @@ export class TravelDiaryEditor {
 			displayId = event.identifier;
 		}
 
+		console.log('inserting ');
+		console.log(event);
+
 		event.identifier = displayId;
 		let u = event.users[0];
 		if (!event.isInserted) {

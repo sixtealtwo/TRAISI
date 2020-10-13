@@ -181,6 +181,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 		if (this._respondentRef) {
 			users = [].concat(this._respondentRef);
 		}
+		
 
 		this.model = {
 			id: undefined,
@@ -218,6 +219,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	public onMembersChanged($event: any) {
 		this.checkTimeOverlaps();
+		if(!this.model.users.some(x => x.id !== this._respondent.id)) {
+			this.model.users = [this._respondentRef].concat(this.model.users);
+		}
 	}
 
 	public get isFormValid(): boolean {
