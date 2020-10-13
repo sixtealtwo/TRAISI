@@ -179,7 +179,6 @@ export class TravelDiaryEditor {
 			displayId = event.identifier;
 		}
 
-
 		event.identifier = displayId;
 		let u = event.users[0];
 		if (!event.isInserted) {
@@ -291,7 +290,6 @@ export class TravelDiaryEditor {
 				this.deleteEvent(prevEvent.meta.model, events);
 			}
 		}
-
 		return events;
 	}
 
@@ -312,13 +310,17 @@ export class TravelDiaryEditor {
 			let userEvents = events.filter((x) => x.meta.user.id === respondent.id);
 			// find index of this event
 
-			for (let i = 1; i < userEvents.length; i++) {
+			for (let i = 0; i < userEvents.length; i++) {
 				let timeA = new Date(userEvents[i].start);
 				timeA.setHours(timeA.getHours() - TIME_DELTA);
 				let timeB = new Date(userEvents[i].end);
 				timeB.setHours(timeB.getHours() - TIME_DELTA);
 
 				if (userEvents[i].meta.model.identifier === model.identifier) {
+					continue;
+				}
+
+				if (i === 0 && events.length > 1) {
 					continue;
 				}
 
@@ -617,6 +619,10 @@ export class TravelDiaryEditor {
 					events[i].title = 'At Home';
 				}
 			}
+		}
+
+		if (events.length > 1 && events[0].meta.model.purpose.includes('home')) {
+			events[0].meta.homeAllDay = false;
 		}
 	}
 
