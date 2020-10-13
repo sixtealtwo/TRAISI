@@ -182,7 +182,7 @@ export class TravelDiaryService {
 						this.diaryEvents$.next(this._diaryEvents);
 					}
 				},
-				complete: () => console.log('complete'),
+				complete: () => {},
 			});
 			// this.users.next(this.respondents);
 		});

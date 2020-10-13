@@ -179,8 +179,6 @@ export class TravelDiaryEditor {
 			displayId = event.identifier;
 		}
 
-		console.log('inserting ');
-		console.log(event);
 
 		event.identifier = displayId;
 		let u = event.users[0];
@@ -238,7 +236,7 @@ export class TravelDiaryEditor {
 						purpose: event.purpose['label'],
 						address: event.address,
 						user: u,
-						mode: event.mode['label'],
+						mode: event.mode?.['label'],
 						model: event,
 						id: displayId,
 					},
