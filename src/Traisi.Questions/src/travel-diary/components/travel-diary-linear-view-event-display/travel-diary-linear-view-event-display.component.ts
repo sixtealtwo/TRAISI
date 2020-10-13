@@ -1,10 +1,19 @@
-import { Component, ViewEncapsulation, OnChanges, SimpleChanges, OnInit, Input, HostBinding } from '@angular/core';
+import {
+	Component,
+	ViewEncapsulation,
+	OnChanges,
+	SimpleChanges,
+	OnInit,
+	Input,
+	HostBinding,
+	Inject,
+} from '@angular/core';
 import { CalendarWeekViewComponent, CalendarEvent } from 'angular-calendar';
 import templateString from './travel-diary-linear-view-event-display.component.html';
 import styleString from './travel-diary-linear-view-event-display.component.scss';
 import { TravelDiaryEvent, TimelineLineResponseDisplayData } from 'travel-diary/models/consts';
 import { TravelDiaryViewTimeEvent } from 'travel-diary/models/travel-diary-view-time-event.model';
-import { Address } from 'traisi-question-sdk';
+import { Address, SurveyRespondent, TraisiValues } from 'traisi-question-sdk';
 import { TravelDiaryService } from 'travel-diary/services/travel-diary.service';
 import { TravelMode, Purpose } from 'travel-diary/models/travel-diary-configuration.model';
 @Component({
@@ -15,8 +24,7 @@ import { TravelMode, Purpose } from 'travel-diary/models/travel-diary-configurat
 	providers: [],
 })
 export class TravelDiaryLinearViewEventDisplayComponent implements OnInit {
-    
-    @Input() public event: TravelDiaryEvent;
+	@Input() public event: TravelDiaryEvent;
 
 	public get model(): TimelineLineResponseDisplayData {
 		return this.event.meta.model;
@@ -36,9 +44,9 @@ export class TravelDiaryLinearViewEventDisplayComponent implements OnInit {
 
 	public get purpose(): Purpose {
 		return this._travelDiaryService.purposeMap[this.model.purpose];
-    }
-    
-    public get addressDisplay(): string {
+	}
+
+	public get addressDisplay(): string {
 		let address = this.event.meta.model?.address as Address;
 		if (address) {
 			return `${address.formattedAddress}`;
@@ -47,7 +55,11 @@ export class TravelDiaryLinearViewEventDisplayComponent implements OnInit {
 		}
 	}
 
-	public constructor(private _travelDiaryService: TravelDiaryService) {}
+	public constructor(
+		private _travelDiaryService: TravelDiaryService,
+		@Inject(TraisiValues.SurveyAccessTime) public surveyAccessTime: Date,
+		@Inject(TraisiValues.SurveyAccessTime) public surveyRespondent: SurveyRespondent
+	) {}
 
 	public ngOnInit(): void {}
 }
