@@ -280,6 +280,17 @@ export class TravelDiaryEditor {
 		this.reAlignTimeBoundaries([].concat(u), events);
 		this.sortEvents(events);
 		this.updateHomeEvents(events);
+
+		// determine if made insert home event
+		let idx = events.findIndex((x) => x.meta.model.identifier === event.identifier);
+
+		if (idx > 1) {
+			let prevEvent = events[idx - 1];
+			if (prevEvent.meta.model.purpose === 'home') {
+				this.deleteEvent(prevEvent.meta.model, events);
+			}
+		}
+
 		return events;
 	}
 
@@ -485,8 +496,8 @@ export class TravelDiaryEditor {
 	}
 
 	/**
-	 * 
-	 * @param events 
+	 *
+	 * @param events
 	 */
 	private sortEvents(events: TravelDiaryEvent[]): void {
 		events = events.sort((x, y) => x.meta.model.timeA.getTime() - y.meta.model.timeA.getTime());
@@ -499,9 +510,9 @@ export class TravelDiaryEditor {
 	}
 
 	/**
-	 * 
-	 * @param modelTarget 
-	 * @param modelSource 
+	 *
+	 * @param modelTarget
+	 * @param modelSource
 	 */
 	public updateModel(
 		modelTarget: TimelineLineResponseDisplayData,
@@ -768,6 +779,8 @@ export class TravelDiaryEditor {
 		let idx = events.findIndex((x) => x.meta.model.identifier === event.identifier);
 		if (idx >= 0) {
 			events.splice(idx, 1);
+		}
+		if (Array.isArray(event.users)) {
 		}
 		this.reAlignTimeBoundaries(event.users, events);
 		this.sortEvents(events);
