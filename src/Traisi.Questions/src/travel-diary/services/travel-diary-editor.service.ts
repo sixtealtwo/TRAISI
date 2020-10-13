@@ -710,8 +710,8 @@ export class TravelDiaryEditor {
 				},
 				id: Date.now(),
 			},
-			start: new Date(new Date().setHours(0, 0, 0, 0)),
-			end: new Date(new Date().setHours(23, 59, 0, 0)),
+			start: new Date(new Date(this._surveyAccessTime).setHours(0, 0, 0, 0)),
+			end: new Date(new Date(this._surveyAccessTime).setHours(23, 59, 0, 0)),
 		});
 		return events;
 	}
