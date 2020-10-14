@@ -11,8 +11,7 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { SurveyResponseViewModel } from 'traisi-question-sdk/models';
-import { SurveyRespondentViewModel, SurveyViewerValidationStateViewModel, SurveyLogicCondition, SurveyLogicOperator, SurveyViewerLogicRulesViewModel } from 'traisi-question-sdk/public_api';
+import { SurveyRespondentViewModel, SurveyViewerValidationStateViewModel, SurveyResponseViewModel, SurveyLogicCondition, SurveyLogicOperator, SurveyViewerLogicRulesViewModel } from 'traisi-question-sdk';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -1705,7 +1704,11 @@ export class SurveyViewerClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    surveyComplete(surveyId: number, shortcode: string | null | undefined): Observable<FileResponse> {
+    /**
+     * @param shortcode (optional) 
+     * @return or
+     */
+    surveyComplete(surveyId: number, shortcode: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/SurveyViewer/complete/{surveyId}";
         if (surveyId === undefined || surveyId === null)
             throw new Error("The parameter 'surveyId' must be defined.");
@@ -1717,7 +1720,6 @@ export class SurveyViewerClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Shortcode": shortcode !== undefined && shortcode !== null ? "" + shortcode : "",
-                "Accept": "application/octet-stream"
             })
         };
 
@@ -1728,31 +1730,34 @@ export class SurveyViewerClient {
                 try {
                     return this.processSurveyComplete(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processSurveyComplete(response: HttpResponseBase): Observable<FileResponse> {
+    protected processSurveyComplete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 
     getSurveySuccessLink(surveyId: number): Observable<string> {

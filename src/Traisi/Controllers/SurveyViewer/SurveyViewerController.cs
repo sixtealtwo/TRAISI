@@ -415,6 +415,9 @@ namespace Traisi.Controllers.SurveyViewer
         /// <returns></returns>
         [Route("complete/{surveyId:int}")]
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces(typeof(void))]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         public async Task<IActionResult> SurveyComplete(int surveyId, [FromHeader(Name = "Shortcode")] string shortcode)
         {

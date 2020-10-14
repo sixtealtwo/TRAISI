@@ -9,6 +9,7 @@ import { SurveyViewThankYouModel } from '../../models/survey-view-thankyou.model
 import { flatMap } from 'rxjs/operators';
 import { SurveyViewType } from '../../models/survey-view-type.enum';
 import { SurveyViewerClient } from 'app/services/survey-viewer-api-client.service';
+import { AuthService } from 'shared/services/auth.service';
 
 @Component({
 	selector: 'traisi-survey-thankyou-page',
@@ -33,7 +34,8 @@ export class SurveyThankYouPageComponent implements OnInit {
 	constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
 		private _viewerClient: SurveyViewerClient,
-		private _translate: TranslateService
+		private _translate: TranslateService,
+		private _authService: AuthService
 	) {}
 
 	/**
@@ -77,5 +79,10 @@ export class SurveyThankYouPageComponent implements OnInit {
 				window.location.href = x.successLink;
 			}
 		});
+
+		this._viewerClient.surveyComplete(
+			this._surveyViewerService.surveyId,
+			this._authService.currentSurveyUser.shortcode
+		);
 	}
 }
