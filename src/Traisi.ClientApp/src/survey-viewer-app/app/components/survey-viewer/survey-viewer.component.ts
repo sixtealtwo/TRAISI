@@ -511,7 +511,12 @@ export class SurveyViewerComponent
 			}
 		} else {
 			console.log('no previous data, using base initialized');
-			this.navigator.initialize().subscribe();
+			this.navigator.initialize().subscribe({
+				complete: () => {
+					console.log('is loaded');
+					this.isLoaded = true;
+				},
+			});
 		}
 	}
 
