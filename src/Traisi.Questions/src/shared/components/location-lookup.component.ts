@@ -39,7 +39,7 @@ export class LocationLookupComponent implements OnInit {
 			this.addressInput$.pipe(
 				distinctUntilChanged(),
 				tap(() => (this.addressesLoading = true)),
-				debounceTime(1500),
+				debounceTime(1200),
 				switchMap((term) =>
 					this._geoService.addressCompletion(term).pipe(
 						catchError((err) => {
