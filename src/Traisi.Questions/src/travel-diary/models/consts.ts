@@ -52,4 +52,5 @@ export interface TravelDiaryEvent extends CalendarEvent {
 export interface TravelDiaryMeta {
 	[x: string]: any;
 	model: TimelineLineResponseDisplayData;
+
 }

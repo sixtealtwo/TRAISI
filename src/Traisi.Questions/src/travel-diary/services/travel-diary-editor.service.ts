@@ -89,7 +89,7 @@ export class TravelDiaryEditor {
 	private createHomeStartEvent(user: SurveyRespondentUser): TravelDiaryEvent {
 		let homeEvent = this.createBaseEvent(user, 'At Home', 'home');
 		homeEvent.end = new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 0, 0, 0));
-		homeEvent.meta.model.timeA = new Date(new Date(this._surveyAccessTime).setHours(0, 1, 0, 0));
+		homeEvent.meta.model.timeA = new Date(new Date(this._surveyAccessTime).setHours(0, 0, 0, 0));
 		homeEvent.meta.model.isValid = true;
 		homeEvent.meta.model.order = 0;
 		homeEvent.meta.model.address = user.homeAddress ?? {};
@@ -100,8 +100,8 @@ export class TravelDiaryEditor {
 
 	private createHomeEndEvent(user: SurveyRespondentUser): TravelDiaryEvent {
 		let returnHomeEvent = this.createBaseEvent(user, 'Return Home', 'home');
-		returnHomeEvent.start = new Date(new Date(this._surveyAccessTime).setHours(23 + TIME_DELTA, 59, 0, 0));
-		returnHomeEvent.end = new Date(new Date(this._surveyAccessTime).setHours(23, 59, 0, 0));
+		returnHomeEvent.start = new Date(new Date(this._surveyAccessTime).setHours(17 + TIME_DELTA, 0, 0, 0));
+		returnHomeEvent.end = new Date(new Date(this._surveyAccessTime).setHours(23, 59, 59, 0));
 		returnHomeEvent.meta.model.timeA = new Date(new Date(this._surveyAccessTime).setHours(23, 1, 0, 0));
 		returnHomeEvent.meta.model.isValid = false;
 		returnHomeEvent.meta.model.order = 2;
@@ -119,7 +119,7 @@ export class TravelDiaryEditor {
 		startAtHome: boolean
 	): TravelDiaryEvent {
 		let workEvent = this.createBaseEvent(user, 'Work (Not Home)', 'work');
-		workEvent.start = new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 1, 0, 0));
+		workEvent.start = new Date(new Date(this._surveyAccessTime).setHours(9 + TIME_DELTA, 0, 0, 0));
 		workEvent.end = new Date(
 			new Date(this._surveyAccessTime).setHours(hasSchoolTrip ? 12 + TIME_DELTA : 17 + TIME_DELTA, 0, 0, 0)
 		);
@@ -357,6 +357,7 @@ export class TravelDiaryEditor {
 				timeB.setHours(timeB.getHours() - TIME_DELTA);
 
 				if (
+					model.timeA && 
 					userEvents[i].meta.model.identifier !== model.identifier &&
 					timeA.getTime() < model.timeA.getTime() &&
 					timeB.getTime() > model.timeA.getTime() &&
