@@ -431,7 +431,7 @@ export class TravelDiaryEditor {
 			}
 
 			events.push(event);
-			if (responses.length === 1 && responses[0].purpose.toLowerCase() === 'home') {
+			if (responses.length === 1 && responses[0].purpose?.toLowerCase() === 'home') {
 				event.meta.homeAllDay = true;
 			}
 		}

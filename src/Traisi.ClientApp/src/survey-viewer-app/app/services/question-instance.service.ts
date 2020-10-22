@@ -100,12 +100,14 @@ export class QuestionInstanceState {
 	private onSaveResponse = (response: ResponseData<ResponseTypes>[] | ResponseData<ResponseTypes>[]): void => {
 		// submit the response, convert it to single element
 		// array if not done so
+
 		this._responseService
 			.saveResponse(
 				this._questionModel,
 				this._respondent,
 				this._repeatIndex,
-				Array.isArray(response) ? response : [response]
+				Array.isArray(response) ? response : [response],
+				false
 			)
 			.subscribe(this.onResponseSaved);
 	};
@@ -118,14 +120,17 @@ export class QuestionInstanceState {
 	private onSaveResponseWithRespondent = (response: {
 		respondent: SurveyRespondent;
 		response: ResponseData<ResponseTypes>[];
+		isPartial?: boolean;
 	}): void => {
+		let x = Array.isArray(response.response) ? response.response : [response.response];
 		if (this.respondent.id === response.respondent.id) {
 			this._responseService
 				.saveResponse(
 					this._questionModel,
 					response.respondent,
 					this._repeatIndex,
-					Array.isArray(response.response) ? response.response : [response.response]
+					Array.isArray(response.response) ? response.response : [response.response],
+					response.isPartial ?? false
 				)
 				.subscribe(this.onResponseSaved);
 		} else {
@@ -134,7 +139,8 @@ export class QuestionInstanceState {
 					this._questionModel,
 					response.respondent,
 					this._repeatIndex,
-					Array.isArray(response.response) ? response.response : [response.response]
+					Array.isArray(response.response) ? response.response : [response.response],
+					response.isPartial ?? false
 				)
 				.subscribe();
 		}
@@ -180,7 +186,6 @@ export class QuestionInstanceState {
 					},
 				});
 			} else if (responseState === ResponseValidationState.INVALID) {
-				
 				this._navigator.updateQuestionValidationState(this, {
 					isValid: false,
 					clientValidationState: ResponseValidationState.INVALID,

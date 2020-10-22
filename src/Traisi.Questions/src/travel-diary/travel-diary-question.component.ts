@@ -137,7 +137,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this._travelDiaryService.resetTravelDiary().subscribe({
 			complete: () => {
 				if (this._travelDiaryService.diaryEvents$.value.length > 0) {
-					console.log(this._travelDiaryService.diaryEvents$.value);
 					if (this._travelDiaryService.diaryEvents$.value[0].meta.model.timeA.getHours() > 2) {
 						// create new home event
 						this.entryDialog.show(DialogMode.CreateHome);
@@ -200,6 +199,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 			if (isValid) {
 				this.saveTravelDiary();
+			} else {
+				this.saveTemporaryTravelDiary();
 			}
 			if (this._travelDiaryService.isLoaded.value && isValid) {
 				this.validationState.emit(ResponseValidationState.VALID);
@@ -236,6 +237,19 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		}
 	}
 
+	public saveTemporaryTravelDiary(): void {
+		if (this._travelDiaryService.isLoaded.value) {
+			for (let r of this._travelDiaryService.activeRespondents) {
+				let response = {
+					respondent: r,
+					response: this._travelDiaryService.getTimelineResponseDataForRespondent(r),
+					isPartial: true,
+				};
+				this.responseWithRespondent.emit(response);
+			}
+		}
+	}
+
 	public setSummaryTavelDiaryView(value: boolean): void {
 		this.isSummaryTravelDiaryView = value;
 	}
@@ -245,6 +259,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	 * @param respondent
 	 */
 	public saveInactiveTravelDiary(respondent: SurveyRespondentUser): void {
+		console.log('in save inactive travel');
 		if (this._travelDiaryService.isLoaded.value) {
 			let response = this._travelDiaryService.getTimelineResponseDataForRespondent(respondent);
 			this.responseWithRespondent.emit({

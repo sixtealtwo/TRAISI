@@ -146,6 +146,7 @@ export class TravelDiaryService {
 			this.userTravelDiaries[this.activeUser.id] = this._diaryEvents;
 			this.loadSavedResponses().subscribe({
 				next: (v: SurveyResponseViewModel[]) => {
+					console.log(v);
 					for (let result of v) {
 						this._edtior.createDiaryFromResponseData(
 							this.userMap[result.respondent.id],
@@ -269,7 +270,7 @@ export class TravelDiaryService {
 		}
 		if (!this._validateNoOverlappingEvents(filter)) {
 			errors.push({
-				message: 'Activities cannot be overlapping.',
+				message: 'Activities cannot be overlapping (or have the same departure time).',
 			});
 		}
 		if (!this._validateConsecutiveHomeEvents(filter)) {
