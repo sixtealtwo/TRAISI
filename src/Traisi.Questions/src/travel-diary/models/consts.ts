@@ -41,6 +41,7 @@ export type TimelineLineResponseDisplayData = TimelineResponseData & {
 	isUpdateEventSwap?: boolean;
 	isRequireDepartureConfirm?: boolean;
 	isFirstEvent?: boolean;
+	isUsingTemporaryTime?: boolean;
 };
 
 // export type TravelDiaryEvent = CalendarEvent & { meta: TravelDiaryMeta };

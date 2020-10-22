@@ -298,6 +298,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public reportErrors(): ValidationError[] {
+		console.log('in reoprt errors');
 		return this._travelDiaryService.reportErrors();
 	}
 

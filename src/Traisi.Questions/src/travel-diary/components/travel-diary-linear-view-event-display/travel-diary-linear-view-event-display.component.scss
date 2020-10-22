@@ -169,3 +169,19 @@ mwl-calendar-event-title {
 	border: dashed 4px #ff8b13 !important;
 }
 
+
+.edit-icon {
+    position: absolute;
+    right: 100px;
+	top: 50px;
+	font-size: 24px;
+	float: right;
+	display: none;
+}
+
+.linear-event-display:hover {
+	background: #f2f8ff;
+	.edit-icon {
+		display: block;
+	}
+}

@@ -105,6 +105,7 @@ export class TravelDiaryEditor {
 		returnHomeEvent.meta.model.timeA = new Date(new Date(this._surveyAccessTime).setHours(23, 1, 0, 0));
 		returnHomeEvent.meta.model.isValid = false;
 		returnHomeEvent.meta.model.order = 2;
+		returnHomeEvent.meta.model.isUsingTemporaryTime = true;
 		returnHomeEvent.meta.model.address = user.homeAddress ?? {};
 		returnHomeEvent.meta.model.latitude = user.homeLatitude;
 		returnHomeEvent.meta.model.longitude = user.homeLongitude;
@@ -127,6 +128,7 @@ export class TravelDiaryEditor {
 		workEvent.meta.model.timeB = new Date(
 			new Date(this._surveyAccessTime).setHours(hasSchoolTrip ? 12 : 17, 0, 0, 0)
 		);
+		workEvent.meta.model.isUsingTemporaryTime = true;
 
 		if (workLocation) {
 			workEvent.meta.model.address = workLocation.address;
@@ -155,6 +157,7 @@ export class TravelDiaryEditor {
 		workEvent.meta.model.timeA = new Date(
 			new Date(this._surveyAccessTime).setHours(hasWorkTrip ? 12 + TIME_DELTA : 9 + TIME_DELTA, 1, 0, 1)
 		);
+		workEvent.meta.model.isUsingTemporaryTime = true;
 		workEvent.meta.model.timeB = new Date(new Date(this._surveyAccessTime).setHours(17 + TIME_DELTA, 0, 0, 0));
 		workEvent.meta.model.address = schoolLocation.address;
 		workEvent.meta.model.latitude = schoolLocation.latitude;
@@ -421,6 +424,7 @@ export class TravelDiaryEditor {
 			event.meta.model.users = [respondent];
 			if (!event.meta.model.mode && i > 0) {
 				event.meta.model.isValid = false;
+				event.meta.model.isUsingTemporaryTime = true;
 			} else {
 				event.meta.model.isValid = true;
 			}
@@ -551,6 +555,7 @@ export class TravelDiaryEditor {
 		event1.end = new Date(event2.end);
 
 		event2.meta.model.timeA = new Date(timeATemp);
+		event2.meta.model.isUsingTemporaryTime = true;
 		event2.start = timeStartTemp;
 		event2.end = timeEndTemp;
 		event2.meta.model.isRequireDepartureConfirm = true;
