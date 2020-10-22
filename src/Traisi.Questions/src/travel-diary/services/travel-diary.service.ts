@@ -299,7 +299,7 @@ export class TravelDiaryService {
 			if (userEvents[i].end > userEvents[i + 1].start) {
 				return false;
 			}
-			for (let j = i + 1; j < userEvents.length ; j++) {
+			for (let j = i + 1; j < userEvents.length; j++) {
 				if (userEvents[i].start >= userEvents[j].start) {
 					return false;
 				}
@@ -654,6 +654,19 @@ export class TravelDiaryService {
 			events.push(splitEvent);
 		}
 		return events;
+	}
+
+	public isMultiRespondentEvent(event: TimelineLineResponseDisplayData): boolean {
+		for (let r of this.respondents) {
+			if (r.id !== this.activeUser.id) {
+				for (let e of this.userTravelDiaries[r.id]) {
+					if (e.meta.model.identifier === event.identifier) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

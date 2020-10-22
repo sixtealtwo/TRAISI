@@ -259,7 +259,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	 * @param respondent
 	 */
 	public saveInactiveTravelDiary(respondent: SurveyRespondentUser): void {
-		console.log('in save inactive travel');
 		if (this._travelDiaryService.isLoaded.value) {
 			let response = this._travelDiaryService.getTimelineResponseDataForRespondent(respondent);
 			this.responseWithRespondent.emit({
