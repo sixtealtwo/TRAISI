@@ -73,7 +73,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public modalRef: BsModalRef | null;
 
-	public isSummaryTravelDiaryView: boolean = true;
+	public isSummaryTravelDiaryView: boolean = false;
 
 	public constructor(
 		private _travelDiaryService: TravelDiaryService,
