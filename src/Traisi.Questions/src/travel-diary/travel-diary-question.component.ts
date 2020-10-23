@@ -8,6 +8,7 @@ import {
 	ValidationError,
 	SurveyRespondent,
 	TraisiValues,
+	SurveyAnalyticsService,
 } from 'traisi-question-sdk';
 import {
 	Component,
@@ -19,6 +20,7 @@ import {
 	TemplateRef,
 	Injector,
 	Inject,
+	OnDestroy,
 } from '@angular/core';
 import { setHours, isSameMonth, setMinutes, addHours } from 'date-fns';
 import templateString from './travel-diary-question.component.html';
@@ -51,7 +53,7 @@ import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 	styles: ['' + styleString],
 })
 export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.Timeline>
-	implements OnInit, AfterViewInit, OnVisibilityChanged {
+	implements OnInit, AfterViewInit, OnVisibilityChanged, OnDestroy {
 	public viewHeight: number = 100;
 
 	@ViewChild('schedule')
@@ -75,6 +77,20 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public isSummaryTravelDiaryView: boolean = false;
 
+	private _startTime: number;
+
+	/**
+	 *
+	 * @param _travelDiaryService
+	 * @param _modalService
+	 * @param _elementRef
+	 * @param _injector
+	 * @param _tour
+	 * @param modalService
+	 * @param _respondent
+	 * @param _primaryRespondent
+	 * @param _analytics
+	 */
 	public constructor(
 		private _travelDiaryService: TravelDiaryService,
 		private _modalService: BsModalService,
@@ -83,7 +99,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		private _tour: TravelDiaryTourService,
 		private modalService: BsModalService,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
-		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent
+		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent,
+		@Inject(TraisiValues.SurveyAnalytics) private _analytics: SurveyAnalyticsService
 	) {
 		super();
 		this.isFillVertical = true;
@@ -119,18 +136,17 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public newEntrySaved(event: TimelineLineResponseDisplayData) {
-		// if (event.isReturnHomeSplit) {
-		// 	this.openModal(this.template);
-		// }
 		this._travelDiaryService.newEvent(event);
 	}
 
 	public eventSaved(event: { oldData: TimelineLineResponseDisplayData; newData: TimelineLineResponseDisplayData }) {
 		this._travelDiaryService.updateEvent(event.newData, event.oldData);
+		this._analytics.sendEvent('Travel Diary Events', 'travel_diary_event_saved');
 	}
 
 	public eventDeleted(event: TimelineLineResponseDisplayData): void {
 		this._travelDiaryService.deleteEvent(event);
+		this._analytics.sendEvent('Travel Diary Events', 'travel_diary_event_deleted');
 	}
 
 	public resetEvents(): void {
@@ -144,11 +160,13 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 				}
 			},
 		});
+		this._analytics.sendEvent('Travel Diary Events', 'travel_diary_events_reset');
 	}
 
 	public clearEvents(): void {
 		this._travelDiaryService.clearTravelDiary();
 		this.entryDialog.show(DialogMode.CreateHome);
+		this._analytics.sendEvent('Travel Diary Events', 'travel_diary_events_cleared');
 	}
 
 	public ngOnInit(): void {
@@ -237,6 +255,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		}
 	}
 
+	/**
+	 *
+	 */
 	public saveTemporaryTravelDiary(): void {
 		if (this._travelDiaryService.isLoaded.value) {
 			for (let r of this._travelDiaryService.activeRespondents) {
@@ -250,8 +271,16 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		}
 	}
 
+	/**
+	 *
+	 * @param value
+	 */
 	public setSummaryTavelDiaryView(value: boolean): void {
 		this.isSummaryTravelDiaryView = value;
+		this._analytics.sendEvent(
+			'Travel Diary Events',
+			value ? 'travel_diary_activated_summary_view' : 'travel_diary_activated_linear_view'
+		);
 	}
 
 	/**
@@ -285,24 +314,34 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 			}
 			this._tour.startTour();
 		}
+		this._analytics.sendEvent('Travel Diary Events', 'travel_diary_manual_start_tour');
 	}
 
 	public ngAfterViewInit(): void {}
 	public onQuestionShown(): void {}
 	public onQuestionHidden(): void {}
 
-	public traisiOnInit(): void {}
+	public ngOnDestroy(): void {
+		this._analytics.sendTiming(
+			'travel_diary_user_view_active',
+			new Date().getTime() - this._startTime,
+			'Travel Diary Timing'
+		);
+	}
 
 	public get isComponentLoaded(): BehaviorSubject<boolean> {
 		return this._travelDiaryService.isLoaded;
 	}
 
 	public reportErrors(): ValidationError[] {
-		console.log('in reoprt errors');
 		return this._travelDiaryService.reportErrors();
 	}
 
 	public openModal(template: TemplateRef<any>): void {
 		this.modalRef = this.modalService.show(template, { class: 'modal-dialog-centered' });
+	}
+
+	public traisiOnInit(): void {
+		this._startTime = new Date().getTime();
 	}
 }

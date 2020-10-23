@@ -19,6 +19,7 @@ import {
 	TimelineResponseData,
 	SurveyResponseViewModel,
 	ValidationError,
+	SurveyAnalyticsService,
 } from 'traisi-question-sdk';
 import { Console } from 'console';
 import { TravelDiaryEditDialogComponent } from '../components/travel-diary-edit-dialog.component';
@@ -97,6 +98,7 @@ export class TravelDiaryService {
 		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent,
 		@Inject(TraisiValues.SurveyQuestion) private _question: SurveyViewQuestion,
 		@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date,
+		@Inject(TraisiValues.SurveyAnalytics) private _analytics: SurveyAnalyticsService,
 		private _injector: Injector
 	) {
 		this.diaryEvents$ = new BehaviorSubject<TravelDiaryEvent[]>([]);
@@ -116,7 +118,6 @@ export class TravelDiaryService {
 		this.configuration.purpose = this._configuration.purpose ?? [];
 		this.configuration.mode = this._configuration.mode ?? [];
 		this._initializeConfigurationMaps();
-		this.loadAddresses();
 		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
 			let primaryHomeAddress: any = {};
 			let primaryHomeLat = 0;
@@ -353,7 +354,6 @@ export class TravelDiaryService {
 	 */
 	public resetAddressQuery(): void {
 		this.addressInput$.next('');
-		this.loadAddresses();
 	}
 
 	public loadPreviousLocations(): void {
@@ -555,43 +555,9 @@ export class TravelDiaryService {
 		this.respondents = this.respondents;
 	}
 
-	/**
-	 * Loads addresses
-	 */
-	public loadAddresses(): void {
-		this.addresses$ = <any>concat(
-			of(null), // default items
-			this.addressInput$.pipe(
-				distinctUntilChanged(),
-				debounceTime(500),
-				tap(() => (this.addressesLoading = true)),
-				switchMap((term) =>
-					this.queryAddresses(term).pipe(
-						map((v) => {
-							return v['features'];
-						}),
-						catchError(() => of([])), // empty list on error
-						tap((v) => {
-							this.addressesLoading = false;
-						})
-					)
-				)
-			)
-		);
-	}
-
 	///geocoding/v5/{endpoint}/{search_text}.json
 	private queryAddresses(input: string): Observable<Object> {
-		const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${input}.json`;
-		const options = {
-			params: new HttpParams()
-				.set(
-					'access_token',
-					'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2s4Y3IwN3U3MG1obzNsczJjMGhoZWc4MiJ9.OCDfSypjueUF_gKejRr6Og'
-				)
-				.set('country', 'ca'),
-		};
-		return this._http.get(url, options);
+		return null;
 	}
 
 	public get diaryEvents(): TravelDiaryEvent[] {
@@ -625,6 +591,12 @@ export class TravelDiaryService {
 			}
 		}
 		this.diaryEvents$.next(this._diaryEvents);
+
+		if (events.length > 1) {
+			this._analytics.sendEvent('Travel Diary Events', 'new_event_multiple_people');
+		} else {
+			this._analytics.sendEvent('Travel Diary Events', 'new_event_single_person');
+		}
 	}
 
 	/**
@@ -690,6 +662,11 @@ export class TravelDiaryService {
 		}
 
 		// determine which respondents were removed
+		if (events.length > 1) {
+			this._analytics.sendEvent('Travel Diary Events', 'edit_event_multiple_people');
+		} else {
+			this._analytics.sendEvent('Travel Diary Events', 'edit_event_single_person');
+		}
 
 		this.diaryEvents$.next(this._diaryEvents);
 	}

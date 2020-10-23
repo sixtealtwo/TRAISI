@@ -22,6 +22,7 @@ import { DOCUMENT } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { QuestionInstance } from 'app/models/question-instance.model';
 import { NgxPopper, PopperComponent } from 'angular-popper';
+import { TraisiValues, SurveyAnalyticsService } from 'traisi-question-sdk';
 @Component({
 	encapsulation: ViewEncapsulation.None,
 	selector: 'traisi-survey-navigator',
@@ -39,7 +40,6 @@ export class SurveyNavigatorComponent implements OnInit {
 	@ViewChild('navigateNextButton', { read: ElementRef })
 	public navigateNextButtonRef: ElementRef;
 
-
 	@Input()
 	public isLoaded: boolean;
 
@@ -53,6 +53,7 @@ export class SurveyNavigatorComponent implements OnInit {
 		public navigator: SurveyNavigator,
 		private _viewerStateService: SurveyViewerStateService,
 		private _router: Router,
+		@Inject(TraisiValues.SurveyAnalytics) private _analytics: SurveyAnalyticsService,
 		@Inject(DOCUMENT) private _document: Document
 	) {
 		this.invalidQuestions = new BehaviorSubject<QuestionInstance[]>([]);
@@ -64,6 +65,10 @@ export class SurveyNavigatorComponent implements OnInit {
 		// this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
+	/**
+	 *
+	 * @param event
+	 */
 	@HostListener('document:click', ['$event'])
 	public clickout(event: Event): void {
 		if (
@@ -76,6 +81,9 @@ export class SurveyNavigatorComponent implements OnInit {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public navigateNext(): void {
 		(<any>this.validationPopperContent)['hide']();
 		let invalidQuestions = this.navigator.getInvalidQuestions();
@@ -88,10 +96,18 @@ export class SurveyNavigatorComponent implements OnInit {
 			});
 		} else {
 			(<any>this.validationPopperContent)['show']();
-			// this.validationPopperContent.show = true;
+			this._analytics.sendEvent(
+				'Survey Navigation Event',
+				'invalid_navigation_attempt',
+				undefined,
+				invalidQuestions.length
+			);
 		}
 	}
 
+	/**
+	 *
+	 */
 	public navigatePrevious(): void {
 		(<any>this.validationPopperContent)['hide']();
 		this.navigator.navigatePrevious().subscribe((state) => {});

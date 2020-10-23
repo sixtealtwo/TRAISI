@@ -349,7 +349,7 @@ export class SurveyNavigator {
 		if (blockIndex < 0) {
 			blockIndex = 0;
 		}
-		this.navigationEvents$.next({ eventType: SurveyNavigatorEventType.NavigatedToPage, eventValue: page });
+		// this.navigationEvents$.next({ eventType: SurveyNavigatorEventType.NavigatedToPage, eventValue: page });
 		return new Observable((obs: Observer<NavigationState>) => {
 			let navigationState: NavigationState = {
 				activePage: this._state.viewerState.surveyPages[pageIndex],
