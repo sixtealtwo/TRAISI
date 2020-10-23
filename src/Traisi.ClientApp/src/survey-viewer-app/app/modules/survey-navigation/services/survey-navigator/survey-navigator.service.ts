@@ -20,6 +20,7 @@ import {
 import { ViewTransformer } from './view-transformer.service';
 import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk';
 import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
+import { SurveyNavigatorEventType, SurveyNavigatorEvent } from '../../survey-navigator.models';
 
 /**
  *
@@ -53,6 +54,10 @@ export class SurveyNavigator {
 	private _surveyCompleted$: Subject<void>;
 
 	private _previousState: NavigationState;
+
+	public navigationEvents$: Subject<SurveyNavigatorEvent>;
+
+	private _surveyStartTime: number;
 
 	/**
 	 * Listen for the end of the survey
@@ -88,6 +93,7 @@ export class SurveyNavigator {
 		this.nextEnabled$ = new BehaviorSubject<boolean>(false);
 		this.navigationStateChanged.next(initialState);
 		this._surveyCompleted$ = new Subject<void>();
+		this.navigationEvents$ = new Subject<SurveyNavigatorEvent>();
 	}
 
 	/**
@@ -95,6 +101,7 @@ export class SurveyNavigator {
 	 * @param state Pass a base state, optional
 	 */
 	public initialize(state?: NavigationState): Observable<NavigationState> {
+		this._surveyStartTime = new Date().getTime();
 		this.navigationState$.subscribe((v) => this._navigationStateChanged(v));
 		if (state) {
 			if (state.activeRespondentIndex > this._state.viewerState.groupMembers.length) {
@@ -119,7 +126,6 @@ export class SurveyNavigator {
 				obs.next();
 				obs.complete();
 				this.nextEnabled$.next(true);
-				// this.nextEnabled$.next(false);
 			});
 		});
 	}
@@ -184,6 +190,7 @@ export class SurveyNavigator {
 			this.navigationState$.next(state);
 			this._checkValidation(state);
 		});
+		this.navigationEvents$.next({ eventType: SurveyNavigatorEventType.NextPressed, eventValue: undefined });
 		return nav;
 	}
 
@@ -206,6 +213,7 @@ export class SurveyNavigator {
 			}
 			this._checkValidation(state);
 		});
+		this.navigationEvents$.next({ eventType: SurveyNavigatorEventType.PreviousPressed, eventValue: undefined });
 		return prev;
 	}
 
@@ -289,6 +297,7 @@ export class SurveyNavigator {
 		let pageIndex = findIndex(this._state.viewerState.questionBlocks, (block: SurveyViewQuestion[]) => {
 			return this._state.viewerState.surveyPages[block[0]?.pageIndex]?.id === page.id;
 		});
+		this.navigationEvents$.next({ eventType: SurveyNavigatorEventType.NavigatedToSection, eventValue: section });
 		return new Observable((obs: Observer<NavigationState>) => {
 			let navigationState: NavigationState = {
 				activePage: this._state.viewerState.surveyPages[pageIndex],
@@ -340,7 +349,7 @@ export class SurveyNavigator {
 		if (blockIndex < 0) {
 			blockIndex = 0;
 		}
-
+		this.navigationEvents$.next({ eventType: SurveyNavigatorEventType.NavigatedToPage, eventValue: page });
 		return new Observable((obs: Observer<NavigationState>) => {
 			let navigationState: NavigationState = {
 				activePage: this._state.viewerState.surveyPages[pageIndex],
@@ -389,6 +398,10 @@ export class SurveyNavigator {
 			newState.activeRespondent = this._state.viewerState.groupMembers[newState.activeRespondentIndex];
 		}
 		if (this._isOutsideSurveyBounds(newState)) {
+			this.navigationEvents$.next({
+				eventType: SurveyNavigatorEventType.NavigatedToSurveyEnd,
+				eventValue: new Date().getTime() - this._surveyStartTime,
+			});
 			this._surveyCompleted$.complete();
 			return EMPTY;
 		} else {
@@ -614,7 +627,10 @@ export class SurveyNavigator {
 			return false;
 		}
 		for (let instance of state.activeQuestionInstances) {
-			if (!instance.validationState.isValid && !instance.model.isOptional || instance.validationState.isPartial) {
+			if (
+				(!instance.validationState.isValid && !instance.model.isOptional) ||
+				instance.validationState.isPartial
+			) {
 				allValid = false;
 				break;
 			}
@@ -629,10 +645,10 @@ export class SurveyNavigator {
 		let invalidQuestions: QuestionInstance[] = [];
 		for (let instance of this._currentState.activeQuestionInstances) {
 			if (
-				!instance.validationState.isValid &&
-				!instance.model.isOptional &&
-				instance.model.questionType !== 'heading'
-				|| instance.validationState.isPartial
+				(!instance.validationState.isValid &&
+					!instance.model.isOptional &&
+					instance.model.questionType !== 'heading') ||
+				instance.validationState.isPartial
 			) {
 				invalidQuestions.push(instance);
 				instance.validationErrors = [].concat((<SurveyQuestion<any>>instance.component).reportErrors());

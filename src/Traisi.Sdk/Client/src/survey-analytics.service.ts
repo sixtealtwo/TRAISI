@@ -5,12 +5,17 @@ export abstract class SurveyAnalyticsService {
     eventCategory: string,
     eventAction: string,
     eventLabel?: string,
-    eventValue?: string,
+    eventValue?: number,
   ): Observable<void>
   public abstract sendTiming(
-    timingCategory: string,
     timingVar: string,
     timingValue: number,
+    timingCategory?: string,
     timlingLabel?: string,
+  ): Observable<void>
+  public abstract setPage(
+    pageTitle: string,
+    pagePath: string,
+    pageLocation: string,
   ): Observable<void>
 }
