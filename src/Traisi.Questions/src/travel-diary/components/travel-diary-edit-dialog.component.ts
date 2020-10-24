@@ -218,7 +218,6 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	}
 
 	public eventInputChanges($event): void {
-		// console.log(this.eventInputChanges);
 	}
 
 	public onMembersChanged($event: any) {

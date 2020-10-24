@@ -126,11 +126,9 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 				this.router.navigate(['error']);
 			}
 		});
-
-		console.log(this.authService.currentUser.roles);
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.indivCodeColumns = [
 			{
 				prop: 'index',

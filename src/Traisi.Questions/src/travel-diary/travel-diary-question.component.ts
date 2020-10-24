@@ -177,8 +177,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 		this._travelDiaryService.isLoaded.subscribe((v) => {
 			if (v) {
-				// console.log(this.isTravelDiaryCollectionDisabled);
-				//this._tour.initialize(this.dropdownToggle);
+
 				setTimeout(() => this.startTour());
 			} else {
 				//this._tour.initializeSubTour(this.dropdownToggle);
