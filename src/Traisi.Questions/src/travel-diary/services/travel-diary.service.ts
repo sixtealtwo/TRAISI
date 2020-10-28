@@ -30,6 +30,7 @@ import { NumberQuestionConfiguration } from 'general/viewer/number-question/numb
 import { TravelDiaryEditor } from './travel-diary-editor.service';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import { eventNames } from 'process';
+import { TravelDiaryTripState } from 'travel-diary/models/travel-diary-trip-state.model';
 
 @Injectable()
 export class TravelDiaryService {
@@ -70,6 +71,8 @@ export class TravelDiaryService {
 	public surveyId: number;
 
 	public responseData: { [userId: number]: ResponseTypes.Location };
+
+	public userTripState: { [userId: number]: TravelDiaryTripState } = {};
 
 	private _diaryEvents: TravelDiaryEvent[] = [];
 
@@ -517,6 +520,14 @@ export class TravelDiaryService {
 				'YES';
 			const workLocation = responseMatches.find((x) => x.questionId === workLocationId)?.responseValues[0];
 			const schoolLocation = responseMatches.find((x) => x.questionId === schoolLocationId)?.responseValues[0];
+
+			this.userTripState[r.id] = {
+				homeAllDay: isHomeAllDay,
+				returnHome: homeReturn,
+				schoolTrip: schoolDeparture,
+				workTrip: workDeparture,
+				otherTrip: homeDeparture,
+			};
 
 			if (responseMatches.length === 0) {
 				toRemove.push(r);
