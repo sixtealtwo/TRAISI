@@ -190,14 +190,15 @@ export abstract class SurveyQuestion<
    * Report errors.
    */
   public reportErrors(): Observable<ValidationError[]> {
-    return from([])
+    return of([])
   }
 
   /**
-   *
+   * Notifies that the survey will attempt to navigate next. This gives the questions
+   * a chance to cancel the navigation.
    */
-  public onWillNavigateNext(): Observable<boolean> {
-    return of(true)
+  public onWillNavigateNext(): Observable<{ cancel: boolean }> {
+    return of({ cancel: false })
   }
 }
 
