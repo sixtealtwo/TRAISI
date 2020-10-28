@@ -21,6 +21,7 @@ import { ViewTransformer } from './view-transformer.service';
 import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk';
 import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
 import { SurveyNavigatorEventType, SurveyNavigatorEvent } from '../../survey-navigator.models';
+import { ValidationErrors } from '@angular/forms';
 
 /**
  *
@@ -641,8 +642,9 @@ export class SurveyNavigator {
 	/**
 	 * Gets invalid questions and reports validation errors
 	 */
-	public getInvalidQuestions(): QuestionInstance[] {
+	public getInvalidQuestions(): Observable<QuestionInstance[]> {
 		let invalidQuestions: QuestionInstance[] = [];
+		let invalidLoad = [];
 		for (let instance of this._currentState.activeQuestionInstances) {
 			if (
 				(!instance.validationState.isValid &&
@@ -651,13 +653,40 @@ export class SurveyNavigator {
 				instance.validationState.isPartial
 			) {
 				invalidQuestions.push(instance);
-				instance.validationErrors = [].concat((<SurveyQuestion<any>>instance.component).reportErrors());
+				// instance.validationErrors = [].concat((<SurveyQuestion<any>>instance.component).reportErrors());
+				let obs = (<SurveyQuestion<any>>instance.component).reportErrors().pipe(
+					map((val: any[]) => {
+						console.log(val);
+						instance.validationErrors = val;
+						return instance;
+					}),
+					take(1)
+				);
+				invalidLoad.push(obs);
 				// break;
 			} else {
 				instance.validationErrors = [];
 			}
 		}
-		return invalidQuestions;
+
+		return new Observable((obs) => {
+			if (invalidLoad.length === 0) {
+				obs.next([]);
+				obs.complete();
+			} else {
+				forkJoin(invalidLoad).subscribe((instances: QuestionInstance[]) => {
+					console.log(instances);
+					let invalidInstances = [];
+					for (let instance of instances) {
+						if (instance.validationErrors.length > 0) {
+							invalidInstances.push(instance);
+						}
+					}
+					obs.next(invalidInstances);
+					obs.complete();
+				});
+			}
+		});
 	}
 
 	/**

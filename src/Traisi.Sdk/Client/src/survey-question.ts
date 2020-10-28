@@ -1,7 +1,14 @@
 import { ResponseValidationState } from './question-response-state'
 import { EventEmitter, Output } from '@angular/core'
 import { QuestionConfiguration } from './question-configuration'
-import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs'
+import {
+  BehaviorSubject,
+  ReplaySubject,
+  Observable,
+  from,
+  EMPTY,
+  of,
+} from 'rxjs'
 import { QuestionOption } from './question-option'
 import { SurveyRespondent } from './survey-respondent.model'
 import { Address, ValidationError } from './models'
@@ -179,8 +186,18 @@ export abstract class SurveyQuestion<
 
   public traisiOnUnloaded(): void {}
 
-  public reportErrors(): ValidationError[] {
-    return []
+  /**
+   * Report errors.
+   */
+  public reportErrors(): Observable<ValidationError[]> {
+    return from([])
+  }
+
+  /**
+   *
+   */
+  public onWillNavigateNext(): Observable<boolean> {
+    return of(true)
   }
 }
 

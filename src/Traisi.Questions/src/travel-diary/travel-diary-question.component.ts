@@ -332,7 +332,7 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		return this._travelDiaryService.isLoaded;
 	}
 
-	public reportErrors(): ValidationError[] {
+	public reportErrors(): Observable<ValidationError[]> {
 		return this._travelDiaryService.reportErrors();
 	}
 

@@ -1,6 +1,6 @@
 import { Injectable, Inject, Injector } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
-import { Subject, BehaviorSubject, Observable, concat, of, forkJoin } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, concat, of, forkJoin, from } from 'rxjs';
 import { TravelDiaryConfiguration, TravelMode } from '../models/travel-diary-configuration.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
@@ -259,7 +259,7 @@ export class TravelDiaryService {
 		return !this._diaryEvents.some((x) => x.meta.model.isValid === false);
 	}
 
-	public reportErrors(): ValidationError[] {
+	public reportErrors(): Observable<ValidationError[]> {
 		let errors: ValidationError[] = [];
 
 		//for (let r of this.respondents) {
@@ -282,14 +282,18 @@ export class TravelDiaryService {
 		}
 		for (let i = 0; i < filter.length; i++) {
 			let event = filter[i];
-			if (event.meta.model.mode === undefined && i > 0) {
+			if (!event.meta.model.mode && i > 0) {
 				errors.push({
 					message: `Activity <strong>${event.meta.model.name}</strong> has no mode assigned.`,
 				});
+			} else if (!event.meta.model.isValid) {
+				errors.push({
+					message: `Activity <strong>${event.meta.model.name}</strong> is missing information.`,
+				});
 			}
 		}
-		//}
-		return errors;
+		console.log(errors);
+		return of(errors);
 	}
 
 	/**
