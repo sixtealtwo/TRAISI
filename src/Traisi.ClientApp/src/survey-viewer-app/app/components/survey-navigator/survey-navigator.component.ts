@@ -87,24 +87,30 @@ export class SurveyNavigatorComponent implements OnInit {
 	public navigateNext(): void {
 		(<any>this.validationPopperContent)['hide']();
 
-		this.navigator.getInvalidQuestions().subscribe((invalidQuestions) => {
-			console.log(invalidQuestions);
-			this.invalidQuestions.next(invalidQuestions);
-			if (invalidQuestions.length === 0) {
-				this.navigator.navigateNext().subscribe({
-					complete: () => {
-						(<any>this.validationPopperContent)['hide']();
-					},
-				});
-			} else {
-				(<any>this.validationPopperContent)['show']();
-				this._analytics.sendEvent(
-					'Survey Navigation Event',
-					'invalid_navigation_attempt',
-					undefined,
-					invalidQuestions.length
-				);
+		this.navigator.nextEnabled$.next(false);
+		this.navigator.willNavigateNext().subscribe((result) => {
+			this.navigator.nextEnabled$.next(true);
+			if (result.cancel) {
+				return;
 			}
+			this.navigator.getInvalidQuestions().subscribe((invalidQuestions) => {
+				this.invalidQuestions.next(invalidQuestions);
+				if (invalidQuestions.length === 0) {
+					this.navigator.navigateNext().subscribe({
+						complete: () => {
+							(<any>this.validationPopperContent)['hide']();
+						},
+					});
+				} else {
+					(<any>this.validationPopperContent)['show']();
+					this._analytics.sendEvent(
+						'Survey Navigation Event',
+						'invalid_navigation_attempt',
+						undefined,
+						invalidQuestions.length
+					);
+				}
+			});
 		});
 	}
 

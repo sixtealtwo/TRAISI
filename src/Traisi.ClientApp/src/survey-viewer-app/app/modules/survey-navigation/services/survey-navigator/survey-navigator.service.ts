@@ -22,6 +22,7 @@ import { SurveyViewerValidationStateViewModel } from 'traisi-question-sdk';
 import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
 import { SurveyNavigatorEventType, SurveyNavigatorEvent } from '../../survey-navigator.models';
 import { ValidationErrors } from '@angular/forms';
+import { each } from 'jquery';
 
 /**
  *
@@ -640,6 +641,26 @@ export class SurveyNavigator {
 	}
 
 	/**
+	 * Performs will navigate next, gives questions a chance to interrupt navigation.
+	 */
+	public willNavigateNext(): Observable<{ cancel: boolean }> {
+		let instanceObs = [];
+		for (let instance of this._currentState.activeQuestionInstances) {
+			instanceObs.push((<SurveyQuestion<any>>instance.component).onWillNavigateNext());
+		}
+
+		return forkJoin(instanceObs).pipe(
+			map((results: Array<{ cancel: boolean }>) => {
+				if (results.some((x) => x.cancel)) {
+					return { cancel: true };
+				} else {
+					return { cancel: false };
+				}
+			})
+		);
+	}
+
+	/**
 	 * Gets invalid questions and reports validation errors
 	 */
 	public getInvalidQuestions(): Observable<QuestionInstance[]> {
@@ -656,11 +677,9 @@ export class SurveyNavigator {
 				// instance.validationErrors = [].concat((<SurveyQuestion<any>>instance.component).reportErrors());
 				let obs = (<SurveyQuestion<any>>instance.component).reportErrors().pipe(
 					map((val: any[]) => {
-						console.log(val);
 						instance.validationErrors = val;
 						return instance;
-					}),
-					take(1)
+					})
 				);
 				invalidLoad.push(obs);
 				// break;

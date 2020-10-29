@@ -150,7 +150,6 @@ export class TravelDiaryService {
 			this.userTravelDiaries[this.activeUser.id] = this._diaryEvents;
 			this.loadSavedResponses().subscribe({
 				next: (v: SurveyResponseViewModel[]) => {
-					console.log(v);
 					for (let result of v) {
 						this._edtior.createDiaryFromResponseData(
 							this.userMap[result.respondent.id],
@@ -166,13 +165,16 @@ export class TravelDiaryService {
 
 					// find respondents with 0 events
 					let respondentsToLoad = [];
+					let respondentsLoadNoFill = [];
 					for (let r of this.respondents) {
 						if (!this._diaryEvents.some((x) => x.meta.user.id === r.id)) {
 							respondentsToLoad.push(r);
+						} else {
+							respondentsLoadNoFill.push(r);
 						}
 					}
 					if (respondentsToLoad.length > 0) {
-						this.loadPriorResponseData(respondentsToLoad).subscribe({
+						this.loadPriorResponseData(respondentsToLoad, respondentsLoadNoFill).subscribe({
 							complete: () => {
 								// this._diaryEvents = [].concat(this._diaryEvents);
 								this.isLoaded.next(true);
@@ -262,6 +264,26 @@ export class TravelDiaryService {
 		return !this._diaryEvents.some((x) => x.meta.model.isValid === false);
 	}
 
+	/**
+	 * Determines if a return home trip is missing but required in the travel diary
+	 */
+	public checkHasRequiredReturnHome(): boolean {
+		console.log(this.userTripState);
+		console.log(this.activeUser.id);
+		let state = this.userTripState[this.activeUser.id];
+		let isLastTripHome: boolean = true;
+		if (
+			this._diaryEvents.length > 2 &&
+			this._diaryEvents[this._diaryEvents.length - 1].meta.model.purpose !== 'home'
+		) {
+			isLastTripHome = false;
+		}
+		if (state.returnHome && isLastTripHome) {
+			return false;
+		}
+		return true;
+	}
+
 	public reportErrors(): Observable<ValidationError[]> {
 		let errors: ValidationError[] = [];
 
@@ -341,7 +363,7 @@ export class TravelDiaryService {
 	public resetTravelDiary(): Observable<void> {
 		this._diaryEvents.splice(0, this._diaryEvents.length);
 		return new Observable((obs) => {
-			this.loadPriorResponseData([this.activeUser]).subscribe({
+			this.loadPriorResponseData([this.activeUser], []).subscribe({
 				complete: () => {
 					obs.complete();
 				},
@@ -375,7 +397,10 @@ export class TravelDiaryService {
 	/**
 	 * Loads prior response data for questions for initializing timeline
 	 */
-	private loadPriorResponseData(respondents: SurveyRespondentUser[]): Observable<void> {
+	private loadPriorResponseData(
+		respondents: SurveyRespondentUser[],
+		respondentsNoFill: SurveyRespondentUser[]
+	): Observable<void> {
 		return new Observable((obs) => {
 			let questionIds: SurveyViewQuestion[] = [];
 			let homeAllDayId = 0;
@@ -461,6 +486,7 @@ export class TravelDiaryService {
 			this._responseService.loadSavedResponsesForRespondents(questionIds, this.respondents).subscribe((res) => {
 				this._initializeSmartFill(
 					respondents,
+					respondentsNoFill,
 					res,
 					homeAllDayId,
 					homeDepartureId,
@@ -484,6 +510,7 @@ export class TravelDiaryService {
 	 */
 	private _initializeSmartFill(
 		respondents: SurveyRespondentUser[],
+		respondentsNoFill: SurveyRespondentUser[],
 		res: SurveyResponseViewModel[],
 		homeAllDayId: number,
 		homeDepartureId: number,
@@ -496,7 +523,7 @@ export class TravelDiaryService {
 		let toRemove = [];
 		let added = [];
 
-		for (let r of respondents) {
+		for (let r of respondents.concat(respondentsNoFill)) {
 			let responseMatches = res.filter((x) => x.respondent.id === r.id);
 
 			// responses belonging to a specific user
@@ -545,7 +572,10 @@ export class TravelDiaryService {
 				workLocation, // work loc,
 				schoolLocation //school loc
 			);
-			if (this.activeRespondents.some((x) => x.id === r.id)) {
+
+			let shouldAdd: boolean = !respondentsNoFill.some((x) => x.id === r.id);
+
+			if (this.activeRespondents.some((x) => x.id === r.id) && shouldAdd) {
 				this.addEvents(events.sort((x1, x2) => x1.start.getTime() - x2.start.getTime()));
 			} else {
 				this.addInactiveEvents(

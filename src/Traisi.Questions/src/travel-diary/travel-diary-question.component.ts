@@ -30,7 +30,7 @@ import { TravelDiaryService } from './services/travel-diary.service';
 import { CalendarEvent, CalendarView, CalendarDayViewComponent } from 'angular-calendar';
 import { TravelDiaryEditDialogComponent } from './components/travel-diary-edit-dialog.component';
 import { DayViewSchedulerComponent } from './components/day-view-scheduler.component';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscriber } from 'rxjs';
 import {
 	colors,
 	DialogMode,
@@ -71,11 +71,16 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	@ViewChild('activitySwap', { read: TemplateRef })
 	public activitySwapTemplate: TemplateRef<any>;
 
+	@ViewChild('confirmNoReturnHome', { read: TemplateRef })
+	public confirmNoReturnHomeTemplate: TemplateRef<any>;
+
 	private _isValid: boolean = false;
 
 	public modalRef: BsModalRef | null;
 
 	public isSummaryTravelDiaryView: boolean = false;
+
+	private _navigateObs: Subscriber<{ cancel: boolean }>;
 
 	private _startTime: number;
 
@@ -177,7 +182,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 		this._travelDiaryService.isLoaded.subscribe((v) => {
 			if (v) {
-
 				setTimeout(() => this.startTour());
 			} else {
 				//this._tour.initializeSubTour(this.dropdownToggle);
@@ -336,8 +340,40 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		return this._travelDiaryService.reportErrors();
 	}
 
+	/**
+	 *
+	 */
+	public onWillNavigateNext(): Observable<{ cancel: boolean }> {
+		if (!this._travelDiaryService.isTravelDiaryValid) {
+			return of({ cancel: false });
+		} else if (this._travelDiaryService.checkHasRequiredReturnHome()) {
+			return of({ cancel: false });
+		}
+		this.openModal(this.confirmNoReturnHomeTemplate);
+		return new Observable((obs) => {
+			this._navigateObs = obs;
+		});
+	}
+
+	/**
+	 *
+	 * @param template
+	 */
 	public openModal(template: TemplateRef<any>): void {
 		this.modalRef = this.modalService.show(template, { class: 'modal-dialog-centered' });
+	}
+
+	public confirm(): void {
+		this.modalRef.hide();
+		this._navigateObs.next({ cancel: false });
+		this._navigateObs.complete();
+	}
+
+	public decline(): void {
+		this.modalRef.hide();
+		this._navigateObs.next({ cancel: true });
+		this._navigateObs.complete();
+		
 	}
 
 	public traisiOnInit(): void {
