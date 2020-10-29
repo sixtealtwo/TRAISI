@@ -264,21 +264,38 @@ export class TravelDiaryService {
 		return !this._diaryEvents.some((x) => x.meta.model.isValid === false);
 	}
 
+	public checkHasAtLeastOneTrip(): boolean {
+		let state = this.userTripState[this.activeUser.id];
+		if (state.homeAllDay && this._diaryEvents.length === 1) {
+			return true;
+		}
+		if ((state.otherTrip || state.schoolTrip || state.workTrip) && this._diaryEvents.length === 1) {
+			return false;
+		}
+		if (this._diaryEvents.length === 1 && !state.homeAllDay) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Determines if a return home trip is missing but required in the travel diary
 	 */
 	public checkHasRequiredReturnHome(): boolean {
-		console.log(this.userTripState);
-		console.log(this.activeUser.id);
 		let state = this.userTripState[this.activeUser.id];
 		let isLastTripHome: boolean = true;
-		if (
-			this._diaryEvents.length > 2 &&
-			this._diaryEvents[this._diaryEvents.length - 1].meta.model.purpose !== 'home'
-		) {
+		let events = this._diaryEvents.sort((v1, v2) => v1.start.getTime() - v2.start.getTime());
+
+		if(events.length === 1 && !state.homeAllDay && this._diaryEvents[0].meta.model.purpose !== 'home') {
+			return false;
+		}
+		if (events.length > 1 && events[events.length - 1].meta.model.purpose !== 'home') {
 			isLastTripHome = false;
 		}
-		if (state.returnHome && isLastTripHome) {
+
+		console.log(isLastTripHome);
+		if (state.returnHome && !isLastTripHome) {
+			console.log('false here');
 			return false;
 		}
 		return true;

@@ -48,12 +48,12 @@
 			<label class="btn btn-primary view-select linear-view" (click)="setSummaryTavelDiaryView(false)"
 				><input type="radio" name="options" id="linearView" /><i class="fas fa-list-ol"></i
 			></label>
-
 		</span>
 
-		
-		<span class="reset-links"> <a [routerLink]=""  (click)="resetEvents()">Reset</a> | 
-		<a [routerLink]=""  (click)="clearEvents()">Clear </a> </span> | 
+		<span class="reset-links">
+			<a [routerLink]="" (click)="resetEvents()">Reset</a> | <a [routerLink]="" (click)="clearEvents()">Clear </a>
+		</span>
+		|
 
 		<a [routerLink]="" class="tour" (click)="startTour(true)"> <i class="fas fa-info-circle"></i>Help </a>
 
@@ -127,35 +127,48 @@
 <ng-template #confirmNoReturnHome>
 	<div class="modal-header">
 		<h4 class="modal-title pull-left">Please confirm your travel diary</h4>
-		<button type="button" class="close pull-right" aria-label="Close" (click)="decline">
+		<button type="button" class="close pull-right" aria-label="Close" (click)="decline()">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
-	<div class="modal-body text-center">
-		<p>You indicated earlier that you returned home at the end of the day. However your travel diary does not include a return home trip.</p>
-		<p>Please confirm that this is the case, or press cancel to add a return home trip.
+	<div class="modal-body text-left">
+		<p>
+			You indicated earlier that <strong>{{ respondentName }}</strong> returned home at the end of the day. However {{ respondentName }}'s travel
+			diary does not include a return home trip.
+		</p>
+		<p>
+			Please confirm that this is the case, or press cancel to return to the trave diary and add a return home
+			trip.
 		</p>
 	</div>
 	<div class="modal-footer text-center">
-		<button type="button" class="btn btn-default" (click)="decline()" >Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="confirm()" >Confirm</button>
+		<button type="button" class="btn btn-default" (click)="decline()">Add return home trip</button>
+		<button type="button" class="btn btn-primary" (click)="confirm()">
+			Confirm <small>({{ respondentName }} did not return home)</small>
+		</button>
 	</div>
 </ng-template>
 
 <ng-template #confirmSingleTrip>
 	<div class="modal-header">
 		<h4 class="modal-title pull-left">Please confirm your travel diary</h4>
-		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+		<button type="button" class="close pull-right" aria-label="Close" (click)="decline()">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
-	<div class="modal-body text-center">
+	<div class="modal-body text-left">
 		<p>
-			Your travel diary does not have a return home trip. Please confirm that this is the case, or press cancel
-			to add a return home trip.
+			You indicated earlier that <strong>{{ respondentName }}</strong> did not stay at home, however the travel diary does not appear to have enough
+			trips.
+		</p>
+		<p>
+			Please confirm that this is the case, or press cancel to return to the trave diary and add more trips.
 		</p>
 	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-primary" (click)="modalRef.hide()">Ok</button>
+	<div class="modal-footer text-center">
+		<button type="button" class="btn btn-default" (click)="decline()">Add additional trip(s)</button>
+		<button type="button" class="btn btn-primary" (click)="confirm()">
+			Confirm <small>({{ respondentName }} did not make any trips)</small>
+		</button>
 	</div>
 </ng-template>

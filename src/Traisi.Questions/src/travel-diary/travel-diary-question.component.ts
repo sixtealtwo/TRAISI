@@ -74,6 +74,9 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	@ViewChild('confirmNoReturnHome', { read: TemplateRef })
 	public confirmNoReturnHomeTemplate: TemplateRef<any>;
 
+	@ViewChild('confirmSingleTrip', { read: TemplateRef })
+	public confirmSingleTripTemplate: TemplateRef<any>;
+
 	private _isValid: boolean = false;
 
 	public modalRef: BsModalRef | null;
@@ -129,6 +132,10 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public get viewDate(): Date {
 		return this._travelDiaryService.viewDate;
+	}
+
+	public get respondentName(): string {
+		return this._respondent.name;
 	}
 
 	public get isTravelDiaryCollectionDisabled(): boolean {
@@ -346,10 +353,18 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	public onWillNavigateNext(): Observable<{ cancel: boolean }> {
 		if (!this._travelDiaryService.isTravelDiaryValid) {
 			return of({ cancel: false });
-		} else if (this._travelDiaryService.checkHasRequiredReturnHome()) {
+		} else if (
+			this._travelDiaryService.checkHasRequiredReturnHome() &&
+			this._travelDiaryService.checkHasAtLeastOneTrip()
+		) {
 			return of({ cancel: false });
 		}
-		this.openModal(this.confirmNoReturnHomeTemplate);
+		if (!this._travelDiaryService.checkHasRequiredReturnHome()) {
+			this.openModal(this.confirmNoReturnHomeTemplate); 
+		} else if (!this._travelDiaryService.checkHasAtLeastOneTrip()) {
+			this.openModal(this.confirmSingleTripTemplate);
+		}
+
 		return new Observable((obs) => {
 			this._navigateObs = obs;
 		});
@@ -373,7 +388,6 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		this.modalRef.hide();
 		this._navigateObs.next({ cancel: true });
 		this._navigateObs.complete();
-		
 	}
 
 	public traisiOnInit(): void {
