@@ -83,6 +83,8 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 
 	public isSummaryTravelDiaryView: boolean = false;
 
+	public navigateNextEnabled: boolean = false;
+
 	private _navigateObs: Subscriber<{ cancel: boolean }>;
 
 	private _startTime: number;
@@ -367,6 +369,11 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 				s.unsubscribe();
 			}
 		});
+
+		this.navigateNextEnabled = false;
+		setTimeout(() => {
+			this.navigateNextEnabled = true;
+		}, 4000);
 		if (!this._travelDiaryService.checkHasRequiredReturnHome()) {
 			this.openModal(this.confirmNoReturnHomeTemplate);
 		} else if (!this._travelDiaryService.checkHasAtLeastOneTrip()) {

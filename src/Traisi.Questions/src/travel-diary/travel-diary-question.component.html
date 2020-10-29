@@ -133,17 +133,15 @@
 	</div>
 	<div class="modal-body text-left">
 		<p>
-			You indicated earlier that <strong>{{ respondentName }}</strong> returned home at the end of the day. However {{ respondentName }}'s travel
-			diary does not include a return home trip.
+			It looks like <strong>{{ respondentName }}</strong> did not travel back home at the end of the day.
 		</p>
 		<p>
-			Please confirm that this is the case, or press cancel to return to the trave diary and add a return home
-			trip.
+			Please consider adding an extra trip and indicate "home" as the purpose. If {{ respondentName }} did not return home, please confirm that this is the case.
 		</p>
 	</div>
 	<div class="modal-footer text-center">
 		<button type="button" class="btn btn-primary" (click)="decline()">Add return home trip</button>
-		<button type="button" class="btn btn-default" (click)="confirm()">
+		<button type="button" class="btn btn-secondary" (click)="confirm()" [disabled]="!navigateNextEnabled">
 			Confirm <small>({{ respondentName }} did not return home)</small>
 		</button>
 	</div>
@@ -167,7 +165,7 @@
 	</div>
 	<div class="modal-footer text-center">
 		<button type="button" class="btn btn-primary" (click)="decline()">Add additional trip(s)</button>
-		<button type="button" class="btn btn-default" (click)="confirm()">
+		<button type="button" class="btn btn-secondary" (click)="confirm()" [disabled]="!navigateNextEnabled">
 			Confirm <small>({{ respondentName }} did not make any trips)</small>
 		</button>
 	</div>
