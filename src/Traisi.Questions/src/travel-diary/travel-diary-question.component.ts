@@ -359,8 +359,16 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 		) {
 			return of({ cancel: false });
 		}
+
+		let s = this.modalService.onHidden.subscribe(() => {
+			if (this._navigateObs) {
+				this._navigateObs.next({ cancel: true });
+				this._navigateObs.complete();
+				s.unsubscribe();
+			}
+		});
 		if (!this._travelDiaryService.checkHasRequiredReturnHome()) {
-			this.openModal(this.confirmNoReturnHomeTemplate); 
+			this.openModal(this.confirmNoReturnHomeTemplate);
 		} else if (!this._travelDiaryService.checkHasAtLeastOneTrip()) {
 			this.openModal(this.confirmSingleTripTemplate);
 		}
@@ -379,15 +387,17 @@ export class TravelDiaryQuestionComponent extends SurveyQuestion<ResponseTypes.T
 	}
 
 	public confirm(): void {
-		this.modalRef.hide();
 		this._navigateObs.next({ cancel: false });
 		this._navigateObs.complete();
+		this._navigateObs = undefined;
+		this.modalRef.hide();
 	}
 
 	public decline(): void {
-		this.modalRef.hide();
 		this._navigateObs.next({ cancel: true });
 		this._navigateObs.complete();
+		this._navigateObs = undefined;
+		this.modalRef.hide();
 	}
 
 	public traisiOnInit(): void {

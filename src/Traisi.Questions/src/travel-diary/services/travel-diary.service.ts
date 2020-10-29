@@ -293,7 +293,6 @@ export class TravelDiaryService {
 			isLastTripHome = false;
 		}
 
-		console.log(isLastTripHome);
 		if (state.returnHome && !isLastTripHome) {
 			console.log('false here');
 			return false;
