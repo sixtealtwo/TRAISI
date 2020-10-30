@@ -10,7 +10,7 @@ import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { SurveyViewerClient } from 'app/services/survey-viewer-api-client.service';
-import { AuthService } from 'auth.service';
+import { AuthService } from 'shared/services/auth.service';
 
 /**
  *
