@@ -437,7 +437,7 @@ namespace Traisi.Controllers.SurveyViewer
 
         }
 
-                /// <summary>
+        /// <summary>
         /// Sets the surey to complete for the current user (shortcode).
         /// </summary>
         /// <param name="surveyId"></param>
@@ -449,7 +449,7 @@ namespace Traisi.Controllers.SurveyViewer
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(typeof(void))]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        public async Task<IActionResult> SurveyRejected(int surveyId, [FromHeader(Name = "Shortcode")] string shortcode)
+        public async Task<IActionResult> SurveyReject(int surveyId, [FromHeader(Name = "Shortcode")] string shortcode)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey != null)
@@ -486,7 +486,28 @@ namespace Traisi.Controllers.SurveyViewer
             }
             var currentUser = await _userManager.GetUserAsync(User);
             var linkResult = await this._viewService.GetSurveySuccessLink(currentUser, survey);
-            return new OkObjectResult(new { successLink = linkResult});
+            return new OkObjectResult(new { successLink = linkResult });
+        }
+
+        /// <summary>
+        /// Retrieves the rejection link for the survey, interpolated  with any query params passed at the start of the survey.
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Produces(typeof(string))]
+        [Route("surveys/{surveyId}/rejection-link")]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        public async Task<IActionResult> GetSurveyRejectionLink(int surveyId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey == null)
+            {
+                return new NotFoundResult();
+            }
+            var currentUser = await _userManager.GetUserAsync(User);
+            var linkResult = await this._viewService.GetSurveyRejectionLink(currentUser, survey);
+            return new OkObjectResult(new { successLink = linkResult });
         }
 
     }
