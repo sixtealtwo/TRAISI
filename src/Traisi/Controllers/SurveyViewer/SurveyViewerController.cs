@@ -425,8 +425,12 @@ namespace Traisi.Controllers.SurveyViewer
             if (survey != null)
             {
                 var shortcodeObj = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync(survey, shortcode);
-                shortcodeObj.SurveyCompleted = true;
-                await this._unitOfWork.SaveChangesAsync();
+                if (shortcodeObj != null)
+                {
+                    shortcodeObj.SurveyCompleted = true;
+                    await this._unitOfWork.SaveChangesAsync();
+                }
+
                 return new OkResult();
 
             }
@@ -455,8 +459,12 @@ namespace Traisi.Controllers.SurveyViewer
             if (survey != null)
             {
                 var shortcodeObj = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync(survey, shortcode);
-                shortcodeObj.SurveyRejected = true;
-                await this._unitOfWork.SaveChangesAsync();
+                if (shortcodeObj != null)
+                {
+                    shortcodeObj.SurveyRejected = true;
+                    await this._unitOfWork.SaveChangesAsync();
+                }
+
                 return new OkResult();
 
             }
