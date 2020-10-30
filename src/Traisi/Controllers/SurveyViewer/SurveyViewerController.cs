@@ -437,6 +437,37 @@ namespace Traisi.Controllers.SurveyViewer
 
         }
 
+                /// <summary>
+        /// Sets the surey to complete for the current user (shortcode).
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="(Name"></param>
+        /// <returns></returns>
+        [Route("reject/{surveyId:int}")]
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces(typeof(void))]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        public async Task<IActionResult> SurveyRejected(int surveyId, [FromHeader(Name = "Shortcode")] string shortcode)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey != null)
+            {
+                var shortcodeObj = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync(survey, shortcode);
+                shortcodeObj.SurveyRejected = true;
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
+
+            }
+            else
+            {
+                return new NotFoundResult();
+            }
+
+        }
+
+
         /// <summary>
         /// 
         /// </summary>

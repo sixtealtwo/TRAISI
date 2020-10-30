@@ -110,7 +110,7 @@ export class SurveyScreeningPageComponent implements OnInit {
 				if (this.screeningQuestions.rejectionLink !== undefined || this.screeningQuestions.rejectionLink.trim() !== '') {
 					window.location.href = this.screeningQuestions.rejectionLink;
 				} else {
-					this._router.navigate([this._session.surveyCode, 'complete']);
+					this._router.navigate([this._session.surveyCode, 'thankyou']);
 				}
 			}
 		}
