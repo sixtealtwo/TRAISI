@@ -111,22 +111,27 @@ export class SurveyScreeningPageComponent implements OnInit {
 				return;
 			} else {
 				// navigate to rejection link
-				this._analytics.sendEvent('Survey Navigation Event', 'survey_rejected', undefined).subscribe(() => {
-					this._viewerClient
-						.surveyReject(this._surveyViewerService.surveyId, this._authService.currentSurveyUser.shortcode)
-						.subscribe(() => {
-							this._viewerClient
-								.getSurveyRejectionLink(this._surveyViewerService.surveyId)
-								.subscribe((x: any) => {
-									if (x.successLink) {
-										setTimeout(() => {
-											window.location.href = x.successLink;
-										});
-									} else {
-										// this._router.navigate([this._session.surveyCode, 'thankyou']);
-									}
-								});
-						});
+				this._analytics.sendEvent('Survey Navigation Event', 'survey_rejected', undefined).subscribe({
+					complete: () => {
+						this._viewerClient
+							.surveyReject(
+								this._surveyViewerService.surveyId,
+								this._authService.currentSurveyUser.shortcode
+							)
+							.subscribe(() => {
+								this._viewerClient
+									.getSurveyRejectionLink(this._surveyViewerService.surveyId)
+									.subscribe((x: any) => {
+										if (x.successLink) {
+											setTimeout(() => {
+												window.location.href = x.successLink;
+											});
+										} else {
+											// this._router.navigate([this._session.surveyCode, 'thankyou']);
+										}
+									});
+							});
+					},
 				});
 			}
 		}
