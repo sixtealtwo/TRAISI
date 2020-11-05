@@ -565,6 +565,7 @@ export class TravelDiaryService {
 			const schoolLocation = responseMatches.find((x) => x.questionId === schoolLocationId)?.responseValues[0];
 
 			this.userTripState[r.id] = {
+				startAtHome: homeDeparture,
 				homeAllDay: isHomeAllDay,
 				returnHome: homeReturn,
 				schoolTrip: schoolDeparture,

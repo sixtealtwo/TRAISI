@@ -113,6 +113,13 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 
 	private _dialogOpenTime: number;
 
+	public get isAllowChangePurpose(): boolean {
+		if(this.displayIndex === 0 && this._travelDiaryService.userTripState[this._respondent.id].startAtHome) {
+			return false;
+		}
+		return true;
+	}
+
 	public get defaultDate(): Date {
 		return this._defaultDate;
 	}
