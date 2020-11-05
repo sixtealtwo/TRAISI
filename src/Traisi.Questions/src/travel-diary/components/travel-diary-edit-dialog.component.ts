@@ -114,7 +114,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	private _dialogOpenTime: number;
 
 	public get isAllowChangePurpose(): boolean {
-		if(this.displayIndex <= 1 && this._travelDiaryService.userTripState[this._respondent.id]?.startAtHome) {
+		if(this.displayIndex <= -1 && this._travelDiaryService.userTripState[this._respondent.id]?.startAtHome) {
 			return false;
 		}
 		return true;
@@ -447,10 +447,11 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.eventForm.form.reset();
 			this.eventForm.reset();
 			this.model.isFirstEvent = true;
+			this.displayIndex = -1;
 			this.isFirstEventInDay = true;
 			this.model.users = [].concat(this._respondentRef);
 			if(this._travelDiaryService.userTripState[this._respondent.id]?.startAtHome){
-				this.model.purpose = 'home';
+				this.model.purpose = this._travelDiaryService.configuration.purpose.find( x=> x.id==='home').id;
 			}
 		} else {
 			this.eventForm.form.markAllAsTouched();
