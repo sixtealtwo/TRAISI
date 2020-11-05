@@ -449,6 +449,9 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.model.isFirstEvent = true;
 			this.isFirstEventInDay = true;
 			this.model.users = [].concat(this._respondentRef);
+			if(this._travelDiaryService.userTripState[this._respondent.id]?.startAtHome){
+				this.model.purpose = 'home';
+			}
 		} else {
 			this.eventForm.form.markAllAsTouched();
 			this.eventForm.form.updateValueAndValidity();
