@@ -114,7 +114,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 	private _dialogOpenTime: number;
 
 	public get isAllowChangePurpose(): boolean {
-		if(this.displayIndex <= -1 && this._travelDiaryService.userTripState[this._respondent.id]?.startAtHome) {
+		if(this.displayIndex <= 0 && this._travelDiaryService.userTripState[this._respondent.id]?.startAtHome) {
 			return false;
 		}
 		return true;
@@ -462,6 +462,7 @@ export class TravelDiaryEditDialogComponent implements AfterViewInit {
 			this.model.isReturnHomeSplit = false;
 			this.model.isUpdateEventSwap = undefined;
 			this.isFirstEventInDay = false;
+			this.displayIndex = 1;
 			this.model.isRequireDepartureConfirm = false;
 			this.displayIndex = this._editorService.getEventIndex(
 				this.model,
