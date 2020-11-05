@@ -318,7 +318,7 @@ export class TravelDiaryService {
 		}
 		if (!this._validateConsecutiveHomeEvents(filter)) {
 			errors.push({
-				message: 'You cannot have two home events in a row.',
+				message: 'You cannot have two home events in a row. Please make sure to <strong>add</strong> a new trip separating your home events.',
 			});
 		}
 		for (let i = 0; i < filter.length; i++) {
