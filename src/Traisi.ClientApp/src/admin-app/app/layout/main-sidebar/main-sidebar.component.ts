@@ -119,4 +119,13 @@ export class MainSidebarComponent implements OnInit, AfterViewInit {
 	get canManageGroupUsers() {
 		return this.accountService.userHasPermission(Permission.manageGroupUsersPermission);
 	}
+
+	get canViewSamples() {
+		return this.accountService.userHasPermission(Permission.viewSamplesPermission);
+	}
+
+	/* get canViewPhoneData() {
+		return this.accountService.userHasPermission(Permission.viewPhonedataPermission);
+	} */
+
 }

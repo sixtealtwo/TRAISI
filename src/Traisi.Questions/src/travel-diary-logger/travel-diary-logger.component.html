@@ -1,0 +1,40 @@
+<div class=""> 
+  <strong>Date Selection:</strong> 
+    <input type="date"
+         placeholder="Datepicker"
+         class=""/>
+</div>
+<br/>
+<div>
+  <h5>Trips</h5>
+  <table width="700" border="2">
+    <tr>
+      <th>Trip_Number</th>
+      <th>Departure_Time</th>
+      <th>Trip_Mode</th>
+      <th>Trip_Purpose</th>
+      <th>Action</th>
+    </tr>
+
+    <tr *ngFor="let item of tripData; let i = index; ">
+      <td>{{i + 1}}</td>
+      <td>{{item.deptTime}}</td>
+      <td>{{item.mode}}</td>
+      <td>{{item.purpose}}</td>
+      <td>
+          <a href="javascript:void(0);" (click)="onConfirmClick()">Confirm</a>  <br/>
+          <a href="javascript:void(0);">Modify</a> 
+    </tr>
+   </table>
+</div>
+<br/>
+<div>
+  <traisi-location-lookup (locationSelected)="onLocationSelected($event)" #locationSelect></traisi-location-lookup>
+  <div class="mapbox-container" #mapContainer [style.height.px]="containerHeight"></div>
+</div>
+
+<div class="address-overlay">
+  <span #addressOverlayText></span>
+</div>
+
+<div class="mapbox-container" #mapContainer [style.height.px]="containerHeight"></div>

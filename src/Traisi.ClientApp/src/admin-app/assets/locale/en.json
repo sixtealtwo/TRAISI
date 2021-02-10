@@ -9,7 +9,9 @@
 		"ManageSurveys": "Manage Surveys",
 		"ManageGroups": "Manage Groups",
 		"ManageUsers": "Manage Users",
-		"ManageRoles": "Manage Roles",
+    "ManageRoles": "Manage Roles",
+    "ViewSamples": "Manage Samples",
+    "ViewPhoneData": "Manage Smartphone Data",
 		"Logout": "Logout"
   },
   "pageHeader": {
@@ -97,11 +99,46 @@
 			"Solo": "Solo",
 			"Shared": "Shared",
 			"NewSurvey": "New Survey",
-			"ImportSurvey": "Import Survey",
+      "ImportSurvey": "Import Survey",
 			"Search": "Search for survey...",
 			"Edit": "Edit",
 			"Delete": "Delete",
 			"View": "View"
+    },
+    "analyze":{
+      "SampleAnalysis": "Survey Sample Distribution Dashboard"
+    },
+    "surveyresponse":{
+      "ExportResponses": "Export Responses"
+    },
+    "execute":{
+      "Apply": "Apply",
+      "NewSample": "New Sample",
+      "ImportSample": "Import Sample",
+      "Edit": "Edit"
+    }
+  },
+  "samples": {
+    "management" : {
+      "ViewSamples": "Manage Samples",
+      "NewSample": "New Sample",
+      "Edit": "Edit",
+      "Delete": "Delete",
+      "SearchOption": "Select search option",
+      "Apply": "Apply",
+      "ImportSample": "Import Sample",
+			"Activate": "Sample Activate/Deactivate",
+			"Distribution": "Sample Distribution",
+      "Queue": "Sample Queues",
+      "Search": "Search using filter option"
+		}
+  },
+  "smartphone": {
+    "management" : {
+      "ViewPhoneData": "Manage Smartphone Data",
+      "Smartphone": "Smartphone Data",
+      "ImportPhoneData": "Import Phone Data",
+      "Search": "Search for phone data"
     }
   },
   "users": {

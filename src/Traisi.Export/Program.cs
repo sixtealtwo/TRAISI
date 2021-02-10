@@ -5,18 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using OfficeOpenXml;
-using OfficeOpenXml.Style;  
-using System.Drawing; 
+using OfficeOpenXml.Style;
+using System.Drawing;
 using System.Data;
 using System.Collections.Generic;
 using Traisi.Data.Models.Questions;
-using Traisi;
-using Traisi.Helpers;
+using Traisi.Data;
 using Traisi.Sdk.Services;
 
 namespace TRAISI.Export
 {
-    class Program
+    public class Program
     {
 
         public static int Main(string[] args)
@@ -49,7 +48,7 @@ namespace TRAISI.Export
                 Console.Error.WriteLine($"Survey with code {args[0]} does not exist. Exiting.");
                 return 1;
             }
-           
+
             Console.WriteLine("Gathering Questions");
             var view = survey.SurveyViews.FirstOrDefault();
             if (view == null)
@@ -60,48 +59,54 @@ namespace TRAISI.Export
 
             List<QuestionPartView> householdQuestions = new List<QuestionPartView>();
             List<QuestionPartView> personQuestions = new List<QuestionPartView>();
-            List<QuestionPartView> questionPartViews = new List<QuestionPartView>();            
-           
+            List<QuestionPartView> questionPartViews = new List<QuestionPartView>();
+
             foreach (var page in view.QuestionPartViews)
             {
                 context.Entry(page).Collection(c => c.QuestionPartViewChildren).Load();
                 context.Entry(page).Reference(r => r.QuestionPart).Load();
                 foreach (var q in page.QuestionPartViewChildren)
-                {                     
+                {
                     context.Entry(q).Collection(c => c.Labels).Load();
                     context.Entry(q).Reference(r => r.QuestionPart).Load();
                     context.Entry(q).Collection(c => c.QuestionPartViewChildren).Load();
+
                     bool isHousehold = false;
                     if (q.QuestionPart != null)
                     {
                         context.Entry(q.QuestionPart).Collection(c => c.QuestionOptions).Load();
+                        context.Entry(q.QuestionPart).Collection(c => c.QuestionConfigurations).Load();
                         foreach (var option in q.QuestionPart.QuestionOptions)
                         {
                             context.Entry(option).Collection(option => option.QuestionOptionLabels).Load();
                         }
                         questionPartViews.Add(q);
-                        personQuestions.Add(q);                        
+                        householdQuestions.Add(q);
                     }
-                    else if(q.IsHousehold)
+                    else if (q.IsHousehold)
                     {
                         isHousehold = true;
                     }
 
                     foreach (var q2 in q.QuestionPartViewChildren)
-                    {   
+                    {
                         context.Entry(q2).Collection(c => c.Labels).Load();
                         context.Entry(q2).Reference(r => r.QuestionPart).Load();
                         context.Entry(q2.QuestionPart).Collection(c => c.QuestionOptions).Load();
+                        context.Entry(q2.QuestionPart).Collection(c => c.QuestionConfigurations).Load();
                         context.Entry(q2).Collection(c => c.QuestionPartViewChildren).Load();
                         foreach (var option in q2.QuestionPart.QuestionOptions)
                         {
                             context.Entry(option).Collection(option => option.QuestionOptionLabels).Load();
                         }
                         questionPartViews.Add(q2);
-                        if(!isHousehold) {
+
+                        if (!isHousehold)
+                        {
                             householdQuestions.Add(q2);
                         }
-                        else {
+                        else
+                        {
                             personQuestions.Add(q2);
                         }
                     }
@@ -113,7 +118,8 @@ namespace TRAISI.Export
             var responses = responseTableExporter.ResponseList(questionPartViews);
             Console.WriteLine("Finding Respondents");
             var respondents = responderTableExporter.GetSurveyRespondents(survey);
-            var questionParts = questionPartViews.Select(qpv => qpv.QuestionPart).ToList();    
+            var allSurveyRespondents = responderTableExporter.GetAllRespondents(survey);
+            var questionParts = questionPartViews.Select(qpv => qpv.QuestionPart).ToList();
 
             // Separating Personal and Household questions    
             var questionPartViews_personal = personQuestions.ToList();
@@ -121,10 +127,10 @@ namespace TRAISI.Export
 
             var responses_personal = responses.Where(res => questionPartViews_personal.Select(x => x.QuestionPart).Contains(res.QuestionPart)).ToList();
             var responses_houseHold = responses.Where(res => questionPartViews_houseHold.Select(x => x.QuestionPart).Contains(res.QuestionPart)).ToList();
-            
+
             var questionParts_personal = questionPartViews_personal.Select(x => x.QuestionPart).ToList();
             var questionParts_houseHold = questionPartViews_houseHold.Select(x => x.QuestionPart).ToList();
-           
+
             // Household Questions Excel file
             var hfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\HouseholdQuestions.xlsx");
             if (hfi.Exists)
@@ -132,21 +138,21 @@ namespace TRAISI.Export
                 hfi.Delete();
             }
             using (var eXp = new ExcelPackage(hfi))
-            {                
+            {
                 // initalize a sheet in the workbook
                 var workbook = eXp.Workbook;
                 Console.WriteLine("Writing Household Question sheet");
                 var hhQuestionsSheet = workbook.Worksheets.Add("Household Questions");
                 questionExporter.BuildQuestionTable(questionPartViews_houseHold, hhQuestionsSheet);
-                Console.WriteLine("Writing Household Response Sheet");
+                Console.WriteLine("Writing Household Response sheet");
                 var hhResponseSheet = workbook.Worksheets.Add("Household Responses");
                 responseTableExporter.ResponseListToWorksheet(responses_houseHold, hhResponseSheet, true);
-                Console.WriteLine("Writing Household Response Pivot Sheet");
+                Console.WriteLine("Writing Household Response Pivot sheet");
                 var hhResponsePivotSheet = workbook.Worksheets.Add("Household Responses Pivot");
                 responseTableExporter.ResponsesPivot_HouseHold(questionParts_houseHold, responses_houseHold, respondents, hhResponsePivotSheet);
                 eXp.Save();
             }
-            
+
             // Personal Questions Excel file
             var pfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\PersonalQuestions.xlsx");
             if (pfi.Exists)
@@ -181,10 +187,31 @@ namespace TRAISI.Export
                 var workbook = eXp.Workbook;
                 Console.WriteLine("Writing Travel Diary Response sheet");
                 var travelDiarySheet = workbook.Worksheets.Add("Travel Diary Responses");
-                responseTableExporter.ResponsesPivot_TravelDiary(questionParts_personal, responses_personal, respondents, travelDiarySheet);
+                responseTableExporter.ResponsesPivot_TravelDiary(questionParts_personal, responses_personal, allSurveyRespondents, travelDiarySheet);
+                Console.WriteLine("Writing One Location Travel Diary Response sheet");
+                var oneLocationTravelDiarySheet = workbook.Worksheets.Add("One Location Diary Responses");
+                responseTableExporter.ResponsesPivot_OneLocationTravelDiary(questionParts_personal, responses_personal, allSurveyRespondents, oneLocationTravelDiarySheet);
                 eXp.Save();
             }
 
+            // Transit Routes Excel file
+            var rfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\TransitRoutes.xlsx");
+            if (rfi.Exists)
+            {
+                rfi.Delete();
+            }
+            using (var eXp = new ExcelPackage(rfi))
+            {
+                // initalize a sheet in the workbook
+                var workbook = eXp.Workbook;
+                Console.WriteLine("Writing Transit Routes Response sheet");
+                var transitRoutesSheet = workbook.Worksheets.Add("Transit Routes Responses");
+                responseTableExporter.ResponsesPivot_TransitRoutes(questionParts_personal, responses_personal, respondents, transitRoutesSheet);
+                Console.WriteLine("Writing Not In List Routes Response sheet");
+                var notInListTransitRoutesSheet = workbook.Worksheets.Add("Not In List Responses");
+                responseTableExporter.ResponsesPivot_NotInListTransitRoutes(questionParts_personal, responses_personal, respondents, notInListTransitRoutesSheet);
+                eXp.Save();
+            }
             return 0;
         }
 

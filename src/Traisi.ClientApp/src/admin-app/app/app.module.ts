@@ -4,11 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule, PreloadAllModules, NoPreloading } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import {
-	TranslateModule,
-	TranslateLoader,
-	TranslatePipe
-} from "@ngx-translate/core";
+import {TranslateModule, TranslateLoader, TranslatePipe} from "@ngx-translate/core";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ToastrModule, ToastContainerModule } from "ngx-toastr";
 import { ModalModule } from "ngx-bootstrap/modal";
@@ -42,6 +38,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { TokenInterceptor } from "../../shared/interceptors/token.interceptor";
 import { NgSelectModule } from '@ng-select/ng-select';
 import "pace-progressbar";
+import { SmartphonedataManagementComponent } from './smartphonedata-management/smartphonedata-management.component';
 
 export function monacoLoad() {}
 
@@ -64,7 +61,7 @@ const APP_PROVIDERS = [AppConfig];
 		BootstrapTabDirective,
 		BootstrapToggleDirective,
 		BootstrapDatepickerDirective,
-		BootstrapSelectDirective,
+		BootstrapSelectDirective
 	],
 	imports: [
 		BrowserModule,

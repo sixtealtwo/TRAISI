@@ -94,7 +94,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 				draggable: false,
 				resizable: false,
 				headerCheckboxable: false,
-				checkboxable: true
+				checkboxable: false
 			},
 			{
 				prop: 'index',
@@ -106,21 +106,28 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 			{
 				prop: 'userName',
 				name: gT('users.management.UserName'),
-				minWidth: 90,
-				flexGrow: 60,
+				minWidth: 180,
+				flexGrow: 200,
 				cellTemplate: this.userNameTemplate
 			},
 			{
 				prop: 'fullName',
 				name: gT('users.management.FullName'),
-				minWidth: 150,
-				flexGrow: 120
+				minWidth: 180,
+				flexGrow: 220
 			},
 			{
 				prop: 'email',
 				name: gT('users.management.Email'),
-				minWidth: 210,
-				flexGrow: 200
+				minWidth: 220,
+				flexGrow: 240
+			},
+			{
+				prop: 'roles',
+				name: gT('users.management.Roles'),
+				minWidth: 220,
+				flexGrow: 240,
+				cellTemplate: this.rolesTemplate
 			}
 		];
 
@@ -144,21 +151,27 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 			{
 				prop: 'user.userName',
 				name: gT('users.management.UserName'),
-				minWidth: 90,
-				flexGrow: 60,
+				minWidth: 180,
+				flexGrow: 200,
 				cellTemplate: this.userNameTemplateG
 			},
 			{
 				prop: 'user.fullName',
 				name: gT('users.management.FullName'),
-				minWidth: 150,
-				flexGrow: 120
+				minWidth: 180,
+				flexGrow: 220
 			},
 			{
 				prop: 'user.email',
 				name: gT('users.management.Email'),
-				minWidth: 210,
-				flexGrow: 200
+				minWidth: 220,
+				flexGrow: 240
+			},
+			{
+				prop: 'user.roles',
+				name: gT('users.management.Roles'),
+				minWidth: 220,
+				flexGrow: 260
 			}
 		];
 
@@ -248,6 +261,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 			} else {
 				this.accountService.getSoloUsers().subscribe(
 					users => {
+
 						this.userGroupService
 							.listUserGroupsWhereAdmin()
 							.subscribe(
@@ -282,7 +296,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 		users.forEach((user, index) => {
 			(<any>user).index = index + 1;
 		});
-
+		console.log(users);
 		this.soloUserRowsCache = [...users];
 		this.soloUserRows = users;
 

@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { ChatAppComponent } from '../chat-app/chat-app.component';
+
 const routes: Routes = [
 	{
 		path: '',
@@ -36,6 +37,24 @@ const routes: Routes = [
 			{
 				path: 'survey-execute',
 				loadChildren: () => import('../survey-execute/survey-execute.module').then(m => m.SurveyExecuteModule)
+			},
+			{
+				path: 'survey-analyze',
+				loadChildren: () => import('../survey-analyze/survey-analyze.module').then(m => m.SurveyAnalyzeModule)
+			},
+			{
+				path: 'survey-exportresponses',
+				loadChildren: () => import('../survey-exportresponses/survey-exportresponses.module').then(m => m.SurveyExportresponsesModule)
+			},
+			{
+				path: 'samples',
+				loadChildren: () => import('../sample-management/sample-management.module').then(m => m.SampleManagementModule),
+				data: { hasSidebar: true }
+			},
+			{
+				path: 'smartphonedata',
+				loadChildren: () => import('../smartphonedata-management/smartphonedata-management.module').then(m => m.SmartphonedataManagementModule),
+				data: { hasSidebar: true }
 			},
 			{
 				path: 'chat',

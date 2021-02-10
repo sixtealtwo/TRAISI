@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -18,6 +19,9 @@ using Newtonsoft.Json;
 using Traisi.Helpers;
 using Traisi.ViewModels;
 using Traisi.Data.Models.Questions;
+using TRAISI.Export;
+using System.IO.Compression;
+using OfficeOpenXml;
 
 namespace Traisi.Controllers
 {
@@ -30,19 +34,20 @@ namespace Traisi.Controllers
         private readonly IAuthorizationService _authorizationService;
         private readonly IAccountManager _accountManager;
         private readonly IFileDownloader _fileDownloader;
-
         private readonly IMapper _mapper;
+        private IWebHostEnvironment _hostingEnvironment;
 
         public SurveyController(IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment,
         IFileDownloader fileDownloaderService, IAuthorizationService authorizationService,
-         IAccountManager accountManager,
-         IMapper mapper)
+         IAccountManager accountManager, IMapper mapper)
         {
             this._unitOfWork = unitOfWork;
             this._authorizationService = authorizationService;
             this._accountManager = accountManager;
             this._fileDownloader = fileDownloaderService;
             this._mapper = mapper;
+            this._hostingEnvironment = hostingEnvironment;
+
         }
 
         /// <summary>
@@ -282,6 +287,64 @@ namespace Traisi.Controllers
             var stream = new FileStream(fileName, FileMode.Open);
             return File(stream, "application/octet-stream", $"{survey.Code}.zip");
 
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{id}/exportresponses/{fileFormat}")]
+        public async Task<IActionResult> ExportResponses(int id, string fileFormat)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(id);
+            string[] args = new string[] { survey.Code };
+            TRAISI.Export.Program.Main(args);
+
+            string client_fileName = survey.Code + "_" + fileFormat + ".zip";
+
+            string folderName = "Download\\surveyexportfiles";
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            string newPath = Path.Combine(webRootPath, folderName);
+
+            var zipFileName = newPath + "\\" + survey.Code + ".zip";
+            var directoryInfo = new DirectoryInfo(@"..\..\src\TRAISI.Export\surveyexportfiles");
+            var zFile = new FileInfo(zipFileName);
+            if (zFile.Exists)
+            {
+                zFile.Delete();
+            }
+
+            string zipFileDirectory = directoryInfo.FullName;
+            if (fileFormat == "CSV")
+            {
+                zipFileDirectory = GenerateCsvFromExcel(directoryInfo.FullName, newPath);
+            }
+
+            ZipFile.CreateFromDirectory(zipFileDirectory, zipFileName);
+            var stream = new FileStream(zipFileName, FileMode.Open);
+            return File(stream, "application/octet-stream", client_fileName);
+        }
+
+        [NonAction]
+        public string GenerateCsvFromExcel(string sourceFolder, string destinationFolder)
+        {
+            string[] excelFiles = { "HouseholdQuestions.xlsx", "PersonalQuestions.xlsx", "TransitRoutes.xlsx", "TravelDiary.xlsx" };
+            destinationFolder = destinationFolder + "\\csv\\";
+
+            foreach (string fName in excelFiles)
+            {
+                string excelFileName = sourceFolder + "\\" + fName;
+                using (var sourceExcel = new ExcelPackage(new FileInfo(excelFileName)))
+                {
+                    var sheetsToCopy = sourceExcel.Workbook.Worksheets;
+                    for (int i = 0; i < sheetsToCopy.Count; i++)
+                    {
+
+                        string csvFileName = destinationFolder + sheetsToCopy[i].Name + ".csv";
+                        byte[] responseBytes = sourceExcel.ConvertToCsv(i);
+                        string s = Encoding.UTF8.GetString(responseBytes);
+                        System.IO.File.WriteAllText(csvFileName, s);
+                    }
+                }
+            }
+            return destinationFolder;
         }
 
         [HttpPost("import"), DisableRequestSizeLimit]

@@ -10,6 +10,11 @@ import { ROUTES } from "./survey-execute.routes";
 import { ConductSurveyComponent } from "./conduct-survey/conduct-survey.component";
 import { DropzoneModule } from "ngx-dropzone-wrapper";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { SampleEditorComponent } from 'app/sample-management/sample-editor/sample-editor.component';
+import { SampleManagementModule } from 'app/sample-management/sample-management.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { FileUploadModule } from 'ng2-file-upload';
+import { NgSelect2Module } from 'ng-select2';
 
 export const buttonsModule = ButtonsModule.forRoot();
 export const translateModule = TranslateModule.forChild({
@@ -25,7 +30,11 @@ export const translateModule = TranslateModule.forChild({
 		buttonsModule,
 		translateModule,
 		DropzoneModule,
-		NgxDatatableModule
+		NgxDatatableModule,
+		SampleManagementModule,
+		NgSelect2Module,	
+		FileUploadModule,
+		ModalModule
 	],
 	declarations: [SurveyExecuteComponent, ConductSurveyComponent],
 	providers: []
