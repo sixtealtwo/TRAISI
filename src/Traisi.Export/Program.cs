@@ -73,7 +73,7 @@ namespace TRAISI.Export
 
                     bool isHousehold = false;
                     if (q.QuestionPart != null)
-                    {
+                    {                        
                         context.Entry(q.QuestionPart).Collection(c => c.QuestionOptions).Load();
                         context.Entry(q.QuestionPart).Collection(c => c.QuestionConfigurations).Load();
                         foreach (var option in q.QuestionPart.QuestionOptions)
@@ -193,7 +193,6 @@ namespace TRAISI.Export
                 responseTableExporter.ResponsesPivot_OneLocationTravelDiary(questionParts_personal, responses_personal, allSurveyRespondents, oneLocationTravelDiarySheet);
                 eXp.Save();
             }
-
             // Transit Routes Excel file
             var rfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\TransitRoutes.xlsx");
             if (rfi.Exists)
