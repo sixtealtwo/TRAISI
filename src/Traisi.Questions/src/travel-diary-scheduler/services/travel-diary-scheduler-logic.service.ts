@@ -10,7 +10,7 @@ export class TravelDiarySchedulerLogic {
 	 *
 	 * @param _scheduler
 	 */
-	private constructor(private _scheduler: TravelDiaryScheduler) {
+	public constructor(private _scheduler: TravelDiaryScheduler) {
 		this._scheduler.activeScheduleItem.subscribe(this._onActiveScheduleItemChanged);
 	}
 

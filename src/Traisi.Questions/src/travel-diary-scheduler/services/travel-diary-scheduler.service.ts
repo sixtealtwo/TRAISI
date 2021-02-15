@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { EventEmitter } from 'events';
 import { BehaviorSubject } from 'rxjs';
-import { TimelineResponseData } from 'traisi-question-sdk';
-import { TravelDiaryScheduleItem } from 'travel-diary-scheduler/models/services/travel-diary-schedule-item.model';
+import { TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
+// import { TravelDiaryScheduleItem } from 'travel-diary-scheduler/models/services/travel-diary-schedule-item.model';
 
 @Injectable()
 export class TravelDiaryScheduler {
@@ -12,7 +12,11 @@ export class TravelDiaryScheduler {
 
 	public isScheduleConfirmed: boolean = false;
 
-	public constructor() {
+	/**
+	 *
+	 * @param _surveyAccessTime
+	 */
+	public constructor(@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date) {
 		this.scheduleItems = [];
 		this.initialize();
 	}
@@ -30,6 +34,9 @@ export class TravelDiaryScheduler {
 		this.activeScheduleItem.next(idx - 1);
 	}
 
+	/**
+	 * 
+	 */
 	public unconfirmSchedule(): void {
 		this.isScheduleConfirmed = false;
 		this.activeScheduleItem.next(this.scheduleItems.length - 1);
@@ -46,8 +53,8 @@ export class TravelDiaryScheduler {
 			name: '<empty>',
 			order: 0,
 			purpose: undefined,
-			timeA: new Date(),
-			timeB: new Date(),
+			timeA: new Date(new Date(this._surveyAccessTime).setHours(0, 0, 0, 0)),
+			timeB: new Date(new Date(this._surveyAccessTime).setHours(0, 0, 0, 0)),
 			identifier: undefined,
 			mode: undefined,
 		});

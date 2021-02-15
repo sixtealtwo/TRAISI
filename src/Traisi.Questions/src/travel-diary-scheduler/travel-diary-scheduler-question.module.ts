@@ -11,8 +11,8 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TravelDiaryQuestionComponent } from 'travel-diary/travel-diary-question.component';
 import { TravelDiarySchedulerQuestionComponent } from './travel-diary-scheduler-question.component';
-import { TravelDiarySchedulerItemComponent } from './components/travel-diary-scheduler-item.component';
 import { TravelDiarySchedulerDialogInput } from './components/travel-diary-scheduler-dialog-input/travel-diary-scheduler-dialog-input.component';
+import { TravelDiarySchedulerItemComponent } from './components/travel-diary-scheduler-item/travel-diary-scheduler-item.component';
 
 @NgModule({
 	declarations: [
