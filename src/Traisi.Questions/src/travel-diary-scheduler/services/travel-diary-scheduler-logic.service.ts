@@ -61,4 +61,11 @@ export class TravelDiarySchedulerLogic {
 		}
 		return true;
 	}
+
+	/**
+	 * Validates the current state of the travel diary.
+	 */
+	public validate(): boolean {
+		return true;
+	}
 }
