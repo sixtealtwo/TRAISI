@@ -66,6 +66,10 @@ export class TravelDiarySchedulerLogic {
 	 * Validates the current state of the travel diary.
 	 */
 	public validate(): boolean {
+		// loop over each item in the timeline
+		for(let event of this._scheduler.scheduleItems){
+			console.log(event);
+		}
 		// check others
 		return true;
 	}
