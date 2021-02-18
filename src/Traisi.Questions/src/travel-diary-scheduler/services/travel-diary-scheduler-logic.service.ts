@@ -68,7 +68,9 @@ export class TravelDiarySchedulerLogic {
 	public validate(): boolean {
 		// loop over each item in the timeline
 		for(let event of this._scheduler.scheduleItems){
-			console.log(event);
+			if(event.timeA >= event.timeA) {
+				return false;
+			}
 		}
 		// check others
 		return true;

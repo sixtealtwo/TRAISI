@@ -68,6 +68,7 @@ export class TravelDiarySchedulerQuestionComponent
 		private _injector: Injector,
 		private modalService: BsModalService,
 		private _scheduler: TravelDiaryScheduler,
+		private _scheulderLogic: TravelDiarySchedulerLogic,
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
 		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent,
 		@Inject(TraisiValues.SurveyAnalytics) private _analytics: SurveyAnalyticsService
