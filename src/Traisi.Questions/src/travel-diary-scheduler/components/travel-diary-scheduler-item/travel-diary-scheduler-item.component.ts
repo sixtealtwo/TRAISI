@@ -82,14 +82,28 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 
 	/**
 	 *
+	 * @param purpose
 	 */
-	public onPurposeChanged(): void {
-		if (this.model.purpose.toLocaleLowerCase() === 'other') {
-			// show dialog for collecting address
-			this.openModal(this.addressInputDialogTemplate);
+	public onPurposeChanged(purpose: any): void {
+		if (this.isPurposeWithAddress(purpose)) {
+			console.log();
 		} else {
-			// simply update the state
-			this.updateState();
+			console.log('regular purpose');
+			if (this.model.purpose.toLocaleLowerCase() === 'other') {
+				// show dialog for collecting address
+				this.openModal(this.addressInputDialogTemplate);
+			} else {
+				// simply update the state
+				this.updateState();
+			}
+		}
+	}
+
+	private isPurposeWithAddress(purpose: any): boolean {
+		if (purpose['questionId'] !== undefined) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

@@ -20,10 +20,8 @@
 				<ng-select
 					*ngIf="scheduleIndex === 0"
 					placeholder="Enter a purpose"
-					[(ngModel)]="model.purpose"
 					bindLabel="label"
-					bindValue="id"
-					(change)="onPurposeChanged()"
+					(change)="onPurposeChanged($event)"
 				>
 					<ng-option *ngFor="let school of definedSchoolLocations" [value]="school"
 						><div>School</div>
@@ -38,6 +36,9 @@
 							{{ work.responseValues[0].address.streetNumber }}
 							{{ work.responseValues[0].address.streetAddress }}
 						</div></ng-option
+					>
+					<ng-option *ngFor="let purpose of purposes" [value]="purpose"
+						><div>{{ purpose.label }}</div></ng-option
 					>
 				</ng-select>
 			</div>
