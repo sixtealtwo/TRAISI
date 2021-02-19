@@ -14,13 +14,14 @@ import { TravelDiarySchedulerQuestionComponent } from './travel-diary-scheduler-
 import { TravelDiarySchedulerDialogInput } from './components/travel-diary-scheduler-dialog-input/travel-diary-scheduler-dialog-input.component';
 import { TravelDiarySchedulerItemComponent } from './components/travel-diary-scheduler-item/travel-diary-scheduler-item.component';
 import { AddressDisplayPipe } from './pipes/address-display.pipe';
+import { TravelDiarySchedulerLogic } from './services/travel-diary-scheduler-logic.service';
 
 @NgModule({
 	declarations: [
 		TravelDiarySchedulerQuestionComponent,
 		TravelDiarySchedulerItemComponent,
 		TravelDiarySchedulerDialogInput,
-		AddressDisplayPipe
+		AddressDisplayPipe,
 	],
 	entryComponents: [
 		TravelDiarySchedulerQuestionComponent,

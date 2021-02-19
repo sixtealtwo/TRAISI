@@ -53,6 +53,18 @@
 	font-size: 12px;
 }
 
+.error {
+	font-size: 12px;
+	font-weight: bold;
+	color: rgb(240, 141, 27);
+	padding: 5px;
+}
+
+
+.has-error {
+	background-color: #c3d2de;
+}
+
 traisi-travel-diary-scheduler-item {
 	display: block;
 }

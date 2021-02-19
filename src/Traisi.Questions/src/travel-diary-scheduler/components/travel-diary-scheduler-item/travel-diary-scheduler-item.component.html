@@ -67,7 +67,7 @@
 		</div>
 
 		<div class="departure-time-collect form-group row" *ngIf="scheduleIndex > 0">
-			<div class="col-6">
+			<div class="col-6" [class.has-error]="state.errorState?.invalidTime" [class.no-error]="!state.errorState?.invalidTime">
 				<label for="timeA" class="col-form-label">Departure time for the trip </label>
 				<div class="input-group" [class.ng-invalid]="!model.timeA">
 					<div class="input-group-prepend">
@@ -90,6 +90,9 @@
 						[convertModelValue]="true"
 						required
 					/>
+				</div>
+				<div class="time-input-error">
+					<span class="error" *ngIf="state.errorState?.invalidTime">The time must be later than the previous event.</span>
 				</div>
 			</div>
 			<div class="col-6">

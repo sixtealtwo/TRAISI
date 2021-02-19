@@ -21,22 +21,12 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<span class="delete-container">
-					<button
-						*ngIf="dialogMode === dialogModeEdit"
-						type="button"
-						class="btn btn-danger"
-						(click)="delete()"
-					>
-						Delete
-					</button>
-				</span>
 				<button type="button" class="btn btn-default" (click)="hide()">Cancel</button>
 				<button
 					type="button"
-					[class.disabled]="!isFormValid"
+					[class.disabled]="!isValid"
 					class="btn btn-primary"
-					[disabled]="!isFormValid"
+					[disabled]="!isValid"
 					(click)="dialogSave()"
 				>
 					Save

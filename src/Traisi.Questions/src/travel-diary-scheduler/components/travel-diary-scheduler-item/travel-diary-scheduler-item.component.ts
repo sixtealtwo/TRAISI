@@ -12,10 +12,11 @@ import { TravelDiarySchedulerConfiguration } from 'travel-diary-scheduler/models
 import { TravelDiaryScheduleRespondentDataService } from 'travel-diary-scheduler/services/travel-diary-scheduler-respondent-data.service';
 import { PurposeLocation } from 'travel-diary-scheduler/models/purpose-location.model';
 import { Purpose } from 'travel-diary/models/travel-diary-configuration.model';
+import { TravelDiarySchedulerErrorState } from 'travel-diary-scheduler/models/error-state.model';
 @Component({
 	selector: 'traisi-travel-diary-scheduler-item',
 	template: '' + templateString,
-	providers: [],
+	providers: [TravelDiarySchedulerLogic],
 	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
 	styles: ['' + styleString],
@@ -36,8 +37,6 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	public dataCollected: boolean = false;
 
 	public isInputValid: boolean = false;
-
-	public state: ScheduleInputState = {};
 
 	public modalRef: BsModalRef | null;
 
@@ -64,6 +63,14 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 		return this._respondentData.respondentData.workLocations;
 	}
 
+	public get state(): ScheduleInputState {
+		return this._schedulerLogic.inputState;
+	}
+
+	public get errorState(): TravelDiarySchedulerErrorState {
+		return this._schedulerLogic.inputState.errorState;
+	}
+
 	/**
 	 *
 	 * @param _scheduler
@@ -78,8 +85,7 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	) {}
 
 	public ngOnInit(): void {
-		this.state = { model: this.model, scheduleIndex: this.scheduleIndex };
-		this._schedulerLogic.inputState = this.state;
+		this._schedulerLogic.inputState = { model: this.model, scheduleIndex: this.scheduleIndex };
 	}
 
 	/**
@@ -90,15 +96,12 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 		if (this.isPurposeWithAddress(purpose)) {
 			this.model.address = purpose.address;
 			this.model.purpose = purpose.purpose;
+			this.updateState();
 		} else {
 			this.model.purpose = purpose.id;
-			if (this.model.purpose.toLocaleLowerCase() === 'other') {
-				// show dialog for collecting address
-				this.openModal(this.addressInputDialogTemplate);
-			} else {
-				// simply update the state
-				this.updateState();
-			}
+
+			// show dialog for collecting address
+			this.openModal(this.addressInputDialogTemplate);
 		}
 	}
 
@@ -125,6 +128,7 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 * @param time
 	 */
 	public onDepartureTimeChanged(time: Date): void {
+		this.model.timeA = time;
 		this.updateState();
 	}
 
@@ -140,8 +144,8 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 *
 	 */
 	public updateState(): void {
-		console.log(this.model);
 		this._schedulerLogic.updateScheduleInputState();
+		console.log(this.state.errorState);
 	}
 
 	/**
@@ -163,8 +167,12 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 * @param template
 	 */
 	public openModal(template: TemplateRef<any>): void {
-		// this.modalRef = this._modalService.show(template, { class: 'modal-dialog-centered' });
-		this.dialogInput.show();
+		this.dialogInput.onSaved = (data) => {
+			this.model.address = data.address;
+			this.model.latitude = data.latitude;
+			this.model.longitude = data.longitude;
+		};
+		this.dialogInput.show(this.model);
 	}
 
 	public closeAddressInputDialog(): void {

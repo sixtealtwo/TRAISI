@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { TravelDiarySchedulerItemComponent } from 'travel-diary-scheduler/components/travel-diary-scheduler-item/travel-diary-scheduler-item.component';
+import { TravelDiarySchedulerErrorState } from 'travel-diary-scheduler/models/error-state.model';
 import { ScheduleInputState } from 'travel-diary-scheduler/models/schedule-input-state.model';
 import { TravelDiaryScheduler } from './travel-diary-scheduler.service';
 
@@ -28,9 +30,9 @@ export class TravelDiarySchedulerLogic {
 		this.inputState.canAdvance = this.inputState.isValid = this.canAdvance();
 	}
 
-    /**
-     * 
-     */
+	/**
+	 *
+	 */
 	public confirmSchedule(): void {
 		if (this.inputState.returnHomeResponse === 'yes') {
 			this.inputState.model.purpose = 'Home';
@@ -38,9 +40,7 @@ export class TravelDiarySchedulerLogic {
 		} else if (this.inputState.model.purpose.toLocaleLowerCase() === 'return home') {
 			this.inputState.model.purpose = 'Home';
 			this._scheduler.isScheduleConfirmed = true;
-		} 
-        
-        else {
+		} else {
 			this._scheduler.addItem();
 		}
 		this.inputState.isConfirmed = true;
@@ -52,28 +52,34 @@ export class TravelDiarySchedulerLogic {
 	 * @param idx
 	 */
 	public canAdvance(): boolean {
-		let idx = this.inputState.scheduleIndex;
-		let model = this.inputState.model;
-		if (idx === 0 && !model.purpose) {
-			return false;
-		} else if (idx > 0 && (!model.timeA || !model.mode || !model.purpose)) {
-			console.log('fail here ');
-			return false;
-		}
-		return true;
+		this.inputState.errorState = this.validate();
+		console.log(this.inputState);
+		return this.inputState.errorState.isValid;
 	}
 
 	/**
 	 * Validates the current state of the travel diary.
 	 */
-	public validate(): boolean {
-		// loop over each item in the timeline
-		for(let event of this._scheduler.scheduleItems){
-			if(event.timeA >= event.timeA) {
-				return false;
+	public validate(): TravelDiarySchedulerErrorState {
+		let state: TravelDiarySchedulerErrorState = {
+			invalidTime: false,
+			isValid: true,
+		};
+
+		let idx = this.inputState.scheduleIndex;
+		let model = this.inputState.model;
+		if (idx === 0 && !model.purpose) {
+			state.isValid = false;
+		} else if (idx > 0 && (!model.timeA || !model.mode || !model.purpose)) {
+			state.isValid = false;
+		}
+
+		for (let i = 2; i < this._scheduler.scheduleItems.length; i++) {
+			if (this._scheduler.scheduleItems[i - 1].timeA >= this._scheduler.scheduleItems[i].timeA) {
+				state.invalidTime = true;
+				state.isValid = false;
 			}
 		}
-		// check others
-		return true;
+		return state;
 	}
 }
