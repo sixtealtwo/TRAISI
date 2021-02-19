@@ -57,6 +57,7 @@ export class TravelDiarySchedulerLogic {
 		if (idx === 0 && !model.purpose) {
 			return false;
 		} else if (idx > 0 && (!model.timeA || !model.mode || !model.purpose)) {
+			console.log('fail here ');
 			return false;
 		}
 		return true;

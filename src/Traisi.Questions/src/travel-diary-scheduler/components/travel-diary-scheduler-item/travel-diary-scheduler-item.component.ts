@@ -91,8 +91,6 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 			this.model.address = purpose.address;
 			this.model.purpose = purpose.purpose;
 		} else {
-			console.log(purpose);
-			console.log(this.model.purpose);
 			this.model.purpose = purpose.id;
 			if (this.model.purpose.toLocaleLowerCase() === 'other') {
 				// show dialog for collecting address

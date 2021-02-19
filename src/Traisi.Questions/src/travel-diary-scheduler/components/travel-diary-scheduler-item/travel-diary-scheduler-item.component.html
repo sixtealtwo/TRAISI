@@ -3,8 +3,12 @@
 		<div class="schedule-item">
 			<span class="purpose-label">{{ model.purpose }}</span>
 			<span *ngIf="scheduleIndex > 0" class="departure-time-label">{{ model.timeA | date: 'shortTime' }} </span>
+			<div class="schedule-item-address">
+				{{ model.address | addressDisplay }}
+			</div>
 		</div>
 	</div>
+
 	<div *ngIf="!state.isConfirmed">
 		<div *ngIf="scheduleIndex === 0">
 			<span class="begin-day-message trip-message">Where did you begin your day?</span>
@@ -18,7 +22,7 @@
 		<div class="form-group row">
 			<div class="col-12">
 				<ng-select
-					*ngIf="scheduleIndex === 0"
+					*ngIf="scheduleIndex >= 0"
 					placeholder="Enter a purpose"
 					bindLabel="label"
 					(change)="onPurposeChanged($event)"
@@ -41,21 +45,7 @@
 				</ng-select>
 			</div>
 		</div>
-		<!--<div class="form-group row">
-			<div class="col-12">
-				<ng-select
-					*ngIf="scheduleIndex > 0"
-					placeholder="Enter a purpose"
-					[(ngModel)]="model.purpose"
-					(change)="onPurposeChanged()"
-				>
-					<ng-option *ngFor="let purpose of purposesExtended" [value]="purpose">{{ purpose }}</ng-option>
-					<ng-option *ngIf="scheduleIndex >= 2" [value]="'workOtherMember'">Work (any other member)</ng-option>
-					<ng-option *ngIf="scheduleIndex >= 2" [value]="'schoolOtherMember'">School (any other member)</ng-option>
-					<ng-option *ngIf="scheduleIndex >= 2" [value]="'lastLocation'">Last Location</ng-option>
-				</ng-select>
-			</div>
-		</div>-->
+
 		<div class="form-group row confirm-last-location" *ngIf="model.purpose === 'lastLocation'">
 			<div class="col-12">
 				<span class="trip-message"
