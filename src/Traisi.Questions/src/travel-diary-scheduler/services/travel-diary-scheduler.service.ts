@@ -15,7 +15,6 @@ export class TravelDiaryScheduler {
 
 	public isScheduleConfirmed: boolean = false;
 
-	
 	/**
 	 *
 	 * @param _surveyAccessTime
@@ -50,7 +49,9 @@ export class TravelDiaryScheduler {
 	 */
 	public removeItem(idx: number): void {
 		this.scheduleItems.splice(idx, 1);
-		this.activeScheduleItem.next(idx - 1);
+		if (!this.isScheduleConfirmed) {
+			this.activeScheduleItem.next(idx - 1);
+		}
 	}
 
 	/**
@@ -90,6 +91,5 @@ export class TravelDiaryScheduler {
 			// add default item at start of day
 			this.addItem();
 		}
-
 	}
 }

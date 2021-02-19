@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Address, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
 import { ScheduleInputState } from 'travel-diary-scheduler/models/schedule-input-state.model';
@@ -85,8 +85,11 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 		private _scheduler: TravelDiaryScheduler,
 		private _schedulerLogic: TravelDiarySchedulerLogic,
 		private _modalService: BsModalService,
-		private _respondentData: TravelDiaryScheduleRespondentDataService
-	) {}
+		private _respondentData: TravelDiaryScheduleRespondentDataService,
+		private ref: ChangeDetectorRef
+	) {
+		
+	}
 
 	public ngOnInit(): void {
 		this._schedulerLogic.inputState = { model: this.model, scheduleIndex: this.scheduleIndex };
@@ -149,7 +152,6 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 */
 	public updateState(): void {
 		this._schedulerLogic.updateScheduleInputState();
-		console.log(this.state.errorState);
 	}
 
 	/**
@@ -157,6 +159,13 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 */
 	public confirmScheduleItem(): void {
 		this._schedulerLogic.confirmSchedule();
+	}
+
+	/**
+	 *
+	 */
+	public confirmScheduleItemAndComplete(): void {
+		this._schedulerLogic.confirmAndCompleteSchedule();
 	}
 
 	/**

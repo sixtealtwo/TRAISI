@@ -7,7 +7,7 @@ import {
 	Address,
 } from 'traisi-question-sdk';
 import { TravelDiarySchedulerConfiguration } from 'travel-diary-scheduler/models/config.model';
-import { HOME_PURPOSE } from 'travel-diary-scheduler/models/consts';
+import { HOME_PURPOSE, SCHOOL_PURPOSE, WORK_PURPOSE } from 'travel-diary-scheduler/models/consts';
 import { PurposeLocation } from 'travel-diary-scheduler/models/purpose-location.model';
 import { RespondentData } from 'travel-diary-scheduler/models/respondent-data.model';
 
@@ -16,12 +16,13 @@ export class TravelDiaryScheduleRespondentDataService {
 	public respondentData: RespondentData;
 
 	/**
-	 *
-	 * @param _primaryRespondent
-	 * @param _respondent
-	 * @param _configuration
-	 * @param _responseService
-	 * @param _injector
+	 * 
+	 * @param _primaryRespondent 
+	 * @param _respondent 
+	 * @param _configuration 
+	 * @param _responseService 
+	 * @param _respondentService 
+	 * @param _injector 
 	 */
 	public constructor(
 		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent,
@@ -56,16 +57,15 @@ export class TravelDiaryScheduleRespondentDataService {
 		this._responseService
 			.loadSavedResponsesForRespondents(schoolLocations.concat(workLocations), [this._respondent])
 			.subscribe((results) => {
-				console.log(results);
 				this.respondentData.schoolLocations = results
 					.filter((r) => schoolLocations.some((x) => x.questionId == r.questionId))
 					.map((x) => {
-						return { purpose: 'work', address: x.responseValues[0].address };
+						return { purpose: SCHOOL_PURPOSE, address: x.responseValues[0].address };
 					}) as any[];
 				this.respondentData.workLocations = results
 					.filter((r) => workLocations.some((x) => x.questionId == r.questionId))
 					.map((x) => {
-						return { purpose: 'work', address: x.responseValues[0].address };
+						return { purpose: WORK_PURPOSE, address: x.responseValues[0].address };
 					}) as any[];
 				console.log(this.respondentData);
 			});

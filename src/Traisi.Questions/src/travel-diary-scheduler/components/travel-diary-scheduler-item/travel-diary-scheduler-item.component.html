@@ -19,7 +19,7 @@
 				<span class="trip-purpose-label">{{ scheduleItems[scheduleIndex - 1].purpose }}?</span></span
 			>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row purpose-select-form">
 			<div class="col-12">
 				<ng-select
 					*ngIf="scheduleIndex >= 0"
@@ -122,7 +122,15 @@
 				</ng-select>
 			</div>
 		</div>
-		<div class="button-footer-container">
+		<div class="button-footer-container" *ngIf="!state.isConfirmed">
+			<button
+			type="button"
+			class="btn btn-primary confirm-complete-schedule"
+			(click)="confirmScheduleItemAndComplete()"
+			*ngIf="scheduleIndex > 0"
+		>
+			I made no more trips
+		</button>
 			<button
 				type="button"
 				class="btn btn-danger delete-schedule"

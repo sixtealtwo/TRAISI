@@ -14,6 +14,7 @@ export class TravelDiarySchedulerLogic {
 	 */
 	public constructor(private _scheduler: TravelDiaryScheduler) {
 		this._scheduler.activeScheduleItem.subscribe(this._onActiveScheduleItemChanged);
+		console.log('constructor');
 	}
 
 	/**
@@ -37,7 +38,10 @@ export class TravelDiarySchedulerLogic {
 		if (this.inputState.returnHomeResponse === 'yes') {
 			this.inputState.model.purpose = 'Home';
 			this._scheduler.isScheduleConfirmed = true;
-		} else if (this.inputState.model.purpose.toLocaleLowerCase() === 'return home') {
+		} else if (
+			this.inputState.model.purpose &&
+			this.inputState.model.purpose.toLocaleLowerCase() === 'return home'
+		) {
 			this.inputState.model.purpose = 'Home';
 			this._scheduler.isScheduleConfirmed = true;
 		} else {
@@ -48,12 +52,23 @@ export class TravelDiarySchedulerLogic {
 
 	/**
 	 *
+	 */
+	public confirmAndCompleteSchedule(): void {
+		// remove last item
+		this._scheduler.isScheduleConfirmed = true;
+		this.inputState.isConfirmed = true;
+		this._scheduler.removeItem(this._scheduler.scheduleItems.length - 1);
+
+
+	}
+
+	/**
+	 *
 	 * @param model
 	 * @param idx
 	 */
 	public canAdvance(): boolean {
 		this.inputState.errorState = this.validate();
-		console.log(this.inputState);
 		return this.inputState.errorState.isValid;
 	}
 
