@@ -1,6 +1,7 @@
 import { Inject, Injectable, Injector } from '@angular/core';
 import { TraisiValues, SurveyRespondent, SurveyResponseService } from 'traisi-question-sdk';
 import { TravelDiarySchedulerConfiguration } from 'travel-diary-scheduler/models/config.model';
+import { PurposeLocation } from 'travel-diary-scheduler/models/purpose-location.model';
 import { RespondentData } from 'travel-diary-scheduler/models/respondent-data.model';
 
 @Injectable()
@@ -46,8 +47,17 @@ export class TravelDiaryScheduleRespondentDataService {
 		this._responseService
 			.loadSavedResponsesForRespondents(schoolLocations.concat(workLocations), [this._respondent])
 			.subscribe((results) => {
-				this.respondentData.schoolLocations = results.filter((r) => schoolLocations.some((x) => x.questionId == r.questionId));
-				this.respondentData.workLocations = results.filter((r) => workLocations.some((x) => x.questionId == r.questionId));
+				console.log(results);
+				this.respondentData.schoolLocations = results
+					.filter((r) => schoolLocations.some((x) => x.questionId == r.questionId))
+					.map((x) => {
+						return { purpose: 'work', address: x.responseValues[0].address };
+					}) as any[];
+				this.respondentData.workLocations = results
+					.filter((r) => workLocations.some((x) => x.questionId == r.questionId))
+					.map((x) => {
+						return { purpose: 'work', address: x.responseValues[0].address };
+					}) as any[];
 				console.log(this.respondentData);
 			});
 	}

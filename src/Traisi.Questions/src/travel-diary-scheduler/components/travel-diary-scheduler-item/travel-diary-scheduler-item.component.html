@@ -24,17 +24,15 @@
 					(change)="onPurposeChanged($event)"
 				>
 					<ng-option *ngFor="let school of definedSchoolLocations" [value]="school"
-						><div>School</div>
+						><div><i class="fas fa-star star-location"></i>School</div>
 						<div class="purpose-address">
-							{{ school.responseValues[0].address.streetNumber }}
-							{{ school.responseValues[0].address.streetAddress }}
+							{{ school.address | addressDisplay }}
 						</div></ng-option
 					>
 					<ng-option *ngFor="let work of definedWorkLocations" [value]="work"
-						><div>Work</div>
+						><div><i class="fas fa-star star-location"></i>Work</div>
 						<div class="purpose-address">
-							{{ work.responseValues[0].address.streetNumber }}
-							{{ work.responseValues[0].address.streetAddress }}
+							{{ work.address | addressDisplay }}
 						</div></ng-option
 					>
 					<ng-option *ngFor="let purpose of purposes" [value]="purpose"

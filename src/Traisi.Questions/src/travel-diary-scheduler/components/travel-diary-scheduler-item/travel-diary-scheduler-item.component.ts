@@ -10,6 +10,8 @@ import templateString from './travel-diary-scheduler-item.component.html';
 import styleString from './travel-diary-scheduler-item.component.scss';
 import { TravelDiarySchedulerConfiguration } from 'travel-diary-scheduler/models/config.model';
 import { TravelDiaryScheduleRespondentDataService } from 'travel-diary-scheduler/services/travel-diary-scheduler-respondent-data.service';
+import { PurposeLocation } from 'travel-diary-scheduler/models/purpose-location.model';
+import { Purpose } from 'travel-diary/models/travel-diary-configuration.model';
 @Component({
 	selector: 'traisi-travel-diary-scheduler-item',
 	template: '' + templateString,
@@ -84,11 +86,14 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 *
 	 * @param purpose
 	 */
-	public onPurposeChanged(purpose: any): void {
+	public onPurposeChanged(purpose: Purpose | PurposeLocation): void {
 		if (this.isPurposeWithAddress(purpose)) {
-			console.log();
+			this.model.address = purpose.address;
+			this.model.purpose = purpose.purpose;
 		} else {
-			console.log('regular purpose');
+			console.log(purpose);
+			console.log(this.model.purpose);
+			this.model.purpose = purpose.id;
 			if (this.model.purpose.toLocaleLowerCase() === 'other') {
 				// show dialog for collecting address
 				this.openModal(this.addressInputDialogTemplate);
@@ -99,8 +104,11 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 		}
 	}
 
-	private isPurposeWithAddress(purpose: any): boolean {
-		if (purpose['questionId'] !== undefined) {
+	/**
+	 * Determines the type of purpose passed
+	 */
+	private isPurposeWithAddress(purpose: Purpose | PurposeLocation): purpose is PurposeLocation {
+		if (purpose['address'] !== undefined) {
 			return true;
 		} else {
 			return false;
@@ -134,6 +142,7 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 *
 	 */
 	public updateState(): void {
+		console.log(this.model);
 		this._schedulerLogic.updateScheduleInputState();
 	}
 

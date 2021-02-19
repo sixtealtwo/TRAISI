@@ -1,4 +1,6 @@
+import { PurposeLocation } from "./purpose-location.model";
+
 export interface RespondentData {
-	workLocations: any[];
-	schoolLocations: any[];
+	workLocations: PurposeLocation[];
+	schoolLocations: PurposeLocation[];
 }
