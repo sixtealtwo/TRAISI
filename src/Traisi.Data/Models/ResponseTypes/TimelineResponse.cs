@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Traisi.Data.Models.Questions;
 using Traisi.Data.Models.Surveys;
 using Traisi.Sdk.Library.ResponseTypes;
@@ -23,6 +24,9 @@ namespace Traisi.Data.Models.ResponseTypes
         public string Mode { get; set; }
 
         public string Identifier {get;set;}
+
+        [Column(TypeName = "jsonb")]
+        public string Meta {get;set;}
     }
 
     public class TimelineTmpResponse : LocationLatLngResponse
@@ -40,6 +44,8 @@ namespace Traisi.Data.Models.ResponseTypes
         public string Mode { get; set; }
 
         public string Identifier {get;set;}
+
+        public string Meta {get;set;}
     }
 
 }
