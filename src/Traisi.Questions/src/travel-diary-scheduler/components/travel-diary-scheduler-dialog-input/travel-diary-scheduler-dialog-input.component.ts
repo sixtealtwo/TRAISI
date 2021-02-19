@@ -68,6 +68,7 @@ export class TravelDiarySchedulerDialogInput {
 	 *
 	 */
 	public dialogSave(): void {
+		this.modal.hide();
 		this.onSaved(this._tempModel);
 	}
 
