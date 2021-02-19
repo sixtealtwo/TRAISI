@@ -27,20 +27,27 @@
 					bindLabel="label"
 					(change)="onPurposeChanged($event)"
 				>
+					<ng-option *ngIf="definedHomeLocation" [value]="definedHomeLocation"
+						><div class="purpose-label"><i class="fas fa-star star-location"></i>{{ definedHomeLocation?.purpose }}</div>
+						<div class="purpose-address">
+							{{ definedHomeLocation?.address | addressDisplay }}
+						</div></ng-option
+					>
+
 					<ng-option *ngFor="let school of definedSchoolLocations" [value]="school"
-						><div><i class="fas fa-star star-location"></i>School</div>
+						><div class="purpose-label"><i class="fas fa-star star-location"></i>School</div>
 						<div class="purpose-address">
 							{{ school.address | addressDisplay }}
 						</div></ng-option
 					>
 					<ng-option *ngFor="let work of definedWorkLocations" [value]="work"
-						><div><i class="fas fa-star star-location"></i>Work</div>
+						><div class="purpose-label"><i class="fas fa-star star-location"></i>Work</div>
 						<div class="purpose-address">
 							{{ work.address | addressDisplay }}
 						</div></ng-option
 					>
 					<ng-option *ngFor="let purpose of purposes" [value]="purpose"
-						><div>{{ purpose.label }}</div></ng-option
+						><div class="purpose-label">{{ purpose.label }}</div></ng-option
 					>
 				</ng-select>
 			</div>
@@ -67,7 +74,11 @@
 		</div>
 
 		<div class="departure-time-collect form-group row" *ngIf="scheduleIndex > 0">
-			<div class="col-6" [class.has-error]="state.errorState?.invalidTime" [class.no-error]="!state.errorState?.invalidTime">
+			<div
+				class="col-6"
+				[class.has-error]="state.errorState?.invalidTime"
+				[class.no-error]="!state.errorState?.invalidTime"
+			>
 				<label for="timeA" class="col-form-label">Departure time for the trip </label>
 				<div class="input-group" [class.ng-invalid]="!model.timeA">
 					<div class="input-group-prepend">
@@ -92,7 +103,9 @@
 					/>
 				</div>
 				<div class="time-input-error">
-					<span class="error" *ngIf="state.errorState?.invalidTime">The time must be later than the previous event.</span>
+					<span class="error" *ngIf="state.errorState?.invalidTime"
+						>The time must be later than the previous event.</span
+					>
 				</div>
 			</div>
 			<div class="col-6">

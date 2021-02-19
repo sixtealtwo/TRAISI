@@ -1,6 +1,13 @@
 import { Inject, Injectable, Injector } from '@angular/core';
-import { TraisiValues, SurveyRespondent, SurveyResponseService } from 'traisi-question-sdk';
+import {
+	TraisiValues,
+	SurveyRespondent,
+	SurveyResponseService,
+	SurveyRespondentService,
+	Address,
+} from 'traisi-question-sdk';
 import { TravelDiarySchedulerConfiguration } from 'travel-diary-scheduler/models/config.model';
+import { HOME_PURPOSE } from 'travel-diary-scheduler/models/consts';
 import { PurposeLocation } from 'travel-diary-scheduler/models/purpose-location.model';
 import { RespondentData } from 'travel-diary-scheduler/models/respondent-data.model';
 
@@ -21,6 +28,7 @@ export class TravelDiaryScheduleRespondentDataService {
 		@Inject(TraisiValues.Respondent) private _respondent: SurveyRespondent,
 		@Inject(TraisiValues.Configuration) private _configuration: TravelDiarySchedulerConfiguration,
 		@Inject(TraisiValues.SurveyResponseService) private _responseService: SurveyResponseService,
+		@Inject(TraisiValues.SurveyRespondentService) private _respondentService: SurveyRespondentService,
 		private _injector: Injector
 	) {
 		this.initialize();
@@ -30,6 +38,7 @@ export class TravelDiaryScheduleRespondentDataService {
 		this.respondentData = {
 			workLocations: [],
 			schoolLocations: [],
+			homeLocation: undefined,
 		};
 
 		let workLocations = [];
@@ -60,5 +69,23 @@ export class TravelDiaryScheduleRespondentDataService {
 					}) as any[];
 				console.log(this.respondentData);
 			});
+
+		// get the primary home address
+		this._respondentService.getSurveyGroupMembers(this._respondent).subscribe((respondents) => {
+			let primaryHomeAddress: Address = {};
+			let primaryHomeLat = 0;
+			let primaryHomeLng = 0;
+			if (respondents.length > 0) {
+				primaryHomeAddress = respondents[0].homeAddress;
+				primaryHomeLat = respondents[0].homeLatitude;
+				primaryHomeLng = respondents[0].homeLongitude;
+			}
+			this.respondentData.homeLocation = {
+				address: primaryHomeAddress,
+				purpose: HOME_PURPOSE,
+			};
+
+			console.log(this.respondentData);
+		});
 	}
 }

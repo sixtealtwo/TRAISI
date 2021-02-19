@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
+import { Address, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
 import { ScheduleInputState } from 'travel-diary-scheduler/models/schedule-input-state.model';
 import { TravelDiarySchedulerLogic } from '../../services/travel-diary-scheduler-logic.service';
 import { TravelDiaryScheduler } from 'travel-diary-scheduler/services/travel-diary-scheduler.service';
@@ -55,11 +55,15 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 		return this._scheduler.configuration;
 	}
 
-	public get definedSchoolLocations(): any[] {
+	public get definedSchoolLocations(): PurposeLocation[] {
 		return this._respondentData.respondentData.schoolLocations;
 	}
 
-	public get definedWorkLocations(): any[] {
+	public get definedHomeLocation(): PurposeLocation {
+		return this._respondentData.respondentData.homeLocation;
+	}
+
+	public get definedWorkLocations(): PurposeLocation[] {
 		return this._respondentData.respondentData.workLocations;
 	}
 
