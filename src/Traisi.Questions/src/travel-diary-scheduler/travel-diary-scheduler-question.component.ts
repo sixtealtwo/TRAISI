@@ -29,11 +29,12 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { TravelDiaryScheduler } from './services/travel-diary-scheduler.service';
 import { TravelDiarySchedulerLogic } from './services/travel-diary-scheduler-logic.service';
 import { TravelDiarySchedulerDialogInput } from './components/travel-diary-scheduler-dialog-input/travel-diary-scheduler-dialog-input.component';
+import { TravelDiaryScheduleRespondentDataService } from './services/travel-diary-scheduler-respondent-data.service';
 
 @Component({
 	selector: 'traisi-travel-diary-scheduler-question',
 	template: '' + templateString,
-	providers: [TravelDiaryScheduler],
+	providers: [TravelDiaryScheduler, TravelDiarySchedulerLogic, TravelDiaryScheduleRespondentDataService],
 	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
 	styles: ['' + styleString],
@@ -52,15 +53,15 @@ export class TravelDiarySchedulerQuestionComponent
 	}
 
 	/**
-	 * 
-	 * @param _modalService 
-	 * @param _elementRef 
-	 * @param _injector 
-	 * @param modalService 
-	 * @param _scheduler 
-	 * @param _respondent 
-	 * @param _primaryRespondent 
-	 * @param _analytics 
+	 *
+	 * @param _modalService
+	 * @param _elementRef
+	 * @param _injector
+	 * @param modalService
+	 * @param _scheduler
+	 * @param _respondent
+	 * @param _primaryRespondent
+	 * @param _analytics
 	 */
 	public constructor(
 		private _modalService: BsModalService,
@@ -79,6 +80,8 @@ export class TravelDiarySchedulerQuestionComponent
 	public ngOnInit(): void {
 		// mark invalid
 		this.validationState.emit(ResponseValidationState.INVALID);
+
+		console.log(this.configuration);
 	}
 	public ngAfterViewInit(): void {
 		// throw new Error('Method not implemented.');
@@ -101,10 +104,8 @@ export class TravelDiarySchedulerQuestionComponent
 	}
 
 	/**
-	 * 
-	 * @param idx 
+	 *
+	 * @param idx
 	 */
-	public editSchedulerItem(idx: number): void {
-
-	}
+	public editSchedulerItem(idx: number): void {}
 }

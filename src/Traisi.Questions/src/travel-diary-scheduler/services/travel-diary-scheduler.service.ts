@@ -1,7 +1,10 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, Injector } from '@angular/core';
 import { EventEmitter } from 'events';
 import { BehaviorSubject } from 'rxjs';
-import { TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
+import { TimelineResponseData, TraisiValues, SurveyRespondent, SurveyViewQuestion } from 'traisi-question-sdk';
+import { TravelDiarySchedulerConfiguration } from 'travel-diary-scheduler/models/config.model';
+import { RespondentData } from 'travel-diary-scheduler/models/respondent-data.model';
+import { TravelDiaryScheduleRespondentDataService } from './travel-diary-scheduler-respondent-data.service';
 // import { TravelDiaryScheduleItem } from 'travel-diary-scheduler/models/services/travel-diary-schedule-item.model';
 
 @Injectable()
@@ -12,17 +15,33 @@ export class TravelDiaryScheduler {
 
 	public isScheduleConfirmed: boolean = false;
 
+	
 	/**
 	 *
 	 * @param _surveyAccessTime
+	 * @param _configuration
 	 */
-	public constructor(@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date) {
+	public constructor(
+		@Inject(TraisiValues.SurveyAccessTime) private _surveyAccessTime: Date,
+		@Inject(TraisiValues.Configuration) private _configuration: TravelDiarySchedulerConfiguration,
+		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent,
+		private _respondentData: TravelDiaryScheduleRespondentDataService,
+		private _injector: Injector
+	) {
 		this.scheduleItems = [];
 		this.initialize();
 	}
 
+	/**
+	 *
+	 */
+
 	public clearItems(): void {
 		this.scheduleItems = [];
+	}
+
+	public get configuration(): TravelDiarySchedulerConfiguration {
+		return this._configuration;
 	}
 
 	/**
@@ -35,7 +54,7 @@ export class TravelDiaryScheduler {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public unconfirmSchedule(): void {
 		this.isScheduleConfirmed = false;
@@ -62,12 +81,15 @@ export class TravelDiaryScheduler {
 	}
 
 	/**
-	 *
+	 * Initialize properties and other misc data values
+	 * needed for operation
 	 */
 	public initialize(): void {
+		// initialize respondent data
 		if (this.scheduleItems.length === 0) {
 			// add default item at start of day
 			this.addItem();
 		}
+
 	}
 }

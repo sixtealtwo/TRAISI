@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { TimelineResponseData } from 'traisi-question-sdk';
+import { TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
 import { ScheduleInputState } from 'travel-diary-scheduler/models/schedule-input-state.model';
 import { TravelDiarySchedulerLogic } from '../../services/travel-diary-scheduler-logic.service';
 import { TravelDiaryScheduler } from 'travel-diary-scheduler/services/travel-diary-scheduler.service';
@@ -8,10 +8,12 @@ import { TravelDiarySchedulerDialogInput } from '../travel-diary-scheduler-dialo
 
 import templateString from './travel-diary-scheduler-item.component.html';
 import styleString from './travel-diary-scheduler-item.component.scss';
+import { TravelDiarySchedulerConfiguration } from 'travel-diary-scheduler/models/config.model';
+import { TravelDiaryScheduleRespondentDataService } from 'travel-diary-scheduler/services/travel-diary-scheduler-respondent-data.service';
 @Component({
 	selector: 'traisi-travel-diary-scheduler-item',
 	template: '' + templateString,
-	providers: [TravelDiarySchedulerLogic],
+	providers: [],
 	encapsulation: ViewEncapsulation.None,
 	entryComponents: [],
 	styles: ['' + styleString],
@@ -26,33 +28,38 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	@ViewChild('addressInputDialogTemplate', { read: TemplateRef })
 	public addressInputDialogTemplate: TemplateRef<any>;
 
-    @ViewChild('dialogInput')
+	@ViewChild('dialogInput')
 	public dialogInput: TravelDiarySchedulerDialogInput;
 
 	public dataCollected: boolean = false;
-
-	public purposes: string[] = ['Home', 'School', 'Work', 'Other'];
-
-	public modes: string[] = ['Auto', 'Bus', 'Walk', 'Fly', 'Swim'];
 
 	public isInputValid: boolean = false;
 
 	public state: ScheduleInputState = {};
 
-	public purposesExtended: string[] = [
-		'Return Home',
-		'School',
-		'Work',
-		'Work (other member)',
-		'School (other member)',
-		'Other',
-		'Stay Home All Day',
-	];
-
 	public modalRef: BsModalRef | null;
 
 	public get scheduleItems(): TimelineResponseData[] {
 		return this._scheduler.scheduleItems;
+	}
+
+	public get modes(): any[] {
+		return this._scheduler.configuration.mode;
+	}
+	public get purposes(): any[] {
+		return this._scheduler.configuration.purpose;
+	}
+
+	public get configuration(): TravelDiarySchedulerConfiguration {
+		return this._scheduler.configuration;
+	}
+
+	public get definedSchoolLocations(): any[] {
+		return this._respondentData.respondentData.schoolLocations;
+	}
+
+	public get definedWorkLocations(): any[] {
+		return this._respondentData.respondentData.workLocations;
 	}
 
 	/**
@@ -64,16 +71,14 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	public constructor(
 		private _scheduler: TravelDiaryScheduler,
 		private _schedulerLogic: TravelDiarySchedulerLogic,
-		private _modalService: BsModalService
+		private _modalService: BsModalService,
+		private _respondentData: TravelDiaryScheduleRespondentDataService
 	) {}
 
 	public ngOnInit(): void {
-		
 		this.state = { model: this.model, scheduleIndex: this.scheduleIndex };
 		this._schedulerLogic.inputState = this.state;
 	}
-
-
 
 	/**
 	 *
@@ -123,7 +128,6 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 */
 	public confirmScheduleItem(): void {
 		this._schedulerLogic.confirmSchedule();
-		
 	}
 
 	/**
@@ -139,7 +143,7 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 */
 	public openModal(template: TemplateRef<any>): void {
 		// this.modalRef = this._modalService.show(template, { class: 'modal-dialog-centered' });
-        this.dialogInput.show();
+		this.dialogInput.show();
 	}
 
 	public closeAddressInputDialog(): void {

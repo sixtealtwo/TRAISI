@@ -2,7 +2,7 @@
 	<div *ngIf="state.isConfirmed">
 		<div class="schedule-item">
 			<span class="purpose-label">{{ model.purpose }}</span>
-			<span *ngIf="scheduleIndex > 0" class="departure-time-label">{{ model.timeA | date :'shortTime' }} </span>
+			<span *ngIf="scheduleIndex > 0" class="departure-time-label">{{ model.timeA | date: 'shortTime' }} </span>
 		</div>
 	</div>
 	<div *ngIf="!state.isConfirmed">
@@ -19,15 +19,30 @@
 			<div class="col-12">
 				<ng-select
 					*ngIf="scheduleIndex === 0"
-					[items]="purposes"
 					placeholder="Enter a purpose"
 					[(ngModel)]="model.purpose"
+					bindLabel="label"
+					bindValue="id"
 					(change)="onPurposeChanged()"
 				>
+					<ng-option *ngFor="let school of definedSchoolLocations" [value]="school"
+						><div>School</div>
+						<div class="purpose-address">
+							{{ school.responseValues[0].address.streetNumber }}
+							{{ school.responseValues[0].address.streetAddress }}
+						</div></ng-option
+					>
+					<ng-option *ngFor="let work of definedWorkLocations" [value]="school"
+						><div>Work</div>
+						<div class="purpose-address">
+							{{ school.responseValues[0].address.streetNumber }}
+							{{ school.responseValues[0].address.streetAddress }}
+						</div></ng-option
+					>
 				</ng-select>
 			</div>
 		</div>
-		<div class="form-group row">
+		<!--<div class="form-group row">
 			<div class="col-12">
 				<ng-select
 					*ngIf="scheduleIndex > 0"
@@ -41,7 +56,7 @@
 					<ng-option *ngIf="scheduleIndex >= 2" [value]="'lastLocation'">Last Location</ng-option>
 				</ng-select>
 			</div>
-		</div>
+		</div>-->
 		<div class="form-group row confirm-last-location" *ngIf="model.purpose === 'lastLocation'">
 			<div class="col-12">
 				<span class="trip-message"
@@ -94,6 +109,7 @@
 					id="modeSelect"
 					*ngIf="scheduleIndex > 0"
 					[items]="modes"
+					bindLabel="label"
 					placeholder="Enter the travel mode used"
 					[(ngModel)]="model.mode"
 					(change)="onModeChanged()"
@@ -132,6 +148,4 @@
 	</div>
 </ng-template>
 
-<traisi-travel-diary-scheduler-dialog-input
-	#dialogInput
-></traisi-travel-diary-scheduler-dialog-input>
+<traisi-travel-diary-scheduler-dialog-input #dialogInput></traisi-travel-diary-scheduler-dialog-input>
