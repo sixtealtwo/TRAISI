@@ -32,11 +32,11 @@
 							{{ school.responseValues[0].address.streetAddress }}
 						</div></ng-option
 					>
-					<ng-option *ngFor="let work of definedWorkLocations" [value]="school"
+					<ng-option *ngFor="let work of definedWorkLocations" [value]="work"
 						><div>Work</div>
 						<div class="purpose-address">
-							{{ school.responseValues[0].address.streetNumber }}
-							{{ school.responseValues[0].address.streetAddress }}
+							{{ work.responseValues[0].address.streetNumber }}
+							{{ work.responseValues[0].address.streetAddress }}
 						</div></ng-option
 					>
 				</ng-select>
