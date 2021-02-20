@@ -100,37 +100,34 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 
 	public ngOnInit(): void {
 		this._schedulerLogic.inputState = { model: this.model, scheduleIndex: this.scheduleIndex };
+		if (!this.model.meta) {
+			this.model.meta = {};
+		}
 	}
 
 	/**
 	 *
 	 * @param purpose
 	 */
-	public onPurposeChanged(purpose: Purpose | PurposeLocation): void {
-		if (this.isPurposeWithAddress(purpose)) {
-			this.model.address = purpose.address;
-			this.model.purpose = purpose.purpose;
-			this.updateState();
+	public onPurposeChanged(purpose: Purpose): void {
+		let workPurpose = this.definedWorkLocations.find((x) => x.purpose.id === purpose.id);
+		let schoolPurpose = this.definedSchoolLocations.find((x) => x.purpose.id === purpose.id);
+		if (purpose.id === this.definedHomeLocation.purpose.id) {
+			this.model.purpose = purpose.id;
+			this.model.address = this.definedHomeLocation.address;
+		} else if (workPurpose) {
+			this.model.purpose = workPurpose.purpose.id;
+			this.model.address = workPurpose.address;
+		} else if (workPurpose) {
+			this.model.purpose = schoolPurpose.purpose.id;
+			this.model.address = schoolPurpose.address;
 		} else {
 			this.model.purpose = purpose.id;
-			
-			// show dialog for collecting address
 			this.openModal(this.addressInputDialogTemplate);
-			this.updateState();
 		}
 
+		this.updateState();
 		console.log(this.model);
-	}
-
-	/**
-	 * Determines the type of purpose passed
-	 */
-	private isPurposeWithAddress(purpose: Purpose | PurposeLocation): purpose is PurposeLocation {
-		if (purpose['address'] !== undefined) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	/**
