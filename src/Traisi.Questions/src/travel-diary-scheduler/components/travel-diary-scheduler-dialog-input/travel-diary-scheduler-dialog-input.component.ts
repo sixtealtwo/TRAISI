@@ -42,7 +42,7 @@ export class TravelDiarySchedulerDialogInput {
 
 	public isValid: boolean = false;
 
-	public model: TimelineResponseData = <any>{};
+	public model: TimelineResponseData = <any>{meta: {}};
 
 	public onSaved: (data: TimelineResponseData) => void;
 
@@ -68,6 +68,7 @@ export class TravelDiarySchedulerDialogInput {
 	 */
 	public show(model: TimelineResponseData): void {
 		this.model = Object.assign({}, model);
+		this.model
 		this.isValid = false;
 		this.modal.show();
 		if (!this._isMapLoaded) {
@@ -83,6 +84,9 @@ export class TravelDiarySchedulerDialogInput {
 		this.onSaved(this.model);
 	}
 
+	/**
+	 * 
+	 */
 	public hide(): void {
 		this.modal.hide();
 	}
@@ -104,12 +108,18 @@ export class TravelDiarySchedulerDialogInput {
 		this.isValid = true;
 	};
 
-	public onMembersChanged($event): void {}
+	/**
+	 * 
+	 * @param $event 
+	 */
+	public onMembersChanged($event): void {
+		console.log($event);
+	}
 
 	/**
-	 *
+	 * Loads the map display into the dialog
 	 */
-	private _loadMapDisplay(): void { 
+	private _loadMapDisplay(): void {
 		let componentRef = null;
 		let factories = this._questionLoaderService.componentFactories;
 		let sub = Object.keys(this._questionLoaderService.componentFactories).forEach((key) => {
