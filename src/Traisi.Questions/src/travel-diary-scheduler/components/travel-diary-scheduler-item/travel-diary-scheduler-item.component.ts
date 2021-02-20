@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, Inject, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+	ChangeDetectorRef,
+	Component,
+	Inject,
+	Input,
+	OnInit,
+	TemplateRef,
+	ViewChild,
+	ViewEncapsulation,
+} from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Address, SurveyRespondent, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
 import { ScheduleInputState } from 'travel-diary-scheduler/models/schedule-input-state.model';
@@ -51,10 +60,6 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 		return this._scheduler.configuration.purpose;
 	}
 
-	public get respondents(): SurveyRespondent[] {
-		return this._respondentData.respondents.value;
-	}
-
 	public get configuration(): TravelDiarySchedulerConfiguration {
 		return this._scheduler.configuration;
 	}
@@ -91,9 +96,7 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 		private _modalService: BsModalService,
 		private _respondentData: TravelDiaryScheduleRespondentDataService,
 		private ref: ChangeDetectorRef
-	) {
-		
-	}
+	) {}
 
 	public ngOnInit(): void {
 		this._schedulerLogic.inputState = { model: this.model, scheduleIndex: this.scheduleIndex };
@@ -110,10 +113,13 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 			this.updateState();
 		} else {
 			this.model.purpose = purpose.id;
-
+			
 			// show dialog for collecting address
 			this.openModal(this.addressInputDialogTemplate);
+			this.updateState();
 		}
+
+		console.log(this.model);
 	}
 
 	/**
@@ -147,8 +153,7 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 *
 	 * @param val
 	 */
-	public onLastLocationChanged(val: string): void {
-	}
+	public onLastLocationChanged(val: string): void {}
 
 	/**
 	 *
@@ -187,7 +192,9 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 			this.model.address = data.address;
 			this.model.latitude = data.latitude;
 			this.model.longitude = data.longitude;
+			this.model.meta = data.meta;
 		};
+
 		this.dialogInput.show(this.model);
 	}
 

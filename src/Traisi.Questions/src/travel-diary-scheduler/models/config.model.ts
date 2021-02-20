@@ -1,3 +1,5 @@
+import { Purpose } from "./purpose.model";
+
 /**
  * Scheduler configurationion interface
  */
@@ -7,11 +9,7 @@ export interface TravelDiarySchedulerConfiguration {
 		icon: string;
 		id: string;
 	}>;
-	purpose: Array<{
-		label: string;
-		icon: string;
-		id: string;
-	}>;
+	purpose: Array<Purpose>;
 	schoolLocations: Array<{
 		id: string;
 		label: string;

@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { TimelineResponseData, TraisiValues, SurveyRespondent, SurveyViewQuestion } from 'traisi-question-sdk';
 import { TravelDiarySchedulerConfiguration } from 'travel-diary-scheduler/models/config.model';
 import { RespondentData } from 'travel-diary-scheduler/models/respondent-data.model';
+import { TravelDiarySchedulerQuestionComponent } from 'travel-diary-scheduler/travel-diary-scheduler-question.component';
 import { TravelDiaryScheduleRespondentDataService } from './travel-diary-scheduler-respondent-data.service';
 // import { TravelDiaryScheduleItem } from 'travel-diary-scheduler/models/services/travel-diary-schedule-item.model';
 
@@ -16,6 +17,8 @@ export class TravelDiaryScheduler {
 	public isScheduleConfirmed: boolean = false;
 
 	public onScheduleConfirmed: Observable<void>;
+
+	public component: TravelDiarySchedulerQuestionComponent;
 
 	/**
 	 *
@@ -30,7 +33,6 @@ export class TravelDiaryScheduler {
 		private _injector: Injector
 	) {
 		this.scheduleItems = [];
-		this.initialize();
 		this.onScheduleConfirmed = new Subject<void>();
 	}
 
@@ -70,6 +72,7 @@ export class TravelDiaryScheduler {
 	 */
 	public confirmSchedule(): void {
 		this.isScheduleConfirmed = true;
+		this.activeScheduleItem.next(-1);
 		(<Subject<void>>this.onScheduleConfirmed).next();
 	}
 
@@ -81,13 +84,14 @@ export class TravelDiaryScheduler {
 			address: {},
 			latitude: -1,
 			longitude: -1,
-			name: '<empty>',
+			name: null,
 			order: 0,
-			purpose: undefined,
+			purpose: null,
 			timeA: new Date(new Date(this._surveyAccessTime).setHours(0, 0, 0, 0)),
 			timeB: new Date(new Date(this._surveyAccessTime).setHours(0, 0, 0, 0)),
-			identifier: undefined,
-			mode: undefined,
+			identifier: null,
+			meta: {},
+			mode: null,
 		});
 		this.activeScheduleItem.next(this.scheduleItems.length - 1);
 	}
@@ -97,10 +101,13 @@ export class TravelDiaryScheduler {
 	 * needed for operation
 	 */
 	public initialize(): void {
-		// initialize respondent data
-		if (this.scheduleItems.length === 0) {
-			// add default item at start of day
-			this.addItem();
-		}
+		this.component.savedResponse.subscribe((response: TimelineResponseData[]) => {
+			this.scheduleItems = this.scheduleItems.concat(response);
+			if (this.scheduleItems.length === 0) {
+				// add default item at start of day
+				this.addItem();
+			}
+			console.log(this.scheduleItems);
+		});
 	}
 }

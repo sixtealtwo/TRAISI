@@ -1,6 +1,7 @@
 import { Address } from "traisi-question-sdk";
+import { Purpose } from "./purpose.model";
 
 export interface PurposeLocation {
-    purpose: string;
+    purpose: Purpose;
     address: Address;
 }

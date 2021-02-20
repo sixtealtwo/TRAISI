@@ -10,9 +10,12 @@ import {
 	ViewEncapsulation,
 } from '@angular/core';
 import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 import { SurveyQuestion, SurveyRespondent, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
+import { Purpose } from 'travel-diary-scheduler/models/purpose.model';
 import { ScheduleInputState } from 'travel-diary-scheduler/models/schedule-input-state.model';
+import { TravelDiarySchedulerDialogState } from 'travel-diary-scheduler/models/travel-diary-scheduler-dialog-state.model';
 import { TravelDiarySchedulerLogic } from 'travel-diary-scheduler/services/travel-diary-scheduler-logic.service';
 import { TravelDiaryScheduleRespondentDataService } from 'travel-diary-scheduler/services/travel-diary-scheduler-respondent-data.service';
 import { TravelDiaryScheduler } from 'travel-diary-scheduler/services/travel-diary-scheduler.service';
@@ -27,7 +30,7 @@ import styleString from './travel-diary-scheduler-dialog-input.component.scss';
 	entryComponents: [],
 	styles: ['' + styleString],
 })
-export class TravelDiarySchedulerDialogInput {
+export class TravelDiarySchedulerDialogInput implements OnInit {
 	private _isMapLoaded: boolean = false;
 
 	private _mapComponent: any;
@@ -42,13 +45,17 @@ export class TravelDiarySchedulerDialogInput {
 
 	public isValid: boolean = false;
 
-	public model: TimelineResponseData = <any>{meta: {}};
+	public model: TimelineResponseData = <any>{ meta: {} };
 
 	public onSaved: (data: TimelineResponseData) => void;
 
-	public get respondents(): BehaviorSubject<SurveyRespondent[]> {
-		return this._respondentData.respondents;
+	public respondents$: Observable<SurveyRespondent[]>;
+
+	public get purposes(): Purpose[] {
+		return this._scheduler.configuration.purpose;
 	}
+
+	public state: TravelDiarySchedulerDialogState = { collectFamilyMembers: false };
 
 	/**
 	 *
@@ -58,9 +65,17 @@ export class TravelDiarySchedulerDialogInput {
 	 */
 	public constructor(
 		@Inject(TraisiValues.QuestionLoader) private _questionLoaderService,
+		@Inject(TraisiValues.Respondent) private _surveyRespondent,
+		private _scheduler: TravelDiaryScheduler,
 		private _injector: Injector,
 		private _respondentData: TravelDiaryScheduleRespondentDataService
 	) {}
+
+	public ngOnInit(): void {
+		this.respondents$ = this._respondentData.respondents.pipe(
+			map((v) => v.filter((r) => r.id !== this._surveyRespondent.id))
+		);
+	}
 
 	/**
 	 *
@@ -68,8 +83,14 @@ export class TravelDiarySchedulerDialogInput {
 	 */
 	public show(model: TimelineResponseData): void {
 		this.model = Object.assign({}, model);
-		this.model
+		this.model.meta = {};
 		this.isValid = false;
+
+		let purpose = this.purposes.find((x) => x.id === this.model.purpose);
+		console.log(purpose);
+		this.state = {
+			collectFamilyMembers: purpose?.askIfOtherPassengers ?? false,
+		};
 		this.modal.show();
 		if (!this._isMapLoaded) {
 			this._loadMapDisplay();
@@ -85,7 +106,7 @@ export class TravelDiarySchedulerDialogInput {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public hide(): void {
 		this.modal.hide();
@@ -109,11 +130,12 @@ export class TravelDiarySchedulerDialogInput {
 	};
 
 	/**
-	 * 
-	 * @param $event 
+	 *
+	 * @param $event
 	 */
 	public onMembersChanged($event): void {
-		console.log($event);
+		// console.log($event);
+		// this.model.meta['familyMembers'] = $event;
 	}
 
 	/**

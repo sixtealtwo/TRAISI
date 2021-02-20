@@ -80,7 +80,8 @@ export class TravelDiarySchedulerQuestionComponent
 	public ngOnInit(): void {
 		// mark invalid
 		this.validationState.emit(ResponseValidationState.INVALID);
-
+		this._scheduler.component = this;
+		this._scheduler.initialize();
 		this._scheduler.onScheduleConfirmed.subscribe(this.onScheduleConfirmed);
 	}
 	public ngAfterViewInit(): void {
@@ -114,5 +115,7 @@ export class TravelDiarySchedulerQuestionComponent
 	 */
 	public onScheduleConfirmed = (): void => {
 		console.log('schedule confirmed');
+		console.log(this._scheduler.scheduleItems);
+		this.response.emit(this._scheduler.scheduleItems);
 	};
 }

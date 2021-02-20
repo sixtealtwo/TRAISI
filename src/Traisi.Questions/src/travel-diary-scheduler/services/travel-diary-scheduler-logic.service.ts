@@ -57,9 +57,10 @@ export class TravelDiarySchedulerLogic {
 	 */
 	public confirmAndCompleteSchedule(): void {
 		// remove last item
+		this._scheduler.removeItem(this._scheduler.scheduleItems.length - 1);
 		this._scheduler.confirmSchedule();
 		this.inputState.isConfirmed = true;
-		this._scheduler.removeItem(this._scheduler.scheduleItems.length - 1);
+		
 
 
 	}

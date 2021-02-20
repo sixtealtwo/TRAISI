@@ -25,30 +25,31 @@
 					*ngIf="scheduleIndex >= 0"
 					placeholder="Enter a purpose"
 					bindLabel="label"
+					[ngModel]="model.purpose"
 					(change)="onPurposeChanged($event)"
 				>
-					<ng-option *ngIf="definedHomeLocation" [value]="definedHomeLocation"
+					<ng-option *ngIf="definedHomeLocation" [value]="definedHomeLocation?.purpose.id"
 						><div class="purpose-label">
-							<i class="fas fa-star star-location"></i>{{ definedHomeLocation?.purpose }}
+							<i class="fas fa-star star-location"></i>{{ definedHomeLocation?.purpose.label }}
 						</div>
 						<div class="purpose-address">
 							{{ definedHomeLocation?.address | addressDisplay }}
 						</div></ng-option
 					>
 
-					<ng-option *ngFor="let school of definedSchoolLocations" [value]="school"
-						><div class="purpose-label"><i class="fas fa-star star-location"></i>School</div>
+					<ng-option *ngFor="let school of definedSchoolLocations" [value]="school.purpose.id"
+						><div class="purpose-label"><i class="fas fa-star star-location"></i>{{school.purpose.label}}</div>
 						<div class="purpose-address">
 							{{ school.address | addressDisplay }}
 						</div></ng-option
 					>
-					<ng-option *ngFor="let work of definedWorkLocations" [value]="work"
-						><div class="purpose-label"><i class="fas fa-star star-location"></i>Work</div>
+					<ng-option *ngFor="let work of definedWorkLocations" [value]="work.purpose.id"
+						><div class="purpose-label"><i class="fas fa-star star-location"></i>{{work.purpose.label}}</div>
 						<div class="purpose-address">
 							{{ work.address | addressDisplay }}
 						</div></ng-option
 					>
-					<ng-option *ngFor="let purpose of purposes" [value]="purpose"
+					<ng-option *ngFor="let purpose of purposes" [value]="purpose.id"
 						><div class="purpose-label">{{ purpose.label }}</div></ng-option
 					>
 				</ng-select>
@@ -117,6 +118,7 @@
 					*ngIf="scheduleIndex > 0"
 					[items]="modes"
 					bindLabel="label"
+					bindValue="id"
 					placeholder="Enter the travel mode used"
 					[(ngModel)]="model.mode"
 					(change)="onModeChanged()"
@@ -156,8 +158,6 @@
 	</div>
 	<div class="modal-body text-left">
 		<div class="location-query"></div>
-
-
 	</div>
 	<div class="modal-footer text-center">
 		<button type="button" class="btn btn-primary" (click)="saveAddressInputDialog()">Save</button>
