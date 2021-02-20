@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Inject, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Address, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
+import { Address, SurveyRespondent, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
 import { ScheduleInputState } from 'travel-diary-scheduler/models/schedule-input-state.model';
 import { TravelDiarySchedulerLogic } from '../../services/travel-diary-scheduler-logic.service';
 import { TravelDiaryScheduler } from 'travel-diary-scheduler/services/travel-diary-scheduler.service';
@@ -49,6 +49,10 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	}
 	public get purposes(): any[] {
 		return this._scheduler.configuration.purpose;
+	}
+
+	public get respondents(): SurveyRespondent[] {
+		return this._respondentData.respondents.value;
 	}
 
 	public get configuration(): TravelDiarySchedulerConfiguration {
@@ -144,7 +148,6 @@ export class TravelDiarySchedulerItemComponent implements OnInit {
 	 * @param val
 	 */
 	public onLastLocationChanged(val: string): void {
-		console.log(this.state.returnHomeResponse);
 	}
 
 	/**

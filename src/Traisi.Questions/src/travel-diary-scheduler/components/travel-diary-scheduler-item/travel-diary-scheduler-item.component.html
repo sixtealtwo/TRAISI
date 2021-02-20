@@ -28,7 +28,9 @@
 					(change)="onPurposeChanged($event)"
 				>
 					<ng-option *ngIf="definedHomeLocation" [value]="definedHomeLocation"
-						><div class="purpose-label"><i class="fas fa-star star-location"></i>{{ definedHomeLocation?.purpose }}</div>
+						><div class="purpose-label">
+							<i class="fas fa-star star-location"></i>{{ definedHomeLocation?.purpose }}
+						</div>
 						<div class="purpose-address">
 							{{ definedHomeLocation?.address | addressDisplay }}
 						</div></ng-option
@@ -124,13 +126,13 @@
 		</div>
 		<div class="button-footer-container" *ngIf="!state.isConfirmed">
 			<button
-			type="button"
-			class="btn btn-primary confirm-complete-schedule"
-			(click)="confirmScheduleItemAndComplete()"
-			*ngIf="scheduleIndex > 0"
-		>
-			I made no more trips
-		</button>
+				type="button"
+				class="btn btn-primary confirm-complete-schedule"
+				(click)="confirmScheduleItemAndComplete()"
+				*ngIf="scheduleIndex > 0"
+			>
+				I made no more trips
+			</button>
 			<button
 				type="button"
 				class="btn btn-danger delete-schedule"
@@ -154,6 +156,8 @@
 	</div>
 	<div class="modal-body text-left">
 		<div class="location-query"></div>
+
+
 	</div>
 	<div class="modal-footer text-center">
 		<button type="button" class="btn btn-primary" (click)="saveAddressInputDialog()">Save</button>

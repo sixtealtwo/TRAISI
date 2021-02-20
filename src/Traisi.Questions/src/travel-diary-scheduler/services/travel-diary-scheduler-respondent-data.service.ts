@@ -1,4 +1,5 @@
 import { Inject, Injectable, Injector } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import {
 	TraisiValues,
 	SurveyRespondent,
@@ -15,14 +16,18 @@ import { RespondentData } from 'travel-diary-scheduler/models/respondent-data.mo
 export class TravelDiaryScheduleRespondentDataService {
 	public respondentData: RespondentData;
 
+	private _respondents: SurveyRespondent[] = [];
+
+	public respondents: BehaviorSubject<SurveyRespondent[]>;
+
 	/**
-	 * 
-	 * @param _primaryRespondent 
-	 * @param _respondent 
-	 * @param _configuration 
-	 * @param _responseService 
-	 * @param _respondentService 
-	 * @param _injector 
+	 *
+	 * @param _primaryRespondent
+	 * @param _respondent
+	 * @param _configuration
+	 * @param _responseService
+	 * @param _respondentService
+	 * @param _injector
 	 */
 	public constructor(
 		@Inject(TraisiValues.PrimaryRespondent) private _primaryRespondent: SurveyRespondent,
@@ -33,6 +38,7 @@ export class TravelDiaryScheduleRespondentDataService {
 		private _injector: Injector
 	) {
 		this.initialize();
+		this.respondents = new BehaviorSubject<SurveyRespondent[]>([]);
 	}
 
 	public initialize(): void {
@@ -84,8 +90,10 @@ export class TravelDiaryScheduleRespondentDataService {
 				address: primaryHomeAddress,
 				purpose: HOME_PURPOSE,
 			};
-
-			console.log(this.respondentData);
+			for (let respondent of respondents) {
+				this._respondents.push(respondent);
+			}
+			this.respondents.next(this._respondents);
 		});
 	}
 }

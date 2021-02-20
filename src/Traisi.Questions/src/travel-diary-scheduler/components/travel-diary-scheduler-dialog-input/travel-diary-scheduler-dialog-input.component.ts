@@ -10,9 +10,11 @@ import {
 	ViewEncapsulation,
 } from '@angular/core';
 import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
-import { SurveyQuestion, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
+import { BehaviorSubject } from 'rxjs';
+import { SurveyQuestion, SurveyRespondent, TimelineResponseData, TraisiValues } from 'traisi-question-sdk';
 import { ScheduleInputState } from 'travel-diary-scheduler/models/schedule-input-state.model';
 import { TravelDiarySchedulerLogic } from 'travel-diary-scheduler/services/travel-diary-scheduler-logic.service';
+import { TravelDiaryScheduleRespondentDataService } from 'travel-diary-scheduler/services/travel-diary-scheduler-respondent-data.service';
 import { TravelDiaryScheduler } from 'travel-diary-scheduler/services/travel-diary-scheduler.service';
 
 import templateString from './travel-diary-scheduler-dialog-input.component.html';
@@ -40,15 +42,24 @@ export class TravelDiarySchedulerDialogInput {
 
 	public isValid: boolean = false;
 
-	private _model: TimelineResponseData;
-
-	private _tempModel: TimelineResponseData;
+	public model: TimelineResponseData = <any>{};
 
 	public onSaved: (data: TimelineResponseData) => void;
 
+	public get respondents(): BehaviorSubject<SurveyRespondent[]> {
+		return this._respondentData.respondents;
+	}
+
+	/**
+	 *
+	 * @param _questionLoaderService
+	 * @param _injector
+	 * @param _respondentData
+	 */
 	public constructor(
 		@Inject(TraisiValues.QuestionLoader) private _questionLoaderService,
-		private _injector: Injector
+		private _injector: Injector,
+		private _respondentData: TravelDiaryScheduleRespondentDataService
 	) {}
 
 	/**
@@ -56,7 +67,7 @@ export class TravelDiarySchedulerDialogInput {
 	 * @param model
 	 */
 	public show(model: TimelineResponseData): void {
-		this._tempModel = Object.assign({}, model);
+		this.model = Object.assign({}, model);
 		this.isValid = false;
 		this.modal.show();
 		if (!this._isMapLoaded) {
@@ -69,7 +80,7 @@ export class TravelDiarySchedulerDialogInput {
 	 */
 	public dialogSave(): void {
 		this.modal.hide();
-		this.onSaved(this._tempModel);
+		this.onSaved(this.model);
 	}
 
 	public hide(): void {
@@ -87,16 +98,18 @@ export class TravelDiarySchedulerDialogInput {
 	 * @param value
 	 */
 	public locationResponseReceived = (value) => {
-		this._tempModel.address = value['address'];
-		this._tempModel.latitude = value['latitude'];
-		this._tempModel.longitude = value['longitude'];
+		this.model.address = value['address'];
+		this.model.latitude = value['latitude'];
+		this.model.longitude = value['longitude'];
 		this.isValid = true;
 	};
 
+	public onMembersChanged($event): void {}
+
 	/**
-	 * 
+	 *
 	 */
-	private _loadMapDisplay(): void {
+	private _loadMapDisplay(): void { 
 		let componentRef = null;
 		let factories = this._questionLoaderService.componentFactories;
 		let sub = Object.keys(this._questionLoaderService.componentFactories).forEach((key) => {
