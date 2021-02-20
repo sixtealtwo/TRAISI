@@ -28,7 +28,7 @@
 							[items]="respondents | async"
 							name="members"
 							(change)="onMembersChanged($event)"
-							[(ngModel)]="model.users"
+							[(ngModel)]="model.meta.otherFamilyMembers"
 							[multiple]="true"
 							bindLabel="name"
 							bindValue="id"
