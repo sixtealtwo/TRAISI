@@ -1,6 +1,6 @@
 import { Inject, Injectable, Injector } from '@angular/core';
 import { EventEmitter } from 'events';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { TimelineResponseData, TraisiValues, SurveyRespondent, SurveyViewQuestion } from 'traisi-question-sdk';
 import { TravelDiarySchedulerConfiguration } from 'travel-diary-scheduler/models/config.model';
 import { RespondentData } from 'travel-diary-scheduler/models/respondent-data.model';
@@ -14,6 +14,8 @@ export class TravelDiaryScheduler {
 	public activeScheduleItem: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 	public isScheduleConfirmed: boolean = false;
+
+	public onScheduleConfirmed: Observable<void>;
 
 	/**
 	 *
@@ -29,6 +31,7 @@ export class TravelDiaryScheduler {
 	) {
 		this.scheduleItems = [];
 		this.initialize();
+		this.onScheduleConfirmed = new Subject<void>();
 	}
 
 	/**
@@ -60,6 +63,14 @@ export class TravelDiaryScheduler {
 	public unconfirmSchedule(): void {
 		this.isScheduleConfirmed = false;
 		this.activeScheduleItem.next(this.scheduleItems.length - 1);
+	}
+
+	/**
+	 * Confirms the schedule
+	 */
+	public confirmSchedule(): void {
+		this.isScheduleConfirmed = true;
+		(<Subject<void>>this.onScheduleConfirmed).next();
 	}
 
 	/**

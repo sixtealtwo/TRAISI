@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { TravelDiarySchedulerItemComponent } from 'travel-diary-scheduler/components/travel-diary-scheduler-item/travel-diary-scheduler-item.component';
 import { TravelDiarySchedulerErrorState } from 'travel-diary-scheduler/models/error-state.model';
 import { ScheduleInputState } from 'travel-diary-scheduler/models/schedule-input-state.model';
@@ -8,13 +9,14 @@ import { TravelDiaryScheduler } from './travel-diary-scheduler.service';
 export class TravelDiarySchedulerLogic {
 	public inputState: ScheduleInputState;
 
+	
+
 	/**
 	 *
 	 * @param _scheduler
 	 */
 	public constructor(private _scheduler: TravelDiaryScheduler) {
 		this._scheduler.activeScheduleItem.subscribe(this._onActiveScheduleItemChanged);
-		console.log('constructor');
 	}
 
 	/**
@@ -55,7 +57,7 @@ export class TravelDiarySchedulerLogic {
 	 */
 	public confirmAndCompleteSchedule(): void {
 		// remove last item
-		this._scheduler.isScheduleConfirmed = true;
+		this._scheduler.confirmSchedule();
 		this.inputState.isConfirmed = true;
 		this._scheduler.removeItem(this._scheduler.scheduleItems.length - 1);
 

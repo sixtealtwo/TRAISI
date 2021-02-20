@@ -81,7 +81,7 @@ export class TravelDiarySchedulerQuestionComponent
 		// mark invalid
 		this.validationState.emit(ResponseValidationState.INVALID);
 
-		console.log(this.configuration);
+		this._scheduler.onScheduleConfirmed.subscribe(this.onScheduleConfirmed);
 	}
 	public ngAfterViewInit(): void {
 		// throw new Error('Method not implemented.');
@@ -108,4 +108,11 @@ export class TravelDiarySchedulerQuestionComponent
 	 * @param idx
 	 */
 	public editSchedulerItem(idx: number): void {}
+
+	/**
+	 * Callback for when schedule has been confirmed
+	 */
+	public onScheduleConfirmed = (): void => {
+		console.log('schedule confirmed');
+	};
 }
