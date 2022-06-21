@@ -90,7 +90,7 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 	 * @param respondent
 	 */
 	public hasStoredResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): boolean {
-		if (!respondent) {
+		if (!respondent || !question) {
 			return false;
 		} else if (this._responses[respondent.id]?.[question.questionId]) {
 			return true;
@@ -265,7 +265,7 @@ export class SurveyViewerResponseService extends SurveyResponseService {
 	public loadSavedResponses(questions: Array<SurveyViewQuestion>, respondent: SurveyRespondent): Observable<void> {
 		let queryIds = [];
 		for (let question of questions) {
-			if (!this.hasStoredResponse(question, respondent)) {
+			if (!this.hasStoredResponse(question, respondent) && question) {
 				queryIds.push(question.questionId);
 			}
 		}

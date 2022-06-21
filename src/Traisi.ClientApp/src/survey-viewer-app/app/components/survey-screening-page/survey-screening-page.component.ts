@@ -12,6 +12,7 @@ import { SurveyViewerSession } from 'app/services/survey-viewer-session.service'
 import { SurveyViewerClient } from 'app/services/survey-viewer-api-client.service';
 import { AuthService } from 'shared/services/auth.service';
 import { TraisiValues, SurveyAnalyticsService } from 'traisi-question-sdk';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 /**
  *
@@ -60,8 +61,9 @@ export class SurveyScreeningPageComponent implements OnInit {
 		private _surveySession: SurveyViewerSession,
 		private _viewerClient: SurveyViewerClient,
 		private _authService: AuthService,
-		@Inject(TraisiValues.SurveyAnalytics) private _analytics: SurveyAnalyticsService
-	) {}
+		@Inject(TraisiValues.SurveyAnalytics) private _analytics: SurveyAnalyticsService,
+		@Inject(LOCAL_STORAGE) private _storage: StorageService
+	) { }
 
 	/**
 	 *
@@ -90,6 +92,8 @@ export class SurveyScreeningPageComponent implements OnInit {
 		this._route.parent.params.subscribe((params) => {
 			this._surveyName = params['surveyName'];
 		});
+
+
 	}
 
 	/**
@@ -98,14 +102,20 @@ export class SurveyScreeningPageComponent implements OnInit {
 	public onSubmitScreeningQuestions(): void {
 		if (this.formGroup.submitted && this.formGroup.valid) {
 			// determine if all responses are yes
-			let allYes: boolean = true;
+
+			let allNotRequiredFalse = true;
+			let hasOneRequired = false;
 			for (let value of Object.keys(this.screeningFormGroup.value)) {
-				if (!this.screeningFormGroup.value[value]) {
-					allYes = false;
-					break;
+
+				if (this.screeningQuestions.questionsList[value].required && this.screeningFormGroup.value[value]) {
+					hasOneRequired = true;
+				}
+				else if (!this.screeningQuestions.questionsList[value].required && this.screeningFormGroup.value[value]) {
+					allNotRequiredFalse = false;
 				}
 			}
-			if (allYes) {
+
+			if (allNotRequiredFalse && hasOneRequired) {
 				// navigate to viewer since all screening questions were answered 'yes'
 				this._router.navigate([this._session.surveyCode, 'viewer']);
 				return;
@@ -122,6 +132,8 @@ export class SurveyScreeningPageComponent implements OnInit {
 								this._viewerClient
 									.getSurveyRejectionLink(this._surveyViewerService.surveyId)
 									.subscribe((x: any) => {
+										this._storage.clear();
+										this._authService.logout();
 										if (x.successLink) {
 											setTimeout(() => {
 												window.location.href = x.successLink;

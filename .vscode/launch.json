@@ -11,7 +11,7 @@
 			"request": "launch",
 			"preLaunchTask": "build-export",
 			"program": "${workspaceFolder}/src/TRAISI.Export/bin/Debug/netcoreapp3.1/TRAISI.Export.dll",
-			"args": ["COVHITS2020"],
+			"args": ["008"],
 			"cwd": "${workspaceFolder}/src/TRAISI.Export",
 			"stopAtEntry": false,
 			"console": "internalConsole"
@@ -29,7 +29,7 @@
 			"requireExactSource": false,
 			"launchBrowser": {
 				"enabled": true,
-				"args": "http://localhost:5000",
+				"args": "http://0.0.0.0:5000",
 				"windows": {
 					"command": "cmd.exe",
 					"args": "/C start http://localhost:5000/admin"

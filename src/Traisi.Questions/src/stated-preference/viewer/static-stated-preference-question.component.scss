@@ -1,0 +1,54 @@
+:host {
+	
+}
+
+.static-sp-container {
+    .table-row {
+        display: table-row;
+    }
+
+    .static-sp-radio {
+        opacity: 1 !important;
+        height: auto;
+        width: auto;
+    }
+
+    .table-cell {
+        display: table-cell;
+        padding: 5px;
+        border-right: solid 1px #AAA;
+        text-align: center;
+        border-bottom: solid 1px #EEE;
+    }
+
+    .table-header {
+        display: table-header-group;
+        border-bottom: solid 1px black;
+    }
+
+    .table {
+        display: table;
+    }
+
+    .column-header {
+        font-weight: bold;
+    }
+
+    .row-header {
+        font-weight: bold;
+        text-align: right;
+    }
+
+    .table-radio {
+        text-align: center;
+        border-top: solid 1px #BBB;
+    }
+
+    .highlight {
+        background-color: rgb(210, 237, 255);
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+}

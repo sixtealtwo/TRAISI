@@ -18,6 +18,7 @@ using Traisi.Data.Models.Questions;
 using Traisi.Sdk.Interfaces;
 using Traisi.Sdk.Questions;
 using System.IO;
+using Traisi.Data.Models;
 
 namespace TRAISI.Export
 {
@@ -130,6 +131,10 @@ namespace TRAISI.Export
                 .Include(r => r.Respondent)
                 .ThenInclude(r => r.SurveyRespondentGroup)
                 .ThenInclude(r => r.GroupMembers)
+                .Include(r => r.Respondent)
+                .ThenInclude(r => r.SurveyRespondentGroup)
+                .ThenInclude(r => r.GroupPrimaryRespondent)
+                .ThenInclude(r => r.SurveyAccessRecords)
                 .OrderBy(r => r.UpdatedDate)
                 .ToList();
         }
@@ -602,38 +607,48 @@ namespace TRAISI.Export
                     //Trip Destination Purpose
                     worksheet.Cells[rowNumber, 45].Value = response_dest.Purpose;
 
-                    //Departure columns 
-                    string timeA = response_dest.TimeA.ToString();
-                    if (Regex.IsMatch(timeA, @"([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase))
+                    //Departure columns
+                    try
                     {
+                        DateTimeOffset timeA = response_dest.TimeA;
+                        //if (Regex.IsMatch(timeA, @"([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase))
+                        // {
                         //Departure Date 
-                        Match dA = Regex.Match(timeA, @"([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase);
-                        Match tA = Regex.Match(timeA, @"(1[0-2]|0?[1-9]):(?:[012345]\d):(?:[012345]\d) ([AaPp][Mm])", RegexOptions.IgnoreCase);
-                        worksheet.Cells[rowNumber, 46].Value = Convert.ToString(dA.Value);
+                        //Match dA = Regex.Match(timeA, @"([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase);
+                        //Match tA = Regex.Match(timeA, @"(1[0-2]|0?[1-9]):(?:[012345]\d):(?:[012345]\d) ([AaPp][Mm])", RegexOptions.IgnoreCase);
+                        worksheet.Cells[rowNumber, 46].Value = timeA.Date.ToString();
 
                         //Departure Day 
-                        DateTime dtA = DateTime.Parse(dA.Value);
-                        worksheet.Cells[rowNumber, 47].Value = Convert.ToString(dtA.DayOfWeek);
+                        // DateTime dtA = DateTime.Parse(dA.Value);
+                        worksheet.Cells[rowNumber, 47].Value = Convert.ToString(timeA.Day);
 
                         //Departure Time
-                        worksheet.Cells[rowNumber, 48].Value = Convert.ToString(tA.Value);
+                        worksheet.Cells[rowNumber, 48].Value = timeA.TimeOfDay.ToString();
                     }
-                    //Arrival columns 
-                    string timeB = response_dest.TimeB.ToString();
-                    if (Regex.IsMatch(timeB, @"((20|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase))
+                    catch (Exception e)
                     {
+
+                    }
+                    // }
+                    //Arrival columns 
+                    try
+                    {
+                        DateTimeOffset timeB = response_dest.TimeB;
+
                         //Arrival Date
-                        Match dB = Regex.Match(timeB, @"((20|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase);
-                        Match tB = Regex.Match(timeB, @"(1[0-2]|0?[1-9]):(?:[012345]\d):(?:[012345]\d) ([AaPp][Mm])", RegexOptions.IgnoreCase);
-                        worksheet.Cells[rowNumber, 49].Value = Convert.ToString(dB.Value);
+                        //Match dB = Regex.Match(timeB, @"((20|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase);
+                        //Match tB = Regex.Match(timeB, @"(1[0-2]|0?[1-9]):(?:[012345]\d):(?:[012345]\d) ([AaPp][Mm])", RegexOptions.IgnoreCase);
+                        worksheet.Cells[rowNumber, 49].Value = timeB.Date.ToString();
 
                         //Arrival Day 
-                        DateTime dtB = DateTime.Parse(dB.Value);
-                        worksheet.Cells[rowNumber, 50].Value = Convert.ToString(dtB.DayOfWeek);
+                        worksheet.Cells[rowNumber, 50].Value = Convert.ToString(timeB.Day);
 
                         //Arrival Time 
-                        worksheet.Cells[rowNumber, 51].Value = Convert.ToString(tB.Value);
+                        worksheet.Cells[rowNumber, 51].Value = timeB.TimeOfDay.ToString();
+
                     }
+                    catch { }
+
                     //TpModes
                     worksheet.Cells[rowNumber, 52].Value = String.Empty;
 
@@ -1495,7 +1510,7 @@ namespace TRAISI.Export
                     for (var i = 0; i < filteredColNames.Count; i++)
                     {
                         // matrixMap[""]
-                        worksheet.Cells[1, columnNum + i ].Value = filteredColNames[i]?.Code + "-" + filteredColNames[i]?.QuestionOptionLabels["en"].Value;
+                        worksheet.Cells[1, columnNum + i].Value = filteredColNames[i]?.Code + "-" + filteredColNames[i]?.QuestionOptionLabels["en"].Value;
                         matrixColMap[questionPart][filteredColNames[i]?.QuestionOptionLabels["en"].Value] = i;
                     }
                     for (var i = 0; i < filteredRowNames.Count; i++)
@@ -1506,6 +1521,12 @@ namespace TRAISI.Export
                     columnNum += filteredColNames.Count;
                     continue;
 
+                }
+                else if (this._questionTypeManager.QuestionTypeDefinitions[questionPart.QuestionType].ClassName == typeof(StaticStatedPreferenceQuestion).Name)
+                {
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + "-Table";
+                    worksheet.Cells[1, columnNum + 1].Value = questionPart.Name + "-Column";
+                    columnNum += 1;
                 }
                 else
                 {
@@ -1646,17 +1667,27 @@ namespace TRAISI.Export
                                     questionColumnDict[response.QuestionPart] + 3].Value
                         = ReadSingleResponse(response);
                     }
+                    else if (this._questionTypeManager.QuestionTypeDefinitions[response.QuestionPart.QuestionType].ClassName ==
+                                typeof(StaticStatedPreferenceQuestion).Name)
+                    {
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]].Value = "HELLO";
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart] + 1].Value = "HELLO";
+                    }
                     else
                     {
                         worksheet.Cells[respondentRowNum[respondent],
                                         questionColumnDict[response.QuestionPart]].Value
                             = ReadSingleResponse(response);
                     }
+
                 }
             }
         }
 
         public void ResponsesPivot_HouseHold(
+            Survey survey,
         List<QuestionPart> questionParts,
         List<SurveyResponse> surveyResponses,
         List<SurveyRespondent> surveyRespondents,
@@ -1666,12 +1697,24 @@ namespace TRAISI.Export
             // build dictionary of questions and column numbers
             var questionColumnDict = new Dictionary<QuestionPart, int>();
             // place questions on headers and add to dictionary
-            var columnNum = 4;
+
 
             // Adding Respondent ID and Household ID column name
             worksheet.Cells[1, 1].Value = "RespId_Num";
             worksheet.Cells[1, 2].Value = "HhId_Num";
-            worksheet.Cells[1, 3].Value = "Hh_Ps_Id";
+
+            string pattern = @"\{\{(.*?)\}\}";
+            Regex rgx = new Regex(pattern);
+            MatchCollection matchCollection = rgx.Matches(survey.SuccessLink);
+            for (int i = 0; i < matchCollection.Count; i++)
+            {
+                worksheet.Cells[1, 3 + i].Value = "Hh_Ps_Id_" + matchCollection[i].Groups[1].Value;
+            }
+
+            worksheet.Cells[1, 3 + matchCollection.Count].Value = "Hh_IpAddress";
+            worksheet.Cells[1, 4 + matchCollection.Count].Value = "Hh_Shortcode";
+
+            var columnNum = 5 + matchCollection.Count;
 
             //Matrix
             var matrixMap = new Dictionary<QuestionPart, Dictionary<string, string>>();
@@ -1705,7 +1748,13 @@ namespace TRAISI.Export
                     //Adding Longitude to School and Work Location Questions Parts
                     worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Lng";
                 }
-
+                else if (this._questionTypeManager.QuestionTypeDefinitions[questionPart.QuestionType].ClassName == typeof(StaticStatedPreferenceQuestion).Name)
+                {
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + "Sp-TableIndex";
+                    worksheet.Cells[1, columnNum + 1].Value = questionPart.Name + "Sp-OptionIndex";
+                    worksheet.Cells[1, columnNum + 2].Value = questionPart.Name + "Sp-SelectionTime";
+                    columnNum += 2;
+                }
                 //checkbox
                 else if (this._questionTypeManager.QuestionTypeDefinitions[questionPart.QuestionType].ClassName == typeof(CheckboxQuestion).Name)
                 {
@@ -1719,7 +1768,7 @@ namespace TRAISI.Export
 
                     for (var i = 0; i < filteredColNames.Count; i++)
                     {
-                        worksheet.Cells[1, i + columnNum].Value = filteredColNames[i]?.Code + "-" + filteredColNames[i]?.QuestionOptionLabels["en"].Value;
+                        worksheet.Cells[1, i + columnNum].Value = filteredColNames[i]?.Code + "-" + filteredColNames[i]?.QuestionOptionLabels["en"].Value + "-" + questionPart.Name;
                         checkCodeMap[questionPart][filteredColNames[i]?.Code] = i;
                     }
                     columnNum += filteredColNames.Count;
@@ -1732,7 +1781,7 @@ namespace TRAISI.Export
                         worksheet.Cells[1, columnNum].Value = "NOTA";
                         checkCodeMap[questionPart]["nota"] = filteredColNames.Count;
                         columnNum++;
-                        
+
                     }
                     continue;
 
@@ -1753,7 +1802,7 @@ namespace TRAISI.Export
                     for (var i = 0; i < filteredColNames.Count; i++)
                     {
                         // matrixMap[""]
-                        worksheet.Cells[1, columnNum + i].Value = filteredColNames[i]?.Code + "-" + filteredColNames[i]?.QuestionOptionLabels["en"].Value;
+                        worksheet.Cells[1, columnNum + i].Value = filteredColNames[i]?.Code + "-" + filteredColNames[i]?.QuestionOptionLabels["en"].Value + questionPart.Name;
                         matrixColMap[questionPart][filteredColNames[i]?.QuestionOptionLabels["en"].Value] = i;
 
                     }
@@ -1798,20 +1847,51 @@ namespace TRAISI.Export
                     worksheet.Cells[respondentRowNum[respondent], 2].Value = respondent.SurveyRespondentGroup.Id;
 
                     //Household PsId(Unique)
+                    // IP Address
                     try
                     {
-                        if (respondent is PrimaryRespondent primaryRespondent)
+                        for (int i = 0; i < matchCollection.Count; i++)
                         {
-                            var result = JObject.Parse(primaryRespondent.SurveyAccessRecords.FirstOrDefault()?.QueryParams)["psid"]?.Value<string>();
-                            worksheet.Cells[respondentRowNum[respondent], 3].Value = result;
-                        }
-                        else if (respondent is SubRespondent subRespondent)
-                        {
-                            var result = JObject.Parse(subRespondent.PrimaryRespondent.SurveyAccessRecords.FirstOrDefault()?.QueryParams)["psid"]?.Value<string>();
-                            worksheet.Cells[respondentRowNum[respondent], 3].Value = result;
+                            if (respondent is PrimaryRespondent primaryRespondent)
+                            {
+                                worksheet.Cells[respondentRowNum[respondent], matchCollection.Count + 3].Value = primaryRespondent.SurveyAccessRecords.FirstOrDefault()?.RemoteIpAddress;
+
+                                var userId = primaryRespondent.SurveyAccessRecords.SelectMany(x =>
+              x.QueryParams.Select(y => new { Key = y.Key, Value = y.Value }).Where(z => z.Key == matchCollection[i].Groups[1].Value)).FirstOrDefault();
+
+                                worksheet.Cells[respondentRowNum[respondent], 3 + i].Value = userId.Value;
+
+
+                            }
+                            else if (respondent is SubRespondent subRespondent)
+                            {
+                                worksheet.Cells[respondentRowNum[respondent], matchCollection.Count + 3].Value = subRespondent.PrimaryRespondent.SurveyAccessRecords.FirstOrDefault()?.RemoteIpAddress;
+
+                                var userId = subRespondent.PrimaryRespondent.SurveyAccessRecords.SelectMany(x =>
+                                x.QueryParams.Select(y => new { Key = y.Key, Value = y.Value }).Where(z => z.Key == matchCollection[i].Groups[1].Value)).FirstOrDefault();
+
+                                worksheet.Cells[respondentRowNum[respondent], 3 + i].Value = userId.Value;
+
+                            }
                         }
                     }
-                    catch { }
+                    catch (Exception e)
+                    {
+                    }
+
+                    if (respondent?.SurveyRespondentGroup?.GroupPrimaryRespondent?.Shortcode != null)
+                    {
+                        worksheet.Cells[respondentRowNum[respondent], matchCollection.Count + 4].Value = respondent?.SurveyRespondentGroup?.GroupPrimaryRespondent?.Shortcode?.Code;
+                    }
+                    else
+                    {
+                        if (respondent?.SurveyRespondentGroup?.GroupPrimaryRespondent?.User is SurveyUser surveyUser)
+                        {
+                            worksheet.Cells[respondentRowNum[respondent], matchCollection.Count + 4].Value = surveyUser.Shortcode?.Code;
+                        }
+
+                    }
+
 
                     var checkboxResponses = responses.Where(r => this._questionTypeManager.QuestionTypeDefinitions[r.QuestionPart.QuestionType].ClassName ==
                                             typeof(CheckboxQuestion).Name).GroupBy(r => r.Respondent).Select(g => g).OrderBy(x => x.Key.SurveyRespondentGroup.Id).ToList();
@@ -1892,6 +1972,34 @@ namespace TRAISI.Export
                             worksheet.Cells[respondentRowNum[respondent],
                                         questionColumnDict[response.QuestionPart] + 3].Value
                             = ReadSingleResponse(response);
+                        }
+                        else if (this._questionTypeManager.QuestionTypeDefinitions[response.QuestionPart.QuestionType].ClassName ==
+                                                    typeof(StaticStatedPreferenceQuestion).Name)
+                        {
+                            try
+                            {
+                                var jsonResponse = ReadSingleResponse(response);
+                                var arrayResponse = JArray.Parse(jsonResponse as string)[0];
+
+                                var val = JArray.Parse(arrayResponse.Value<string>("Value"))[0];
+                                worksheet.Cells[respondentRowNum[respondent], questionColumnDict[response.QuestionPart]].Value = val.Value<int>("optionIndex");
+                                worksheet.Cells[respondentRowNum[respondent], questionColumnDict[response.QuestionPart] + 1].Value = val.Value<int>("index");
+                                worksheet.Cells[respondentRowNum[respondent], questionColumnDict[response.QuestionPart] + 2].Value = val.Value<int>("selectionTime");
+                            }
+                            catch (Exception e)
+                            {
+                                worksheet.Cells[respondentRowNum[respondent],
+                                                                        questionColumnDict[response.QuestionPart]].Value
+                                                            = "<ERROR PARSING>";
+                                worksheet.Cells[respondentRowNum[respondent],
+                                            questionColumnDict[response.QuestionPart] + 1].Value
+                                = "<ERROR PARSING>";
+                                worksheet.Cells[respondentRowNum[respondent],
+                                           questionColumnDict[response.QuestionPart] + 2].Value
+                               = "<ERROR PARSING>";
+                            }
+
+                            continue;
                         }
                         //Shopping frequency responses
                         else if (this._questionTypeManager.QuestionTypeDefinitions[response.QuestionPart.QuestionType].ClassName ==

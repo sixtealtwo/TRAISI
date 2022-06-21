@@ -27,6 +27,8 @@ using Traisi.ViewModels.SurveyViewer;
 using Traisi.ViewModels.Users;
 using Traisi.Models.ViewModels;
 using Traisi.Models.Extensions;
+using Newtonsoft.Json;
+using Prometheus;
 
 namespace Traisi.Services
 {
@@ -40,6 +42,8 @@ namespace Traisi.Services
         private ISurveyRespondentService _respondentService;
         private IHttpContextAccessor _contextAccessor;
         private readonly IMapper _mapper;
+
+        private static readonly Counter SURVEY_LOGIN_COUNTER = Metrics.CreateCounter("survey_start_login", "Count of number of times a login was request.");
         /// <summary>
         /// 
         /// </summary>
@@ -177,7 +181,7 @@ namespace Traisi.Services
             result.Item3.Shortcode = shortcode;
 
             // create the associated primary respondent 
-            var respondent = await this._respondentService.CreatePrimaryRespondentForUser(appUser, survey);
+            var respondent = await this._respondentService.CreatePrimaryRespondentForUser(appUser, survey, shortcode);
             respondent.SurveyAccessDateTime = DateTime.Now;
             result.Item3.PrimaryRespondent = respondent;
             return (result.Item1, result.Item2, result.Item3, respondent);
@@ -228,6 +232,7 @@ namespace Traisi.Services
                 // add a new survey access record for the primary respondent
                 primaryRespondent.SurveyAccessRecords.Add(CreateSurveyAccessRecord(primaryRespondent, accessParameters));
             }
+            SURVEY_LOGIN_COUNTER.Inc();
             await this._unitOfWork.SaveChangesAsync();
             return true;
         }
@@ -251,7 +256,7 @@ namespace Traisi.Services
 
                     if (primaryRespondent == null)
                     {
-                        primaryRespondent = await _respondentService.CreatePrimaryRespondentForUser(user, survey);
+                        primaryRespondent = await _respondentService.CreatePrimaryRespondentForUser(user, survey, null);
                         primaryRespondent.SurveyAccessDateTime = DateTime.Now;
                     }
                 }
@@ -310,7 +315,7 @@ namespace Traisi.Services
                 AccessDateTime = DateTime.Now,
                 UserAgent = parameters.UserAgent,
                 RemoteIpAddress = parameters.RemoteIpAddress,
-                QueryParams = parameters.QueryParams,
+                QueryParams = JsonConvert.DeserializeObject<Dictionary<string, string>>(parameters.QueryParams),
                 AccessUser = respondent.User,
                 RequestUrl = parameters.RequestUrl
             };
@@ -410,46 +415,75 @@ namespace Traisi.Services
 
             var records = await this._unitOfWork.SurveyRespondents.GetSurveyAccessRecordsAsync(user, survey);
 
-            if (records == null || records.Count == 0)
+            var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
+            var shortcode = respondent?.Shortcode;
+
+            if (records == null || records.Count == 0 || link == null)
             {
                 return null;
             }
 
-            var firstRecord = records.First();
-
-            var queryParamObj = JObject.Parse(firstRecord.QueryParams);
-
-            foreach(var param in queryParamObj) {
-                
-                //jey vakyue
-                link = link.Replace($"{{{{{param.Key}}}}}",param.Value.Value<string>());
+            // return a list of all keys across all survey access records
+            // only record a single instance and its value
+            var queryParams = records.SelectMany(x =>
+           x.QueryParams.Select(y => new { Key = y.Key, Value = y.Value }))
+            .GroupBy(x => x.Key)
+            .Select(x => x.First()).ToList();
+            if (shortcode == null || shortcode.QueryParams.Count == 0)
+            {
+                foreach (var param in queryParams)
+                {
+                    link = link.Replace($"{{{{{param.Key}}}}}", param.Value);
+                }
             }
-
+            else
+            {
+                foreach (var param in shortcode.QueryParams)
+                {
+                    link = link.Replace($"{{{{{param.Key}}}}}", param.Value);
+                }
+            }
+            link = System.Text.RegularExpressions.Regex.Replace(link, "\\{\\{.*\\}\\}", "UNKNOWN");
             return link;
-
         }
 
-         public async Task<string> GetSurveyRejectionLink(ApplicationUser user, Survey survey)
+        public async Task<string> GetSurveyRejectionLink(ApplicationUser user, Survey survey)
         {
             string link = survey.RejectionLink;
 
             var records = await this._unitOfWork.SurveyRespondents.GetSurveyAccessRecordsAsync(user, survey);
 
-            if (records == null || records.Count == 0)
+            var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
+            var shortcode = respondent?.Shortcode;
+
+            if (records == null || records.Count == 0 || link == null)
             {
                 return null;
             }
 
-            var firstRecord = records.First();
+            // return a list of all keys across all survey access records
+            // only record a single instance and its value
+            var queryParams = records.SelectMany(x =>
+           x.QueryParams.Select(y => new { Key = y.Key, Value = y.Value }))
+            .GroupBy(x => x.Key)
+            .Select(x => x.First()).ToList();
 
-            var queryParamObj = JObject.Parse(firstRecord.QueryParams);
-
-            foreach(var param in queryParamObj) {
-                
-                //jey vakyue
-                link = link.Replace($"{{{{{param.Key}}}}}",param.Value.Value<string>());
+            if (shortcode == null || shortcode.QueryParams.Count == 0)
+            {
+                foreach (var param in queryParams)
+                {
+                    link = link.Replace($"{{{{{param.Key}}}}}", param.Value);
+                }
+            }
+            else
+            {
+                foreach (var param in shortcode.QueryParams)
+                {
+                    link = link.Replace($"{{{{{param.Key}}}}}", param.Value);
+                }
             }
 
+            link = System.Text.RegularExpressions.Regex.Replace(link, "\\{\\{.*\\}\\}", "UNKNOWN");
             return link;
 
         }
