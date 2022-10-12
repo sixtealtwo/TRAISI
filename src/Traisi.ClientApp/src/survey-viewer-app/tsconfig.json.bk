@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		// "typeRoots": ["../../node_modules/@types"],
 		"allowSyntheticDefaultImports": true,
 		"lib": ["es2017", "dom", "esnext"],
 		"rootDirs": ["../shared/services"],
