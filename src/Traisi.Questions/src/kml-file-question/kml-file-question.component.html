@@ -1,0 +1,109 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
+
+<form #f="ngForm" name="form">
+	<!-- [style.height.px]="containerHeight" -->
+	<div class="dropzone">
+
+		<h5 *ngIf="!KMLFileLoaded">Please upload KML file: </h5>
+
+		<h5 *ngIf="KMLFileValid == false" style="color:rgb(191, 58, 58);"><br>{{KMLWarningString}}<br></h5>
+
+		<input type="file" #kmlFileUpload id="kmlFileUpload" (change)="onFileSelected($event)" accept="*">
+
+	</div>
+
+	<div *ngIf="KMLFileLoaded">
+		<h5><br><br>Please verify travel and activities before proceeding: </h5>
+
+		<table>
+			<tr style="border-bottom:1pt solid black;">
+				<th>Date</th>
+				<th>Time</th>
+				<th>Name</th>
+				<th>Address</th>
+			</tr>
+			<ng-container *ngFor="let kmlevent of KMLEventArray; let i = index;">
+				<tr [style.background-color]="kmlevent[3] != 'N/A' ? 'white' : 'rgb(235, 242, 247)' ">
+					<td *ngFor="let kmldata of kmlevent;">{{kmldata}}</td>
+				</tr>
+
+				<tr [style.background-color]="kmlevent[3] != 'N/A' ? 'white' : 'rgb(235, 242, 247)' " style="border-bottom:1pt solid black;">
+					<td colspan="2" *ngIf="kmlevent[3] != 'N/A'">
+						<i class="fa-solid fa-location-dot"></i>
+							Please verify your activity at this location: 
+					</td>
+					<td colspan="2" *ngIf="kmlevent[3] == 'N/A'">
+						<i class="fa fa-route"></i>
+							Please verify your travel mode: 
+					</td>
+					<td colspan="2">
+						<!-- activity dropdown -->
+						<select style="width: 100%; background-color:white;" *ngIf="kmlevent[3] != 'N/A'" name="kmlselect" id="kmlselect"
+							[(ngModel)]="KMLValidationSelected[i]" (change)="onValidateSelect($event)">
+							<option style="background-color:rgb(195, 195, 195);" value="blank" selected>Please select activity
+								purpose...</option>
+							<option value="home">Home</option>
+							<option value="work">Work</option>
+							<option value="school">School/education</option>
+							<option value="travel">Travelling</option>
+							<option value="restaurant">Dine in restaurant, bar, coffee, etc.</option>
+							<option value="mealpickup">Pick up meal</option>
+							<option value="visit">Visiting family/friends</option>
+							<option value="rec">Recreation, sports, leisure, arts</option>
+							<option value="religion">Worship, religion</option>
+							<option value="dropoff">Dropping someone off</option>
+							<option value="pickup">Picking someone up</option>
+							<option value="shop">Leisure shopping (clothes, electronics, etc.)</option>
+							<option value="errands">Errands, grocery shopping, etc.</option>
+							<option value="services">Services (hairdresser, bank, lawyer, mechanic, etc.) </option>
+							<option value="health">Health/personal care</option>
+							<option value="other">Other</option>
+						</select>
+
+						<!-- travel dropdown -->
+						<select style="width: 100%; background-color:white" *ngIf="kmlevent[3] == 'N/A'" name="kmlselect" id="kmlselect"
+							[(ngModel)]="KMLValidationSelected[i]" (change)="onValidateSelect($event)">
+							<option style="background-color:rgb(195, 195, 195);" value="blank" selected>Please select travel
+								mode...
+							</option>
+							<option value="caralone">Driving alone</option>
+							<option value="carhh">Driving with household members only</option>
+							<option value="carnonhh">Driving with non-household members only</option>
+							<option value="carmix">Driving with both household and non-household members</option>
+							<option value="passhh">Car passenger (driver is household member)</option>
+							<option value="passnonhh">Car passenger (driver is non-household member)</option>
+							<option value="translocal">Local transit (TTC, etc.)</option>
+							<option value="transregional">GO Transit</option>
+							<!-- <option value="transall">Transit (all way)</option>
+						<option value="transpark">Transit (park and ride)</option>
+						<option value="transkiss">Transit (kiss and ride)</option>
+						<option value="transridehail">Transit (ridehailing and ride)</option>
+						<option value="transcycle">Transit (cycle and ride)</option> -->
+							<option value="schoolbus">School bus</option>
+							<option value="cyclepers">Cycling (personal bike)</option>
+							<option value="cycleshare">Cycling (bikeshare)</option>
+							<option value="ebike">E-Bike</option>
+							<option value="escooter">E-Scooter</option>
+							<option value="motorcycle">Motorcycle</option>
+							<option value="walk">Walking</option>
+							<option value="ridehaillone">Ridehailing alone</option>
+							<option value="ridehailshare">Ridehailing shared</option>
+							<option value="taxi">Taxi</option>
+						</select>
+					</td>
+				</tr>
+			</ng-container>
+		</table>
+	</div>
+	<!-- 
+	<input type="file" class="file-input" (change)="onFileSelected($event)" #kmlFileUpload>
+
+	<div class="file-upload">
+
+		{{fileName || "No file uploaded yet."}}
+
+		<button mat-mini-fab color="primary" class="upload-btn" (click)="kmlFileUpload.click()">
+			<mat-icon>attach_file</mat-icon>
+		</button>
+	</div> -->
+</form>

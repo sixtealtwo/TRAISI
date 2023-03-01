@@ -11,6 +11,7 @@ module.exports = {
 		'travel-diary': path.join(process.cwd(), './src/travel-diary/travel-diary-question.module.ts'),
 		'travel-diary-scheduler': path.join(process.cwd(), './src/travel-diary-scheduler/travel-diary-scheduler-question.module.ts'),
 		'route-select': path.join(process.cwd(), './src/route-select/route-select-question.module.ts'),
+		kmlfile: path.join(process.cwd(), './src/kml-file-question/traisi-kml-file-question.module.ts'),
 	},
 
 
