@@ -41,10 +41,10 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'time';
-		this.inputTime = new Date();
-		this.inputTime.setHours(0);
-		this.inputTime.setMinutes(0);
-		this.inputTime.setSeconds(0);
+		// this.inputTime = new Date();
+		// this.inputTime.setHours(0);
+		// this.inputTime.setMinutes(0);
+		// this.inputTime.setSeconds(0);
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}
 
@@ -55,9 +55,9 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 	public loadConfigurationData(data: QuestionConfiguration[]) {}
 
 	public ngOnInit(): void {
-		this.hours = 12;
-		this.minutes = 0;
-		this.am = true;
+		// this.hours = 12;
+		// this.minutes = 0;
+		// this.am = true;
 
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
