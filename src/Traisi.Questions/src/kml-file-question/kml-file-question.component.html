@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css' rel='stylesheet' />
 
 <form #f="ngForm" name="form">
 	<!-- [style.height.px]="containerHeight" -->
@@ -8,9 +9,14 @@
 
 		<h5 *ngIf="KMLFileValid == false" style="color:rgb(191, 58, 58);"><br>{{KMLWarningString}}<br></h5>
 
+		<label for="kmlFileUpload" class="custom-file-upload">
+			<i class="fa fa-cloud-upload"></i> Click here to upload your file
+		</label>
 		<input type="file" #kmlFileUpload id="kmlFileUpload" (change)="onFileSelected($event)" accept="*">
 
 	</div>
+
+	<div #mapElement id='map' style='width: 75%; height: 500px;'></div>
 
 	<div *ngIf="KMLFileLoaded">
 		<h5><br><br>Please verify travel and activities before proceeding: </h5>
@@ -30,65 +36,80 @@
 				<tr [style.background-color]="kmlevent[3] != 'N/A' ? 'white' : 'rgb(235, 242, 247)' " style="border-bottom:1pt solid black;">
 					<td colspan="2" *ngIf="kmlevent[3] != 'N/A'">
 						<i class="fa-solid fa-location-dot"></i>
-							Please verify your activity at this location: 
+							What were you doing at this location: 
 					</td>
 					<td colspan="2" *ngIf="kmlevent[3] == 'N/A'">
 						<i class="fa fa-route"></i>
-							Please verify your travel mode: 
+							What was your travel mode for this trip: 
 					</td>
 					<td colspan="2">
 						<!-- activity dropdown -->
-						<select style="width: 100%; background-color:white;" *ngIf="kmlevent[3] != 'N/A'" name="kmlselect" id="kmlselect"
-							[(ngModel)]="KMLValidationSelected[i]" (change)="onValidateSelect($event)">
-							<option style="background-color:rgb(195, 195, 195);" value="blank" selected>Please select activity
-								purpose...</option>
+						<select *ngIf="kmlevent[3] != 'N/A'" name="kmlselect" id="kmlselect"
+							[(ngModel)]="KMLValidationSelected[i]" (change)="onValidateSelect($event)" [ngModelOptions]="{standalone: true}">
+							<option hidden value="blank">Please select activity purpose...</option>
+
+							<option disabled value="section1">Home-related Activities</option>
 							<option value="home">Home</option>
+							<option value="visit_day">Visiting family/friends (Day visit only)</option>
+							<option value="visit_overnight">Visiting family/friends (Stay overnight)</option>
+
+							<option disabled value="section2">Mandatory Activities</option>
 							<option value="work">Work</option>
 							<option value="school">School/education</option>
-							<option value="travel">Travelling</option>
-							<option value="restaurant">Dine in restaurant, bar, coffee, etc.</option>
-							<option value="mealpickup">Pick up meal</option>
-							<option value="visit">Visiting family/friends</option>
-							<option value="rec">Recreation, sports, leisure, arts</option>
-							<option value="religion">Worship, religion</option>
+
+							<option disabled value="section3">Travel-related Activities</option>
+							<option value="travel">Travelling (waiting for bus, waiting for transfer, in vehicle etc.)</option>
 							<option value="dropoff">Dropping someone off</option>
 							<option value="pickup">Picking someone up</option>
-							<option value="shop">Leisure shopping (clothes, electronics, etc.)</option>
-							<option value="errands">Errands, grocery shopping, etc.</option>
+
+							<option disabled value="section4">Shopping and Food</option>
+							<option value="shop">General retail shopping (clothes, electronics, etc.)</option>
+							<option value="errands">Errands, grocery shopping</option>
 							<option value="services">Services (hairdresser, bank, lawyer, mechanic, etc.) </option>
+							<option value="restaurant">Dine in restaurant, bar, coffee, etc.</option>
+							<option value="mealpickup">Pick up meal & drive-through</option>
+
+							<option disabled value="section5">Discretionary Activities</option>
 							<option value="health">Health/personal care</option>
+							<option value="rec">Recreation, sports, leisure, arts</option>
+							<option value="religion">Worship, religion</option>
 							<option value="other">Other</option>
 						</select>
 
 						<!-- travel dropdown -->
-						<select style="width: 100%; background-color:white" *ngIf="kmlevent[3] == 'N/A'" name="kmlselect" id="kmlselect"
-							[(ngModel)]="KMLValidationSelected[i]" (change)="onValidateSelect($event)">
-							<option style="background-color:rgb(195, 195, 195);" value="blank" selected>Please select travel
-								mode...
+						<select *ngIf="kmlevent[3] == 'N/A'" name="kmlselect" id="kmlselect"
+							[(ngModel)]="KMLValidationSelected[i]" (change)="onValidateSelect($event)" [ngModelOptions]="{standalone: true}">
+							<option hidden value="blank">Please select travel mode...
 							</option>
+
+							<option disabled value="section1">Car Modes</option>
 							<option value="caralone">Driving alone</option>
 							<option value="carhh">Driving with household members only</option>
 							<option value="carnonhh">Driving with non-household members only</option>
 							<option value="carmix">Driving with both household and non-household members</option>
 							<option value="passhh">Car passenger (driver is household member)</option>
 							<option value="passnonhh">Car passenger (driver is non-household member)</option>
+							<option value="ridehaillone">Ridehailing alone</option>
+							<option value="ridehailshare">Ridehailing shared</option>
+							<option value="taxi">Taxi</option>
+
+							<option disabled value="section2">Transit Modes</option>
 							<option value="translocal">Local transit (TTC, etc.)</option>
 							<option value="transregional">GO Transit</option>
 							<!-- <option value="transall">Transit (all way)</option>
-						<option value="transpark">Transit (park and ride)</option>
-						<option value="transkiss">Transit (kiss and ride)</option>
-						<option value="transridehail">Transit (ridehailing and ride)</option>
-						<option value="transcycle">Transit (cycle and ride)</option> -->
+							<option value="transpark">Transit (park and ride)</option>
+							<option value="transkiss">Transit (kiss and ride)</option>
+							<option value="transridehail">Transit (ridehailing and ride)</option>
+							<option value="transcycle">Transit (cycle and ride)</option> -->
 							<option value="schoolbus">School bus</option>
+
+							<option disabled value="section3">Other Modes</option>
 							<option value="cyclepers">Cycling (personal bike)</option>
 							<option value="cycleshare">Cycling (bikeshare)</option>
 							<option value="ebike">E-Bike</option>
 							<option value="escooter">E-Scooter</option>
 							<option value="motorcycle">Motorcycle</option>
 							<option value="walk">Walking</option>
-							<option value="ridehaillone">Ridehailing alone</option>
-							<option value="ridehailshare">Ridehailing shared</option>
-							<option value="taxi">Taxi</option>
 						</select>
 					</td>
 				</tr>
