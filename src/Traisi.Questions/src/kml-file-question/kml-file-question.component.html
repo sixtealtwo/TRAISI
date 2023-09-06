@@ -46,7 +46,7 @@
 						<!-- activity dropdown -->
 						<select *ngIf="kmlevent[3] != 'N/A'" name="kmlselect" id="kmlselect"
 							[(ngModel)]="KMLValidationSelected[i]" (change)="onValidateSelect($event)" [ngModelOptions]="{standalone: true}">
-							<option hidden value="blank">Please select activity purpose...</option>
+							<option hidden value="blank"> ***** Please select activity purpose ***** </option>
 
 							<option disabled value="section1">Home-related Activities</option>
 							<option value="home">Home</option>
@@ -65,11 +65,11 @@
 							<option disabled value="section4">Shopping and Food</option>
 							<option value="shop">General retail shopping (clothes, electronics, etc.)</option>
 							<option value="errands">Errands, grocery shopping</option>
-							<option value="services">Services (hairdresser, bank, lawyer, mechanic, etc.) </option>
 							<option value="restaurant">Dine in restaurant, bar, coffee, etc.</option>
 							<option value="mealpickup">Pick up meal & drive-through</option>
 
 							<option disabled value="section5">Discretionary Activities</option>
+							<option value="services">Services (hairdresser, bank, lawyer, mechanic, etc.) </option>
 							<option value="health">Health/personal care</option>
 							<option value="rec">Recreation, sports, leisure, arts</option>
 							<option value="religion">Worship, religion</option>
@@ -79,8 +79,7 @@
 						<!-- travel dropdown -->
 						<select *ngIf="kmlevent[3] == 'N/A'" name="kmlselect" id="kmlselect"
 							[(ngModel)]="KMLValidationSelected[i]" (change)="onValidateSelect($event)" [ngModelOptions]="{standalone: true}">
-							<option hidden value="blank">Please select travel mode...
-							</option>
+							<option hidden value="blank"> ***** Please select travel mode ***** </option>
 
 							<option disabled value="section1">Car Modes</option>
 							<option value="caralone">Driving alone</option>

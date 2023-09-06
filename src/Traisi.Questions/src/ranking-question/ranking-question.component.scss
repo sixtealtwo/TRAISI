@@ -1,0 +1,46 @@
+.matrix-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	//outline-style: solid;
+	//outline-width: 2px;
+}
+
+:not(.matrix-header) .matrix-row:nth-child(even) {
+	background-color: rgb(238, 245, 252);
+}
+
+.matrix-header,
+.matrix-space,
+.matrix-entry {
+	flex-grow: 1;
+	width: 200px;
+}
+
+.matrix-entry {
+	width: 150px;
+	text-align: center !important;
+	min-height: 50px;
+	display: inline-flex;
+	align-items: center !important;
+	justify-content: center!important;
+
+	.custom-control-label {
+		top: -10px;
+		width: 0px !important;
+	}
+}
+
+.matrix-header {
+	width: 150px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.matrix-space {
+	//width: 200px;
+}
+.matrix-row-header {
+	//width: 200px;
+}

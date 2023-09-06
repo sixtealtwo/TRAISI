@@ -21,7 +21,8 @@
 		"travel-diary-logger": "Travel Diary Logger",
 		"travel-diary-scheduler": "Travel Diary Scheduler",
 		"route-select": "Route Select",
-		"kml-file": "KML File Upload"
+		"kml-file": "KML File Upload",
+		"ranking": "Ranking"
 	},
 	"fr": {
 		"text": "Texte",
@@ -45,6 +46,7 @@
 		"travel-diary-logger": "Travel Diary Logger",
 		"travel-diary-scheduler": "Travel Diary Scheduler",
 		"route-select": "Route Select",
-		"kml-file": "KML File Upload"
+		"kml-file": "KML File Upload",
+		"ranking": "Ranking"
 	}
 }
