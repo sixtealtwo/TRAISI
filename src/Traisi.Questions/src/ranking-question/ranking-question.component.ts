@@ -54,7 +54,7 @@ export class RankingQuestionComponent extends SurveyQuestion<ResponseTypes.Json>
 		}
 
 		let loadSubscription = this.form.valueChanges.pipe(debounceTime(1000)).subscribe((value) => {
-			this.updateCheckedColumns("load");
+			this.updateCheckedColumns(this.questionId + "-load_load");
 			loadSubscription.unsubscribe();
 		});
 	};
@@ -87,8 +87,21 @@ export class RankingQuestionComponent extends SurveyQuestion<ResponseTypes.Json>
 	}
 
 	public updateCheckedColumns(id) {
-		var radioButtons = document.querySelectorAll("input[type=radio]");
+		var allRadioButtons = document.querySelectorAll("input[type=radio]");
+		var radioButtons = [];
+
+		var changedRowCol = id.split("-")[1]
+
+		// remove unrelated radio buttons not from ranking question
+		for (let i = 0; i < allRadioButtons.length; i++) {
+			let radio = allRadioButtons[i];
+			if (radio.id.includes(id.split("-")[0] + "-customRadio")) {
+				radioButtons.push(radio);
+			}
+		}
+
 		const checkedColumns = new Set();
+		
 		for (let i = 0; i < radioButtons.length; i++) {
 			let radio = radioButtons[i];
 			if ((radio as any).checked == true) {
@@ -105,21 +118,21 @@ export class RankingQuestionComponent extends SurveyQuestion<ResponseTypes.Json>
 				//radio.parentElement.style.backgroundColor = "rgb(222, 222, 222)";
 				//(radio as any).disabled = true;
 
-				if (radio.id.split("customRadio")[1].split("_")[1] == id.split("_")[1] &&
-					radio.id.split("customRadio")[1].split("_")[0] != id.split("_")[0]) {
+				if (radio.id.split("customRadio")[1].split("_")[1] == changedRowCol.split("_")[1] &&
+					radio.id.split("customRadio")[1].split("_")[0] != changedRowCol.split("_")[0]) {
 					(radio as any).checked = false;
 				}
 
 			}
-			else {
-				(radio as any).disabled = false;
-				if (parseInt(radio.id.split("customRadio")[1].split("_")[0]) % 2 != 0) {
-					radio.parentElement.style.backgroundColor = "white";
-				}
-				else {
-					radio.parentElement.style.backgroundColor = "rgb(238, 245, 252)";
-				}
-			}
+			// else {
+			// 	(radio as any).disabled = false;
+			// 	if (parseInt(radio.id.split("customRadio")[1].split("_")[0]) % 2 != 0) {
+			// 		radio.parentElement.style.backgroundColor = "white";
+			// 	}
+			// 	else {
+			// 		radio.parentElement.style.backgroundColor = "rgb(238, 245, 252)";
+			// 	}
+			// }
 		}
 
 		if (checkedColumns.size != this.columnLabels.length){

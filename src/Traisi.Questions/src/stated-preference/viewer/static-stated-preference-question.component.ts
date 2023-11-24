@@ -60,6 +60,7 @@ export class StaticStatedPreferenceQuestionComponent extends SurveyQuestion<Resp
 	}
 
 	public onModelChanged($event): void {
+		console.log($event);
 		this.onResponseChanged($event, $event);
 	}
 
@@ -71,7 +72,7 @@ export class StaticStatedPreferenceQuestionComponent extends SurveyQuestion<Resp
 		response: ResponseData<ResponseTypes.Json>[]
 	) => {
 
-		this.questionOptions.subscribe(options => {
+		let loadSubscription = this.questionOptions.subscribe(options => {
 
 			let data = JSON.parse(options[0].label);
 
@@ -95,6 +96,8 @@ export class StaticStatedPreferenceQuestionComponent extends SurveyQuestion<Resp
 				this.optionIndex = optionIndex;
 				this.startTime = new Date();
 			}
+
+			loadSubscription.unsubscribe();
 		});
 
 	};

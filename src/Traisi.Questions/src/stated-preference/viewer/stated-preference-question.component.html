@@ -9,14 +9,15 @@
 					<td cdk-cell *cdkCellDef="let row">{{ row[i] }}</td>
 					<td cdk-footer-cell *cdkFooterCellDef (click)="selectChoice($event, col, i)">
 						<div class="custom-control custom-radio" *ngIf="i > 0">
-							<input
+							<!-- <input
 								[(ngModel)]="inputModel.value"
 								[value]="col"
 								type="radio"
 								id="customRadio-{{ i - 1 }}"
 								name="spRadio"
 								class="custom-control-input"
-							/>
+								(ngModelChange)="selectChoice($event, col, i)"
+							/> -->
 							<label class="custom-control-label" for="customRadio-{{ i - 1 }}">{{ i }}</label>
 						</div>
 					</td>

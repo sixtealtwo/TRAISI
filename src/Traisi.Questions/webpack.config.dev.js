@@ -19,6 +19,8 @@ module.exports = smp.wrap({
 		'route-select': path.join(process.cwd(), './src/route-select/route-select-question.module.ts'),
 		kmlfile: path.join(process.cwd(), './src/kml-file-question/traisi-kml-file-question.module.ts'),
 		ranking: path.join(process.cwd(), './src/ranking-question/ranking-question.module.ts'),
+		'video': path.join(process.cwd(), './src/video-module/video-module.module.ts'),
+		'link-button': path.join(process.cwd(), './src/link-button/link-button.module.ts'),
 	},
 
 

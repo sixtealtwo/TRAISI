@@ -22,7 +22,9 @@
 		"travel-diary-scheduler": "Travel Diary Scheduler",
 		"route-select": "Route Select",
 		"kml-file": "KML File Upload",
-		"ranking": "Ranking"
+		"ranking": "Ranking",
+		"video": "Video",
+		"link-button": "Link Button"
 	},
 	"fr": {
 		"text": "Texte",
@@ -47,6 +49,8 @@
 		"travel-diary-scheduler": "Travel Diary Scheduler",
 		"route-select": "Route Select",
 		"kml-file": "KML File Upload",
-		"ranking": "Ranking"
+		"ranking": "Ranking",
+		"video": "Video",
+		"link-button": "Link Button"
 	}
 }

@@ -74,7 +74,7 @@ export class KMLFileQuestionComponent
 
 	kmlDate: string = "2023-01-18";
 
-	KMLTimezoneAdjust = -4;
+	KMLTimezoneAdjust = -5;
 
 	@ViewChild('mapElement') mapElement: ElementRef;
 

@@ -19,7 +19,7 @@
 						id="{{questionId }}-customRadio{{ row }}_{{ col }}"
 						name="{{questionId }}-{{ header }}"
 						class="custom-control-input"
-						(change)="changed($event, row + '_' + col)"
+						(change)="changed($event, questionId + '-' + row + '_' + col)"
 						[(ngModel)]="model[header]"
 					/>
 					<label class="custom-control-label" for="{{questionId }}-customRadio{{ row }}_{{ col }}"></label>
