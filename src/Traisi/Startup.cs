@@ -338,7 +338,8 @@ namespace Traisi
                             builder
                                 .AllowAnyMethod()
                                 .AllowAnyHeader()
-                                .AllowAnyOrigin();
+                                .AllowAnyOrigin()
+                                .AllowCredentials();
                         }));
 
             services
