@@ -23,8 +23,6 @@ namespace Traisi.Authorization
             if (context.User.HasClaim(CustomClaimTypes.Permission, ApplicationPermissions.ViewRoles) || context.User.IsInRole(roleName))
                 context.Succeed(requirement);
 
-            Console.WriteLine("---------------------- ViewRoleAuthorizationHandler");
-
             return Task.CompletedTask;
         }
     }

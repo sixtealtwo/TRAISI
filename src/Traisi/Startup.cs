@@ -180,7 +180,6 @@ namespace Traisi
                 });
 
             // Add cors
-            services.AddCors();
             services.AddSignalR();
             services.AddMemoryCache();
             // Register the OpenIddict services.
@@ -338,8 +337,7 @@ namespace Traisi
                             builder
                                 .AllowAnyMethod()
                                 .AllowAnyHeader()
-                                .AllowAnyOrigin()
-                                .AllowCredentials();
+                                .AllowAnyOrigin();
                         }));
 
             services
